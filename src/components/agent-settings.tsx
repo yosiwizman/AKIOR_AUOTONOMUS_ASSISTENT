@@ -10,7 +10,12 @@ import {
   Loader2, 
   Volume2,
   Bot,
-  Sparkles
+  Sparkles,
+  Key,
+  Eye,
+  EyeOff,
+  CheckCircle,
+  XCircle
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -35,6 +40,7 @@ interface AgentSettings {
   personality_prompt: string;
   voice_id: string;
   voice_speed: number;
+  openai_api_key?: string;
 }
 
 const DEFAULT_SETTINGS: AgentSettings = {
@@ -42,6 +48,7 @@ const DEFAULT_SETTINGS: AgentSettings = {
   personality_prompt: 'You are AKIOR, a helpful and knowledgeable AI assistant. You are professional, concise, and friendly. You remember important details about the user and use your knowledge base to provide accurate information.',
   voice_id: 'alloy',
   voice_speed: 1.0,
+  openai_api_key: '',
 };
 
 const PERSONALITY_PRESETS = [
@@ -69,6 +76,8 @@ export function AgentSettingsPanel() {
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
   const [hasChanges, setHasChanges] = useState(false);
+  const [showApiKey, setShowApiKey] = useState(false);
+  const [apiKeyStatus, setApiKeyStatus] = useState<'unknown' | 'valid' | 'invalid'>('unknown');
 
   const { speak, stop, isSpeaking, isLoading: isTTSLoading } = useOpenAITTS({
     voice: settings.voice_id as OpenAIVoice,
@@ -97,7 +106,12 @@ export function AgentSettingsPanel() {
           personality_prompt: data.personality_prompt || DEFAULT_SETTINGS.personality_prompt,
           voice_id: data.voice_id || DEFAULT_SETTINGS.voice_id,
           voice_speed: data.voice_speed || DEFAULT_SETTINGS.voice_speed,
+          openai_api_key: data.openai_api_key || '',
         });
+        // Check if API key exists
+        if (data.openai_api_key) {
+          setApiKeyStatus('valid');
+        }
       }
     } catch (err) {
       console.error('Error loading settings:', err);
@@ -129,6 +143,13 @@ export function AgentSettingsPanel() {
 
       toast.success('Settings saved');
       setHasChanges(false);
+      
+      // Update API key status
+      if (settings.openai_api_key) {
+        setApiKeyStatus('valid');
+      } else {
+        setApiKeyStatus('unknown');
+      }
     } catch (err) {
       console.error('Error saving settings:', err);
       toast.error('Failed to save settings');
@@ -141,6 +162,9 @@ export function AgentSettingsPanel() {
   const updateSetting = <K extends keyof AgentSettings>(key: K, value: AgentSettings[K]) => {
     setSettings(prev => ({ ...prev, [key]: value }));
     setHasChanges(true);
+    if (key === 'openai_api_key') {
+      setApiKeyStatus('unknown');
+    }
   };
 
   // Test voice
@@ -162,6 +186,63 @@ export function AgentSettingsPanel() {
 
   return (
     <div className="space-y-8">
+      {/* OpenAI API Key */}
+      <section className="space-y-4">
+        <h3 className="text-sm font-semibold text-foreground uppercase tracking-wider flex items-center gap-2">
+          <Key className="w-4 h-4 text-primary" />
+          OpenAI API Key
+        </h3>
+        
+        <div className="akior-card space-y-4">
+          <div className="space-y-2">
+            <Label htmlFor="openai-key">API Key</Label>
+            <div className="relative">
+              <Input
+                id="openai-key"
+                type={showApiKey ? 'text' : 'password'}
+                value={settings.openai_api_key || ''}
+                onChange={(e) => updateSetting('openai_api_key', e.target.value)}
+                placeholder="sk-..."
+                className="bg-muted/50 pr-20"
+              />
+              <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1">
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="icon"
+                  className="h-7 w-7"
+                  onClick={() => setShowApiKey(!showApiKey)}
+                >
+                  {showApiKey ? (
+                    <EyeOff className="w-4 h-4 text-muted-foreground" />
+                  ) : (
+                    <Eye className="w-4 h-4 text-muted-foreground" />
+                  )}
+                </Button>
+                {apiKeyStatus === 'valid' && (
+                  <CheckCircle className="w-4 h-4 text-green-500" />
+                )}
+                {apiKeyStatus === 'invalid' && (
+                  <XCircle className="w-4 h-4 text-destructive" />
+                )}
+              </div>
+            </div>
+            <p className="text-xs text-muted-foreground">
+              Your OpenAI API key is required for AI chat, voice, and embeddings. 
+              Get one at{' '}
+              <a 
+                href="https://platform.openai.com/api-keys" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-primary hover:underline"
+              >
+                platform.openai.com
+              </a>
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* Agent Identity */}
       <section className="space-y-4">
         <h3 className="text-sm font-semibold text-foreground uppercase tracking-wider flex items-center gap-2">
