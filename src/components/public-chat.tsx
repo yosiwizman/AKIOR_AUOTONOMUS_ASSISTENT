@@ -92,10 +92,10 @@ export function PublicChat() {
   };
 
   return (
-    <div className="min-h-screen bg-background flex flex-col">
+    <div className="min-h-screen bg-background flex flex-col relative">
       {/* Header */}
       <header className="border-b border-border/50 bg-background/80 backdrop-blur-sm sticky top-0 z-10">
-        <div className="max-w-3xl mx-auto px-4 py-3 flex items-center justify-between">
+        <div className="max-w-3xl mx-auto px-4 py-3 flex items-center">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
               <Bot className="w-4 h-4 text-primary" />
@@ -105,15 +105,11 @@ export function PublicChat() {
               <p className="text-xs text-muted-foreground">Free AI Assistant</p>
             </div>
           </div>
-          {/* AKIOR Logo Button - Links to Talk to AKIOR */}
-          <Link href="/" className="group">
-            <AkiorLogo size="sm" className="transition-transform group-hover:scale-105" />
-          </Link>
         </div>
       </header>
 
       {/* Messages */}
-      <main className="flex-1 overflow-y-auto">
+      <main className="flex-1 overflow-y-auto pb-32">
         <div className="max-w-3xl mx-auto px-4 py-6 space-y-4">
           {messages.map((msg, idx) => (
             <div
@@ -191,6 +187,14 @@ export function PublicChat() {
           </p>
         </div>
       </footer>
+
+      {/* AKIOR Logo Button - Fixed bottom right */}
+      <Link 
+        href="/talk" 
+        className="fixed bottom-24 right-6 z-20 group transition-transform hover:scale-105"
+      >
+        <AkiorLogo size="md" />
+      </Link>
     </div>
   );
 }
