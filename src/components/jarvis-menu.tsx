@@ -1,13 +1,13 @@
 'use client';
 
 /**
- * Jarvis Menu/Dashboard View
+ * AKIOR Menu/Dashboard View
  * Card-based navigation matching the reference design
  */
 
-import { ArrowRight, Mic, MessageSquare, Settings, Image, Box, Printer, FolderOpen, Shield, Camera, Scan } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { JarvisLogo } from './jarvis-logo';
+import { AkiorLogo } from './jarvis-logo';
 
 interface MenuCardProps {
   title: string;
@@ -20,7 +20,7 @@ function MenuCard({ title, description, onClick, disabled }: MenuCardProps) {
   return (
     <div 
       className={cn(
-        'jarvis-card cursor-pointer group',
+        'akior-card cursor-pointer group',
         disabled && 'opacity-50 cursor-not-allowed'
       )}
       onClick={disabled ? undefined : onClick}
@@ -29,7 +29,7 @@ function MenuCard({ title, description, onClick, disabled }: MenuCardProps) {
       <p className="text-sm text-muted-foreground mb-4">{description}</p>
       <button 
         className={cn(
-          'jarvis-link',
+          'akior-link',
           disabled && 'pointer-events-none'
         )}
         disabled={disabled}
@@ -40,14 +40,14 @@ function MenuCard({ title, description, onClick, disabled }: MenuCardProps) {
   );
 }
 
-interface JarvisMenuProps {
+interface AkiorMenuProps {
   onNavigate: (view: 'voice' | 'chat' | 'settings') => void;
 }
 
-export function JarvisMenu({ onNavigate }: JarvisMenuProps) {
+export function AkiorMenu({ onNavigate }: AkiorMenuProps) {
   const menuItems = [
     {
-      title: 'Jarvis (Voice)',
+      title: 'AKIOR (Voice)',
       description: 'OpenAI Realtime voice assistant',
       onClick: () => onNavigate('voice'),
     },
@@ -93,7 +93,7 @@ export function JarvisMenu({ onNavigate }: JarvisMenuProps) {
     },
     {
       title: 'Settings',
-      description: 'Jarvis & Meshy configuration',
+      description: 'AKIOR configuration',
       onClick: () => onNavigate('settings'),
     },
   ];
@@ -123,9 +123,9 @@ export function JarvisMenu({ onNavigate }: JarvisMenuProps) {
         </div>
       </div>
 
-      {/* Jarvis Logo - bottom right */}
+      {/* AKIOR Logo - bottom right */}
       <div className="absolute bottom-6 right-6 hidden lg:block">
-        <JarvisLogo size="md" />
+        <AkiorLogo size="md" />
       </div>
     </div>
   );

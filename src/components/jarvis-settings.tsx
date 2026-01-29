@@ -1,18 +1,17 @@
 'use client';
 
 /**
- * Jarvis Settings View
+ * AKIOR Settings View
  * Configuration panel for the application
  */
 
 import { useState } from 'react';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
-import { Button } from '@/components/ui/button';
 import { useSpeechRecognition } from '@/hooks/use-speech-recognition';
 import { useSpeechSynthesis } from '@/hooks/use-speech-synthesis';
 
-export function JarvisSettings() {
+export function AkiorSettings() {
   const { isSupported: sttSupported } = useSpeechRecognition();
   const { isSupported: ttsSupported, voices, selectedVoice, setVoice } = useSpeechSynthesis();
   
@@ -25,7 +24,7 @@ export function JarvisSettings() {
       <div className="px-6 py-4 border-b border-border">
         <h2 className="text-lg font-semibold">Settings</h2>
         <p className="text-xs text-muted-foreground mt-0.5">
-          Jarvis & Meshy configuration
+          AKIOR configuration
         </p>
       </div>
 
@@ -38,7 +37,7 @@ export function JarvisSettings() {
               Voice Settings
             </h3>
             
-            <div className="jarvis-card space-y-4">
+            <div className="akior-card space-y-4">
               <div className="flex items-center justify-between">
                 <div>
                   <Label className="text-sm font-medium">Speech Recognition</Label>
@@ -102,7 +101,7 @@ export function JarvisSettings() {
               Appearance
             </h3>
             
-            <div className="jarvis-card space-y-4">
+            <div className="akior-card space-y-4">
               <div className="flex items-center justify-between">
                 <div>
                   <Label htmlFor="dark-mode" className="text-sm font-medium">Dark Mode</Label>
@@ -125,7 +124,7 @@ export function JarvisSettings() {
               API Configuration
             </h3>
             
-            <div className="jarvis-card space-y-4">
+            <div className="akior-card space-y-4">
               <div>
                 <Label className="text-sm font-medium">LLM Integration</Label>
                 <p className="text-xs text-muted-foreground mt-0.5">
@@ -146,7 +145,7 @@ export function JarvisSettings() {
               System Information
             </h3>
             
-            <div className="jarvis-card">
+            <div className="akior-card">
               <div className="grid grid-cols-2 gap-4 text-sm">
                 <div>
                   <span className="text-muted-foreground">Version:</span>

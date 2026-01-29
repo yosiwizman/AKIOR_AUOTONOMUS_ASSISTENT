@@ -1,8 +1,8 @@
 'use client';
 
 /**
- * Jarvis Voice Interface
- * Push-to-talk voice input with Jarvis styling
+ * AKIOR Voice Interface
+ * Push-to-talk voice input with AKIOR styling
  */
 
 import { useState, useCallback, useEffect } from 'react';
@@ -30,7 +30,7 @@ interface Message {
   timestamp: Date;
 }
 
-export function JarvisVoice() {
+export function AkiorVoice() {
   const [transcript, setTranscript] = useState('');
   const [response, setResponse] = useState('');
   const [history, setHistory] = useState<Message[]>([]);
@@ -132,7 +132,7 @@ export function JarvisVoice() {
     <div className="flex flex-col h-full">
       {/* Header */}
       <div className="px-6 py-4 border-b border-border">
-        <h2 className="text-lg font-semibold">Jarvis (Voice)</h2>
+        <h2 className="text-lg font-semibold">AKIOR (Voice)</h2>
         <p className="text-xs text-muted-foreground mt-0.5">
           OpenAI Realtime voice assistant
         </p>
@@ -174,7 +174,7 @@ export function JarvisVoice() {
               className={cn(
                 'w-28 h-28 rounded-full transition-all duration-300',
                 isListening 
-                  ? 'bg-primary hover:bg-primary/90 jarvis-glow' 
+                  ? 'bg-primary hover:bg-primary/90 akior-glow' 
                   : 'border-2 border-border hover:border-primary/50 hover:bg-primary/5',
                 !sttSupported && 'opacity-50 cursor-not-allowed'
               )}
@@ -247,7 +247,7 @@ export function JarvisVoice() {
             <div className="space-y-3">
               <div className="flex items-center justify-between">
                 <Label className="text-sm font-medium text-muted-foreground">
-                  JARVIS Response
+                  AKIOR Response
                 </Label>
                 <div className="flex items-center gap-3">
                   {isSpeaking && (
@@ -287,7 +287,7 @@ export function JarvisVoice() {
               <div className={cn(
                 'p-4 rounded-lg bg-secondary/50 border border-border',
                 'text-sm whitespace-pre-wrap leading-relaxed',
-                isSpeaking && 'border-primary/30 jarvis-glow'
+                isSpeaking && 'border-primary/30 akior-glow'
               )}>
                 {response}
               </div>

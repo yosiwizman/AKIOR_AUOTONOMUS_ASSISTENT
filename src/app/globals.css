@@ -4,7 +4,7 @@
 
 @layer base {
   :root {
-    /* Jarvis-style Dark Theme */
+    /* AKIOR Console Theme - Dark tech aesthetic */
     --background: 220 25% 8%;
     --foreground: 210 20% 90%;
 
@@ -50,13 +50,13 @@
     --sidebar-border: 220 20% 18%;
     --sidebar-ring: 190 90% 50%;
 
-    /* Jarvis specific colors */
-    --jarvis-cyan: 190 90% 50%;
-    --jarvis-dark: 220 25% 12%;
-    --jarvis-darker: 220 25% 8%;
-    --jarvis-border: 220 20% 22%;
-    --jarvis-text: 210 20% 70%;
-    --jarvis-text-muted: 210 15% 45%;
+    /* AKIOR specific colors */
+    --akior-cyan: 190 90% 50%;
+    --akior-dark: 220 25% 12%;
+    --akior-darker: 220 25% 8%;
+    --akior-border: 220 20% 22%;
+    --akior-text: 210 20% 70%;
+    --akior-text-muted: 210 15% 45%;
   }
 
   .dark {
@@ -114,53 +114,53 @@
   }
 }
 
-/* Jarvis-style components */
+/* AKIOR Console specific styles */
 @layer components {
-  .jarvis-card {
+  .akior-card {
     @apply bg-card border border-border rounded-lg p-5 transition-all duration-200;
   }
   
-  .jarvis-card:hover {
+  .akior-card:hover {
     @apply border-primary/40;
   }
   
-  .jarvis-link {
+  .akior-link {
     @apply text-primary hover:text-primary/80 inline-flex items-center gap-1 text-sm font-medium transition-colors;
   }
   
-  .jarvis-sidebar-item {
+  .akior-sidebar-item {
     @apply px-4 py-2.5 text-sm text-muted-foreground hover:text-foreground hover:bg-secondary/50 rounded-md transition-colors cursor-pointer border border-transparent;
   }
   
-  .jarvis-sidebar-item:hover {
+  .akior-sidebar-item:hover {
     @apply border-border;
   }
   
-  .jarvis-sidebar-item.active {
+  .akior-sidebar-item.active {
     @apply text-foreground bg-secondary/50 border-border;
   }
   
-  .jarvis-input {
+  .akior-input {
     @apply bg-muted/50 border-border focus:border-primary/50 focus:ring-1 focus:ring-primary/30;
   }
   
-  .jarvis-bubble-user {
+  .akior-bubble-user {
     @apply bg-primary text-primary-foreground rounded-2xl rounded-br-md px-4 py-2.5 max-w-[80%] ml-auto;
   }
   
-  .jarvis-bubble-assistant {
+  .akior-bubble-assistant {
     @apply bg-secondary/80 text-foreground rounded-2xl rounded-bl-md px-4 py-3 max-w-[85%];
   }
   
-  .jarvis-thinking {
+  .akior-thinking {
     @apply inline-flex items-center gap-2 text-sm text-muted-foreground bg-secondary/60 rounded-full px-3 py-1.5;
   }
   
-  .jarvis-glow {
+  .akior-glow {
     box-shadow: 0 0 30px hsl(var(--primary) / 0.15), 0 0 60px hsl(var(--primary) / 0.1);
   }
   
-  .jarvis-logo-ring {
+  .akior-logo-ring {
     @apply rounded-full border-2 border-primary/60;
     box-shadow: 0 0 20px hsl(var(--primary) / 0.3), inset 0 0 20px hsl(var(--primary) / 0.1);
   }

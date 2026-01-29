@@ -1,7 +1,7 @@
 'use client';
 
 /**
- * Jarvis-style Sidebar Navigation
+ * AKIOR-style Sidebar Navigation
  * Matches the design from the reference images
  */
 
@@ -23,12 +23,12 @@ interface SidebarProps {
 
 const menuItems = [
   { id: 'menu', label: 'Menu', icon: Menu },
-  { id: 'voice', label: 'Jarvis (Voice)', icon: Mic },
+  { id: 'voice', label: 'AKIOR (Voice)', icon: Mic },
   { id: 'chat', label: 'Chat', icon: MessageSquare },
   { id: 'settings', label: 'Settings', icon: Settings },
 ] as const;
 
-export function JarvisSidebar({ currentView, onViewChange }: SidebarProps) {
+export function AkiorSidebar({ currentView, onViewChange }: SidebarProps) {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
 
@@ -73,7 +73,7 @@ export function JarvisSidebar({ currentView, onViewChange }: SidebarProps) {
             <Menu className="w-4 h-4" />
           </Button>
           {!isCollapsed && (
-            <span className="font-semibold text-foreground tracking-tight">Jarvis</span>
+            <span className="font-semibold text-foreground tracking-tight">AKIOR</span>
           )}
         </div>
 

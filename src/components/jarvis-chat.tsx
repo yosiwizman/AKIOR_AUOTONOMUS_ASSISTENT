@@ -1,7 +1,7 @@
 'use client';
 
 /**
- * Jarvis Chat Interface
+ * AKIOR Chat Interface
  * Matches the chat design from the reference images
  */
 
@@ -16,20 +16,11 @@ interface Message {
   timestamp: Date;
 }
 
-interface JarvisChatProps {
+interface AkiorChatProps {
   onClearConversation?: () => void;
 }
 
-// Thinking indicator component
-function ThinkingIndicator() {
-  return (
-    <div className="flex items-start gap-3 mb-4">
-      <span className="text-xs text-muted-foreground uppercase tracking-wider">JARVIS</span>
-    </div>
-  );
-}
-
-export function JarvisChat({ onClearConversation }: JarvisChatProps) {
+export function AkiorChat({ onClearConversation }: AkiorChatProps) {
   const [messages, setMessages] = useState<Message[]>([
     {
       role: 'assistant',
@@ -151,7 +142,7 @@ export function JarvisChat({ onClearConversation }: JarvisChatProps) {
                 'text-xs text-muted-foreground uppercase tracking-wider',
                 msg.role === 'user' ? 'text-right' : 'text-left'
               )}>
-                {msg.role === 'user' ? 'YOU' : 'JARVIS'}
+                {msg.role === 'user' ? 'YOU' : 'AKIOR'}
               </div>
               
               {/* Message bubble */}
@@ -161,8 +152,8 @@ export function JarvisChat({ onClearConversation }: JarvisChatProps) {
               )}>
                 <div className={cn(
                   msg.role === 'user' 
-                    ? 'jarvis-bubble-user' 
-                    : 'jarvis-bubble-assistant'
+                    ? 'akior-bubble-user' 
+                    : 'akior-bubble-assistant'
                 )}>
                   <p className="text-sm whitespace-pre-wrap leading-relaxed">
                     {msg.content}
@@ -176,9 +167,9 @@ export function JarvisChat({ onClearConversation }: JarvisChatProps) {
           {isLoading && (
             <div className="space-y-1">
               <div className="text-xs text-muted-foreground uppercase tracking-wider">
-                JARVIS
+                AKIOR
               </div>
-              <div className="jarvis-thinking">
+              <div className="akior-thinking">
                 <div className="flex gap-1">
                   <span className="w-1.5 h-1.5 bg-primary rounded-full pulse-dot" style={{ animationDelay: '0ms' }} />
                   <span className="w-1.5 h-1.5 bg-primary rounded-full pulse-dot" style={{ animationDelay: '200ms' }} />

@@ -1,18 +1,18 @@
 'use client';
 
 /**
- * Jarvis Logo Component
+ * AKIOR Logo Component
  * Circular glowing logo with text, positioned in bottom right
  */
 
 import { cn } from '@/lib/utils';
 
-interface JarvisLogoProps {
+interface AkiorLogoProps {
   className?: string;
   size?: 'sm' | 'md' | 'lg';
 }
 
-export function JarvisLogo({ className, size = 'md' }: JarvisLogoProps) {
+export function AkiorLogo({ className, size = 'md' }: AkiorLogoProps) {
   const sizeClasses = {
     sm: 'w-16 h-16 text-xs',
     md: 'w-24 h-24 text-sm',
@@ -26,7 +26,7 @@ export function JarvisLogo({ className, size = 'md' }: JarvisLogoProps) {
       className
     )}>
       {/* Outer glow ring */}
-      <div className="absolute inset-0 rounded-full jarvis-logo-ring opacity-60" />
+      <div className="absolute inset-0 rounded-full akior-logo-ring opacity-60" />
       
       {/* Middle ring */}
       <div className="absolute inset-2 rounded-full border border-primary/40" />
@@ -45,9 +45,9 @@ export function JarvisLogo({ className, size = 'md' }: JarvisLogoProps) {
       >
         <span className={cn(
           'font-bold tracking-wider text-primary',
-          size === 'sm' ? 'text-[8px]' : size === 'md' ? 'text-[10px]' : 'text-xs'
+          size === 'sm' ? 'text-[8px]' : size === 'md' ? 'text-[11px]' : 'text-sm'
         )}>
-          J.A.R.V.I.S.
+          AKIOR
         </span>
       </div>
       

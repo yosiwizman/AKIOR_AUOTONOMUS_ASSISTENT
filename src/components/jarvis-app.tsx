@@ -1,42 +1,42 @@
 'use client';
 
 /**
- * Jarvis App - Main Application Shell
+ * AKIOR App - Main Application Shell
  * Combines sidebar navigation with content views
  */
 
 import { useState } from 'react';
-import { JarvisSidebar } from './jarvis-sidebar';
-import { JarvisMenu } from './jarvis-menu';
-import { JarvisVoice } from './jarvis-voice';
-import { JarvisChat } from './jarvis-chat';
-import { JarvisSettings } from './jarvis-settings';
+import { AkiorSidebar } from './jarvis-sidebar';
+import { AkiorMenu } from './jarvis-menu';
+import { AkiorVoice } from './jarvis-voice';
+import { AkiorChat } from './jarvis-chat';
+import { AkiorSettings } from './jarvis-settings';
 import { cn } from '@/lib/utils';
 
 type ViewType = 'menu' | 'voice' | 'chat' | 'settings';
 
-export function JarvisApp() {
+export function AkiorApp() {
   const [currentView, setCurrentView] = useState<ViewType>('menu');
 
   const renderContent = () => {
     switch (currentView) {
       case 'menu':
-        return <JarvisMenu onNavigate={setCurrentView} />;
+        return <AkiorMenu onNavigate={setCurrentView} />;
       case 'voice':
-        return <JarvisVoice />;
+        return <AkiorVoice />;
       case 'chat':
-        return <JarvisChat />;
+        return <AkiorChat />;
       case 'settings':
-        return <JarvisSettings />;
+        return <AkiorSettings />;
       default:
-        return <JarvisMenu onNavigate={setCurrentView} />;
+        return <AkiorMenu onNavigate={setCurrentView} />;
     }
   };
 
   return (
     <div className="min-h-screen bg-background">
       {/* Sidebar */}
-      <JarvisSidebar 
+      <AkiorSidebar 
         currentView={currentView} 
         onViewChange={setCurrentView} 
       />

@@ -1,5 +1,5 @@
-import { JarvisApp } from '@/components/jarvis-app';
+import { AkiorApp } from '@/components/jarvis-app';
 
 export default function Home() {
-  return <JarvisApp />;
+  return <AkiorApp />;
 }
