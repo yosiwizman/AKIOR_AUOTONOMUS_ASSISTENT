@@ -25,6 +25,12 @@ import { getRequestMeta } from '../../../lib/chat/meta';
 import { checkRateLimit } from '../../../lib/chat/rate-limit';
 import type { ChatRequest, ChatResponse, Message } from '../../../lib/chat/types';
 
+import { getSupabaseAnon, getSupabaseAuthed } from '@/lib/kb/server-clients';
+import { roleForRequest, allowedClassifications } from '@/lib/kb/access';
+import { retrieveTopChunks } from '@/lib/kb/retriever';
+import { writeAuditEvent, writeRetrievalEvent } from '@/lib/kb/audit';
+import { safeId } from '@/lib/kb/hash';
+
 export async function POST(request: NextRequest): Promise<NextResponse<ChatResponse | { error: string }>> {
   const startTime = Date.now();
 
@@ -59,22 +65,60 @@ export async function POST(request: NextRequest): Promise<NextResponse<ChatRespo
       return NextResponse.json({ error: 'Message too long (max 10000 characters)' }, { status: 400 });
     }
 
-    // Public (no auth): strictly AKIOR scope, no persistence
+    const tenantId = (request.headers.get('x-tenant-id') || 'default').slice(0, 64);
+
+    // -------------------------------------------------------------------------
+    // Public (no auth): public-safe spokesman KB mode
+    // -------------------------------------------------------------------------
     if (isPublic) {
+      const traceId = safeId('trace');
+      const ragDb = getSupabaseAnon();
+
+      const role = roleForRequest({ isPublicMode: true, isAuthenticated: false, email: null });
+      const hits = await retrieveTopChunks({
+        db: ragDb,
+        q: message,
+        topK: 5,
+        tenantId,
+        classifications: allowedClassifications(role),
+        actorId: null,
+        includeText: true,
+      });
+
+      const citations = hits.map((h) => ({
+        source_id: h.source_id,
+        source_version: h.source_version,
+        chunk_id: h.chunk_id,
+        confidence: h.confidence,
+        metadata: h.metadata,
+      }));
+
       const openai = getOpenAI();
       if (!openai) {
+        const best = hits[0];
         return NextResponse.json({
-          reply: `I'm currently running in demo mode without OpenAI integration.\n\nTo enable full AI capabilities, set OPENAI_API_KEY in the server environment.\n\nYour message was: "${message.slice(0, 100)}${message.length > 100 ? '...' : ''}"`,
-        });
+          reply: best?.text
+            ? `Based on the public knowledge base, here is the most relevant excerpt:\n\n${best.text}`
+            : `I'm currently running in demo mode without OpenAI integration, and no public knowledge matched yet.\n\nYour message was: "${message.slice(0, 100)}${message.length > 100 ? '...' : ''}"`,
+          citations,
+          rag: { state: hits.length > 0 ? 'ON' : 'OFF', role },
+        } as any);
       }
+
+      const context = hits
+        .map((h, i) => `[${i + 1}] source=${h.source_id} chunk=${h.chunk_id}\n${h.text || ''}`)
+        .join('\n\n');
 
       const messagesForModel: OpenAI.Chat.ChatCompletionMessageParam[] = [
         {
           role: 'system',
-          content: `You are AKIOR.\n${PROJECT_SCOPE_PROMPT}\n\nGuidelines:\n- Be concise, friendly, and accurate\n- If the question is outside AKIOR scope, refuse and redirect`,
+          content: `You are AKIOR.\n${PROJECT_SCOPE_PROMPT}\n\nPublic spokesman mode:\n- Only use provided public context.\n- Do not speculate about internal systems.\n- Cite sources like [1], [2].`,
         },
         ...history.slice(-10).map((m: Message) => ({ role: m.role as 'user' | 'assistant', content: m.content })),
-        { role: 'user', content: message },
+        {
+          role: 'user',
+          content: `Question: ${message}\n\nPublic KB context:\n${context || '(none)'}`,
+        },
       ];
 
       const completion = await openai.chat.completions.create({
@@ -88,7 +132,9 @@ export async function POST(request: NextRequest): Promise<NextResponse<ChatRespo
         {
           reply: completion.choices[0].message.content || 'I apologize, but I was unable to generate a response.',
           tokensUsed: completion.usage?.total_tokens,
-        },
+          citations,
+          rag: { state: hits.length > 0 ? 'ON' : 'OFF', role, trace_id: traceId },
+        } as any,
         {
           headers: {
             'X-RateLimit-Remaining': rateLimit.remaining.toString(),
@@ -98,7 +144,9 @@ export async function POST(request: NextRequest): Promise<NextResponse<ChatRespo
       );
     }
 
+    // -------------------------------------------------------------------------
     // Authenticated requests
+    // -------------------------------------------------------------------------
     const authResult = await verifyAuth(request);
     if (isAuthError(authResult)) {
       return NextResponse.json({ error: authResult.error }, { status: authResult.status });
@@ -118,7 +166,7 @@ export async function POST(request: NextRequest): Promise<NextResponse<ChatRespo
     if (!openai) {
       return NextResponse.json({
         reply: `I'm currently running in demo mode without OpenAI integration.\n\nTo enable full AI capabilities:\n1. Go to Settings and add your OpenAI API key\n2. Or set OPENAI_API_KEY in the server environment\n\nYour message was: "${message.slice(0, 100)}${message.length > 100 ? '...' : ''}"`,
-      });
+      } as any);
     }
 
     let activeConversationId = conversationId;
@@ -142,7 +190,59 @@ export async function POST(request: NextRequest): Promise<NextResponse<ChatRespo
     // RAG context
     let knowledgeContext = '';
     let memoryContext = '';
+    let citations: any[] = [];
 
+    // Governed KB retrieval (enforces classification + ACL via RLS)
+    const traceId = safeId('trace');
+    const ragDb = token ? getSupabaseAuthed(token) : getSupabaseAnon();
+    const role = roleForRequest({ isPublicMode: false, isAuthenticated: true, email: authResult.email || null });
+
+    const kbHits = await retrieveTopChunks({
+      db: ragDb,
+      q: message,
+      topK: 6,
+      tenantId,
+      classifications: allowedClassifications(role),
+      actorId: userId,
+      includeText: true,
+    });
+
+    citations = kbHits.map((h) => ({
+      source_id: h.source_id,
+      source_version: h.source_version,
+      chunk_id: h.chunk_id,
+      confidence: h.confidence,
+      metadata: h.metadata,
+    }));
+
+    if (kbHits.length > 0) {
+      knowledgeContext =
+        '\n\n## Approved Knowledge Base (with citations):\n' +
+        kbHits
+          .map(
+            (h, i) =>
+              `[${i + 1}] source=${h.source_id} version=${h.source_version} chunk=${h.chunk_id} (confidence: ${(h.confidence * 100).toFixed(
+                0
+              )}%)\n${h.text}`
+          )
+          .join('\n\n');
+
+      await writeRetrievalEvent({ db: ragDb, actorId: userId, traceId, query: message, topk: 6, sourcesUsed: kbHits.map((h) => h.source_id) });
+      await writeAuditEvent({
+        db: ragDb,
+        actorId: userId,
+        traceId,
+        action: 'kb.retrieve',
+        resourceType: 'chat',
+        resourceId: null,
+        payload: {
+          sources_used: kbHits.map((h) => h.source_id),
+          topk: 6,
+        },
+      });
+    }
+
+    // Personal knowledge + memory (legacy)
     if (db) {
       const [knowledgeResults, memoryResults] = await Promise.all([
         searchKnowledge(openai, db, userId, message),
@@ -150,8 +250,8 @@ export async function POST(request: NextRequest): Promise<NextResponse<ChatRespo
       ]);
 
       if (knowledgeResults.length > 0) {
-        knowledgeContext =
-          '\n\n## Relevant Knowledge:\n' +
+        knowledgeContext +=
+          '\n\n## Your Private Notes:\n' +
           knowledgeResults
             .map(
               (k: { title: string; content: string; similarity: number }) =>
@@ -217,7 +317,9 @@ export async function POST(request: NextRequest): Promise<NextResponse<ChatRespo
         conversationId: activeConversationId || undefined,
         messageId,
         tokensUsed: completion.usage?.total_tokens,
-      },
+        citations,
+        rag: { state: kbHits.length > 0 ? 'ON' : 'OFF', role, trace_id: traceId },
+      } as any,
       {
         headers: {
           'X-RateLimit-Remaining': rateLimit.remaining.toString(),
