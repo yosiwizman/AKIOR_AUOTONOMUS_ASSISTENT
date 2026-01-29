@@ -14,19 +14,26 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import OpenAI from 'openai';
-import { createClient } from '@supabase/supabase-js';
+import { createClient, SupabaseClient } from '@supabase/supabase-js';
 
-// Initialize OpenAI
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+// Lazy initialization to avoid build-time errors
+function getOpenAI() {
+  if (!process.env.OPENAI_API_KEY) {
+    return null;
+  }
+  return new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+}
 
-// Initialize Supabase admin client
-const supabaseAdmin = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://ruftuoilatlzniuasoza.supabase.co',
-  process.env.SUPABASE_SERVICE_ROLE_KEY || '',
-  { auth: { persistSession: false } }
-);
+function getSupabaseAdmin(): SupabaseClient | null {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://ruftuoilatlzniuasoza.supabase.co';
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  
+  if (!key) {
+    return null;
+  }
+  
+  return createClient(url, key, { auth: { persistSession: false } });
+}
 
 // Rate limiting store (in production, use Redis)
 const rateLimitStore = new Map<string, { count: number; resetTime: number }>();
@@ -72,7 +79,7 @@ function checkRateLimit(identifier: string): { allowed: boolean; remaining: numb
 }
 
 // Get user's agent settings
-async function getAgentSettings(userId: string) {
+async function getAgentSettings(supabaseAdmin: SupabaseClient, userId: string) {
   try {
     const { data, error } = await supabaseAdmin
       .from('agent_settings')
@@ -102,10 +109,8 @@ async function getAgentSettings(userId: string) {
 }
 
 // Search knowledge base using vector similarity
-async function searchKnowledge(userId: string, query: string, limit = 5) {
+async function searchKnowledge(openai: OpenAI, supabaseAdmin: SupabaseClient, userId: string, query: string, limit = 5) {
   try {
-    if (!process.env.OPENAI_API_KEY) return [];
-
     const embeddingResponse = await openai.embeddings.create({
       model: 'text-embedding-3-small',
       input: query.slice(0, 8000),
@@ -132,10 +137,8 @@ async function searchKnowledge(userId: string, query: string, limit = 5) {
 }
 
 // Search memories using vector similarity
-async function searchMemories(userId: string, query: string, limit = 5) {
+async function searchMemories(openai: OpenAI, supabaseAdmin: SupabaseClient, userId: string, query: string, limit = 5) {
   try {
-    if (!process.env.OPENAI_API_KEY) return [];
-
     const embeddingResponse = await openai.embeddings.create({
       model: 'text-embedding-3-small',
       input: query.slice(0, 8000),
@@ -162,7 +165,7 @@ async function searchMemories(userId: string, query: string, limit = 5) {
 }
 
 // Get or create conversation
-async function getOrCreateConversation(userId: string, conversationId?: string, firstMessage?: string) {
+async function getOrCreateConversation(supabaseAdmin: SupabaseClient, userId: string, conversationId?: string, firstMessage?: string) {
   try {
     // If conversationId provided, verify it belongs to user
     if (conversationId) {
@@ -211,6 +214,7 @@ async function getOrCreateConversation(userId: string, conversationId?: string, 
 
 // Save message to database
 async function saveMessage(
+  supabaseAdmin: SupabaseClient,
   conversationId: string,
   userId: string,
   role: 'user' | 'assistant',
@@ -241,7 +245,7 @@ async function saveMessage(
 }
 
 // Load conversation history from database
-async function loadConversationHistory(conversationId: string, limit = 50): Promise<Message[]> {
+async function loadConversationHistory(supabaseAdmin: SupabaseClient, conversationId: string, limit = 50): Promise<Message[]> {
   try {
     const { data, error } = await supabaseAdmin
       .from('messages')
@@ -266,10 +270,8 @@ async function loadConversationHistory(conversationId: string, limit = 50): Prom
 }
 
 // Extract and save important information as memories
-async function extractAndSaveMemory(userId: string, userMessage: string, assistantResponse: string) {
+async function extractAndSaveMemory(openai: OpenAI, supabaseAdmin: SupabaseClient, userId: string, userMessage: string, assistantResponse: string) {
   try {
-    if (!process.env.OPENAI_API_KEY) return;
-
     const extractionResponse = await openai.chat.completions.create({
       model: 'gpt-4o-mini',
       messages: [
@@ -340,12 +342,8 @@ Examples of things to remember:
 }
 
 // Generate title for conversation based on first message
-async function generateConversationTitle(message: string): Promise<string> {
+async function generateConversationTitle(openai: OpenAI, message: string): Promise<string> {
   try {
-    if (!process.env.OPENAI_API_KEY) {
-      return message.slice(0, 50) + (message.length > 50 ? '...' : '');
-    }
-
     const response = await openai.chat.completions.create({
       model: 'gpt-4o-mini',
       messages: [
@@ -401,7 +399,8 @@ export async function POST(request: NextRequest): Promise<NextResponse<ChatRespo
     }
 
     // Check if OpenAI is configured
-    if (!process.env.OPENAI_API_KEY) {
+    const openai = getOpenAI();
+    if (!openai) {
       return NextResponse.json({
         reply: `I'm currently running in demo mode without OpenAI integration.
 
@@ -451,35 +450,38 @@ Guidelines:
       });
     }
 
+    // Get Supabase admin client for authenticated users
+    const supabaseAdmin = getSupabaseAdmin();
+
     // Get agent settings for authenticated users
-    const agentSettings = userId 
-      ? await getAgentSettings(userId)
+    const agentSettings = userId && supabaseAdmin
+      ? await getAgentSettings(supabaseAdmin, userId)
       : { agent_name: 'AKIOR', personality_prompt: 'You are AKIOR, a helpful AI assistant.' };
 
     // Handle conversation persistence
     let activeConversationId = conversationId;
     let conversationHistory = history;
 
-    if (userId) {
+    if (userId && supabaseAdmin) {
       // Get or create conversation
-      activeConversationId = await getOrCreateConversation(userId, conversationId, message);
+      activeConversationId = await getOrCreateConversation(supabaseAdmin, userId, conversationId, message);
 
       // If we have a conversation, load history from database
       if (activeConversationId && !conversationId) {
         // New conversation, generate a better title
-        const title = await generateConversationTitle(message);
+        const title = await generateConversationTitle(openai, message);
         await supabaseAdmin
           .from('conversations')
           .update({ title })
           .eq('id', activeConversationId);
       } else if (activeConversationId && history.length === 0) {
         // Existing conversation but no history provided, load from DB
-        conversationHistory = await loadConversationHistory(activeConversationId);
+        conversationHistory = await loadConversationHistory(supabaseAdmin, activeConversationId);
       }
 
       // Save user message
       if (activeConversationId) {
-        await saveMessage(activeConversationId, userId, 'user', message);
+        await saveMessage(supabaseAdmin, activeConversationId, userId, 'user', message);
       }
     }
 
@@ -487,10 +489,10 @@ Guidelines:
     let knowledgeContext = '';
     let memoryContext = '';
 
-    if (userId) {
+    if (userId && supabaseAdmin) {
       const [knowledgeResults, memoryResults] = await Promise.all([
-        searchKnowledge(userId, message),
-        searchMemories(userId, message),
+        searchKnowledge(openai, supabaseAdmin, userId, message),
+        searchMemories(openai, supabaseAdmin, userId, message),
       ]);
 
       if (knowledgeResults.length > 0) {
@@ -543,11 +545,11 @@ Guidelines:
 
     // Save assistant message and extract memories
     let messageId: string | undefined;
-    if (userId && activeConversationId) {
-      messageId = await saveMessage(activeConversationId, userId, 'assistant', reply) || undefined;
+    if (userId && activeConversationId && supabaseAdmin) {
+      messageId = await saveMessage(supabaseAdmin, activeConversationId, userId, 'assistant', reply) || undefined;
       
       // Extract and save memories in the background
-      extractAndSaveMemory(userId, message, reply).catch(console.error);
+      extractAndSaveMemory(openai, supabaseAdmin, userId, message, reply).catch(console.error);
     }
 
     return NextResponse.json({

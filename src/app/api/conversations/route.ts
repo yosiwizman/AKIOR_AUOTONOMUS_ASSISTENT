@@ -4,16 +4,23 @@
  * GET /api/conversations - List user's conversations
  * POST /api/conversations - Create new conversation
  * DELETE /api/conversations?id=xxx - Delete conversation
+ * PATCH /api/conversations - Update conversation (rename)
  */
 
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 
-const supabaseAdmin = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://ruftuoilatlzniuasoza.supabase.co',
-  process.env.SUPABASE_SERVICE_ROLE_KEY || '',
-  { auth: { persistSession: false } }
-);
+// Lazy initialization to avoid build-time errors
+function getSupabaseAdmin() {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://ruftuoilatlzniuasoza.supabase.co';
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  
+  if (!key) {
+    return null;
+  }
+  
+  return createClient(url, key, { auth: { persistSession: false } });
+}
 
 // GET - List conversations
 export async function GET(request: NextRequest) {
@@ -22,6 +29,11 @@ export async function GET(request: NextRequest) {
     
     if (!userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    const supabaseAdmin = getSupabaseAdmin();
+    if (!supabaseAdmin) {
+      return NextResponse.json({ error: 'Database not configured' }, { status: 503 });
     }
 
     const { searchParams } = new URL(request.url);
@@ -61,6 +73,11 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
+    const supabaseAdmin = getSupabaseAdmin();
+    if (!supabaseAdmin) {
+      return NextResponse.json({ error: 'Database not configured' }, { status: 503 });
+    }
+
     const body = await request.json();
     const { title = 'New Conversation' } = body;
 
@@ -92,6 +109,11 @@ export async function DELETE(request: NextRequest) {
     
     if (!userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    const supabaseAdmin = getSupabaseAdmin();
+    if (!supabaseAdmin) {
+      return NextResponse.json({ error: 'Database not configured' }, { status: 503 });
     }
 
     const { searchParams } = new URL(request.url);
@@ -127,6 +149,11 @@ export async function PATCH(request: NextRequest) {
     
     if (!userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    const supabaseAdmin = getSupabaseAdmin();
+    if (!supabaseAdmin) {
+      return NextResponse.json({ error: 'Database not configured' }, { status: 503 });
     }
 
     const body = await request.json();
