@@ -183,7 +183,7 @@ export function AkiorHUD() {
   };
 
   return (
-    <div className="flex-1 flex flex-col items-center justify-center bg-gradient-to-b from-background to-background/80 relative overflow-hidden">
+    <div className="flex-1 min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-background to-background/80 relative overflow-hidden">
       {/* Background grid effect */}
       <div className="absolute inset-0 opacity-5">
         <div className="absolute inset-0" style={{
@@ -203,9 +203,9 @@ export function AkiorHUD() {
           "transition-all duration-1000",
           (isListening || isSpeaking || isProcessing) && "animate-spin-slow",
           hasError && "border-red-500/30"
-        )} style={{ 
-          width: '420px', 
-          height: '420px',
+        )} style={{
+          width: '480px',
+          height: '480px',
           left: '-30px',
           top: '-30px',
         }}>
@@ -221,7 +221,7 @@ export function AkiorHUD() {
                 left: '50%',
                 top: '0',
                 transform: `translateX(-50%) rotate(${i * 30}deg)`,
-                transformOrigin: '50% 210px',
+                transformOrigin: '50% 240px',
               }}
             />
           ))}
@@ -233,9 +233,9 @@ export function AkiorHUD() {
           "transition-all duration-500",
           (isListening || isSpeaking) && "border-cyan-400/60",
           hasError && "border-red-500/40"
-        )} style={{ 
-          width: '380px', 
-          height: '380px',
+        )} style={{
+          width: '440px',
+          height: '440px',
           left: '-10px',
           top: '-10px',
         }} />
@@ -245,7 +245,7 @@ export function AkiorHUD() {
           onClick={handleActivate}
           disabled={isProcessing}
           className={cn(
-            "relative w-[360px] h-[360px] rounded-full",
+            "relative w-[420px] h-[420px] rounded-full",
             "bg-gradient-to-br from-slate-900/90 via-slate-800/90 to-slate-900/90",
             "border-2 transition-all duration-300",
             "flex flex-col items-center justify-center",
