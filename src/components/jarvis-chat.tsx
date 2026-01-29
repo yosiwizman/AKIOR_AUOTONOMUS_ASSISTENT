@@ -1,8 +1,8 @@
 'use client';
 
 /**
- * AKIOR Chat Interface
- * Text chat with RAG and memory
+ * AKIOR Chat Interface - Enterprise Grade
+ * Full conversation management with persistence
  */
 
 import { useState, useCallback, useRef, useEffect } from 'react';
@@ -13,9 +13,11 @@ import { Label } from '@/components/ui/label';
 import { useAuth } from '@/contexts/auth-context';
 import { useOpenAITTS, OpenAIVoice } from '@/hooks/use-openai-tts';
 import { supabase } from '@/integrations/supabase/client';
+import { ConversationSidebar } from './conversation-sidebar';
 import { cn } from '@/lib/utils';
 
 interface Message {
+  id?: string;
   role: 'user' | 'assistant';
   content: string;
   timestamp: Date;
@@ -33,6 +35,8 @@ export function AkiorChat() {
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [speakEnabled, setSpeakEnabled] = useState(false);
+  const [currentConversationId, setCurrentConversationId] = useState<string | null>(null);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [agentSettings, setAgentSettings] = useState<AgentSettings>({
     agent_name: 'AKIOR',
     voice_id: 'alloy',
@@ -73,17 +77,71 @@ export function AkiorChat() {
         setVoice(data.voice_id as OpenAIVoice || 'alloy');
         setSpeed(data.voice_speed || 1.0);
       }
-
-      // Set initial greeting
-      setMessages([{
-        role: 'assistant',
-        content: `Hello! I'm ${data?.agent_name || 'AKIOR'}. How can I help you today?`,
-        timestamp: new Date(),
-      }]);
     };
 
     loadSettings();
   }, [user, setVoice, setSpeed]);
+
+  // Load conversation messages
+  const loadConversation = useCallback(async (conversationId: string) => {
+    if (!user) return;
+
+    try {
+      const response = await fetch(`/api/conversations/${conversationId}/messages`, {
+        headers: { 'x-user-id': user.id },
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setMessages(
+          (data.messages || []).map((m: { id: string; role: string; content: string; created_at: string }) => ({
+            id: m.id,
+            role: m.role as 'user' | 'assistant',
+            content: m.content,
+            timestamp: new Date(m.created_at),
+          }))
+        );
+      }
+    } catch (err) {
+      console.error('Error loading conversation:', err);
+    }
+  }, [user]);
+
+  // Handle conversation selection
+  const handleSelectConversation = useCallback((id: string | null) => {
+    setCurrentConversationId(id);
+    if (id) {
+      loadConversation(id);
+    } else {
+      setMessages([{
+        role: 'assistant',
+        content: `Hello! I'm ${agentSettings.agent_name}. How can I help you today?`,
+        timestamp: new Date(),
+      }]);
+    }
+  }, [loadConversation, agentSettings.agent_name]);
+
+  // Start new conversation
+  const handleNewConversation = useCallback(() => {
+    setCurrentConversationId(null);
+    setMessages([{
+      role: 'assistant',
+      content: `Hello! I'm ${agentSettings.agent_name}. How can I help you today?`,
+      timestamp: new Date(),
+    }]);
+    stopSpeaking();
+  }, [agentSettings.agent_name, stopSpeaking]);
+
+  // Initialize with greeting
+  useEffect(() => {
+    if (messages.length === 0) {
+      setMessages([{
+        role: 'assistant',
+        content: `Hello! I'm ${agentSettings.agent_name}. How can I help you today?`,
+        timestamp: new Date(),
+      }]);
+    }
+  }, [agentSettings.agent_name, messages.length]);
 
   // Auto-scroll to bottom
   useEffect(() => {
@@ -97,15 +155,6 @@ export function AkiorChat() {
       inputRef.current.style.height = `${Math.min(inputRef.current.scrollHeight, 120)}px`;
     }
   }, [input]);
-
-  const handleClear = useCallback(() => {
-    stopSpeaking();
-    setMessages([{
-      role: 'assistant',
-      content: `Hello! I'm ${agentSettings.agent_name}. How can I help you today?`,
-      timestamp: new Date(),
-    }]);
-  }, [agentSettings.agent_name, stopSpeaking]);
 
   const sendMessage = useCallback(async () => {
     const message = input.trim();
@@ -130,21 +179,31 @@ export function AkiorChat() {
           message,
           history: messages.map(m => ({ role: m.role, content: m.content })),
           userId: user?.id,
+          conversationId: currentConversationId,
         }),
       });
 
-      if (!res.ok) throw new Error('API error');
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => ({}));
+        throw new Error(errorData.error || 'API error');
+      }
 
       const data = await res.json();
       const reply = data.reply || 'No response received.';
       
+      // Update conversation ID if new conversation was created
+      if (data.conversationId && !currentConversationId) {
+        setCurrentConversationId(data.conversationId);
+      }
+
       const assistantMessage: Message = {
+        id: data.messageId,
         role: 'assistant',
         content: reply,
         timestamp: new Date(),
       };
 
-      setMessages(prev => [...prev, assistantMessage].slice(-40));
+      setMessages(prev => [...prev, assistantMessage]);
 
       // Speak response if enabled
       if (speakEnabled) {
@@ -154,13 +213,13 @@ export function AkiorChat() {
       console.error('Chat error:', err);
       setMessages(prev => [...prev, {
         role: 'assistant',
-        content: 'Sorry, there was an error processing your request.',
+        content: err instanceof Error ? err.message : 'Sorry, there was an error processing your request.',
         timestamp: new Date(),
       }]);
     } finally {
       setIsLoading(false);
     }
-  }, [input, isLoading, messages, user, speakEnabled, speak, stopSpeaking]);
+  }, [input, isLoading, messages, user, currentConversationId, speakEnabled, speak, stopSpeaking]);
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && !e.shiftKey) {
@@ -170,156 +229,157 @@ export function AkiorChat() {
   };
 
   return (
-    <div className="flex flex-col h-full">
-      {/* Header */}
-      <div className="flex items-center justify-between px-6 py-4 border-b border-border">
-        <div>
-          <h2 className="text-lg font-semibold">Chat with {agentSettings.agent_name}</h2>
-          <p className="text-xs text-muted-foreground mt-0.5">
-            Using GPT-4o-mini • RAG enabled • Memory active
-          </p>
-          <p className="text-xs text-primary mt-1">
-            ✓ Knowledge base and memory enabled - I remember our conversations!
-          </p>
-        </div>
-        <div className="flex items-center gap-4">
-          {/* TTS Toggle */}
-          <div className="flex items-center gap-2">
-            <Switch
-              id="chat-speak-toggle"
-              checked={speakEnabled}
-              onCheckedChange={(checked) => {
-                setSpeakEnabled(checked);
-                if (!checked) stopSpeaking();
-              }}
-            />
-            <Label 
-              htmlFor="chat-speak-toggle" 
-              className="text-xs cursor-pointer flex items-center gap-1"
-            >
-              {speakEnabled ? (
-                <Volume2 className="w-3.5 h-3.5 text-primary" />
-              ) : (
-                <VolumeX className="w-3.5 h-3.5 text-muted-foreground" />
-              )}
-              TTS
-            </Label>
+    <div className="flex h-full">
+      {/* Conversation Sidebar */}
+      <ConversationSidebar
+        currentConversationId={currentConversationId}
+        onSelectConversation={handleSelectConversation}
+        onNewConversation={handleNewConversation}
+        isCollapsed={sidebarCollapsed}
+        onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
+      />
+
+      {/* Main Chat Area */}
+      <div className="flex-1 flex flex-col min-w-0">
+        {/* Header */}
+        <div className="flex items-center justify-between px-6 py-4 border-b border-border">
+          <div>
+            <h2 className="text-lg font-semibold">Chat with {agentSettings.agent_name}</h2>
+            <p className="text-xs text-muted-foreground mt-0.5">
+              GPT-4o-mini • RAG enabled • Memory active • Conversations saved
+            </p>
           </div>
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={handleClear}
-            className="text-muted-foreground hover:text-foreground"
-          >
-            Clear conversation
-          </Button>
-        </div>
-      </div>
-
-      {/* Messages area */}
-      <div className="flex-1 overflow-y-auto px-6 py-6">
-        <div className="max-w-4xl mx-auto space-y-6">
-          {messages.map((msg, idx) => (
-            <div key={idx} className="space-y-1">
-              {/* Label */}
-              <div className={cn(
-                'text-xs text-muted-foreground uppercase tracking-wider',
-                msg.role === 'user' ? 'text-right' : 'text-left'
-              )}>
-                {msg.role === 'user' ? 'YOU' : agentSettings.agent_name.toUpperCase()}
-              </div>
-              
-              {/* Message bubble */}
-              <div className={cn(
-                'flex',
-                msg.role === 'user' ? 'justify-end' : 'justify-start'
-              )}>
-                <div className={cn(
-                  msg.role === 'user' 
-                    ? 'akior-bubble-user' 
-                    : 'akior-bubble-assistant'
-                )}>
-                  <p className="text-sm whitespace-pre-wrap leading-relaxed">
-                    {msg.content}
-                  </p>
-                </div>
-              </div>
-            </div>
-          ))}
-
-          {/* Thinking indicator */}
-          {isLoading && (
-            <div className="space-y-1">
-              <div className="text-xs text-muted-foreground uppercase tracking-wider">
-                {agentSettings.agent_name.toUpperCase()}
-              </div>
-              <div className="akior-thinking">
-                <div className="flex gap-1">
-                  <span className="w-1.5 h-1.5 bg-primary rounded-full pulse-dot" style={{ animationDelay: '0ms' }} />
-                  <span className="w-1.5 h-1.5 bg-primary rounded-full pulse-dot" style={{ animationDelay: '200ms' }} />
-                  <span className="w-1.5 h-1.5 bg-primary rounded-full pulse-dot" style={{ animationDelay: '400ms' }} />
-                </div>
-                <span>Thinking...</span>
-              </div>
-            </div>
-          )}
-
-          {/* Speaking indicator */}
-          {(isSpeaking || isTTSLoading) && (
-            <div className="flex justify-center">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={stopSpeaking}
-                className="text-xs"
+          <div className="flex items-center gap-4">
+            {/* TTS Toggle */}
+            <div className="flex items-center gap-2">
+              <Switch
+                id="chat-speak-toggle"
+                checked={speakEnabled}
+                onCheckedChange={(checked) => {
+                  setSpeakEnabled(checked);
+                  if (!checked) stopSpeaking();
+                }}
+              />
+              <Label 
+                htmlFor="chat-speak-toggle" 
+                className="text-xs cursor-pointer flex items-center gap-1"
               >
-                <Volume2 className="w-3 h-3 mr-1.5 animate-pulse" />
-                {isTTSLoading ? 'Loading audio...' : 'Speaking... Click to stop'}
+                {speakEnabled ? (
+                  <Volume2 className="w-3.5 h-3.5 text-primary" />
+                ) : (
+                  <VolumeX className="w-3.5 h-3.5 text-muted-foreground" />
+                )}
+                TTS
+              </Label>
+            </div>
+          </div>
+        </div>
+
+        {/* Messages area */}
+        <div className="flex-1 overflow-y-auto px-6 py-6">
+          <div className="max-w-4xl mx-auto space-y-6">
+            {messages.map((msg, idx) => (
+              <div key={msg.id || idx} className="space-y-1">
+                {/* Label */}
+                <div className={cn(
+                  'text-xs text-muted-foreground uppercase tracking-wider',
+                  msg.role === 'user' ? 'text-right' : 'text-left'
+                )}>
+                  {msg.role === 'user' ? 'YOU' : agentSettings.agent_name.toUpperCase()}
+                </div>
+                
+                {/* Message bubble */}
+                <div className={cn(
+                  'flex',
+                  msg.role === 'user' ? 'justify-end' : 'justify-start'
+                )}>
+                  <div className={cn(
+                    msg.role === 'user' 
+                      ? 'akior-bubble-user' 
+                      : 'akior-bubble-assistant'
+                  )}>
+                    <p className="text-sm whitespace-pre-wrap leading-relaxed">
+                      {msg.content}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ))}
+
+            {/* Thinking indicator */}
+            {isLoading && (
+              <div className="space-y-1">
+                <div className="text-xs text-muted-foreground uppercase tracking-wider">
+                  {agentSettings.agent_name.toUpperCase()}
+                </div>
+                <div className="akior-thinking">
+                  <div className="flex gap-1">
+                    <span className="w-1.5 h-1.5 bg-primary rounded-full pulse-dot" style={{ animationDelay: '0ms' }} />
+                    <span className="w-1.5 h-1.5 bg-primary rounded-full pulse-dot" style={{ animationDelay: '200ms' }} />
+                    <span className="w-1.5 h-1.5 bg-primary rounded-full pulse-dot" style={{ animationDelay: '400ms' }} />
+                  </div>
+                  <span>Thinking...</span>
+                </div>
+              </div>
+            )}
+
+            {/* Speaking indicator */}
+            {(isSpeaking || isTTSLoading) && (
+              <div className="flex justify-center">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={stopSpeaking}
+                  className="text-xs"
+                >
+                  <Volume2 className="w-3 h-3 mr-1.5 animate-pulse" />
+                  {isTTSLoading ? 'Loading audio...' : 'Speaking... Click to stop'}
+                </Button>
+              </div>
+            )}
+
+            <div ref={messagesEndRef} />
+          </div>
+        </div>
+
+        {/* Input area */}
+        <div className="px-6 py-4 border-t border-border">
+          <div className="max-w-4xl mx-auto">
+            <div className="flex items-end gap-3 bg-muted/30 rounded-xl border border-border p-3">
+              <textarea
+                ref={inputRef}
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                onKeyDown={handleKeyDown}
+                placeholder={`Ask ${agentSettings.agent_name} anything... (Shift + Enter for a new line)`}
+                className={cn(
+                  'flex-1 bg-transparent border-0 resize-none',
+                  'text-sm placeholder:text-muted-foreground',
+                  'focus:outline-none focus:ring-0',
+                  'min-h-[24px] max-h-[120px]'
+                )}
+                rows={1}
+                disabled={isLoading}
+              />
+              <Button
+                onClick={sendMessage}
+                disabled={!input.trim() || isLoading}
+                size="sm"
+                className="bg-primary hover:bg-primary/90 text-primary-foreground shrink-0"
+              >
+                {isLoading ? (
+                  <>
+                    <Loader2 className="w-4 h-4 mr-1.5 animate-spin" />
+                    Sending...
+                  </>
+                ) : (
+                  <>
+                    <Send className="w-4 h-4 mr-1.5" />
+                    Send
+                  </>
+                )}
               </Button>
             </div>
-          )}
-
-          <div ref={messagesEndRef} />
-        </div>
-      </div>
-
-      {/* Input area */}
-      <div className="px-6 py-4 border-t border-border">
-        <div className="max-w-4xl mx-auto">
-          <div className="flex items-end gap-3 bg-muted/30 rounded-xl border border-border p-3">
-            <textarea
-              ref={inputRef}
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyDown={handleKeyDown}
-              placeholder={`Ask ${agentSettings.agent_name} anything... (Shift + Enter for a new line)`}
-              className={cn(
-                'flex-1 bg-transparent border-0 resize-none',
-                'text-sm placeholder:text-muted-foreground',
-                'focus:outline-none focus:ring-0',
-                'min-h-[24px] max-h-[120px]'
-              )}
-              rows={1}
-              disabled={isLoading}
-            />
-            <Button
-              onClick={sendMessage}
-              disabled={!input.trim() || isLoading}
-              size="sm"
-              className="bg-primary hover:bg-primary/90 text-primary-foreground shrink-0"
-            >
-              {isLoading ? (
-                <>
-                  <Loader2 className="w-4 h-4 mr-1.5 animate-spin" />
-                  Sending...
-                </>
-              ) : (
-                <>
-                  <Send className="w-4 h-4 mr-1.5" />
-                  Send
-                </>
-              )}
-            </Button>
           </div>
         </div>
       </div>
