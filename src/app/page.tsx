@@ -1,5 +1,5 @@
-import { VoiceConsole } from '@/components/voice-console';
+import { JarvisApp } from '@/components/jarvis-app';
 
 export default function Home() {
-  return <VoiceConsole />;
+  return <JarvisApp />;
 }

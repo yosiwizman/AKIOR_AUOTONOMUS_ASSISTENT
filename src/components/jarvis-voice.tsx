@@ -1,0 +1,300 @@
+'use client';
+
+/**
+ * Jarvis Voice Interface
+ * Push-to-talk voice input with Jarvis styling
+ */
+
+import { useState, useCallback, useEffect } from 'react';
+import { 
+  Mic, 
+  MicOff, 
+  Send, 
+  Volume2, 
+  VolumeX, 
+  Trash2, 
+  AlertCircle,
+  Loader2
+} from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Textarea } from '@/components/ui/textarea';
+import { Switch } from '@/components/ui/switch';
+import { Label } from '@/components/ui/label';
+import { useSpeechRecognition } from '@/hooks/use-speech-recognition';
+import { useSpeechSynthesis } from '@/hooks/use-speech-synthesis';
+import { cn } from '@/lib/utils';
+
+interface Message {
+  role: 'user' | 'assistant';
+  content: string;
+  timestamp: Date;
+}
+
+export function JarvisVoice() {
+  const [transcript, setTranscript] = useState('');
+  const [response, setResponse] = useState('');
+  const [history, setHistory] = useState<Message[]>([]);
+  const [isSending, setIsSending] = useState(false);
+  const [speakEnabled, setSpeakEnabled] = useState(true);
+  const [apiError, setApiError] = useState<string | null>(null);
+
+  const {
+    status: recognitionStatus,
+    transcript: voiceTranscript,
+    isSupported: sttSupported,
+    error: sttError,
+    startListening,
+    stopListening,
+    clearTranscript,
+  } = useSpeechRecognition();
+
+  const {
+    isSpeaking,
+    isSupported: ttsSupported,
+    speak,
+    stop: stopSpeaking,
+  } = useSpeechSynthesis();
+
+  // Sync voice transcript
+  useEffect(() => {
+    if (voiceTranscript) {
+      setTranscript(voiceTranscript.replace(/\s*\[.*\]$/, ''));
+    }
+  }, [voiceTranscript]);
+
+  // Speak response when enabled
+  useEffect(() => {
+    if (speakEnabled && response && ttsSupported) {
+      speak(response);
+    }
+  }, [response, speakEnabled, ttsSupported, speak]);
+
+  const sendMessage = useCallback(async () => {
+    const message = transcript.trim();
+    if (!message || isSending) return;
+
+    setIsSending(true);
+    setApiError(null);
+    stopSpeaking();
+
+    const userMessage: Message = {
+      role: 'user',
+      content: message,
+      timestamp: new Date(),
+    };
+
+    try {
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          message,
+          history: history.map(m => ({ role: m.role, content: m.content })),
+        }),
+      });
+
+      if (!res.ok) throw new Error(`API error: ${res.status}`);
+
+      const data = await res.json();
+      const reply = data.reply || 'No response received.';
+
+      const assistantMessage: Message = {
+        role: 'assistant',
+        content: reply,
+        timestamp: new Date(),
+      };
+
+      setHistory(prev => [...prev, userMessage, assistantMessage].slice(-40));
+      setResponse(reply);
+      setTranscript('');
+      clearTranscript();
+    } catch (err) {
+      console.error('Chat API error:', err);
+      setApiError(err instanceof Error ? err.message : 'Failed to send message');
+    } finally {
+      setIsSending(false);
+    }
+  }, [transcript, isSending, history, clearTranscript, stopSpeaking]);
+
+  const handlePushToTalk = useCallback(() => {
+    if (recognitionStatus === 'listening') {
+      stopListening();
+    } else {
+      setTranscript('');
+      clearTranscript();
+      startListening();
+    }
+  }, [recognitionStatus, startListening, stopListening, clearTranscript]);
+
+  const isListening = recognitionStatus === 'listening';
+
+  return (
+    <div className="flex flex-col h-full">
+      {/* Header */}
+      <div className="px-6 py-4 border-b border-border">
+        <h2 className="text-lg font-semibold">Jarvis (Voice)</h2>
+        <p className="text-xs text-muted-foreground mt-0.5">
+          OpenAI Realtime voice assistant
+        </p>
+        <p className="text-xs text-primary mt-1">
+          ✓ Push-to-talk enabled - Click the microphone to speak
+        </p>
+      </div>
+
+      {/* Main content */}
+      <div className="flex-1 overflow-y-auto px-6 py-8">
+        <div className="max-w-2xl mx-auto space-y-8">
+          {/* Warnings */}
+          {!sttSupported && (
+            <div className="flex items-start gap-3 p-4 rounded-lg bg-orange-500/10 border border-orange-500/30">
+              <AlertCircle className="w-5 h-5 text-orange-500 flex-shrink-0 mt-0.5" />
+              <div>
+                <p className="text-sm font-medium text-orange-500">Voice Input Unavailable</p>
+                <p className="text-xs text-muted-foreground mt-1">
+                  Speech recognition is not supported. Please use Chrome or Edge.
+                </p>
+              </div>
+            </div>
+          )}
+
+          {(sttError || apiError) && (
+            <div className="flex items-start gap-3 p-4 rounded-lg bg-destructive/10 border border-destructive/30">
+              <AlertCircle className="w-5 h-5 text-destructive flex-shrink-0 mt-0.5" />
+              <p className="text-sm text-muted-foreground">{sttError || apiError}</p>
+            </div>
+          )}
+
+          {/* Push-to-talk button */}
+          <div className="flex flex-col items-center gap-4">
+            <Button
+              size="lg"
+              variant={isListening ? 'default' : 'outline'}
+              onClick={handlePushToTalk}
+              disabled={!sttSupported || isSending}
+              className={cn(
+                'w-28 h-28 rounded-full transition-all duration-300',
+                isListening 
+                  ? 'bg-primary hover:bg-primary/90 jarvis-glow' 
+                  : 'border-2 border-border hover:border-primary/50 hover:bg-primary/5',
+                !sttSupported && 'opacity-50 cursor-not-allowed'
+              )}
+            >
+              {isListening ? (
+                <MicOff className="w-10 h-10" />
+              ) : (
+                <Mic className="w-10 h-10 text-muted-foreground" />
+              )}
+            </Button>
+            
+            <div className="text-center">
+              <p className={cn(
+                'text-sm font-medium',
+                isListening ? 'text-primary' : 'text-muted-foreground'
+              )}>
+                {isListening ? 'Listening... Click to stop' : 'Click to speak'}
+              </p>
+              {isListening && (
+                <p className="text-xs text-muted-foreground mt-1">
+                  Speak clearly into your microphone
+                </p>
+              )}
+            </div>
+          </div>
+
+          {/* Transcript input */}
+          <div className="space-y-3">
+            <Label className="text-sm font-medium text-muted-foreground">
+              Your Message
+            </Label>
+            <Textarea
+              value={transcript}
+              onChange={(e) => setTranscript(e.target.value)}
+              placeholder="Speak or type your message here..."
+              className="min-h-[100px] bg-muted/30 border-border focus:border-primary/50 resize-none text-sm"
+              disabled={isSending}
+            />
+            <div className="flex items-center justify-between">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => {
+                  setTranscript('');
+                  clearTranscript();
+                }}
+                disabled={!transcript || isSending}
+                className="text-muted-foreground"
+              >
+                <Trash2 className="w-4 h-4 mr-2" />
+                Clear
+              </Button>
+              <Button
+                onClick={sendMessage}
+                disabled={!transcript.trim() || isSending}
+                className="bg-primary hover:bg-primary/90"
+              >
+                {isSending ? (
+                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                ) : (
+                  <Send className="w-4 h-4 mr-2" />
+                )}
+                Send
+              </Button>
+            </div>
+          </div>
+
+          {/* Response display */}
+          {response && (
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <Label className="text-sm font-medium text-muted-foreground">
+                  JARVIS Response
+                </Label>
+                <div className="flex items-center gap-3">
+                  {isSpeaking && (
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={stopSpeaking}
+                      className="text-muted-foreground text-xs"
+                    >
+                      Stop
+                    </Button>
+                  )}
+                  <div className="flex items-center gap-2">
+                    <Switch
+                      id="speak-toggle"
+                      checked={speakEnabled}
+                      onCheckedChange={setSpeakEnabled}
+                      disabled={!ttsSupported}
+                    />
+                    <Label 
+                      htmlFor="speak-toggle" 
+                      className={cn(
+                        "text-xs cursor-pointer flex items-center gap-1",
+                        !ttsSupported && "opacity-50"
+                      )}
+                    >
+                      {speakEnabled ? (
+                        <Volume2 className="w-3.5 h-3.5 text-primary" />
+                      ) : (
+                        <VolumeX className="w-3.5 h-3.5 text-muted-foreground" />
+                      )}
+                      Speak
+                    </Label>
+                  </div>
+                </div>
+              </div>
+              <div className={cn(
+                'p-4 rounded-lg bg-secondary/50 border border-border',
+                'text-sm whitespace-pre-wrap leading-relaxed',
+                isSpeaking && 'border-primary/30 jarvis-glow'
+              )}>
+                {response}
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
