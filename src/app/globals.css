@@ -114,7 +114,7 @@
   }
 }
 
-/* AKIOR Console specific styles */
+/* AKIOR-style components */
 @layer components {
   .akior-card {
     @apply bg-card border border-border rounded-lg p-5 transition-all duration-200;
