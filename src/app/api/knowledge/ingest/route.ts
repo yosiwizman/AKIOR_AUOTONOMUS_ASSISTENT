@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import OpenAI from 'openai';
 import { createClient } from '@supabase/supabase-js';
-import pdf from 'pdf-parse';
+import * as pdfParse from 'pdf-parse';
 import mammoth from 'mammoth';
 import { verifyAuth, isAuthError } from '@/lib/server-auth';
 import { decrypt } from '@/lib/encryption';
@@ -88,7 +88,7 @@ async function extractTextFromFile(file: File) {
   const lowerName = name.toLowerCase();
 
   if (mime === 'application/pdf' || lowerName.endsWith('.pdf')) {
-    const parsed = await pdf(buffer);
+    const parsed = await (pdfParse as unknown as (buf: Buffer) => Promise<{ text: string }>)(buffer);
     return parsed.text || '';
   }
 
