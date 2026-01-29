@@ -5,19 +5,37 @@ const SUPABASE_ANON_KEY =
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ||
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ1ZnR1b2lsYXRsem5pdWFzb3phIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk2NjUxNzEsImV4cCI6MjA4NTI0MTE3MX0.JqPbHquY6lF6I2sYPoNLJjpvwP3aEvmIjAL4llk-hJ0';
 
-export function getSupabaseAnon(): SupabaseClient {
-  return createClient(SUPABASE_URL, SUPABASE_ANON_KEY, { auth: { persistSession: false } });
+type ExtraHeaders = Record<string, string>;
+
+function buildHeaders(opts?: { token?: string; tenantId?: string }): ExtraHeaders {
+  const headers: ExtraHeaders = {};
+  if (opts?.token) headers.Authorization = `Bearer ${opts.token}`;
+  if (opts?.tenantId) headers['x-tenant-id'] = opts.tenantId;
+  return headers;
 }
 
-export function getSupabaseAuthed(token: string): SupabaseClient {
+export function getSupabaseAnon(tenantId?: string): SupabaseClient {
+  const headers = buildHeaders({ tenantId });
   return createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
     auth: { persistSession: false },
-    global: { headers: { Authorization: `Bearer ${token}` } },
+    global: Object.keys(headers).length ? { headers } : undefined,
   });
 }
 
-export function getSupabaseAdmin(): SupabaseClient | null {
+export function getSupabaseAuthed(token: string, tenantId?: string): SupabaseClient {
+  const headers = buildHeaders({ token, tenantId });
+  return createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+    auth: { persistSession: false },
+    global: { headers },
+  });
+}
+
+export function getSupabaseAdmin(tenantId?: string): SupabaseClient | null {
   const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
   if (!serviceKey) return null;
-  return createClient(SUPABASE_URL, serviceKey, { auth: { persistSession: false } });
+  const headers = buildHeaders({ tenantId });
+  return createClient(SUPABASE_URL, serviceKey, {
+    auth: { persistSession: false },
+    global: Object.keys(headers).length ? { headers } : undefined,
+  });
 }

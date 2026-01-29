@@ -1,5 +1,5 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
-import { embedText } from './embedding';
+import { embedText, getEmbedDim } from './embedding';
 import type { Classification } from './access';
 
 export type RetrievalHit = {
@@ -15,19 +15,19 @@ export async function retrieveTopChunks(opts: {
   db: SupabaseClient;
   q: string;
   topK: number;
-  tenantId: string;
   classifications: Classification[];
-  actorId: string | null;
   includeText: boolean;
 }): Promise<RetrievalHit[]> {
   const queryEmbedding = embedText(opts.q);
+  const expectedDim = getEmbedDim();
+  if (queryEmbedding.length !== expectedDim) {
+    throw new Error(`Embedding dimension mismatch: expected ${expectedDim}, got ${queryEmbedding.length}`);
+  }
 
   const { data, error } = await opts.db.rpc('match_kb_vectors', {
     query_embedding: queryEmbedding,
     match_count: opts.topK,
-    p_tenant_id: opts.tenantId,
     p_classifications: opts.classifications,
-    p_actor_id: opts.actorId,
   });
 
   if (error) throw error;

@@ -21,9 +21,11 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: auth.error, trace_id: traceId }, { status: auth.status });
     }
 
+    const tenantId = (req.headers.get('x-tenant-id') || 'default').slice(0, 64);
+
     const authHeader = req.headers.get('Authorization') || '';
     const token = authHeader.startsWith('Bearer ') ? authHeader.slice(7) : '';
-    const db = getSupabaseAuthed(token);
+    const db = getSupabaseAuthed(token, tenantId);
 
     const form = await req.formData();
     const file = form.get('file');
@@ -45,8 +47,6 @@ export async function POST(req: NextRequest) {
 
     const trustLevelStr = ((form.get('trust_level') as string | null) || '50').trim();
     const trustLevel = Math.max(0, Math.min(100, Number(trustLevelStr) || 50));
-
-    const tenantId = (req.headers.get('x-tenant-id') || 'default').slice(0, 64);
 
     const restrictedOnlyMe = ((form.get('restricted_only_me') as string | null) || 'false').toLowerCase() === 'true';
     const aclUserIds = restrictedOnlyMe || classification === 'restricted' ? [auth.userId] : null;

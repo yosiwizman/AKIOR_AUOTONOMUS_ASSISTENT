@@ -5,6 +5,13 @@ const BEARER = /Bearer\s+[A-Za-z0-9\-_.=]+/gi;
 const OPENAI_SK = /\bsk-[A-Za-z0-9]{20,}\b/g;
 const GENERIC_API_KEY = /(api[_-]?key\s*[:=]\s*)([A-Za-z0-9\-_]{8,})/gi;
 
+function getInternalHosts(): string[] {
+  return (process.env.AKIOR_INTERNAL_HOSTNAMES || '')
+    .split(',')
+    .map((s) => s.trim())
+    .filter(Boolean);
+}
+
 function redactString(s: string, internalHosts: string[]) {
   let out = s
     .replace(IPV4, '[REDACTED_IP]')
@@ -21,11 +28,16 @@ function redactString(s: string, internalHosts: string[]) {
   return out;
 }
 
+/**
+ * Redact a plain text string (safe to use on model output / excerpts).
+ * IMPORTANT: this does not log anything; it only rewrites the string.
+ */
+export function redactText(input: string): string {
+  return redactString(input, getInternalHosts());
+}
+
 export function redactJson(input: Json): Json {
-  const internalHosts = (process.env.AKIOR_INTERNAL_HOSTNAMES || '')
-    .split(',')
-    .map((s) => s.trim())
-    .filter(Boolean);
+  const internalHosts = getInternalHosts();
 
   const walk = (v: Json): Json => {
     if (typeof v === 'string') return redactString(v, internalHosts);

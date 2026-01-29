@@ -6,7 +6,7 @@ type Json = null | boolean | number | string | Json[] | { [key: string]: Json };
 
 export async function writeAuditEvent(opts: {
   db: SupabaseClient;
-  actorId: string;
+  actorId: string | null;
   traceId: string;
   action: string;
   resourceType: string;
