@@ -12,6 +12,7 @@ import { AkiorVoice } from './jarvis-voice';
 import { AkiorChat } from './jarvis-chat';
 import { AkiorSettings } from './jarvis-settings';
 import { KnowledgeBase } from './knowledge-base';
+import { AkiorHUD } from './akior-hud';
 import { LoginPage } from './login-page';
 import { ErrorBoundary } from './error-boundary';
 import { useAuth } from '@/contexts/auth-context';
@@ -19,7 +20,7 @@ import { cn } from '@/lib/utils';
 import { Loader2, AlertTriangle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
-type ViewType = 'menu' | 'voice' | 'chat' | 'settings' | 'knowledge';
+type ViewType = 'menu' | 'voice' | 'chat' | 'settings' | 'knowledge' | 'hud';
 
 // Loading fallback component
 function LoadingFallback({ message = 'Loading...' }: { message?: string }) {
@@ -89,6 +90,8 @@ export function AkiorApp() {
       switch (currentView) {
         case 'menu':
           return <AkiorMenu onNavigate={setCurrentView} />;
+        case 'hud':
+          return <AkiorHUD />;
         case 'voice':
           return <AkiorVoice />;
         case 'chat':

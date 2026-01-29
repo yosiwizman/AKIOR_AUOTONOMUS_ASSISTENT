@@ -5,7 +5,7 @@
  * Card-based navigation matching the reference design
  */
 
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, CircleDot } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { AkiorLogo } from './jarvis-logo';
 import { useAuth } from '@/contexts/auth-context';
@@ -16,28 +16,37 @@ interface MenuCardProps {
   onClick?: () => void;
   disabled?: boolean;
   badge?: string;
+  highlight?: boolean;
 }
 
-function MenuCard({ title, description, onClick, disabled, badge }: MenuCardProps) {
+function MenuCard({ title, description, onClick, disabled, badge, highlight }: MenuCardProps) {
   return (
     <div 
       className={cn(
         'akior-card cursor-pointer group relative',
-        disabled && 'opacity-50 cursor-not-allowed'
+        disabled && 'opacity-50 cursor-not-allowed',
+        highlight && 'border-cyan-500/50 bg-gradient-to-br from-cyan-500/10 to-transparent hover:border-cyan-400/70'
       )}
       onClick={disabled ? undefined : onClick}
     >
       {badge && (
-        <span className="absolute top-3 right-3 text-xs bg-primary/20 text-primary px-2 py-0.5 rounded-full">
+        <span className={cn(
+          "absolute top-3 right-3 text-xs px-2 py-0.5 rounded-full",
+          highlight ? "bg-cyan-500/20 text-cyan-400" : "bg-primary/20 text-primary"
+        )}>
           {badge}
         </span>
       )}
-      <h3 className="font-semibold text-foreground mb-1">{title}</h3>
+      <h3 className={cn(
+        "font-semibold mb-1",
+        highlight ? "text-cyan-300" : "text-foreground"
+      )}>{title}</h3>
       <p className="text-sm text-muted-foreground mb-4">{description}</p>
       <button 
         className={cn(
           'akior-link',
-          disabled && 'pointer-events-none'
+          disabled && 'pointer-events-none',
+          highlight && 'text-cyan-400 hover:text-cyan-300'
         )}
         disabled={disabled}
       >
@@ -48,13 +57,20 @@ function MenuCard({ title, description, onClick, disabled, badge }: MenuCardProp
 }
 
 interface AkiorMenuProps {
-  onNavigate: (view: 'voice' | 'chat' | 'settings' | 'knowledge') => void;
+  onNavigate: (view: 'voice' | 'chat' | 'settings' | 'knowledge' | 'hud') => void;
 }
 
 export function AkiorMenu({ onNavigate }: AkiorMenuProps) {
   const { user } = useAuth();
 
   const menuItems = [
+    {
+      title: 'Talk to AKIOR',
+      description: 'Futuristic voice interface with HUD display',
+      onClick: () => onNavigate('hud'),
+      badge: 'NEW',
+      highlight: true,
+    },
     {
       title: 'AKIOR (Voice)',
       description: 'Voice assistant with OpenAI TTS',
@@ -136,6 +152,7 @@ export function AkiorMenu({ onNavigate }: AkiorMenuProps) {
               onClick={item.onClick}
               disabled={item.disabled}
               badge={item.badge}
+              highlight={item.highlight}
             />
           ))}
         </div>
