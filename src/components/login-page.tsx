@@ -10,31 +10,28 @@ import { AkiorLogo } from "./jarvis-logo";
 
 export function LoginPage() {
     return (
-        <div
-            className="min-h-screen bg-background flex flex-col items-center justify-center p-6">
-            {}
-            <div
-                className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-primary/10 pointer-events-none" />
+        <div className="min-h-screen bg-background flex flex-col items-center justify-center p-6">
+            <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-primary/10 pointer-events-none" />
+
             <div className="relative z-10 w-full max-w-md space-y-8">
-                {}
                 <div className="text-center space-y-4">
                     <div className="flex justify-center">
                         <AkiorLogo size="lg" />
                     </div>
                     <div>
                         <h1 className="text-3xl font-bold tracking-tight">AKIOR Console</h1>
-                        <p className="text-muted-foreground mt-2">Your personal AI assistant with knowledge base
-                                        </p>
+                        <p className="text-muted-foreground mt-2">
+                            Your personal AI assistant with knowledge base
+                        </p>
                     </div>
                 </div>
-                {}
+
                 <div className="bg-card border border-border rounded-xl p-6 shadow-xl">
                     <Auth
                         supabaseClient={supabase}
                         providers={[]}
                         appearance={{
                             theme: ThemeSupa,
-
                             variables: {
                                 default: {
                                     colors: {
@@ -58,7 +55,6 @@ export function LoginPage() {
                                         anchorTextColor: "hsl(190, 90%, 50%)",
                                         anchorTextHoverColor: "hsl(190, 90%, 60%)"
                                     },
-
                                     space: {
                                         spaceSmall: "4px",
                                         spaceMedium: "8px",
@@ -70,18 +66,15 @@ export function LoginPage() {
                                         buttonPadding: "12px 16px",
                                         inputPadding: "12px 16px"
                                     },
-
                                     borderWidths: {
                                         buttonBorderWidth: "1px",
                                         inputBorderWidth: "1px"
                                     },
-
                                     radii: {
                                         borderRadiusButton: "8px",
                                         buttonBorderRadius: "8px",
                                         inputBorderRadius: "8px"
                                     },
-
                                     fonts: {
                                         bodyFontFamily: "inherit",
                                         buttonFontFamily: "inherit",
@@ -90,7 +83,6 @@ export function LoginPage() {
                                     }
                                 }
                             },
-
                             className: {
                                 container: "auth-container",
                                 button: "auth-button",
@@ -107,7 +99,6 @@ export function LoginPage() {
                                     button_label: "Sign In",
                                     link_text: "Don't have an account? Sign up"
                                 },
-
                                 sign_up: {
                                     email_label: "Email",
                                     password_label: "Password",
@@ -115,7 +106,8 @@ export function LoginPage() {
                                     link_text: "Already have an account? Sign in"
                                 }
                             }
-                        }} />
+                        }}
+                    />
                 </div>
             </div>
         </div>
