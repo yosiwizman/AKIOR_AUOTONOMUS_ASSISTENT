@@ -36,6 +36,7 @@ import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
 
 interface AgentSettings {
+  id?: string;
   agent_name: string;
   personality_prompt: string;
   voice_id: string;
@@ -73,6 +74,7 @@ const PERSONALITY_PRESETS = [
 export function AgentSettingsPanel() {
   const { user } = useAuth();
   const [settings, setSettings] = useState<AgentSettings>(DEFAULT_SETTINGS);
+  const [existingId, setExistingId] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
   const [hasChanges, setHasChanges] = useState(false);
@@ -101,7 +103,9 @@ export function AgentSettingsPanel() {
       }
 
       if (data) {
+        setExistingId(data.id);
         setSettings({
+          id: data.id,
           agent_name: data.agent_name || DEFAULT_SETTINGS.agent_name,
           personality_prompt: data.personality_prompt || DEFAULT_SETTINGS.personality_prompt,
           voice_id: data.voice_id || DEFAULT_SETTINGS.voice_id,
@@ -125,19 +129,47 @@ export function AgentSettingsPanel() {
     loadSettings();
   }, [loadSettings]);
 
-  // Save settings
+  // Save settings - use update if exists, insert if not
   const handleSave = async () => {
     if (!user) return;
 
     setIsSaving(true);
     try {
-      const { error } = await supabase
-        .from('agent_settings')
-        .upsert({
-          user_id: user.id,
-          ...settings,
-          updated_at: new Date().toISOString(),
-        });
+      const settingsData = {
+        agent_name: settings.agent_name,
+        personality_prompt: settings.personality_prompt,
+        voice_id: settings.voice_id,
+        voice_speed: settings.voice_speed,
+        openai_api_key: settings.openai_api_key || null,
+        updated_at: new Date().toISOString(),
+      };
+
+      let error;
+
+      if (existingId) {
+        // Update existing record
+        const result = await supabase
+          .from('agent_settings')
+          .update(settingsData)
+          .eq('id', existingId)
+          .eq('user_id', user.id);
+        error = result.error;
+      } else {
+        // Insert new record
+        const result = await supabase
+          .from('agent_settings')
+          .insert({
+            user_id: user.id,
+            ...settingsData,
+          })
+          .select('id')
+          .single();
+        
+        error = result.error;
+        if (result.data) {
+          setExistingId(result.data.id);
+        }
+      }
 
       if (error) throw error;
 
