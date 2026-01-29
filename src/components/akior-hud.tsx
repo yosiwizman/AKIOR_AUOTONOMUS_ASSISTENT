@@ -6,7 +6,7 @@
  */
 
 import { useState, useEffect, useCallback } from 'react';
-import { Mic, MicOff, Volume2 } from 'lucide-react';
+import { Mic, MicOff, Volume2, AlertCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useAuth } from '@/contexts/auth-context';
 import { useSpeechRecognition } from '@/hooks/use-speech-recognition';
@@ -36,12 +36,15 @@ export function AkiorHUD() {
   const {
     status,
     transcript,
+    error: speechError,
     startListening,
     stopListening,
+    clearTranscript,
     isSupported: speechSupported,
   } = useSpeechRecognition();
 
   const isListening = status === 'listening';
+  const hasError = status === 'error';
 
   const {
     isSpeaking,
@@ -118,7 +121,7 @@ export function AkiorHUD() {
       
       setStatusText('Click to activate');
     } catch (err) {
-      console.error('Error processing voice:', err);
+      console.warn('[HUD] Error processing voice:', err);
       setStatusText('Error occurred');
       setResponseText('Sorry, I encountered an error. Please try again.');
     } finally {
@@ -128,15 +131,17 @@ export function AkiorHUD() {
 
   // Watch for transcript changes
   useEffect(() => {
-    if (transcript && !isListening && isActive) {
+    if (transcript && !isListening && isActive && !hasError) {
       processVoiceInput(transcript);
       setIsActive(false);
     }
-  }, [transcript, isListening, isActive, processVoiceInput]);
+  }, [transcript, isListening, isActive, hasError, processVoiceInput]);
 
   // Update status based on state
   useEffect(() => {
-    if (isListening) {
+    if (hasError && speechError) {
+      setStatusText('Error - Click to retry');
+    } else if (isListening) {
       setStatusText('Listening...');
     } else if (isSpeaking) {
       setStatusText('Speaking...');
@@ -145,7 +150,7 @@ export function AkiorHUD() {
     } else if (!isActive) {
       setStatusText('Click to activate');
     }
-  }, [isListening, isSpeaking, isProcessing, isActive]);
+  }, [isListening, isSpeaking, isProcessing, isActive, hasError, speechError]);
 
   const handleActivate = () => {
     if (isProcessing) return;
@@ -160,6 +165,11 @@ export function AkiorHUD() {
       stopListening();
       setIsActive(false);
       return;
+    }
+
+    // Clear any previous errors
+    if (hasError) {
+      clearTranscript();
     }
 
     if (!speechSupported) {
@@ -191,7 +201,8 @@ export function AkiorHUD() {
         <div className={cn(
           "absolute inset-0 rounded-full border-2 border-primary/30",
           "transition-all duration-1000",
-          (isListening || isSpeaking || isProcessing) && "animate-spin-slow"
+          (isListening || isSpeaking || isProcessing) && "animate-spin-slow",
+          hasError && "border-red-500/30"
         )} style={{ 
           width: '420px', 
           height: '420px',
@@ -202,7 +213,10 @@ export function AkiorHUD() {
           {[...Array(12)].map((_, i) => (
             <div
               key={i}
-              className="absolute w-2 h-4 bg-primary/50"
+              className={cn(
+                "absolute w-2 h-4",
+                hasError ? "bg-red-500/50" : "bg-primary/50"
+              )}
               style={{
                 left: '50%',
                 top: '0',
@@ -217,7 +231,8 @@ export function AkiorHUD() {
         <div className={cn(
           "absolute rounded-full border border-cyan-500/40",
           "transition-all duration-500",
-          (isListening || isSpeaking) && "border-cyan-400/60"
+          (isListening || isSpeaking) && "border-cyan-400/60",
+          hasError && "border-red-500/40"
         )} style={{ 
           width: '380px', 
           height: '380px',
@@ -239,7 +254,8 @@ export function AkiorHUD() {
             isListening && "border-cyan-400 shadow-[0_0_60px_rgba(0,200,200,0.4)]",
             isSpeaking && "border-primary shadow-[0_0_60px_rgba(0,200,200,0.3)]",
             isProcessing && "border-yellow-500/50",
-            !isListening && !isSpeaking && !isProcessing && "border-cyan-500/30 hover:border-cyan-400/50 hover:shadow-[0_0_40px_rgba(0,200,200,0.2)]"
+            hasError && "border-red-500/50 shadow-[0_0_40px_rgba(255,0,0,0.2)]",
+            !isListening && !isSpeaking && !isProcessing && !hasError && "border-cyan-500/30 hover:border-cyan-400/50 hover:shadow-[0_0_40px_rgba(0,200,200,0.2)]"
           )}
         >
           {/* Hexagon pattern background */}
@@ -252,7 +268,7 @@ export function AkiorHUD() {
                     fill="none" 
                     stroke="currentColor" 
                     strokeWidth="0.3"
-                    className="text-cyan-500"
+                    className={hasError ? "text-red-500" : "text-cyan-500"}
                   />
                 </pattern>
               </defs>
@@ -265,7 +281,8 @@ export function AkiorHUD() {
             "absolute inset-12 rounded-full border transition-all duration-300",
             isListening && "border-cyan-400/60 shadow-[inset_0_0_30px_rgba(0,200,200,0.2)]",
             isSpeaking && "border-primary/60 shadow-[inset_0_0_30px_rgba(0,200,200,0.15)]",
-            !isListening && !isSpeaking && "border-cyan-500/20"
+            hasError && "border-red-500/40 shadow-[inset_0_0_30px_rgba(255,0,0,0.1)]",
+            !isListening && !isSpeaking && !hasError && "border-cyan-500/20"
           )} />
 
           {/* Center content */}
@@ -275,14 +292,18 @@ export function AkiorHUD() {
               "text-5xl font-bold tracking-[0.3em] mb-2 transition-all duration-300",
               "bg-gradient-to-r from-cyan-300 via-white to-cyan-300 bg-clip-text text-transparent",
               "drop-shadow-[0_0_10px_rgba(0,200,200,0.5)]",
-              (isListening || isSpeaking) && "drop-shadow-[0_0_20px_rgba(0,200,200,0.8)]"
+              (isListening || isSpeaking) && "drop-shadow-[0_0_20px_rgba(0,200,200,0.8)]",
+              hasError && "from-red-300 via-white to-red-300 drop-shadow-[0_0_10px_rgba(255,0,0,0.5)]"
             )}>
               {agentSettings.agent_name.toUpperCase()}
             </h1>
             
             {/* Subtitle */}
-            <p className="text-xs tracking-[0.2em] text-cyan-400/80 uppercase mb-6">
-              Advanced Knowledge Intelligence Operating Resource
+            <p className={cn(
+              "text-xs tracking-[0.2em] uppercase mb-6",
+              hasError ? "text-red-400/80" : "text-cyan-400/80"
+            )}>
+              {hasError ? 'Connection Issue' : 'Advanced Knowledge Intelligence Operating Resource'}
             </p>
 
             {/* Status indicator */}
@@ -291,9 +312,12 @@ export function AkiorHUD() {
               isListening && "text-cyan-300",
               isSpeaking && "text-primary",
               isProcessing && "text-yellow-400",
-              !isListening && !isSpeaking && !isProcessing && "text-muted-foreground"
+              hasError && "text-red-400",
+              !isListening && !isSpeaking && !isProcessing && !hasError && "text-muted-foreground"
             )}>
-              {isListening ? (
+              {hasError ? (
+                <AlertCircle className="w-5 h-5" />
+              ) : isListening ? (
                 <Mic className="w-5 h-5 animate-pulse" />
               ) : isSpeaking ? (
                 <Volume2 className="w-5 h-5 animate-pulse" />
@@ -303,8 +327,15 @@ export function AkiorHUD() {
               <span className="uppercase tracking-wider">{statusText}</span>
             </div>
 
+            {/* Error message */}
+            {hasError && speechError && (
+              <p className="mt-4 text-xs text-red-400/80 max-w-[250px]">
+                {speechError}
+              </p>
+            )}
+
             {/* Transcript display */}
-            {transcript && isActive && (
+            {transcript && isActive && !hasError && (
               <p className="mt-4 text-sm text-cyan-300/80 max-w-[250px] truncate">
                 &quot;{transcript}&quot;
               </p>
@@ -321,10 +352,22 @@ export function AkiorHUD() {
         </button>
 
         {/* Corner decorations */}
-        <div className="absolute -top-2 -left-2 w-8 h-8 border-l-2 border-t-2 border-cyan-500/50" />
-        <div className="absolute -top-2 -right-2 w-8 h-8 border-r-2 border-t-2 border-cyan-500/50" />
-        <div className="absolute -bottom-2 -left-2 w-8 h-8 border-l-2 border-b-2 border-cyan-500/50" />
-        <div className="absolute -bottom-2 -right-2 w-8 h-8 border-r-2 border-b-2 border-cyan-500/50" />
+        <div className={cn(
+          "absolute -top-2 -left-2 w-8 h-8 border-l-2 border-t-2",
+          hasError ? "border-red-500/50" : "border-cyan-500/50"
+        )} />
+        <div className={cn(
+          "absolute -top-2 -right-2 w-8 h-8 border-r-2 border-t-2",
+          hasError ? "border-red-500/50" : "border-cyan-500/50"
+        )} />
+        <div className={cn(
+          "absolute -bottom-2 -left-2 w-8 h-8 border-l-2 border-b-2",
+          hasError ? "border-red-500/50" : "border-cyan-500/50"
+        )} />
+        <div className={cn(
+          "absolute -bottom-2 -right-2 w-8 h-8 border-r-2 border-b-2",
+          hasError ? "border-red-500/50" : "border-cyan-500/50"
+        )} />
       </div>
 
       {/* Response text below HUD */}
@@ -341,9 +384,9 @@ export function AkiorHUD() {
         <span className="flex items-center gap-1">
           <span className={cn(
             "w-2 h-2 rounded-full",
-            speechSupported ? "bg-green-500" : "bg-red-500"
+            hasError ? "bg-red-500" : speechSupported ? "bg-green-500" : "bg-red-500"
           )} />
-          Voice {speechSupported ? 'Ready' : 'Unavailable'}
+          Voice {hasError ? 'Error' : speechSupported ? 'Ready' : 'Unavailable'}
         </span>
         <span className="text-border">|</span>
         <span>Press ESC to exit</span>

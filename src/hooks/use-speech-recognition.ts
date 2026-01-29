@@ -85,6 +85,8 @@ export function useSpeechRecognition(): UseSpeechRecognitionReturn {
   const [isSupported, setIsSupported] = useState(false);
   
   const recognitionRef = useRef<SpeechRecognition | null>(null);
+  const retryCountRef = useRef(0);
+  const maxRetries = 2;
 
   // Initialize speech recognition
   useEffect(() => {
@@ -109,6 +111,9 @@ export function useSpeechRecognition(): UseSpeechRecognitionReturn {
 
     // Handle results
     recognition.onresult = (event: SpeechRecognitionEvent) => {
+      // Reset retry count on successful result
+      retryCountRef.current = 0;
+      
       let interimTranscript = '';
       let finalText = '';
 
@@ -135,9 +140,12 @@ export function useSpeechRecognition(): UseSpeechRecognitionReturn {
 
     // Handle errors
     recognition.onerror = (event: SpeechRecognitionErrorEvent) => {
-      console.error('Speech recognition error:', event.error);
+      // Use console.warn instead of console.error to avoid Next.js error overlay
+      console.warn('[Speech Recognition] Error:', event.error);
       
       let errorMessage = 'Speech recognition error';
+      let shouldRetry = false;
+      
       switch (event.error) {
         case 'no-speech':
           errorMessage = 'No speech detected. Please try again.';
@@ -149,24 +157,45 @@ export function useSpeechRecognition(): UseSpeechRecognitionReturn {
           errorMessage = 'Microphone access denied. Please allow microphone access.';
           break;
         case 'network':
-          errorMessage = 'Network error. Check your connection.';
+          // Network errors can be transient - try to auto-retry
+          if (retryCountRef.current < maxRetries) {
+            retryCountRef.current++;
+            shouldRetry = true;
+            console.warn(`[Speech Recognition] Network error, retrying (${retryCountRef.current}/${maxRetries})...`);
+            // Don't show error to user yet, just retry
+            setTimeout(() => {
+              try {
+                recognition.start();
+              } catch {
+                // Ignore if already started
+              }
+            }, 500);
+            return;
+          }
+          errorMessage = 'Network error connecting to speech service. Please check your internet connection and try again.';
           break;
         case 'aborted':
           // User stopped, not an error
+          setStatus('idle');
           return;
+        case 'service-not-allowed':
+          errorMessage = 'Speech recognition service not allowed. This may be a browser restriction.';
+          break;
         default:
           errorMessage = `Recognition error: ${event.error}`;
       }
       
-      setError(errorMessage);
-      setStatus('error');
+      if (!shouldRetry) {
+        setError(errorMessage);
+        setStatus('error');
+        retryCountRef.current = 0;
+      }
     };
 
     // Handle end
     recognition.onend = () => {
-      if (status === 'listening') {
-        setStatus('idle');
-      }
+      // Only set to idle if we're not in an error state
+      setStatus(prev => prev === 'listening' ? 'idle' : prev);
     };
 
     // Handle start
@@ -193,17 +222,20 @@ export function useSpeechRecognition(): UseSpeechRecognitionReturn {
     setError(null);
     setTranscript('');
     setFinalTranscript('');
+    retryCountRef.current = 0;
     
     try {
       recognitionRef.current.start();
     } catch (err) {
       // Recognition might already be running
-      console.warn('Recognition start error:', err);
+      console.warn('[Speech Recognition] Start error:', err);
     }
   }, [isSupported]);
 
   const stopListening = useCallback(() => {
     if (!recognitionRef.current) return;
+    
+    retryCountRef.current = 0;
     
     try {
       recognitionRef.current.stop();
@@ -211,7 +243,7 @@ export function useSpeechRecognition(): UseSpeechRecognitionReturn {
       // Clean up interim markers from transcript
       setTranscript(prev => prev.replace(/\s*\[.*\]$/, ''));
     } catch (err) {
-      console.warn('Recognition stop error:', err);
+      console.warn('[Speech Recognition] Stop error:', err);
     }
   }, []);
 
@@ -219,6 +251,7 @@ export function useSpeechRecognition(): UseSpeechRecognitionReturn {
     setTranscript('');
     setFinalTranscript('');
     setError(null);
+    retryCountRef.current = 0;
     if (status === 'error') {
       setStatus('idle');
     }
