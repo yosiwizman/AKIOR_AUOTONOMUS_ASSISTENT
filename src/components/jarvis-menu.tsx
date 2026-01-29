@@ -8,23 +8,30 @@
 import { ArrowRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { AkiorLogo } from './jarvis-logo';
+import { useAuth } from '@/contexts/auth-context';
 
 interface MenuCardProps {
   title: string;
   description: string;
   onClick?: () => void;
   disabled?: boolean;
+  badge?: string;
 }
 
-function MenuCard({ title, description, onClick, disabled }: MenuCardProps) {
+function MenuCard({ title, description, onClick, disabled, badge }: MenuCardProps) {
   return (
     <div 
       className={cn(
-        'akior-card cursor-pointer group',
+        'akior-card cursor-pointer group relative',
         disabled && 'opacity-50 cursor-not-allowed'
       )}
       onClick={disabled ? undefined : onClick}
     >
+      {badge && (
+        <span className="absolute top-3 right-3 text-xs bg-primary/20 text-primary px-2 py-0.5 rounded-full">
+          {badge}
+        </span>
+      )}
       <h3 className="font-semibold text-foreground mb-1">{title}</h3>
       <p className="text-sm text-muted-foreground mb-4">{description}</p>
       <button 
@@ -41,15 +48,30 @@ function MenuCard({ title, description, onClick, disabled }: MenuCardProps) {
 }
 
 interface AkiorMenuProps {
-  onNavigate: (view: 'voice' | 'chat' | 'settings') => void;
+  onNavigate: (view: 'voice' | 'chat' | 'settings' | 'knowledge') => void;
 }
 
 export function AkiorMenu({ onNavigate }: AkiorMenuProps) {
+  const { user } = useAuth();
+
   const menuItems = [
     {
       title: 'AKIOR (Voice)',
-      description: 'OpenAI Realtime voice assistant',
+      description: 'Voice assistant with OpenAI TTS',
       onClick: () => onNavigate('voice'),
+      badge: 'TTS',
+    },
+    {
+      title: 'Knowledge Base',
+      description: 'Upload documents to teach AKIOR',
+      onClick: () => onNavigate('knowledge'),
+      badge: 'RAG',
+    },
+    {
+      title: 'Chat',
+      description: 'Text chat with memory & knowledge',
+      onClick: () => onNavigate('chat'),
+      badge: 'Memory',
     },
     {
       title: '3D Model',
@@ -72,28 +94,13 @@ export function AkiorMenu({ onNavigate }: AkiorMenuProps) {
       disabled: true,
     },
     {
-      title: 'Chat',
-      description: 'Text chat with function calling',
-      onClick: () => onNavigate('chat'),
-    },
-    {
       title: 'Security',
       description: 'Live dashboard for connected cameras',
       disabled: true,
     },
     {
-      title: 'Camera',
-      description: 'Register a device as a camera client',
-      disabled: true,
-    },
-    {
-      title: 'Scan',
-      description: 'Futuristic scanning interface with camera sync',
-      disabled: true,
-    },
-    {
       title: 'Settings',
-      description: 'AKIOR configuration',
+      description: 'Agent personality, voice & memory',
       onClick: () => onNavigate('settings'),
     },
   ];
@@ -102,10 +109,20 @@ export function AkiorMenu({ onNavigate }: AkiorMenuProps) {
     <div className="flex flex-col h-full relative">
       {/* Header */}
       <div className="px-6 py-4 border-b border-border">
-        <h2 className="text-lg font-semibold">Dashboard</h2>
-        <p className="text-xs text-muted-foreground mt-0.5">
-          Select a module to get started
-        </p>
+        <div className="flex items-center justify-between">
+          <div>
+            <h2 className="text-lg font-semibold">Dashboard</h2>
+            <p className="text-xs text-muted-foreground mt-0.5">
+              Select a module to get started
+            </p>
+          </div>
+          {user && (
+            <div className="text-right">
+              <p className="text-sm text-foreground">{user.email}</p>
+              <p className="text-xs text-muted-foreground">Logged in</p>
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Grid of cards */}
@@ -118,6 +135,7 @@ export function AkiorMenu({ onNavigate }: AkiorMenuProps) {
               description={item.description}
               onClick={item.onClick}
               disabled={item.disabled}
+              badge={item.badge}
             />
           ))}
         </div>

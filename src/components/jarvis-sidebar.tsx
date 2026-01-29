@@ -11,20 +11,22 @@ import {
   MessageSquare, 
   Mic, 
   Settings,
+  BookOpen,
   X
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 
 interface SidebarProps {
-  currentView: 'menu' | 'voice' | 'chat' | 'settings';
-  onViewChange: (view: 'menu' | 'voice' | 'chat' | 'settings') => void;
+  currentView: 'menu' | 'voice' | 'chat' | 'settings' | 'knowledge';
+  onViewChange: (view: 'menu' | 'voice' | 'chat' | 'settings' | 'knowledge') => void;
 }
 
 const menuItems = [
   { id: 'menu', label: 'Menu', icon: Menu },
   { id: 'voice', label: 'AKIOR (Voice)', icon: Mic },
   { id: 'chat', label: 'Chat', icon: MessageSquare },
+  { id: 'knowledge', label: 'Knowledge Base', icon: BookOpen },
   { id: 'settings', label: 'Settings', icon: Settings },
 ] as const;
 
@@ -109,7 +111,7 @@ export function AkiorSidebar({ currentView, onViewChange }: SidebarProps) {
         {/* Footer */}
         <div className="px-4 py-4 border-t border-sidebar-border">
           {!isCollapsed && (
-            <span className="text-xs text-muted-foreground">dark • modern</span>
+            <span className="text-xs text-muted-foreground">v2.0 • RAG + Memory</span>
           )}
         </div>
       </aside>

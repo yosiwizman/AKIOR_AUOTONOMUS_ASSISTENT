@@ -2,7 +2,7 @@
 
 /**
  * AKIOR Voice Interface
- * Push-to-talk voice input with AKIOR styling
+ * Push-to-talk voice input with OpenAI TTS output
  */
 
 import { useState, useCallback, useEffect } from 'react';
@@ -14,14 +14,17 @@ import {
   VolumeX, 
   Trash2, 
   AlertCircle,
-  Loader2
+  Loader2,
+  Settings2
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
 import { useSpeechRecognition } from '@/hooks/use-speech-recognition';
-import { useSpeechSynthesis } from '@/hooks/use-speech-synthesis';
+import { useOpenAITTS, OPENAI_VOICES, OpenAIVoice } from '@/hooks/use-openai-tts';
+import { useAuth } from '@/contexts/auth-context';
+import { supabase } from '@/integrations/supabase/client';
 import { cn } from '@/lib/utils';
 
 interface Message {
@@ -30,13 +33,25 @@ interface Message {
   timestamp: Date;
 }
 
+interface AgentSettings {
+  agent_name: string;
+  voice_id: string;
+  voice_speed: number;
+}
+
 export function AkiorVoice() {
+  const { user } = useAuth();
   const [transcript, setTranscript] = useState('');
   const [response, setResponse] = useState('');
   const [history, setHistory] = useState<Message[]>([]);
   const [isSending, setIsSending] = useState(false);
   const [speakEnabled, setSpeakEnabled] = useState(true);
   const [apiError, setApiError] = useState<string | null>(null);
+  const [agentSettings, setAgentSettings] = useState<AgentSettings>({
+    agent_name: 'AKIOR',
+    voice_id: 'alloy',
+    voice_speed: 1.0,
+  });
 
   const {
     status: recognitionStatus,
@@ -50,10 +65,40 @@ export function AkiorVoice() {
 
   const {
     isSpeaking,
-    isSupported: ttsSupported,
+    isLoading: isTTSLoading,
     speak,
     stop: stopSpeaking,
-  } = useSpeechSynthesis();
+    setVoice,
+    setSpeed,
+  } = useOpenAITTS({
+    voice: agentSettings.voice_id as OpenAIVoice,
+    speed: agentSettings.voice_speed,
+  });
+
+  // Load agent settings
+  useEffect(() => {
+    if (!user) return;
+
+    const loadSettings = async () => {
+      const { data } = await supabase
+        .from('agent_settings')
+        .select('agent_name, voice_id, voice_speed')
+        .eq('user_id', user.id)
+        .single();
+
+      if (data) {
+        setAgentSettings({
+          agent_name: data.agent_name || 'AKIOR',
+          voice_id: data.voice_id || 'alloy',
+          voice_speed: data.voice_speed || 1.0,
+        });
+        setVoice(data.voice_id as OpenAIVoice || 'alloy');
+        setSpeed(data.voice_speed || 1.0);
+      }
+    };
+
+    loadSettings();
+  }, [user, setVoice, setSpeed]);
 
   // Sync voice transcript
   useEffect(() => {
@@ -64,10 +109,10 @@ export function AkiorVoice() {
 
   // Speak response when enabled
   useEffect(() => {
-    if (speakEnabled && response && ttsSupported) {
+    if (speakEnabled && response) {
       speak(response);
     }
-  }, [response, speakEnabled, ttsSupported, speak]);
+  }, [response, speakEnabled, speak]);
 
   const sendMessage = useCallback(async () => {
     const message = transcript.trim();
@@ -90,6 +135,7 @@ export function AkiorVoice() {
         body: JSON.stringify({
           message,
           history: history.map(m => ({ role: m.role, content: m.content })),
+          userId: user?.id,
         }),
       });
 
@@ -114,7 +160,7 @@ export function AkiorVoice() {
     } finally {
       setIsSending(false);
     }
-  }, [transcript, isSending, history, clearTranscript, stopSpeaking]);
+  }, [transcript, isSending, history, user, clearTranscript, stopSpeaking]);
 
   const handlePushToTalk = useCallback(() => {
     if (recognitionStatus === 'listening') {
@@ -132,9 +178,9 @@ export function AkiorVoice() {
     <div className="flex flex-col h-full">
       {/* Header */}
       <div className="px-6 py-4 border-b border-border">
-        <h2 className="text-lg font-semibold">AKIOR (Voice)</h2>
+        <h2 className="text-lg font-semibold">{agentSettings.agent_name} (Voice)</h2>
         <p className="text-xs text-muted-foreground mt-0.5">
-          OpenAI Realtime voice assistant
+          Voice assistant with OpenAI TTS • {OPENAI_VOICES.find(v => v.id === agentSettings.voice_id)?.name || 'Alloy'} voice
         </p>
         <p className="text-xs text-primary mt-1">
           ✓ Push-to-talk enabled - Click the microphone to speak
@@ -247,17 +293,17 @@ export function AkiorVoice() {
             <div className="space-y-3">
               <div className="flex items-center justify-between">
                 <Label className="text-sm font-medium text-muted-foreground">
-                  AKIOR Response
+                  {agentSettings.agent_name} Response
                 </Label>
                 <div className="flex items-center gap-3">
-                  {isSpeaking && (
+                  {(isSpeaking || isTTSLoading) && (
                     <Button
                       variant="ghost"
                       size="sm"
                       onClick={stopSpeaking}
                       className="text-muted-foreground text-xs"
                     >
-                      Stop
+                      {isTTSLoading ? 'Loading...' : 'Stop'}
                     </Button>
                   )}
                   <div className="flex items-center gap-2">
@@ -265,14 +311,10 @@ export function AkiorVoice() {
                       id="speak-toggle"
                       checked={speakEnabled}
                       onCheckedChange={setSpeakEnabled}
-                      disabled={!ttsSupported}
                     />
                     <Label 
                       htmlFor="speak-toggle" 
-                      className={cn(
-                        "text-xs cursor-pointer flex items-center gap-1",
-                        !ttsSupported && "opacity-50"
-                      )}
+                      className="text-xs cursor-pointer flex items-center gap-1"
                     >
                       {speakEnabled ? (
                         <Volume2 className="w-3.5 h-3.5 text-primary" />
@@ -287,7 +329,7 @@ export function AkiorVoice() {
               <div className={cn(
                 'p-4 rounded-lg bg-secondary/50 border border-border',
                 'text-sm whitespace-pre-wrap leading-relaxed',
-                isSpeaking && 'border-primary/30 akior-glow'
+                (isSpeaking || isTTSLoading) && 'border-primary/30 akior-glow'
               )}>
                 {response}
               </div>

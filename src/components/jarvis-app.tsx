@@ -3,6 +3,7 @@
 /**
  * AKIOR App - Main Application Shell
  * Combines sidebar navigation with content views
+ * Includes authentication gate
  */
 
 import { useState } from 'react';
@@ -11,12 +12,34 @@ import { AkiorMenu } from './jarvis-menu';
 import { AkiorVoice } from './jarvis-voice';
 import { AkiorChat } from './jarvis-chat';
 import { AkiorSettings } from './jarvis-settings';
+import { KnowledgeBase } from './knowledge-base';
+import { LoginPage } from './login-page';
+import { useAuth } from '@/contexts/auth-context';
 import { cn } from '@/lib/utils';
+import { Loader2 } from 'lucide-react';
 
-type ViewType = 'menu' | 'voice' | 'chat' | 'settings';
+type ViewType = 'menu' | 'voice' | 'chat' | 'settings' | 'knowledge';
 
 export function AkiorApp() {
+  const { user, isLoading } = useAuth();
   const [currentView, setCurrentView] = useState<ViewType>('menu');
+
+  // Show loading state
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="flex flex-col items-center gap-4">
+          <Loader2 className="w-8 h-8 animate-spin text-primary" />
+          <p className="text-sm text-muted-foreground">Loading AKIOR...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Show login if not authenticated
+  if (!user) {
+    return <LoginPage />;
+  }
 
   const renderContent = () => {
     switch (currentView) {
@@ -28,6 +51,8 @@ export function AkiorApp() {
         return <AkiorChat />;
       case 'settings':
         return <AkiorSettings />;
+      case 'knowledge':
+        return <KnowledgeBase />;
       default:
         return <AkiorMenu onNavigate={setCurrentView} />;
     }

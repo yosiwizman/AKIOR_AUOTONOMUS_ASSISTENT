@@ -2,12 +2,17 @@
 
 /**
  * AKIOR Chat Interface
- * Matches the chat design from the reference images
+ * Text chat with RAG and memory
  */
 
 import { useState, useCallback, useRef, useEffect } from 'react';
-import { Send, Loader2 } from 'lucide-react';
+import { Send, Loader2, Volume2, VolumeX } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Switch } from '@/components/ui/switch';
+import { Label } from '@/components/ui/label';
+import { useAuth } from '@/contexts/auth-context';
+import { useOpenAITTS, OpenAIVoice } from '@/hooks/use-openai-tts';
+import { supabase } from '@/integrations/supabase/client';
 import { cn } from '@/lib/utils';
 
 interface Message {
@@ -16,22 +21,69 @@ interface Message {
   timestamp: Date;
 }
 
-interface AkiorChatProps {
-  onClearConversation?: () => void;
+interface AgentSettings {
+  agent_name: string;
+  voice_id: string;
+  voice_speed: number;
 }
 
-export function AkiorChat({ onClearConversation }: AkiorChatProps) {
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      role: 'assistant',
-      content: 'Hello! How can I help you today?',
-      timestamp: new Date(),
-    }
-  ]);
+export function AkiorChat() {
+  const { user } = useAuth();
+  const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [speakEnabled, setSpeakEnabled] = useState(false);
+  const [agentSettings, setAgentSettings] = useState<AgentSettings>({
+    agent_name: 'AKIOR',
+    voice_id: 'alloy',
+    voice_speed: 1.0,
+  });
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
+
+  const {
+    isSpeaking,
+    isLoading: isTTSLoading,
+    speak,
+    stop: stopSpeaking,
+    setVoice,
+    setSpeed,
+  } = useOpenAITTS({
+    voice: agentSettings.voice_id as OpenAIVoice,
+    speed: agentSettings.voice_speed,
+  });
+
+  // Load agent settings
+  useEffect(() => {
+    if (!user) return;
+
+    const loadSettings = async () => {
+      const { data } = await supabase
+        .from('agent_settings')
+        .select('agent_name, voice_id, voice_speed')
+        .eq('user_id', user.id)
+        .single();
+
+      if (data) {
+        setAgentSettings({
+          agent_name: data.agent_name || 'AKIOR',
+          voice_id: data.voice_id || 'alloy',
+          voice_speed: data.voice_speed || 1.0,
+        });
+        setVoice(data.voice_id as OpenAIVoice || 'alloy');
+        setSpeed(data.voice_speed || 1.0);
+      }
+
+      // Set initial greeting
+      setMessages([{
+        role: 'assistant',
+        content: `Hello! I'm ${data?.agent_name || 'AKIOR'}. How can I help you today?`,
+        timestamp: new Date(),
+      }]);
+    };
+
+    loadSettings();
+  }, [user, setVoice, setSpeed]);
 
   // Auto-scroll to bottom
   useEffect(() => {
@@ -47,13 +99,13 @@ export function AkiorChat({ onClearConversation }: AkiorChatProps) {
   }, [input]);
 
   const handleClear = useCallback(() => {
+    stopSpeaking();
     setMessages([{
       role: 'assistant',
-      content: 'Hello! How can I help you today?',
+      content: `Hello! I'm ${agentSettings.agent_name}. How can I help you today?`,
       timestamp: new Date(),
     }]);
-    onClearConversation?.();
-  }, [onClearConversation]);
+  }, [agentSettings.agent_name, stopSpeaking]);
 
   const sendMessage = useCallback(async () => {
     const message = input.trim();
@@ -68,6 +120,7 @@ export function AkiorChat({ onClearConversation }: AkiorChatProps) {
     setMessages(prev => [...prev, userMessage]);
     setInput('');
     setIsLoading(true);
+    stopSpeaking();
 
     try {
       const res = await fetch('/api/chat', {
@@ -76,20 +129,27 @@ export function AkiorChat({ onClearConversation }: AkiorChatProps) {
         body: JSON.stringify({
           message,
           history: messages.map(m => ({ role: m.role, content: m.content })),
+          userId: user?.id,
         }),
       });
 
       if (!res.ok) throw new Error('API error');
 
       const data = await res.json();
+      const reply = data.reply || 'No response received.';
       
       const assistantMessage: Message = {
         role: 'assistant',
-        content: data.reply || 'No response received.',
+        content: reply,
         timestamp: new Date(),
       };
 
       setMessages(prev => [...prev, assistantMessage].slice(-40));
+
+      // Speak response if enabled
+      if (speakEnabled) {
+        speak(reply);
+      }
     } catch (err) {
       console.error('Chat error:', err);
       setMessages(prev => [...prev, {
@@ -100,7 +160,7 @@ export function AkiorChat({ onClearConversation }: AkiorChatProps) {
     } finally {
       setIsLoading(false);
     }
-  }, [input, isLoading, messages]);
+  }, [input, isLoading, messages, user, speakEnabled, speak, stopSpeaking]);
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && !e.shiftKey) {
@@ -114,22 +174,46 @@ export function AkiorChat({ onClearConversation }: AkiorChatProps) {
       {/* Header */}
       <div className="flex items-center justify-between px-6 py-4 border-b border-border">
         <div>
-          <h2 className="text-lg font-semibold">Text Chat with Function Calling</h2>
+          <h2 className="text-lg font-semibold">Chat with {agentSettings.agent_name}</h2>
           <p className="text-xs text-muted-foreground mt-0.5">
-            Using gpt-5 • reasoning: low • verbosity: medium
+            Using GPT-4o-mini • RAG enabled • Memory active
           </p>
           <p className="text-xs text-primary mt-1">
-            ✓ Function calling enabled - I can create images, generate 3D models, navigate pages, and more!
+            ✓ Knowledge base and memory enabled - I remember our conversations!
           </p>
         </div>
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={handleClear}
-          className="text-muted-foreground hover:text-foreground"
-        >
-          Clear conversation
-        </Button>
+        <div className="flex items-center gap-4">
+          {/* TTS Toggle */}
+          <div className="flex items-center gap-2">
+            <Switch
+              id="chat-speak-toggle"
+              checked={speakEnabled}
+              onCheckedChange={(checked) => {
+                setSpeakEnabled(checked);
+                if (!checked) stopSpeaking();
+              }}
+            />
+            <Label 
+              htmlFor="chat-speak-toggle" 
+              className="text-xs cursor-pointer flex items-center gap-1"
+            >
+              {speakEnabled ? (
+                <Volume2 className="w-3.5 h-3.5 text-primary" />
+              ) : (
+                <VolumeX className="w-3.5 h-3.5 text-muted-foreground" />
+              )}
+              TTS
+            </Label>
+          </div>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={handleClear}
+            className="text-muted-foreground hover:text-foreground"
+          >
+            Clear conversation
+          </Button>
+        </div>
       </div>
 
       {/* Messages area */}
@@ -142,7 +226,7 @@ export function AkiorChat({ onClearConversation }: AkiorChatProps) {
                 'text-xs text-muted-foreground uppercase tracking-wider',
                 msg.role === 'user' ? 'text-right' : 'text-left'
               )}>
-                {msg.role === 'user' ? 'YOU' : 'AKIOR'}
+                {msg.role === 'user' ? 'YOU' : agentSettings.agent_name.toUpperCase()}
               </div>
               
               {/* Message bubble */}
@@ -167,7 +251,7 @@ export function AkiorChat({ onClearConversation }: AkiorChatProps) {
           {isLoading && (
             <div className="space-y-1">
               <div className="text-xs text-muted-foreground uppercase tracking-wider">
-                AKIOR
+                {agentSettings.agent_name.toUpperCase()}
               </div>
               <div className="akior-thinking">
                 <div className="flex gap-1">
@@ -177,6 +261,21 @@ export function AkiorChat({ onClearConversation }: AkiorChatProps) {
                 </div>
                 <span>Thinking...</span>
               </div>
+            </div>
+          )}
+
+          {/* Speaking indicator */}
+          {(isSpeaking || isTTSLoading) && (
+            <div className="flex justify-center">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={stopSpeaking}
+                className="text-xs"
+              >
+                <Volume2 className="w-3 h-3 mr-1.5 animate-pulse" />
+                {isTTSLoading ? 'Loading audio...' : 'Speaking... Click to stop'}
+              </Button>
             </div>
           )}
 
@@ -193,7 +292,7 @@ export function AkiorChat({ onClearConversation }: AkiorChatProps) {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={handleKeyDown}
-              placeholder="Ask me to create images, generate 3D models, or anything else... (Shift + Enter for a new line)"
+              placeholder={`Ask ${agentSettings.agent_name} anything... (Shift + Enter for a new line)`}
               className={cn(
                 'flex-1 bg-transparent border-0 resize-none',
                 'text-sm placeholder:text-muted-foreground',
