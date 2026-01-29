@@ -1,36 +1,197 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# AKIOR Voice Console
 
-## Getting Started
+A minimal push-to-talk voice interface for interacting with an AI assistant. Built as a reliable demo tool for operators with browser-native speech recognition and synthesis.
 
-First, run the development server:
+## Features
+
+- **Push-to-Talk Voice Input**: Click the microphone button to speak (uses Web Speech API)
+- **Text Input Fallback**: Type messages directly if voice is unavailable
+- **AKIOR Persona Responses**: Technical, structured responses with bullet points
+- **Text-to-Speech**: Toggle to have responses spoken aloud
+- **Conversation History**: Last 20 turns retained in-memory
+- **No External Dependencies**: Runs entirely locally without API keys
+
+## Quick Start
 
 ```bash
+# Install dependencies
+npm install
+
+# Start development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Browser Requirements
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Feature | Chrome | Edge | Firefox | Safari |
+|---------|--------|------|---------|--------|
+| Speech Recognition | ✅ Full | ✅ Full | ❌ No | ❌ No |
+| Speech Synthesis | ✅ Full | ✅ Full | ✅ Full | ✅ Full |
 
-## Learn More
+**Recommended**: Google Chrome or Microsoft Edge for full functionality.
 
-To learn more about Next.js, take a look at the following resources:
+> **Note**: Speech recognition requires HTTPS in production. Localhost works without HTTPS during development.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Architecture
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```
+src/
+├── app/
+│   ├── api/
+│   │   └── chat/
+│   │       └── route.ts      # POST /api/chat endpoint
+│   ├── globals.css           # AKIOR theme styles
+│   ├── layout.tsx            # Root layout
+│   └── page.tsx              # Main page (renders VoiceConsole)
+├── components/
+│   └── voice-console.tsx     # Main UI component
+└── hooks/
+    ├── use-speech-recognition.ts  # Web Speech API STT hook
+    └── use-speech-synthesis.ts    # Web Speech API TTS hook
+```
 
-## Deploy on Vercel
+## API Reference
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### POST /api/chat
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Send a message and receive an AKIOR-style response.
+
+**Request:**
+```json
+{
+  "message": "Your question or statement",
+  "history": [
+    { "role": "user", "content": "Previous user message" },
+    { "role": "assistant", "content": "Previous assistant response" }
+  ]
+}
+```
+
+**Response:**
+```json
+{
+  "reply": "AKIOR's response with technical details..."
+}
+```
+
+## Integrating a Real LLM
+
+The response generation is isolated in a single function for easy replacement:
+
+### Location
+`src/app/api/chat/route.ts` → `generateAkiorResponse()` function
+
+### Example: OpenAI Integration
+
+```typescript
+import OpenAI from 'openai';
+
+const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+
+async function generateAkiorResponse(message: string, history: Message[]): Promise<string> {
+  const systemPrompt = `You are AKIOR, a technical AI assistant. 
+  - Be concise and technical
+  - Use structured bullet points
+  - Ask follow-up questions only if absolutely required
+  - Never overclaim capabilities`;
+
+  const messages = [
+    { role: 'system' as const, content: systemPrompt },
+    ...history.map(m => ({ role: m.role as 'user' | 'assistant', content: m.content })),
+    { role: 'user' as const, content: message }
+  ];
+
+  const response = await openai.chat.completions.create({
+    model: 'gpt-4',
+    messages,
+    max_tokens: 500,
+  });
+
+  return response.choices[0]?.message?.content || 'No response generated.';
+}
+```
+
+### Example: Anthropic Integration
+
+```typescript
+import Anthropic from '@anthropic-ai/sdk';
+
+const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+
+async function generateAkiorResponse(message: string, history: Message[]): Promise<string> {
+  const response = await anthropic.messages.create({
+    model: 'claude-3-sonnet-20240229',
+    max_tokens: 500,
+    system: `You are AKIOR, a technical AI assistant. Be concise, use bullet points, never overclaim.`,
+    messages: [
+      ...history.map(m => ({ role: m.role as 'user' | 'assistant', content: m.content })),
+      { role: 'user', content: message }
+    ],
+  });
+
+  return response.content[0].type === 'text' ? response.content[0].text : 'No response generated.';
+}
+```
+
+## UI Components
+
+### Status Indicator
+Shows current state: Ready, Listening, Processing, Sending, Error, or Voice Unavailable.
+
+### Push-to-Talk Button
+Large circular button that toggles speech recognition. Glows green when listening.
+
+### Transcript Box
+Editable text area showing recognized speech. Can be manually edited before sending.
+
+### Response Box
+Displays AKIOR's response with optional TTS playback.
+
+### History Panel
+Scrollable list of conversation turns with timestamps. Limited to 20 turns (40 messages).
+
+### Speak Answer Toggle
+Enables/disables automatic text-to-speech for responses.
+
+## Troubleshooting
+
+### "Speech recognition not supported"
+- Use Chrome or Edge browser
+- Ensure you're on localhost or HTTPS
+
+### "Microphone access denied"
+- Click the lock icon in the address bar
+- Allow microphone permissions
+- Refresh the page
+
+### No response from API
+- Check browser DevTools console for errors
+- Verify the development server is running
+- Check Network tab for /api/chat requests
+
+### TTS not working
+- Check browser volume settings
+- Try a different voice in browser settings
+- Some browsers require user interaction before TTS works
+
+## Development
+
+```bash
+# Run development server with hot reload
+npm run dev
+
+# Build for production
+npm run build
+
+# Start production server
+npm start
+
+# Run linting
+npm run lint
+```
+
+## License
+
+MIT
