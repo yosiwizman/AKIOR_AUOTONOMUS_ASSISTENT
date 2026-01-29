@@ -85,7 +85,7 @@ export function AkiorChat() {
           voice_id: data.voice_id || 'alloy',
           voice_speed: data.voice_speed || 1.0,
         });
-        setVoice(data.voice_id as OpenAIVoice || 'alloy');
+        setVoice((data.voice_id as OpenAIVoice) || 'alloy');
         setSpeed(data.voice_speed || 1.0);
       }
     };
@@ -94,63 +94,75 @@ export function AkiorChat() {
   }, [user, setVoice, setSpeed]);
 
   // Load conversation messages
-  const loadConversation = useCallback(async (conversationId: string) => {
-    if (!user || !session?.access_token) return;
+  const loadConversation = useCallback(
+    async (conversationId: string) => {
+      if (!user || !session?.access_token) return;
 
-    try {
-      const response = await fetch(`/api/conversations/${conversationId}/messages`, {
-        headers: getAuthHeaders(),
-      });
+      try {
+        const response = await fetch(`/api/conversations/${conversationId}/messages`, {
+          headers: getAuthHeaders(),
+        });
 
-      if (response.ok) {
-        const data = await response.json();
-        setMessages(
-          (data.messages || []).map((m: { id: string; role: string; content: string; created_at: string }) => ({
-            id: m.id,
-            role: m.role as 'user' | 'assistant',
-            content: m.content,
-            timestamp: new Date(m.created_at),
-          }))
-        );
+        if (response.ok) {
+          const data = await response.json();
+          setMessages(
+            (data.messages || []).map((m: { id: string; role: string; content: string; created_at: string }) => ({
+              id: m.id,
+              role: m.role as 'user' | 'assistant',
+              content: m.content,
+              timestamp: new Date(m.created_at),
+            }))
+          );
+        }
+      } catch (err) {
+        console.error('Error loading conversation:', err);
       }
-    } catch (err) {
-      console.error('Error loading conversation:', err);
-    }
-  }, [user, session, getAuthHeaders]);
+    },
+    [user, session, getAuthHeaders]
+  );
 
   // Handle conversation selection
-  const handleSelectConversation = useCallback((id: string | null) => {
-    setCurrentConversationId(id);
-    if (id) {
-      loadConversation(id);
-    } else {
-      setMessages([{
-        role: 'assistant',
-        content: `Hello! I'm ${agentSettings.agent_name}. How can I help you today?`,
-        timestamp: new Date(),
-      }]);
-    }
-  }, [loadConversation, agentSettings.agent_name]);
+  const handleSelectConversation = useCallback(
+    (id: string | null) => {
+      setCurrentConversationId(id);
+      if (id) {
+        loadConversation(id);
+      } else {
+        setMessages([
+          {
+            role: 'assistant',
+            content: `Hello! I'm ${agentSettings.agent_name}. How can I help you today?`,
+            timestamp: new Date(),
+          },
+        ]);
+      }
+    },
+    [loadConversation, agentSettings.agent_name]
+  );
 
   // Start new conversation
   const handleNewConversation = useCallback(() => {
     setCurrentConversationId(null);
-    setMessages([{
-      role: 'assistant',
-      content: `Hello! I'm ${agentSettings.agent_name}. How can I help you today?`,
-      timestamp: new Date(),
-    }]);
+    setMessages([
+      {
+        role: 'assistant',
+        content: `Hello! I'm ${agentSettings.agent_name}. How can I help you today?`,
+        timestamp: new Date(),
+      },
+    ]);
     stopSpeaking();
   }, [agentSettings.agent_name, stopSpeaking]);
 
   // Initialize with greeting
   useEffect(() => {
     if (messages.length === 0) {
-      setMessages([{
-        role: 'assistant',
-        content: `Hello! I'm ${agentSettings.agent_name}. How can I help you today?`,
-        timestamp: new Date(),
-      }]);
+      setMessages([
+        {
+          role: 'assistant',
+          content: `Hello! I'm ${agentSettings.agent_name}. How can I help you today?`,
+          timestamp: new Date(),
+        },
+      ]);
     }
   }, [agentSettings.agent_name, messages.length]);
 
@@ -177,7 +189,7 @@ export function AkiorChat() {
       timestamp: new Date(),
     };
 
-    setMessages(prev => [...prev, userMessage]);
+    setMessages((prev) => [...prev, userMessage]);
     setInput('');
     setIsLoading(true);
     stopSpeaking();
@@ -188,8 +200,9 @@ export function AkiorChat() {
         headers: getAuthHeaders(),
         body: JSON.stringify({
           message,
-          history: messages.map(m => ({ role: m.role, content: m.content })),
+          history: messages.map((m) => ({ role: m.role, content: m.content })),
           conversationId: currentConversationId,
+          channel: 'chat',
         }),
       });
 
@@ -200,7 +213,7 @@ export function AkiorChat() {
 
       const data = await res.json();
       const reply = data.reply || 'No response received.';
-      
+
       // Update conversation ID if new conversation was created
       if (data.conversationId && !currentConversationId) {
         setCurrentConversationId(data.conversationId);
@@ -213,7 +226,7 @@ export function AkiorChat() {
         timestamp: new Date(),
       };
 
-      setMessages(prev => [...prev, assistantMessage]);
+      setMessages((prev) => [...prev, assistantMessage]);
 
       // Speak response if enabled
       if (speakEnabled) {
@@ -221,11 +234,14 @@ export function AkiorChat() {
       }
     } catch (err) {
       console.error('Chat error:', err);
-      setMessages(prev => [...prev, {
-        role: 'assistant',
-        content: err instanceof Error ? err.message : 'Sorry, there was an error processing your request.',
-        timestamp: new Date(),
-      }]);
+      setMessages((prev) => [
+        ...prev,
+        {
+          role: 'assistant',
+          content: err instanceof Error ? err.message : 'Sorry, there was an error processing your request.',
+          timestamp: new Date(),
+        },
+      ]);
     } finally {
       setIsLoading(false);
     }
@@ -255,9 +271,7 @@ export function AkiorChat() {
         <div className="flex items-center justify-between px-6 py-4 border-b border-border">
           <div>
             <h2 className="text-lg font-semibold">Chat with {agentSettings.agent_name}</h2>
-            <p className="text-xs text-muted-foreground mt-0.5">
-              GPT-4o-mini • RAG enabled • Memory active • Conversations saved
-            </p>
+            <p className="text-xs text-muted-foreground mt-0.5">GPT-4o-mini • RAG enabled • Memory active • Conversations saved</p>
           </div>
           <div className="flex items-center gap-4">
             {/* TTS Toggle */}
@@ -270,10 +284,7 @@ export function AkiorChat() {
                   if (!checked) stopSpeaking();
                 }}
               />
-              <Label 
-                htmlFor="chat-speak-toggle" 
-                className="text-xs cursor-pointer flex items-center gap-1"
-              >
+              <Label htmlFor="chat-speak-toggle" className="text-xs cursor-pointer flex items-center gap-1">
                 {speakEnabled ? (
                   <Volume2 className="w-3.5 h-3.5 text-primary" />
                 ) : (
@@ -291,26 +302,19 @@ export function AkiorChat() {
             {messages.map((msg, idx) => (
               <div key={msg.id || idx} className="space-y-1">
                 {/* Label */}
-                <div className={cn(
-                  'text-xs text-muted-foreground uppercase tracking-wider',
-                  msg.role === 'user' ? 'text-right' : 'text-left'
-                )}>
+                <div
+                  className={cn(
+                    'text-xs text-muted-foreground uppercase tracking-wider',
+                    msg.role === 'user' ? 'text-right' : 'text-left'
+                  )}
+                >
                   {msg.role === 'user' ? 'YOU' : agentSettings.agent_name.toUpperCase()}
                 </div>
-                
+
                 {/* Message bubble */}
-                <div className={cn(
-                  'flex',
-                  msg.role === 'user' ? 'justify-end' : 'justify-start'
-                )}>
-                  <div className={cn(
-                    msg.role === 'user' 
-                      ? 'akior-bubble-user' 
-                      : 'akior-bubble-assistant'
-                  )}>
-                    <p className="text-sm whitespace-pre-wrap leading-relaxed">
-                      {msg.content}
-                    </p>
+                <div className={cn('flex', msg.role === 'user' ? 'justify-end' : 'justify-start')}>
+                  <div className={cn(msg.role === 'user' ? 'akior-bubble-user' : 'akior-bubble-assistant')}>
+                    <p className="text-sm whitespace-pre-wrap leading-relaxed">{msg.content}</p>
                   </div>
                 </div>
               </div>
@@ -319,9 +323,7 @@ export function AkiorChat() {
             {/* Thinking indicator */}
             {isLoading && (
               <div className="space-y-1">
-                <div className="text-xs text-muted-foreground uppercase tracking-wider">
-                  {agentSettings.agent_name.toUpperCase()}
-                </div>
+                <div className="text-xs text-muted-foreground uppercase tracking-wider">{agentSettings.agent_name.toUpperCase()}</div>
                 <div className="akior-thinking">
                   <div className="flex gap-1">
                     <span className="w-1.5 h-1.5 bg-primary rounded-full pulse-dot" style={{ animationDelay: '0ms' }} />
@@ -336,12 +338,7 @@ export function AkiorChat() {
             {/* Speaking indicator */}
             {(isSpeaking || isTTSLoading) && (
               <div className="flex justify-center">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={stopSpeaking}
-                  className="text-xs"
-                >
+                <Button variant="outline" size="sm" onClick={stopSpeaking} className="text-xs">
                   <Volume2 className="w-3 h-3 mr-1.5 animate-pulse" />
                   {isTTSLoading ? 'Loading audio...' : 'Speaking... Click to stop'}
                 </Button>

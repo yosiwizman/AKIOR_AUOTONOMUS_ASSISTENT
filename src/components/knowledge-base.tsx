@@ -6,17 +6,18 @@
  */
 
 import { useState, useEffect, useCallback } from 'react';
-import { 
-  Upload, 
-  FileText, 
-  Trash2, 
-  Plus, 
+import {
+  Upload,
+  FileText,
+  Trash2,
+  Plus,
   Loader2,
   Search,
   BookOpen,
   AlertCircle,
   RefreshCw,
-  CheckCircle2
+  CheckCircle2,
+  Paperclip,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -41,6 +42,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/auth-context';
 import { KnowledgeBaseSkeleton } from './loading-skeleton';
@@ -57,7 +59,7 @@ interface KnowledgeItem {
 }
 
 export function KnowledgeBase() {
-  const { user } = useAuth();
+  const { user, session } = useAuth();
   const [items, setItems] = useState<KnowledgeItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isAdding, setIsAdding] = useState(false);
@@ -65,15 +67,27 @@ export function KnowledgeBase() {
   const [searchQuery, setSearchQuery] = useState('');
   const [dialogOpen, setDialogOpen] = useState(false);
   const [processingId, setProcessingId] = useState<string | null>(null);
-  
+
+  // Upload state
+  const [uploadTitle, setUploadTitle] = useState('');
+  const [uploadFile, setUploadFile] = useState<File | null>(null);
+
   // Form state
   const [newTitle, setNewTitle] = useState('');
   const [newContent, setNewContent] = useState('');
 
+  const getAuthHeaders = useCallback((): HeadersInit => {
+    const headers: HeadersInit = {};
+    if (session?.access_token) {
+      (headers as Record<string, string>)['Authorization'] = `Bearer ${session.access_token}`;
+    }
+    return headers;
+  }, [session]);
+
   // Load knowledge base items
   const loadItems = useCallback(async () => {
     if (!user) return;
-    
+
     setIsLoading(true);
     try {
       const { data, error } = await supabase
@@ -84,10 +98,12 @@ export function KnowledgeBase() {
 
       if (error) throw error;
 
-      setItems(data?.map(item => ({
-        ...item,
-        has_embedding: item.embedding !== null
-      })) || []);
+      setItems(
+        data?.map((item) => ({
+          ...item,
+          has_embedding: item.embedding !== null,
+        })) || []
+      );
     } catch (err) {
       console.error('Error loading knowledge base:', err);
       toast.error('Failed to load knowledge base');
@@ -103,16 +119,19 @@ export function KnowledgeBase() {
   // Retry embedding generation
   const retryEmbedding = async (item: KnowledgeItem) => {
     if (!user) return;
-    
+
     setProcessingId(item.id);
     try {
       const response = await fetch('/api/embeddings', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          ...getAuthHeaders(),
+        },
         body: JSON.stringify({
           documentId: item.id,
           content: item.content,
-          userId: user.id,
+          type: 'knowledge',
         }),
       });
 
@@ -121,12 +140,10 @@ export function KnowledgeBase() {
       }
 
       const data = await response.json();
-      
+
       if (data.success) {
         toast.success('Embedding generated successfully');
-        setItems(prev => prev.map(i => 
-          i.id === item.id ? { ...i, has_embedding: true } : i
-        ));
+        setItems((prev) => prev.map((i) => (i.id === item.id ? { ...i, has_embedding: true } : i)));
       } else {
         toast.error(data.message || 'Failed to generate embedding');
       }
@@ -138,13 +155,13 @@ export function KnowledgeBase() {
     }
   };
 
-  // Add new knowledge item
+  // Add new knowledge item (text)
   const handleAdd = async () => {
     if (!user || !newTitle.trim() || !newContent.trim()) return;
 
     setIsAdding(true);
     try {
-      // First, insert the document
+      // Insert document
       const { data: insertedDoc, error: insertError } = await supabase
         .from('knowledge_base')
         .insert({
@@ -158,15 +175,18 @@ export function KnowledgeBase() {
 
       if (insertError) throw insertError;
 
-      // Then, generate embedding via API
+      // Generate embedding via API
       setIsProcessing(true);
       const response = await fetch('/api/embeddings', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          ...getAuthHeaders(),
+        },
         body: JSON.stringify({
           documentId: insertedDoc.id,
           content: newContent.trim(),
-          userId: user.id,
+          type: 'knowledge',
         }),
       });
 
@@ -174,7 +194,7 @@ export function KnowledgeBase() {
       const hasEmbedding = embeddingResult.success === true;
 
       if (!hasEmbedding) {
-        toast.warning('Document saved but embedding generation failed. You can retry later.');
+        toast.warning('Saved, but indexing failed. You can retry later.');
       } else {
         toast.success('Knowledge added successfully');
       }
@@ -192,21 +212,54 @@ export function KnowledgeBase() {
     }
   };
 
+  const handleUpload = async () => {
+    if (!user || !session?.access_token || !uploadFile) return;
+
+    setIsAdding(true);
+    setIsProcessing(true);
+
+    try {
+      const form = new FormData();
+      form.append('file', uploadFile);
+      if (uploadTitle.trim()) form.append('title', uploadTitle.trim());
+
+      const res = await fetch('/api/knowledge/ingest', {
+        method: 'POST',
+        headers: getAuthHeaders(),
+        body: form,
+      });
+
+      const data = await res.json().catch(() => ({}));
+
+      if (!res.ok) {
+        throw new Error(data.error || 'Upload failed');
+      }
+
+      toast.success(`Learned from document (${data.chunks} chunk${data.chunks === 1 ? '' : 's'})`);
+      setUploadFile(null);
+      setUploadTitle('');
+      setDialogOpen(false);
+      loadItems();
+    } catch (err) {
+      console.error('Error uploading document:', err);
+      toast.error(err instanceof Error ? err.message : 'Failed to upload document');
+    } finally {
+      setIsAdding(false);
+      setIsProcessing(false);
+    }
+  };
+
   // Delete knowledge item
   const handleDelete = async (id: string) => {
     if (!user) return;
 
     try {
-      const { error } = await supabase
-        .from('knowledge_base')
-        .delete()
-        .eq('id', id)
-        .eq('user_id', user.id);
+      const { error } = await supabase.from('knowledge_base').delete().eq('id', id).eq('user_id', user.id);
 
       if (error) throw error;
 
       toast.success('Knowledge deleted');
-      setItems(prev => prev.filter(item => item.id !== id));
+      setItems((prev) => prev.filter((item) => item.id !== id));
     } catch (err) {
       console.error('Error deleting knowledge:', err);
       toast.error('Failed to delete knowledge');
@@ -214,14 +267,13 @@ export function KnowledgeBase() {
   };
 
   // Filter items by search
-  const filteredItems = items.filter(item =>
-    item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    item.content.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredItems = items.filter(
+    (item) => item.title.toLowerCase().includes(searchQuery.toLowerCase()) || item.content.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   // Stats
   const totalItems = items.length;
-  const embeddedItems = items.filter(i => i.has_embedding).length;
+  const embeddedItems = items.filter((i) => i.has_embedding).length;
   const pendingItems = totalItems - embeddedItems;
 
   return (
@@ -234,80 +286,154 @@ export function KnowledgeBase() {
               <BookOpen className="w-5 h-5 text-primary" />
               Knowledge Base
             </h2>
-            <p className="text-xs text-muted-foreground mt-0.5">
-              Teach AKIOR by adding documents and information
-            </p>
+            <p className="text-xs text-muted-foreground mt-0.5">Teach AKIOR by adding documents and information</p>
           </div>
-          
+
           <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
             <DialogTrigger asChild>
-              <Button className="bg-primary hover:bg-primary/90">
+              <Button className="bg-primary hover:bg-primary/90 rounded-xl">
                 <Plus className="w-4 h-4 mr-2" />
                 Add Knowledge
               </Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-lg">
               <DialogHeader>
-                <DialogTitle>Add New Knowledge</DialogTitle>
-                <DialogDescription>
-                  Add information that AKIOR can use to answer your questions.
-                </DialogDescription>
+                <DialogTitle>Add Knowledge</DialogTitle>
+                <DialogDescription>Paste text or upload a document so AKIOR can use it for future answers.</DialogDescription>
               </DialogHeader>
-              <div className="space-y-4 py-4">
-                <div className="space-y-2">
-                  <Label htmlFor="title">Title</Label>
-                  <Input
-                    id="title"
-                    placeholder="e.g., Company Policies, Project Notes..."
-                    value={newTitle}
-                    onChange={(e) => setNewTitle(e.target.value)}
-                    className="bg-muted/50"
-                    maxLength={100}
-                  />
-                  <p className="text-xs text-muted-foreground text-right">
-                    {newTitle.length}/100
-                  </p>
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="content">Content</Label>
-                  <Textarea
-                    id="content"
-                    placeholder="Paste or type the information here..."
-                    value={newContent}
-                    onChange={(e) => setNewContent(e.target.value)}
-                    className="min-h-[200px] bg-muted/50"
-                    maxLength={50000}
-                  />
-                  <p className="text-xs text-muted-foreground text-right">
-                    {newContent.length.toLocaleString()}/50,000
-                  </p>
-                </div>
-              </div>
-              <div className="flex justify-end gap-3">
-                <Button
-                  variant="outline"
-                  onClick={() => setDialogOpen(false)}
-                >
-                  Cancel
-                </Button>
-                <Button
-                  onClick={handleAdd}
-                  disabled={isAdding || !newTitle.trim() || !newContent.trim()}
-                  className="bg-primary hover:bg-primary/90"
-                >
-                  {isAdding ? (
-                    <>
-                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                      {isProcessing ? 'Processing...' : 'Adding...'}
-                    </>
-                  ) : (
-                    <>
-                      <Upload className="w-4 h-4 mr-2" />
-                      Add Knowledge
-                    </>
-                  )}
-                </Button>
-              </div>
+
+              <Tabs defaultValue="text" className="w-full">
+                <TabsList className="grid w-full grid-cols-2 bg-muted/50 rounded-xl">
+                  <TabsTrigger value="text" className="rounded-lg">Text</TabsTrigger>
+                  <TabsTrigger value="upload" className="rounded-lg">Document</TabsTrigger>
+                </TabsList>
+
+                <TabsContent value="text" className="mt-4">
+                  <div className="space-y-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="title">Title</Label>
+                      <Input
+                        id="title"
+                        placeholder="e.g., Project requirements, Architecture notes…"
+                        value={newTitle}
+                        onChange={(e) => setNewTitle(e.target.value)}
+                        className="bg-muted/50 rounded-xl"
+                        maxLength={100}
+                      />
+                      <p className="text-xs text-muted-foreground text-right">{newTitle.length}/100</p>
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="content">Content</Label>
+                      <Textarea
+                        id="content"
+                        placeholder="Paste or type the information here…"
+                        value={newContent}
+                        onChange={(e) => setNewContent(e.target.value)}
+                        className="min-h-[200px] bg-muted/50 rounded-xl"
+                        maxLength={50000}
+                      />
+                      <p className="text-xs text-muted-foreground text-right">{newContent.length.toLocaleString()}/50,000</p>
+                    </div>
+
+                    <div className="flex justify-end gap-3">
+                      <Button variant="outline" onClick={() => setDialogOpen(false)} className="rounded-xl">
+                        Cancel
+                      </Button>
+                      <Button
+                        onClick={handleAdd}
+                        disabled={isAdding || !newTitle.trim() || !newContent.trim()}
+                        className="bg-primary hover:bg-primary/90 rounded-xl"
+                      >
+                        {isAdding ? (
+                          <>
+                            <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                            {isProcessing ? 'Indexing…' : 'Saving…'}
+                          </>
+                        ) : (
+                          <>
+                            <Upload className="w-4 h-4 mr-2" />
+                            Add
+                          </>
+                        )}
+                      </Button>
+                    </div>
+                  </div>
+                </TabsContent>
+
+                <TabsContent value="upload" className="mt-4">
+                  <div className="space-y-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="upload-title">Title (optional)</Label>
+                      <Input
+                        id="upload-title"
+                        placeholder="Defaults to filename"
+                        value={uploadTitle}
+                        onChange={(e) => setUploadTitle(e.target.value)}
+                        className="bg-muted/50 rounded-xl"
+                        maxLength={100}
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label>Document</Label>
+                      <div
+                        className={cn(
+                          'rounded-2xl border border-border bg-muted/30 p-4',
+                          'flex items-center justify-between gap-4'
+                        )}
+                      >
+                        <div className="flex items-center gap-3 min-w-0">
+                          <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
+                            <Paperclip className="w-5 h-5 text-primary" />
+                          </div>
+                          <div className="min-w-0">
+                            <p className="text-sm font-medium truncate">
+                              {uploadFile ? uploadFile.name : 'Choose a file to upload'}
+                            </p>
+                            <p className="text-xs text-muted-foreground">
+                              Supports .txt, .md, .pdf, .docx (max 15MB)
+                            </p>
+                          </div>
+                        </div>
+                        <label className="shrink-0">
+                          <input
+                            type="file"
+                            className="hidden"
+                            accept=".txt,.md,.pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain,text/markdown"
+                            onChange={(e) => setUploadFile(e.target.files?.[0] || null)}
+                          />
+                          <Button type="button" variant="outline" className="rounded-xl">
+                            Browse
+                          </Button>
+                        </label>
+                      </div>
+                    </div>
+
+                    <div className="flex justify-end gap-3">
+                      <Button variant="outline" onClick={() => setDialogOpen(false)} className="rounded-xl">
+                        Cancel
+                      </Button>
+                      <Button
+                        onClick={handleUpload}
+                        disabled={isAdding || !uploadFile}
+                        className="bg-primary hover:bg-primary/90 rounded-xl"
+                      >
+                        {isAdding ? (
+                          <>
+                            <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                            Learning…
+                          </>
+                        ) : (
+                          <>
+                            <Upload className="w-4 h-4 mr-2" />
+                            Upload & Learn
+                          </>
+                        )}
+                      </Button>
+                    </div>
+                  </div>
+                </TabsContent>
+              </Tabs>
             </DialogContent>
           </Dialog>
         </div>
@@ -319,7 +445,7 @@ export function KnowledgeBase() {
             placeholder="Search knowledge base..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-10 bg-muted/30"
+            className="pl-10 bg-muted/30 rounded-xl"
           />
         </div>
       </div>
@@ -331,20 +457,13 @@ export function KnowledgeBase() {
         ) : filteredItems.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-40 text-center">
             <FileText className="w-12 h-12 text-muted-foreground/50 mb-4" />
-            <p className="text-muted-foreground">
-              {searchQuery ? 'No matching documents found' : 'No knowledge added yet'}
-            </p>
-            <p className="text-xs text-muted-foreground mt-1">
-              {searchQuery ? 'Try a different search term' : 'Click "Add Knowledge" to get started'}
-            </p>
+            <p className="text-muted-foreground">{searchQuery ? 'No matching documents found' : 'No knowledge added yet'}</p>
+            <p className="text-xs text-muted-foreground mt-1">{searchQuery ? 'Try a different search term' : 'Click “Add Knowledge” to get started'}</p>
           </div>
         ) : (
           <div className="grid gap-4 max-w-4xl">
             {filteredItems.map((item) => (
-              <div
-                key={item.id}
-                className="akior-card group"
-              >
+              <div key={item.id} className="akior-card group">
                 <div className="flex items-start justify-between gap-4">
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2">
@@ -362,16 +481,10 @@ export function KnowledgeBase() {
                         </span>
                       )}
                     </div>
-                    <p className="text-sm text-muted-foreground mt-2 line-clamp-3">
-                      {item.content}
-                    </p>
+                    <p className="text-sm text-muted-foreground mt-2 line-clamp-3">{item.content}</p>
                     <div className="flex items-center gap-3 mt-2">
-                      <p className="text-xs text-muted-foreground">
-                        Added {new Date(item.created_at).toLocaleDateString()}
-                      </p>
-                      <p className="text-xs text-muted-foreground">
-                        {item.content.length.toLocaleString()} chars
-                      </p>
+                      <p className="text-xs text-muted-foreground">Added {new Date(item.created_at).toLocaleDateString()}</p>
+                      <p className="text-xs text-muted-foreground">{item.content.length.toLocaleString()} chars</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -382,22 +495,14 @@ export function KnowledgeBase() {
                         onClick={() => retryEmbedding(item)}
                         disabled={processingId === item.id}
                         className="text-muted-foreground hover:text-primary"
-                        title="Retry embedding"
+                        title="Retry indexing"
                       >
-                        {processingId === item.id ? (
-                          <Loader2 className="w-4 h-4 animate-spin" />
-                        ) : (
-                          <RefreshCw className="w-4 h-4" />
-                        )}
+                        {processingId === item.id ? <Loader2 className="w-4 h-4 animate-spin" /> : <RefreshCw className="w-4 h-4" />}
                       </Button>
                     )}
                     <AlertDialog>
                       <AlertDialogTrigger asChild>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="text-muted-foreground hover:text-destructive"
-                        >
+                        <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-destructive">
                           <Trash2 className="w-4 h-4" />
                         </Button>
                       </AlertDialogTrigger>
@@ -410,10 +515,7 @@ export function KnowledgeBase() {
                         </AlertDialogHeader>
                         <AlertDialogFooter>
                           <AlertDialogCancel>Cancel</AlertDialogCancel>
-                          <AlertDialogAction 
-                            onClick={() => handleDelete(item.id)}
-                            className="bg-destructive hover:bg-destructive/90"
-                          >
+                          <AlertDialogAction onClick={() => handleDelete(item.id)} className="bg-destructive hover:bg-destructive/90">
                             Delete
                           </AlertDialogAction>
                         </AlertDialogFooter>
@@ -430,9 +532,7 @@ export function KnowledgeBase() {
       {/* Stats footer */}
       <div className="px-6 py-3 border-t border-border">
         <div className="flex items-center justify-between">
-          <p className="text-xs text-muted-foreground">
-            {totalItems} document{totalItems !== 1 ? 's' : ''} in knowledge base
-          </p>
+          <p className="text-xs text-muted-foreground">{totalItems} document{totalItems !== 1 ? 's' : ''} in knowledge base</p>
           <div className="flex items-center gap-4 text-xs">
             <span className="text-green-500 flex items-center gap-1">
               <CheckCircle2 className="w-3 h-3" />

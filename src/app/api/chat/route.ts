@@ -1,16 +1,14 @@
 /**
- * AKIOR Chat API - Enterprise Grade
- * 
+ * AKIOR Chat API
+ *
  * Features:
- * - Full conversation persistence
+ * - Conversation persistence (Supabase)
  * - RAG with knowledge base
  * - Long-term memory
+ * - Interaction logging (IP/location headers)
  * - Rate limiting
- * - Comprehensive error handling
- * - Streaming support ready
- * 
+ *
  * POST /api/chat
- * 
  * SECURITY: Requires valid JWT in Authorization header for authenticated features
  */
 
@@ -20,24 +18,53 @@ import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { verifyAuth, isAuthError } from '@/lib/server-auth';
 import { decrypt } from '@/lib/encryption';
 
-// Lazy initialization to avoid build-time errors
 function getOpenAI(apiKey?: string | null) {
   const key = apiKey || process.env.OPENAI_API_KEY;
-  if (!key) {
-    return null;
-  }
+  if (!key) return null;
   return new OpenAI({ apiKey: key });
 }
 
 function getSupabaseAdmin(): SupabaseClient | null {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://ruftuoilatlzniuasoza.supabase.co';
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  
-  if (!key) {
-    return null;
-  }
-  
+  if (!key) return null;
   return createClient(url, key, { auth: { persistSession: false } });
+}
+
+function getSupabaseAuthed(token: string): SupabaseClient {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://ruftuoilatlzniuasoza.supabase.co';
+  const anonKey =
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ||
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ1ZnR1b2lsYXRsem5pdWFzb3phIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk2NjUxNzEsImV4cCI6MjA4NTI0MTE3MX0.JqPbHquY6lF6I2sYPoNLJjpvwP3aEvmIjAL4llk-hJ0';
+
+  return createClient(url, anonKey, {
+    auth: { persistSession: false },
+    global: { headers: { Authorization: `Bearer ${token}` } },
+  });
+}
+
+function getDbClientForAuth(token: string): SupabaseClient {
+  return getSupabaseAdmin() || getSupabaseAuthed(token);
+}
+
+function getRequestMeta(request: NextRequest) {
+  const ip =
+    request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
+    request.headers.get('x-real-ip') ||
+    'unknown';
+
+  const userAgent = request.headers.get('user-agent') || undefined;
+
+  // Best-effort geo: works on Vercel/Cloudflare/etc when those headers are present.
+  const country =
+    request.headers.get('x-vercel-ip-country') ||
+    request.headers.get('cf-ipcountry') ||
+    undefined;
+
+  const region = request.headers.get('x-vercel-ip-country-region') || undefined;
+  const city = request.headers.get('x-vercel-ip-city') || undefined;
+
+  return { ip, userAgent, country, region, city };
 }
 
 // Rate limiting store (in production, use Redis)
@@ -54,7 +81,8 @@ interface ChatRequest {
   message: string;
   history?: Message[];
   conversationId?: string;
-  isPublic?: boolean; // For free public interface
+  isPublic?: boolean;
+  channel?: 'chat' | 'voice' | 'hud' | 'public' | 'unknown';
 }
 
 interface ChatResponse {
@@ -64,7 +92,6 @@ interface ChatResponse {
   tokensUsed?: number;
 }
 
-// Rate limiting check
 function checkRateLimit(identifier: string): { allowed: boolean; remaining: number } {
   const now = Date.now();
   const record = rateLimitStore.get(identifier);
@@ -82,56 +109,40 @@ function checkRateLimit(identifier: string): { allowed: boolean; remaining: numb
   return { allowed: true, remaining: RATE_LIMIT - record.count };
 }
 
-// Get user's agent settings (including encrypted API key)
-async function getAgentSettings(supabaseAdmin: SupabaseClient, userId: string) {
-  try {
-    const { data, error } = await supabaseAdmin
-      .from('agent_settings')
-      .select('*')
-      .eq('user_id', userId)
-      .single();
+async function getAgentSettings(db: SupabaseClient, userId: string) {
+  const { data, error } = await db.from('agent_settings').select('*').eq('user_id', userId).single();
 
-    if (error && error.code !== 'PGRST116') {
-      console.error('Error fetching agent settings:', error);
-    }
+  if (error && error.code !== 'PGRST116') {
+    console.error('Error fetching agent settings:', error);
+  }
 
-    if (data) {
-      // Decrypt the API key if it exists
-      let decryptedApiKey = null;
-      if (data.openai_api_key) {
-        decryptedApiKey = decrypt(data.openai_api_key);
-      }
-      
-      return {
-        agent_name: data.agent_name || 'AKIOR',
-        personality_prompt: data.personality_prompt || 'You are AKIOR, a helpful and knowledgeable AI assistant. You are professional, concise, and friendly.',
-        voice_id: data.voice_id || 'alloy',
-        voice_speed: data.voice_speed || 1.0,
-        openai_api_key: decryptedApiKey,
-      };
+  if (data) {
+    let decryptedApiKey: string | null = null;
+    if (data.openai_api_key) {
+      decryptedApiKey = decrypt(data.openai_api_key);
     }
 
     return {
-      agent_name: 'AKIOR',
-      personality_prompt: 'You are AKIOR, a helpful and knowledgeable AI assistant.',
-      voice_id: 'alloy',
-      voice_speed: 1.0,
-      openai_api_key: null,
-    };
-  } catch (err) {
-    console.error('Error in getAgentSettings:', err);
-    return {
-      agent_name: 'AKIOR',
-      personality_prompt: 'You are AKIOR, a helpful and knowledgeable AI assistant.',
-      voice_id: 'alloy',
-      voice_speed: 1.0,
-      openai_api_key: null,
+      agent_name: data.agent_name || 'AKIOR',
+      personality_prompt:
+        data.personality_prompt ||
+        'You are AKIOR, a helpful and knowledgeable AI assistant. You are professional, concise, and friendly.',
+      voice_id: data.voice_id || 'alloy',
+      voice_speed: data.voice_speed || 1.0,
+      openai_api_key: decryptedApiKey,
     };
   }
+
+  return {
+    agent_name: 'AKIOR',
+    personality_prompt: 'You are AKIOR, a helpful and knowledgeable AI assistant.',
+    voice_id: 'alloy',
+    voice_speed: 1.0,
+    openai_api_key: null,
+  };
 }
 
-// Search knowledge base using vector similarity
-async function searchKnowledge(openai: OpenAI, supabaseAdmin: SupabaseClient, userId: string, query: string, limit = 5) {
+async function searchKnowledge(openai: OpenAI, db: SupabaseClient, userId: string, query: string, limit = 5) {
   try {
     const embeddingResponse = await openai.embeddings.create({
       model: 'text-embedding-3-small',
@@ -139,7 +150,7 @@ async function searchKnowledge(openai: OpenAI, supabaseAdmin: SupabaseClient, us
     });
     const queryEmbedding = embeddingResponse.data[0].embedding;
 
-    const { data, error } = await supabaseAdmin.rpc('match_knowledge', {
+    const { data, error } = await db.rpc('match_knowledge', {
       query_embedding: queryEmbedding,
       match_threshold: 0.5,
       match_count: limit,
@@ -158,8 +169,7 @@ async function searchKnowledge(openai: OpenAI, supabaseAdmin: SupabaseClient, us
   }
 }
 
-// Search memories using vector similarity
-async function searchMemories(openai: OpenAI, supabaseAdmin: SupabaseClient, userId: string, query: string, limit = 5) {
+async function searchMemories(openai: OpenAI, db: SupabaseClient, userId: string, query: string, limit = 5) {
   try {
     const embeddingResponse = await openai.embeddings.create({
       model: 'text-embedding-3-small',
@@ -167,7 +177,7 @@ async function searchMemories(openai: OpenAI, supabaseAdmin: SupabaseClient, use
     });
     const queryEmbedding = embeddingResponse.data[0].embedding;
 
-    const { data, error } = await supabaseAdmin.rpc('match_memories', {
+    const { data, error } = await db.rpc('match_memories', {
       query_embedding: queryEmbedding,
       match_threshold: 0.6,
       match_count: limit,
@@ -186,12 +196,10 @@ async function searchMemories(openai: OpenAI, supabaseAdmin: SupabaseClient, use
   }
 }
 
-// Get or create conversation
-async function getOrCreateConversation(supabaseAdmin: SupabaseClient, userId: string, conversationId?: string, firstMessage?: string) {
+async function getOrCreateConversation(db: SupabaseClient, userId: string, conversationId?: string, firstMessage?: string) {
   try {
-    // If conversationId provided, verify it belongs to user
     if (conversationId) {
-      const { data: existing } = await supabaseAdmin
+      const { data: existing } = await db
         .from('conversations')
         .select('id')
         .eq('id', conversationId)
@@ -199,26 +207,18 @@ async function getOrCreateConversation(supabaseAdmin: SupabaseClient, userId: st
         .single();
 
       if (existing) {
-        // Update the updated_at timestamp
-        await supabaseAdmin
-          .from('conversations')
-          .update({ updated_at: new Date().toISOString() })
-          .eq('id', conversationId);
+        await db.from('conversations').update({ updated_at: new Date().toISOString() }).eq('id', conversationId);
         return conversationId;
       }
     }
 
-    // Create new conversation
-    const title = firstMessage 
+    const title = firstMessage
       ? firstMessage.slice(0, 50) + (firstMessage.length > 50 ? '...' : '')
       : 'New Conversation';
 
-    const { data: newConv, error } = await supabaseAdmin
+    const { data: newConv, error } = await db
       .from('conversations')
-      .insert({
-        user_id: userId,
-        title,
-      })
+      .insert({ user_id: userId, title })
       .select('id')
       .single();
 
@@ -234,23 +234,17 @@ async function getOrCreateConversation(supabaseAdmin: SupabaseClient, userId: st
   }
 }
 
-// Save message to database
 async function saveMessage(
-  supabaseAdmin: SupabaseClient,
+  db: SupabaseClient,
   conversationId: string,
   userId: string,
   role: 'user' | 'assistant',
   content: string
 ) {
   try {
-    const { data, error } = await supabaseAdmin
+    const { data, error } = await db
       .from('messages')
-      .insert({
-        conversation_id: conversationId,
-        user_id: userId,
-        role,
-        content,
-      })
+      .insert({ conversation_id: conversationId, user_id: userId, role, content })
       .select('id')
       .single();
 
@@ -266,22 +260,18 @@ async function saveMessage(
   }
 }
 
-// Load conversation history from database
-async function loadConversationHistory(supabaseAdmin: SupabaseClient, conversationId: string, userId: string, limit = 50): Promise<Message[]> {
+async function loadConversationHistory(db: SupabaseClient, conversationId: string, userId: string, limit = 50): Promise<Message[]> {
   try {
-    // First verify the conversation belongs to the user
-    const { data: conv } = await supabaseAdmin
+    const { data: conv } = await db
       .from('conversations')
       .select('id')
       .eq('id', conversationId)
       .eq('user_id', userId)
       .single();
-    
-    if (!conv) {
-      return [];
-    }
 
-    const { data, error } = await supabaseAdmin
+    if (!conv) return [];
+
+    const { data, error } = await db
       .from('messages')
       .select('role, content')
       .eq('conversation_id', conversationId)
@@ -293,18 +283,14 @@ async function loadConversationHistory(supabaseAdmin: SupabaseClient, conversati
       return [];
     }
 
-    return (data || []).map(m => ({
-      role: m.role as 'user' | 'assistant',
-      content: m.content,
-    }));
+    return (data || []).map((m) => ({ role: m.role as 'user' | 'assistant', content: m.content }));
   } catch (err) {
     console.error('Error in loadConversationHistory:', err);
     return [];
   }
 }
 
-// Extract and save important information as memories
-async function extractAndSaveMemory(openai: OpenAI, supabaseAdmin: SupabaseClient, userId: string, userMessage: string, assistantResponse: string) {
+async function extractAndSaveMemory(openai: OpenAI, db: SupabaseClient, userId: string, userMessage: string, assistantResponse: string) {
   try {
     const extractionResponse = await openai.chat.completions.create({
       model: 'gpt-4o-mini',
@@ -321,12 +307,12 @@ Examples of things to remember:
 - User's preferences and interests
 - Important dates or events
 - Technical details about their projects
-- Personal facts they share`
+- Personal facts they share`,
         },
         {
           role: 'user',
-          content: `User said: "${userMessage.slice(0, 1000)}"\n\nAssistant responded: "${assistantResponse.slice(0, 1000)}"\n\nExtract any important facts to remember:`
-        }
+          content: `User said: "${userMessage.slice(0, 1000)}"\n\nAssistant responded: "${assistantResponse.slice(0, 1000)}"\n\nExtract any important facts to remember:`,
+        },
       ],
       response_format: { type: 'json_object' },
       max_tokens: 500,
@@ -343,7 +329,7 @@ Examples of things to remember:
     for (const memory of memories) {
       if (!memory.content) continue;
 
-      const { data: insertedMemory, error: insertError } = await supabaseAdmin
+      const { data: insertedMemory, error: insertError } = await db
         .from('memories')
         .insert({
           user_id: userId,
@@ -359,23 +345,18 @@ Examples of things to remember:
         continue;
       }
 
-      // Generate embedding for the memory
       const embeddingResponse = await openai.embeddings.create({
         model: 'text-embedding-3-small',
         input: memory.content,
       });
 
-      await supabaseAdmin
-        .from('memories')
-        .update({ embedding: embeddingResponse.data[0].embedding })
-        .eq('id', insertedMemory.id);
+      await db.from('memories').update({ embedding: embeddingResponse.data[0].embedding }).eq('id', insertedMemory.id);
     }
   } catch (err) {
     console.error('Error extracting memories:', err);
   }
 }
 
-// Generate title for conversation based on first message
 async function generateConversationTitle(openai: OpenAI, message: string): Promise<string> {
   try {
     const response = await openai.chat.completions.create({
@@ -383,9 +364,10 @@ async function generateConversationTitle(openai: OpenAI, message: string): Promi
       messages: [
         {
           role: 'system',
-          content: 'Generate a very short title (max 5 words) for a conversation that starts with this message. Return only the title, no quotes or punctuation.'
+          content:
+            'Generate a very short title (max 5 words) for a conversation that starts with this message. Return only the title, no quotes or punctuation.',
         },
-        { role: 'user', content: message.slice(0, 200) }
+        { role: 'user', content: message.slice(0, 200) },
       ],
       max_tokens: 20,
     });
@@ -396,34 +378,36 @@ async function generateConversationTitle(openai: OpenAI, message: string): Promi
   }
 }
 
+const PROJECT_SCOPE_PROMPT = `
+IMPORTANT SCOPE RULES:
+- You are AKIOR and you must ONLY talk about the AKIOR project: its product, features, roadmap, architecture, codebase, setup, troubleshooting, and improvements.
+- If the user asks for anything unrelated (general knowledge, unrelated coding, personal advice, other products, etc.), politely refuse and redirect them back to AKIOR.
+- Never invent AKIOR facts. If something is unknown, say what you need to know (e.g., ask for the relevant file or requirement).
+`;
+
 export async function POST(request: NextRequest): Promise<NextResponse<ChatResponse | { error: string }>> {
   const startTime = Date.now();
 
   try {
-    // Get client IP for rate limiting
-    const clientIp = request.headers.get('x-forwarded-for')?.split(',')[0] || 
-                     request.headers.get('x-real-ip') || 
-                     'unknown';
+    const meta = getRequestMeta(request);
 
-    // Check rate limit
-    const rateLimit = checkRateLimit(clientIp);
+    const rateLimit = checkRateLimit(meta.ip);
     if (!rateLimit.allowed) {
       return NextResponse.json(
         { error: 'Rate limit exceeded. Please try again later.' },
-        { 
+        {
           status: 429,
           headers: {
             'X-RateLimit-Remaining': '0',
             'Retry-After': '60',
-          }
+          },
         }
       );
     }
 
     const body: ChatRequest = await request.json();
-    const { message, history = [], conversationId, isPublic = false } = body;
+    const { message, history = [], conversationId, isPublic = false, channel = isPublic ? 'public' : 'unknown' } = body;
 
-    // Validate request
     if (!message || typeof message !== 'string') {
       return NextResponse.json({ error: 'Message is required' }, { status: 400 });
     }
@@ -432,10 +416,7 @@ export async function POST(request: NextRequest): Promise<NextResponse<ChatRespo
       return NextResponse.json({ error: 'Message too long (max 10000 characters)' }, { status: 400 });
     }
 
-    // Get Supabase admin client
-    const supabaseAdmin = getSupabaseAdmin();
-
-    // For public interface, use minimal settings without auth
+    // Public (no auth): still restricted to AKIOR scope.
     if (isPublic) {
       const openai = getOpenAI();
       if (!openai) {
@@ -447,18 +428,9 @@ export async function POST(request: NextRequest): Promise<NextResponse<ChatRespo
       const messages: OpenAI.Chat.ChatCompletionMessageParam[] = [
         {
           role: 'system',
-          content: `You are AKIOR, a helpful AI assistant. Be concise, friendly, and helpful.
-          
-Guidelines:
-- Provide accurate, helpful information
-- Be concise but thorough
-- If you don't know something, say so
-- Do not generate images or perform actions - only provide information`
+          content: `You are AKIOR.\n${PROJECT_SCOPE_PROMPT}\n\nGuidelines:\n- Be concise, friendly, and accurate\n- If the question is outside AKIOR scope, refuse and redirect`,
         },
-        ...history.slice(-10).map(m => ({
-          role: m.role as 'user' | 'assistant',
-          content: m.content,
-        })),
+        ...history.slice(-10).map((m) => ({ role: m.role as 'user' | 'assistant', content: m.content })),
         { role: 'user', content: message },
       ];
 
@@ -466,34 +438,40 @@ Guidelines:
         model: 'gpt-4o-mini',
         messages,
         max_tokens: 1000,
-        temperature: 0.7,
+        temperature: 0.4,
       });
 
-      return NextResponse.json({
-        reply: completion.choices[0].message.content || 'I apologize, but I was unable to generate a response.',
-        tokensUsed: completion.usage?.total_tokens,
-      }, {
-        headers: {
-          'X-RateLimit-Remaining': rateLimit.remaining.toString(),
-          'X-Response-Time': `${Date.now() - startTime}ms`,
+      return NextResponse.json(
+        {
+          reply: completion.choices[0].message.content || 'I apologize, but I was unable to generate a response.',
+          tokensUsed: completion.usage?.total_tokens,
+        },
+        {
+          headers: {
+            'X-RateLimit-Remaining': rateLimit.remaining.toString(),
+            'X-Response-Time': `${Date.now() - startTime}ms`,
+          },
         }
-      });
+      );
     }
 
-    // For authenticated requests, verify JWT
+    // Authenticated requests
     const authResult = await verifyAuth(request);
     if (isAuthError(authResult)) {
       return NextResponse.json({ error: authResult.error }, { status: authResult.status });
     }
-    
-    const userId = authResult.userId;
 
-    // Get agent settings (including user's encrypted API key)
-    const agentSettings = supabaseAdmin
-      ? await getAgentSettings(supabaseAdmin, userId)
+    const authHeader = request.headers.get('Authorization') || '';
+    const token = authHeader.startsWith('Bearer ') ? authHeader.slice(7) : '';
+
+    const userId = authResult.userId;
+    const db = token ? getDbClientForAuth(token) : null;
+
+    // Agent settings (and optional user OpenAI key)
+    const agentSettings = db
+      ? await getAgentSettings(db, userId)
       : { agent_name: 'AKIOR', personality_prompt: 'You are AKIOR, a helpful AI assistant.', openai_api_key: null };
 
-    // Check if OpenAI is configured (user's key takes priority)
     const openai = getOpenAI(agentSettings.openai_api_key);
     if (!openai) {
       return NextResponse.json({
@@ -501,134 +479,132 @@ Guidelines:
       });
     }
 
-    // Get or create conversation
     let activeConversationId = conversationId;
     let conversationHistory = history;
 
-    if (supabaseAdmin) {
-      // Get or create conversation
-      activeConversationId = await getOrCreateConversation(supabaseAdmin, userId, conversationId, message);
+    if (db) {
+      activeConversationId = await getOrCreateConversation(db, userId, conversationId, message);
 
-      // If we have a conversation, load history from database
       if (activeConversationId && !conversationId) {
-        // New conversation, generate a better title
         const title = await generateConversationTitle(openai, message);
-        await supabaseAdmin
-          .from('conversations')
-          .update({ title })
-          .eq('id', activeConversationId);
+        await db.from('conversations').update({ title }).eq('id', activeConversationId);
       } else if (activeConversationId && history.length === 0) {
-        // Existing conversation but no history provided, load from DB
-        conversationHistory = await loadConversationHistory(supabaseAdmin, activeConversationId, userId);
+        conversationHistory = await loadConversationHistory(db, activeConversationId, userId);
       }
 
-      // Save user message
       if (activeConversationId) {
-        await saveMessage(supabaseAdmin, activeConversationId, userId, 'user', message);
+        await saveMessage(db, activeConversationId, userId, 'user', message);
       }
     }
 
-    // Search knowledge base and memories for context
+    // RAG context
     let knowledgeContext = '';
     let memoryContext = '';
 
-    if (supabaseAdmin) {
+    if (db) {
       const [knowledgeResults, memoryResults] = await Promise.all([
-        searchKnowledge(openai, supabaseAdmin, userId, message),
-        searchMemories(openai, supabaseAdmin, userId, message),
+        searchKnowledge(openai, db, userId, message),
+        searchMemories(openai, db, userId, message),
       ]);
 
       if (knowledgeResults.length > 0) {
-        knowledgeContext = '\n\n## Relevant Knowledge:\n' + 
-          knowledgeResults.map((k: { title: string; content: string; similarity: number }) => 
-            `### ${k.title} (relevance: ${(k.similarity * 100).toFixed(0)}%)\n${k.content}`
-          ).join('\n\n');
+        knowledgeContext =
+          '\n\n## Relevant Knowledge:\n' +
+          knowledgeResults
+            .map(
+              (k: { title: string; content: string; similarity: number }) =>
+                `### ${k.title} (relevance: ${(k.similarity * 100).toFixed(0)}%)\n${k.content}`
+            )
+            .join('\n\n');
       }
 
       if (memoryResults.length > 0) {
-        memoryContext = '\n\n## Things I Remember About You:\n' +
+        memoryContext =
+          '\n\n## Things I Remember About You:\n' +
           memoryResults.map((m: { content: string }) => `- ${m.content}`).join('\n');
       }
     }
 
-    // Build system prompt
+    // System prompt (strict scope)
     const systemPrompt = `${agentSettings.personality_prompt}
 
 Your name is ${agentSettings.agent_name}.
+${PROJECT_SCOPE_PROMPT}
 ${knowledgeContext}
 ${memoryContext}
 
 Guidelines:
+- Stay strictly within AKIOR scope
 - Be helpful, accurate, and concise
-- Use the knowledge base information when relevant to answer questions
-- Remember and reference things you know about the user naturally
+- Use the knowledge base information when relevant
 - If you don't know something, say so honestly
-- Keep responses focused and well-structured
-- Maintain conversation context and refer back to previous messages when relevant`;
+- Keep responses focused and well-structured`;
 
-    // Build messages array with conversation history
-    const messages: OpenAI.Chat.ChatCompletionMessageParam[] = [
+    const messagesForModel: OpenAI.Chat.ChatCompletionMessageParam[] = [
       { role: 'system', content: systemPrompt },
-      ...conversationHistory.slice(-30).map(m => ({
-        role: m.role as 'user' | 'assistant',
-        content: m.content,
-      })),
+      ...conversationHistory.slice(-30).map((m) => ({ role: m.role as 'user' | 'assistant', content: m.content })),
       { role: 'user', content: message },
     ];
 
-    // Generate response
     const completion = await openai.chat.completions.create({
       model: 'gpt-4o-mini',
-      messages,
-      max_tokens: 2000,
-      temperature: 0.7,
+      messages: messagesForModel,
+      max_tokens: 1800,
+      temperature: 0.4,
     });
 
     const reply = completion.choices[0].message.content || 'I apologize, but I was unable to generate a response.';
 
-    // Save assistant message and extract memories
     let messageId: string | undefined;
-    if (activeConversationId && supabaseAdmin) {
-      messageId = await saveMessage(supabaseAdmin, activeConversationId, userId, 'assistant', reply) || undefined;
-      
-      // Extract and save memories in the background
-      extractAndSaveMemory(openai, supabaseAdmin, userId, message, reply).catch(console.error);
-    }
 
-    return NextResponse.json({
-      reply,
-      conversationId: activeConversationId || undefined,
-      messageId,
-      tokensUsed: completion.usage?.total_tokens,
-    }, {
-      headers: {
-        'X-RateLimit-Remaining': rateLimit.remaining.toString(),
-        'X-Response-Time': `${Date.now() - startTime}ms`,
-      }
-    });
-  } catch (error) {
-    console.error('Chat API Error:', error);
-    
-    // Determine error type and return appropriate response
-    if (error instanceof OpenAI.APIError) {
-      if (error.status === 429) {
-        return NextResponse.json(
-          { error: 'AI service is temporarily overloaded. Please try again in a moment.' },
-          { status: 503 }
-        );
-      }
-      if (error.status === 401) {
-        return NextResponse.json(
-          { error: 'AI service configuration error. Please contact support.' },
-          { status: 500 }
-        );
-      }
+    if (activeConversationId && db) {
+      messageId = (await saveMessage(db, activeConversationId, userId, 'assistant', reply)) || undefined;
+
+      // Background memory extraction
+      extractAndSaveMemory(openai, db, userId, message, reply).catch(console.error);
+
+      // Record interaction log (backend-only)
+      await db.from('interaction_logs').insert({
+        user_id: userId,
+        conversation_id: activeConversationId,
+        channel,
+        user_message: message,
+        assistant_message: reply,
+        client_ip: meta.ip,
+        country: meta.country,
+        region: meta.region,
+        city: meta.city,
+        user_agent: meta.userAgent,
+      });
     }
 
     return NextResponse.json(
-      { error: 'An unexpected error occurred. Please try again.' },
-      { status: 500 }
+      {
+        reply,
+        conversationId: activeConversationId || undefined,
+        messageId,
+        tokensUsed: completion.usage?.total_tokens,
+      },
+      {
+        headers: {
+          'X-RateLimit-Remaining': rateLimit.remaining.toString(),
+          'X-Response-Time': `${Date.now() - startTime}ms`,
+        },
+      }
     );
+  } catch (error) {
+    console.error('Chat API Error:', error);
+
+    if (error instanceof OpenAI.APIError) {
+      if (error.status === 429) {
+        return NextResponse.json({ error: 'AI service is temporarily overloaded. Please try again in a moment.' }, { status: 503 });
+      }
+      if (error.status === 401) {
+        return NextResponse.json({ error: 'AI service configuration error. Please contact support.' }, { status: 500 });
+      }
+    }
+
+    return NextResponse.json({ error: 'An unexpected error occurred. Please try again.' }, { status: 500 });
   }
 }
 

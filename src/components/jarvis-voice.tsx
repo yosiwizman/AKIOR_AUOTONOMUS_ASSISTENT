@@ -7,16 +7,16 @@
  */
 
 import { useState, useCallback, useEffect } from 'react';
-import { 
-  Mic, 
-  MicOff, 
-  Send, 
-  Volume2, 
-  VolumeX, 
-  Trash2, 
+import {
+  Mic,
+  MicOff,
+  Send,
+  Volume2,
+  VolumeX,
+  Trash2,
   AlertCircle,
   Loader2,
-  History
+  History,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
@@ -106,7 +106,7 @@ export function AkiorVoice() {
           voice_id: data.voice_id || 'alloy',
           voice_speed: data.voice_speed || 1.0,
         });
-        setVoice(data.voice_id as OpenAIVoice || 'alloy');
+        setVoice((data.voice_id as OpenAIVoice) || 'alloy');
         setSpeed(data.voice_speed || 1.0);
       }
     };
@@ -135,7 +135,7 @@ export function AkiorVoice() {
       timestamp: new Date(),
     };
 
-    setMessages(prev => [...prev, userMessage]);
+    setMessages((prev) => [...prev, userMessage]);
 
     try {
       const res = await fetch('/api/chat', {
@@ -143,8 +143,9 @@ export function AkiorVoice() {
         headers: getAuthHeaders(),
         body: JSON.stringify({
           message,
-          history: messages.map(m => ({ role: m.role, content: m.content })),
+          history: messages.map((m) => ({ role: m.role, content: m.content })),
           conversationId: currentConversationId,
+          channel: 'voice',
         }),
       });
 
@@ -167,7 +168,7 @@ export function AkiorVoice() {
         timestamp: new Date(),
       };
 
-      setMessages(prev => [...prev, assistantMessage]);
+      setMessages((prev) => [...prev, assistantMessage]);
       setTranscript('');
       clearTranscript();
 
@@ -202,7 +203,7 @@ export function AkiorVoice() {
   };
 
   const isListening = recognitionStatus === 'listening';
-  const latestResponse = messages.filter(m => m.role === 'assistant').slice(-1)[0];
+  const latestResponse = messages.filter((m) => m.role === 'assistant').slice(-1)[0];
 
   return (
     <div className="flex flex-col h-full">
@@ -212,7 +213,7 @@ export function AkiorVoice() {
           <div>
             <h2 className="text-lg font-semibold">{agentSettings.agent_name} (Voice)</h2>
             <p className="text-xs text-muted-foreground mt-0.5">
-              Voice assistant with OpenAI TTS • {OPENAI_VOICES.find(v => v.id === agentSettings.voice_id)?.name || 'Alloy'} voice
+              Voice assistant with OpenAI TTS • {OPENAI_VOICES.find((v) => v.id === agentSettings.voice_id)?.name || 'Alloy'} voice
             </p>
           </div>
           <div className="flex items-center gap-2">
@@ -225,11 +226,7 @@ export function AkiorVoice() {
               <History className="w-4 h-4 mr-2" />
               History
             </Button>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={handleNewConversation}
-            >
+            <Button variant="ghost" size="sm" onClick={handleNewConversation}>
               New
             </Button>
           </div>
@@ -248,10 +245,10 @@ export function AkiorVoice() {
             <ScrollArea className="h-[calc(100%-60px)]">
               <div className="p-3 space-y-3">
                 {messages.map((msg, idx) => (
-                  <div key={idx} className={cn(
-                    'p-2 rounded-lg text-xs',
-                    msg.role === 'user' ? 'bg-primary/10 ml-4' : 'bg-secondary/50 mr-4'
-                  )}>
+                  <div
+                    key={idx}
+                    className={cn('p-2 rounded-lg text-xs', msg.role === 'user' ? 'bg-primary/10 ml-4' : 'bg-secondary/50 mr-4')}
+                  >
                     <p className="font-medium text-[10px] uppercase text-muted-foreground mb-1">
                       {msg.role === 'user' ? 'You' : agentSettings.agent_name}
                     </p>
@@ -272,9 +269,7 @@ export function AkiorVoice() {
                 <AlertCircle className="w-5 h-5 text-orange-500 flex-shrink-0 mt-0.5" />
                 <div>
                   <p className="text-sm font-medium text-orange-500">Voice Input Unavailable</p>
-                  <p className="text-xs text-muted-foreground mt-1">
-                    Speech recognition is not supported. Please use Chrome or Edge.
-                  </p>
+                  <p className="text-xs text-muted-foreground mt-1">Speech recognition is not supported. Please use Chrome or Edge.</p>
                 </div>
               </div>
             )}
@@ -295,24 +290,15 @@ export function AkiorVoice() {
                 disabled={!sttSupported || isSending}
                 className={cn(
                   'w-28 h-28 rounded-full transition-all duration-300',
-                  isListening 
-                    ? 'bg-primary hover:bg-primary/90 akior-glow' 
-                    : 'border-2 border-border hover:border-primary/50 hover:bg-primary/5',
+                  isListening ? 'bg-primary hover:bg-primary/90 akior-glow' : 'border-2 border-border hover:border-primary/50 hover:bg-primary/5',
                   !sttSupported && 'opacity-50 cursor-not-allowed'
                 )}
               >
-                {isListening ? (
-                  <MicOff className="w-10 h-10" />
-                ) : (
-                  <Mic className="w-10 h-10 text-muted-foreground" />
-                )}
+                {isListening ? <MicOff className="w-10 h-10" /> : <Mic className="w-10 h-10 text-muted-foreground" />}
               </Button>
-              
+
               <div className="text-center">
-                <p className={cn(
-                  'text-sm font-medium',
-                  isListening ? 'text-primary' : 'text-muted-foreground'
-                )}>
+                <p className={cn('text-sm font-medium', isListening ? 'text-primary' : 'text-muted-foreground')}>
                   {isListening ? 'Listening... Click to stop' : 'Click to speak'}
                 </p>
               </div>
@@ -320,9 +306,7 @@ export function AkiorVoice() {
 
             {/* Transcript input */}
             <div className="space-y-3">
-              <Label className="text-sm font-medium text-muted-foreground">
-                Your Message
-              </Label>
+              <Label className="text-sm font-medium text-muted-foreground">Your Message</Label>
               <Textarea
                 value={transcript}
                 onChange={(e) => setTranscript(e.target.value)}
@@ -344,16 +328,8 @@ export function AkiorVoice() {
                   <Trash2 className="w-4 h-4 mr-2" />
                   Clear
                 </Button>
-                <Button
-                  onClick={sendMessage}
-                  disabled={!transcript.trim() || isSending}
-                  className="bg-primary hover:bg-primary/90"
-                >
-                  {isSending ? (
-                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                  ) : (
-                    <Send className="w-4 h-4 mr-2" />
-                  )}
+                <Button onClick={sendMessage} disabled={!transcript.trim() || isSending} className="bg-primary hover:bg-primary/90">
+                  {isSending ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Send className="w-4 h-4 mr-2" />}
                   Send
                 </Button>
               </div>
@@ -363,45 +339,29 @@ export function AkiorVoice() {
             {latestResponse && (
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
-                  <Label className="text-sm font-medium text-muted-foreground">
-                    {agentSettings.agent_name} Response
-                  </Label>
+                  <Label className="text-sm font-medium text-muted-foreground">{agentSettings.agent_name} Response</Label>
                   <div className="flex items-center gap-3">
                     {(isSpeaking || isTTSLoading) && (
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={stopSpeaking}
-                        className="text-muted-foreground text-xs"
-                      >
+                      <Button variant="ghost" size="sm" onClick={stopSpeaking} className="text-muted-foreground text-xs">
                         {isTTSLoading ? 'Loading...' : 'Stop'}
                       </Button>
                     )}
                     <div className="flex items-center gap-2">
-                      <Switch
-                        id="speak-toggle"
-                        checked={speakEnabled}
-                        onCheckedChange={setSpeakEnabled}
-                      />
-                      <Label 
-                        htmlFor="speak-toggle" 
-                        className="text-xs cursor-pointer flex items-center gap-1"
-                      >
-                        {speakEnabled ? (
-                          <Volume2 className="w-3.5 h-3.5 text-primary" />
-                        ) : (
-                          <VolumeX className="w-3.5 h-3.5 text-muted-foreground" />
-                        )}
+                      <Switch id="speak-toggle" checked={speakEnabled} onCheckedChange={setSpeakEnabled} />
+                      <Label htmlFor="speak-toggle" className="text-xs cursor-pointer flex items-center gap-1">
+                        {speakEnabled ? <Volume2 className="w-3.5 h-3.5 text-primary" /> : <VolumeX className="w-3.5 h-3.5 text-muted-foreground" />}
                         Auto-speak
                       </Label>
                     </div>
                   </div>
                 </div>
-                <div className={cn(
-                  'p-4 rounded-lg bg-secondary/50 border border-border',
-                  'text-sm whitespace-pre-wrap leading-relaxed',
-                  (isSpeaking || isTTSLoading) && 'border-primary/30 akior-glow'
-                )}>
+                <div
+                  className={cn(
+                    'p-4 rounded-lg bg-secondary/50 border border-border',
+                    'text-sm whitespace-pre-wrap leading-relaxed',
+                    (isSpeaking || isTTSLoading) && 'border-primary/30 akior-glow'
+                  )}
+                >
                   {latestResponse.content}
                 </div>
               </div>
