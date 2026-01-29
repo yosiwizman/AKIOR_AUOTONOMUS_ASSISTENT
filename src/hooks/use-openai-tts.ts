@@ -3,17 +3,10 @@
  */
 
 import { useState, useCallback, useRef } from 'react';
+import { OPENAI_VOICES, type OpenAIVoice } from '@/lib/tts-voices';
 
-export const OPENAI_VOICES = [
-  { id: 'alloy', name: 'Alloy', description: 'Neutral and balanced' },
-  { id: 'echo', name: 'Echo', description: 'Warm and conversational' },
-  { id: 'fable', name: 'Fable', description: 'Expressive and dramatic' },
-  { id: 'onyx', name: 'Onyx', description: 'Deep and authoritative' },
-  { id: 'nova', name: 'Nova', description: 'Friendly and upbeat' },
-  { id: 'shimmer', name: 'Shimmer', description: 'Clear and pleasant' },
-] as const;
-
-export type OpenAIVoice = typeof OPENAI_VOICES[number]['id'];
+// Re-export for convenience
+export { OPENAI_VOICES, type OpenAIVoice } from '@/lib/tts-voices';
 
 interface UseOpenAITTSOptions {
   voice?: OpenAIVoice;
