@@ -17,6 +17,7 @@ interface AgentSettings {
   agent_name: string;
   voice_id: string;
   voice_speed: number;
+  openai_api_key?: string;
 }
 
 export function AkiorHUD() {
@@ -29,6 +30,7 @@ export function AkiorHUD() {
     agent_name: 'AKIOR',
     voice_id: 'alloy',
     voice_speed: 1.0,
+    openai_api_key: '',
   });
 
   const {
@@ -48,10 +50,12 @@ export function AkiorHUD() {
     setVoice,
     setSpeed,
     setUserId,
+    setApiKey,
   } = useOpenAITTS({
     voice: agentSettings.voice_id as OpenAIVoice,
     speed: agentSettings.voice_speed,
     userId: user?.id,
+    apiKey: agentSettings.openai_api_key,
   });
 
   // Load agent settings
@@ -61,7 +65,7 @@ export function AkiorHUD() {
     const loadSettings = async () => {
       const { data } = await supabase
         .from('agent_settings')
-        .select('agent_name, voice_id, voice_speed')
+        .select('agent_name, voice_id, voice_speed, openai_api_key')
         .eq('user_id', user.id)
         .single();
 
@@ -70,16 +74,18 @@ export function AkiorHUD() {
           agent_name: data.agent_name || 'AKIOR',
           voice_id: data.voice_id || 'alloy',
           voice_speed: data.voice_speed || 1.0,
+          openai_api_key: data.openai_api_key || '',
         });
         setVoice(data.voice_id as OpenAIVoice || 'alloy');
         setSpeed(data.voice_speed || 1.0);
+        setApiKey(data.openai_api_key || '');
       }
     };
 
     // Set userId for TTS
     setUserId(user.id);
     loadSettings();
-  }, [user, setVoice, setSpeed, setUserId]);
+  }, [user, setVoice, setSpeed, setUserId, setApiKey]);
 
   // Handle voice input completion
   const processVoiceInput = useCallback(async (text: string) => {

@@ -81,10 +81,20 @@ export function AgentSettingsPanel() {
   const [showApiKey, setShowApiKey] = useState(false);
   const [apiKeyStatus, setApiKeyStatus] = useState<'unknown' | 'valid' | 'invalid'>('unknown');
 
-  const { speak, stop, isSpeaking, isLoading: isTTSLoading } = useOpenAITTS({
+  const { 
+    speak, 
+    stop, 
+    isSpeaking, 
+    isLoading: isTTSLoading,
+    setVoice,
+    setSpeed,
+    setApiKey,
+    setUserId,
+  } = useOpenAITTS({
     voice: settings.voice_id as OpenAIVoice,
     speed: settings.voice_speed,
     userId: user?.id,
+    apiKey: settings.openai_api_key,
   });
 
   // Load settings
@@ -105,18 +115,29 @@ export function AgentSettingsPanel() {
 
       if (data) {
         setExistingId(data.id);
-        setSettings({
+        const loadedSettings = {
           id: data.id,
           agent_name: data.agent_name || DEFAULT_SETTINGS.agent_name,
           personality_prompt: data.personality_prompt || DEFAULT_SETTINGS.personality_prompt,
           voice_id: data.voice_id || DEFAULT_SETTINGS.voice_id,
           voice_speed: data.voice_speed || DEFAULT_SETTINGS.voice_speed,
           openai_api_key: data.openai_api_key || '',
-        });
+        };
+        setSettings(loadedSettings);
+        
+        // Update TTS hook with loaded settings
+        setVoice(loadedSettings.voice_id as OpenAIVoice);
+        setSpeed(loadedSettings.voice_speed);
+        setApiKey(loadedSettings.openai_api_key);
+        setUserId(user.id);
+        
         // Check if API key exists
         if (data.openai_api_key) {
           setApiKeyStatus('valid');
         }
+      } else {
+        // No settings yet, set userId for TTS
+        setUserId(user.id);
       }
     } catch (err) {
       console.error('Error loading settings:', err);
@@ -124,7 +145,7 @@ export function AgentSettingsPanel() {
     } finally {
       setIsLoading(false);
     }
-  }, [user]);
+  }, [user, setVoice, setSpeed, setApiKey, setUserId]);
 
   useEffect(() => {
     loadSettings();
@@ -174,6 +195,9 @@ export function AgentSettingsPanel() {
 
       if (error) throw error;
 
+      // Update TTS hook with new API key
+      setApiKey(settings.openai_api_key);
+
       toast.success('Settings saved');
       setHasChanges(false);
       
@@ -195,8 +219,16 @@ export function AgentSettingsPanel() {
   const updateSetting = <K extends keyof AgentSettings>(key: K, value: AgentSettings[K]) => {
     setSettings(prev => ({ ...prev, [key]: value }));
     setHasChanges(true);
-    if (key === 'openai_api_key') {
+    
+    // Update TTS hook in real-time for voice settings
+    if (key === 'voice_id') {
+      setVoice(value as OpenAIVoice);
+    } else if (key === 'voice_speed') {
+      setSpeed(value as number);
+    } else if (key === 'openai_api_key') {
       setApiKeyStatus('unknown');
+      // Update API key in TTS hook immediately for testing
+      setApiKey(value as string);
     }
   };
 
@@ -205,6 +237,10 @@ export function AgentSettingsPanel() {
     if (isSpeaking) {
       stop();
     } else {
+      if (!settings.openai_api_key) {
+        toast.error('Please enter your OpenAI API key first');
+        return;
+      }
       speak(`Hello! I'm ${settings.agent_name}. This is how I sound with the current voice settings.`);
     }
   };
@@ -393,7 +429,7 @@ export function AgentSettingsPanel() {
           <Button
             variant="outline"
             onClick={testVoice}
-            disabled={isTTSLoading}
+            disabled={isTTSLoading || !settings.openai_api_key}
             className="w-full"
           >
             {isTTSLoading ? (
@@ -403,6 +439,11 @@ export function AgentSettingsPanel() {
             )}
             {isSpeaking ? 'Stop' : 'Test Voice'}
           </Button>
+          {!settings.openai_api_key && (
+            <p className="text-xs text-orange-500 text-center">
+              Enter your OpenAI API key above to test voice
+            </p>
+          )}
         </div>
       </section>
 

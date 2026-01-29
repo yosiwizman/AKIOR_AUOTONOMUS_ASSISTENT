@@ -3,7 +3,7 @@
  * Enterprise-grade with validation and caching headers
  * 
  * POST /api/tts
- * Body: { text: string, voice?: string, speed?: number }
+ * Body: { text: string, voice?: string, speed?: number, userId?: string, apiKey?: string }
  * Response: Audio stream (mp3)
  * 
  * GET /api/tts
@@ -21,6 +21,7 @@ interface TTSRequest {
   voice?: string;
   speed?: number;
   userId?: string;
+  apiKey?: string; // Allow passing API key directly from client
 }
 
 // Lazy OpenAI initialization
@@ -38,6 +39,7 @@ function getSupabaseAdmin() {
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
   
   if (!key) {
+    console.log('[TTS] SUPABASE_SERVICE_ROLE_KEY not configured');
     return null;
   }
   
@@ -47,7 +49,10 @@ function getSupabaseAdmin() {
 // Get user's OpenAI API key from settings
 async function getUserApiKey(userId: string): Promise<string | null> {
   const supabaseAdmin = getSupabaseAdmin();
-  if (!supabaseAdmin) return null;
+  if (!supabaseAdmin) {
+    console.log('[TTS] Supabase admin not available, cannot fetch user API key');
+    return null;
+  }
 
   try {
     const { data, error } = await supabaseAdmin
@@ -57,12 +62,13 @@ async function getUserApiKey(userId: string): Promise<string | null> {
       .single();
 
     if (error && error.code !== 'PGRST116') {
-      console.error('Error fetching user API key:', error);
+      console.error('[TTS] Error fetching user API key:', error);
     }
 
+    console.log('[TTS] User API key found:', !!data?.openai_api_key);
     return data?.openai_api_key || null;
   } catch (err) {
-    console.error('Error in getUserApiKey:', err);
+    console.error('[TTS] Error in getUserApiKey:', err);
     return null;
   }
 }
@@ -95,7 +101,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Invalid JSON body' }, { status: 400 });
     }
 
-    const { text, voice = 'alloy', speed = 1.0, userId } = body;
+    const { text, voice = 'alloy', speed = 1.0, userId, apiKey: clientApiKey } = body;
 
     // Validate text
     if (!text || typeof text !== 'string') {
@@ -107,11 +113,18 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Text cannot be empty' }, { status: 400 });
     }
 
-    // Get user's API key if userId provided
-    const userApiKey = userId ? await getUserApiKey(userId) : null;
+    // Try to get API key in order of priority:
+    // 1. Client-provided API key (from settings form)
+    // 2. User's saved API key from database
+    // 3. Server environment variable
+    let apiKey = clientApiKey || null;
+    
+    if (!apiKey && userId) {
+      apiKey = await getUserApiKey(userId);
+    }
 
-    // Check OpenAI configuration (user's key takes priority)
-    const openai = getOpenAI(userApiKey);
+    // Check OpenAI configuration
+    const openai = getOpenAI(apiKey);
     if (!openai) {
       return NextResponse.json(
         { error: 'OpenAI API key not configured. Please add your API key in Settings.' },
@@ -151,7 +164,7 @@ export async function POST(request: NextRequest) {
       },
     });
   } catch (error) {
-    console.error('TTS API Error:', error);
+    console.error('[TTS] API Error:', error);
     
     // Handle OpenAI specific errors
     if (error instanceof OpenAI.APIError) {
@@ -163,8 +176,8 @@ export async function POST(request: NextRequest) {
       }
       if (error.status === 401) {
         return NextResponse.json(
-          { error: 'TTS service configuration error.' },
-          { status: 500 }
+          { error: 'Invalid OpenAI API key. Please check your API key in Settings.' },
+          { status: 401 }
         );
       }
     }

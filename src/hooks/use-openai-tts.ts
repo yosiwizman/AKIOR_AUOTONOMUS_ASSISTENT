@@ -12,6 +12,7 @@ interface UseOpenAITTSOptions {
   voice?: OpenAIVoice;
   speed?: number;
   userId?: string;
+  apiKey?: string;
 }
 
 interface UseOpenAITTSReturn {
@@ -26,6 +27,8 @@ interface UseOpenAITTSReturn {
   setSpeed: (speed: number) => void;
   userId: string | undefined;
   setUserId: (userId: string | undefined) => void;
+  apiKey: string | undefined;
+  setApiKey: (apiKey: string | undefined) => void;
 }
 
 export function useOpenAITTS(options: UseOpenAITTSOptions = {}): UseOpenAITTSReturn {
@@ -35,6 +38,7 @@ export function useOpenAITTS(options: UseOpenAITTSOptions = {}): UseOpenAITTSRet
   const [voice, setVoice] = useState<OpenAIVoice>(options.voice || 'alloy');
   const [speed, setSpeed] = useState(options.speed || 1.0);
   const [userId, setUserId] = useState<string | undefined>(options.userId);
+  const [apiKey, setApiKey] = useState<string | undefined>(options.apiKey);
   
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const abortControllerRef = useRef<AbortController | null>(null);
@@ -68,7 +72,7 @@ export function useOpenAITTS(options: UseOpenAITTSOptions = {}): UseOpenAITTSRet
       const response = await fetch('/api/tts', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text, voice, speed, userId }),
+        body: JSON.stringify({ text, voice, speed, userId, apiKey }),
         signal: abortControllerRef.current.signal,
       });
 
@@ -112,7 +116,7 @@ export function useOpenAITTS(options: UseOpenAITTSOptions = {}): UseOpenAITTSRet
       setError(err instanceof Error ? err.message : 'Failed to generate speech');
       setIsLoading(false);
     }
-  }, [voice, speed, userId, stop]);
+  }, [voice, speed, userId, apiKey, stop]);
 
   return {
     isSpeaking,
@@ -126,5 +130,7 @@ export function useOpenAITTS(options: UseOpenAITTSOptions = {}): UseOpenAITTSRet
     setSpeed,
     userId,
     setUserId,
+    apiKey,
+    setApiKey,
   };
 }
