@@ -117,8 +117,6 @@ export function LoginPage() {
                             }
                         }} />
                 </div>
-                {}
-                <p className="text-center text-xs text-muted-foreground">Personal AI assistant with RAG-powered knowledge base</p>
             </div>
         </div>
     );
