@@ -39,11 +39,10 @@ interface AgentSettings {
   agent_name: string;
   voice_id: string;
   voice_speed: number;
-  openai_api_key?: string;
 }
 
 export function AkiorVoice() {
-  const { user } = useAuth();
+  const { user, session } = useAuth();
   const [transcript, setTranscript] = useState('');
   const [messages, setMessages] = useState<Message[]>([]);
   const [isSending, setIsSending] = useState(false);
@@ -55,7 +54,6 @@ export function AkiorVoice() {
     agent_name: 'AKIOR',
     voice_id: 'alloy',
     voice_speed: 1.0,
-    openai_api_key: '',
   });
 
   const {
@@ -75,14 +73,21 @@ export function AkiorVoice() {
     stop: stopSpeaking,
     setVoice,
     setSpeed,
-    setUserId,
-    setApiKey,
   } = useOpenAITTS({
     voice: agentSettings.voice_id as OpenAIVoice,
     speed: agentSettings.voice_speed,
-    userId: user?.id,
-    apiKey: agentSettings.openai_api_key,
   });
+
+  // Get auth headers
+  const getAuthHeaders = useCallback((): HeadersInit => {
+    const headers: HeadersInit = {
+      'Content-Type': 'application/json',
+    };
+    if (session?.access_token) {
+      (headers as Record<string, string>)['Authorization'] = `Bearer ${session.access_token}`;
+    }
+    return headers;
+  }, [session]);
 
   // Load agent settings
   useEffect(() => {
@@ -91,7 +96,7 @@ export function AkiorVoice() {
     const loadSettings = async () => {
       const { data } = await supabase
         .from('agent_settings')
-        .select('agent_name, voice_id, voice_speed, openai_api_key')
+        .select('agent_name, voice_id, voice_speed')
         .eq('user_id', user.id)
         .single();
 
@@ -100,18 +105,14 @@ export function AkiorVoice() {
           agent_name: data.agent_name || 'AKIOR',
           voice_id: data.voice_id || 'alloy',
           voice_speed: data.voice_speed || 1.0,
-          openai_api_key: data.openai_api_key || '',
         });
         setVoice(data.voice_id as OpenAIVoice || 'alloy');
         setSpeed(data.voice_speed || 1.0);
-        setApiKey(data.openai_api_key || '');
       }
     };
 
-    // Set userId for TTS
-    setUserId(user.id);
     loadSettings();
-  }, [user, setVoice, setSpeed, setUserId, setApiKey]);
+  }, [user, setVoice, setSpeed]);
 
   // Sync voice transcript
   useEffect(() => {
@@ -139,11 +140,10 @@ export function AkiorVoice() {
     try {
       const res = await fetch('/api/chat', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: getAuthHeaders(),
         body: JSON.stringify({
           message,
           history: messages.map(m => ({ role: m.role, content: m.content })),
-          userId: user?.id,
           conversationId: currentConversationId,
         }),
       });
@@ -181,7 +181,7 @@ export function AkiorVoice() {
     } finally {
       setIsSending(false);
     }
-  }, [transcript, isSending, messages, user, currentConversationId, clearTranscript, stopSpeaking, speakEnabled, speak]);
+  }, [transcript, isSending, messages, currentConversationId, clearTranscript, stopSpeaking, speakEnabled, speak, getAuthHeaders]);
 
   const handlePushToTalk = useCallback(() => {
     if (recognitionStatus === 'listening') {
