@@ -30,7 +30,7 @@ interface AgentSettings {
 }
 
 export function AkiorChat() {
-  const { user } = useAuth();
+  const { user, session } = useAuth();
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -56,6 +56,17 @@ export function AkiorChat() {
     voice: agentSettings.voice_id as OpenAIVoice,
     speed: agentSettings.voice_speed,
   });
+
+  // Get auth headers
+  const getAuthHeaders = useCallback((): HeadersInit => {
+    const headers: HeadersInit = {
+      'Content-Type': 'application/json',
+    };
+    if (session?.access_token) {
+      (headers as Record<string, string>)['Authorization'] = `Bearer ${session.access_token}`;
+    }
+    return headers;
+  }, [session]);
 
   // Load agent settings
   useEffect(() => {
@@ -84,11 +95,11 @@ export function AkiorChat() {
 
   // Load conversation messages
   const loadConversation = useCallback(async (conversationId: string) => {
-    if (!user) return;
+    if (!user || !session?.access_token) return;
 
     try {
       const response = await fetch(`/api/conversations/${conversationId}/messages`, {
-        headers: { 'x-user-id': user.id },
+        headers: getAuthHeaders(),
       });
 
       if (response.ok) {
@@ -105,7 +116,7 @@ export function AkiorChat() {
     } catch (err) {
       console.error('Error loading conversation:', err);
     }
-  }, [user]);
+  }, [user, session, getAuthHeaders]);
 
   // Handle conversation selection
   const handleSelectConversation = useCallback((id: string | null) => {
@@ -174,11 +185,10 @@ export function AkiorChat() {
     try {
       const res = await fetch('/api/chat', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: getAuthHeaders(),
         body: JSON.stringify({
           message,
           history: messages.map(m => ({ role: m.role, content: m.content })),
-          userId: user?.id,
           conversationId: currentConversationId,
         }),
       });
@@ -219,7 +229,7 @@ export function AkiorChat() {
     } finally {
       setIsLoading(false);
     }
-  }, [input, isLoading, messages, user, currentConversationId, speakEnabled, speak, stopSpeaking]);
+  }, [input, isLoading, messages, currentConversationId, speakEnabled, speak, stopSpeaking, getAuthHeaders]);
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && !e.shiftKey) {

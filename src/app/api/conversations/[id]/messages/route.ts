@@ -2,10 +2,13 @@
  * Messages API - Get messages for a conversation
  * 
  * GET /api/conversations/[id]/messages
+ * 
+ * SECURITY: Requires valid JWT in Authorization header
  */
 
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
+import { verifyAuth, isAuthError } from '@/lib/server-auth';
 
 // Lazy initialization to avoid build-time errors
 function getSupabaseAdmin() {
@@ -24,11 +27,13 @@ export async function GET(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const userId = request.headers.get('x-user-id');
-    
-    if (!userId) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Verify JWT token from Authorization header
+    const authResult = await verifyAuth(request);
+    if (isAuthError(authResult)) {
+      return NextResponse.json({ error: authResult.error }, { status: authResult.status });
     }
+    
+    const userId = authResult.userId;
 
     const supabaseAdmin = getSupabaseAdmin();
     if (!supabaseAdmin) {
@@ -37,7 +42,7 @@ export async function GET(
 
     const { id: conversationId } = await params;
 
-    // Verify conversation belongs to user
+    // Verify conversation belongs to user (ownership check)
     const { data: conversation, error: convError } = await supabaseAdmin
       .from('conversations')
       .select('id')

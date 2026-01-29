@@ -3,11 +3,13 @@
  * Enterprise-grade with validation and caching headers
  * 
  * POST /api/tts
- * Body: { text: string, voice?: string, speed?: number, userId?: string, apiKey?: string }
+ * Body: { text: string, voice?: string, speed?: number }
  * Response: Audio stream (mp3)
  * 
  * GET /api/tts
  * Response: List of available voices
+ * 
+ * SECURITY: Requires valid JWT in Authorization header
  */
 
 import { NextRequest, NextResponse } from 'next/server';
@@ -15,13 +17,13 @@ import OpenAI from 'openai';
 import { sanitizeString, globalRateLimiter, getClientIP } from '@/lib/api-utils';
 import { OPENAI_VOICES, VALID_VOICE_IDS, type OpenAIVoice } from '@/lib/tts-voices';
 import { createClient } from '@supabase/supabase-js';
+import { verifyAuth, isAuthError } from '@/lib/server-auth';
+import { decrypt } from '@/lib/encryption';
 
 interface TTSRequest {
   text: string;
   voice?: string;
   speed?: number;
-  userId?: string;
-  apiKey?: string; // Allow passing API key directly from client
 }
 
 // Lazy OpenAI initialization
@@ -46,7 +48,7 @@ function getSupabaseAdmin() {
   return createClient(url, key, { auth: { persistSession: false } });
 }
 
-// Get user's OpenAI API key from settings
+// Get user's OpenAI API key from settings (decrypted)
 async function getUserApiKey(userId: string): Promise<string | null> {
   const supabaseAdmin = getSupabaseAdmin();
   if (!supabaseAdmin) {
@@ -65,8 +67,14 @@ async function getUserApiKey(userId: string): Promise<string | null> {
       console.error('[TTS] Error fetching user API key:', error);
     }
 
-    console.log('[TTS] User API key found:', !!data?.openai_api_key);
-    return data?.openai_api_key || null;
+    if (data?.openai_api_key) {
+      // Decrypt the API key
+      const decryptedKey = decrypt(data.openai_api_key);
+      console.log('[TTS] User API key found and decrypted:', !!decryptedKey);
+      return decryptedKey || null;
+    }
+    
+    return null;
   } catch (err) {
     console.error('[TTS] Error in getUserApiKey:', err);
     return null;
@@ -93,6 +101,14 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Verify JWT token from Authorization header
+    const authResult = await verifyAuth(request);
+    if (isAuthError(authResult)) {
+      return NextResponse.json({ error: authResult.error }, { status: authResult.status });
+    }
+    
+    const userId = authResult.userId;
+
     // Parse request
     let body: TTSRequest;
     try {
@@ -101,7 +117,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Invalid JSON body' }, { status: 400 });
     }
 
-    const { text, voice = 'alloy', speed = 1.0, userId, apiKey: clientApiKey } = body;
+    const { text, voice = 'alloy', speed = 1.0 } = body;
 
     // Validate text
     if (!text || typeof text !== 'string') {
@@ -113,15 +129,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Text cannot be empty' }, { status: 400 });
     }
 
-    // Try to get API key in order of priority:
-    // 1. Client-provided API key (from settings form)
-    // 2. User's saved API key from database
-    // 3. Server environment variable
-    let apiKey = clientApiKey || null;
-    
-    if (!apiKey && userId) {
-      apiKey = await getUserApiKey(userId);
-    }
+    // Get user's API key from database (decrypted)
+    const apiKey = await getUserApiKey(userId);
 
     // Check OpenAI configuration
     const openai = getOpenAI(apiKey);

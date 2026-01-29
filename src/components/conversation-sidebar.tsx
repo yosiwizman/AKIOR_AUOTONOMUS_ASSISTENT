@@ -45,20 +45,29 @@ export function ConversationSidebar({
   isCollapsed = false,
   onToggleCollapse,
 }: ConversationSidebarProps) {
-  const { user } = useAuth();
+  const { user, session } = useAuth();
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editTitle, setEditTitle] = useState('');
 
+  // Get auth headers
+  const getAuthHeaders = useCallback((): HeadersInit => {
+    const headers: HeadersInit = {};
+    if (session?.access_token) {
+      (headers as Record<string, string>)['Authorization'] = `Bearer ${session.access_token}`;
+    }
+    return headers;
+  }, [session]);
+
   // Load conversations
   const loadConversations = useCallback(async () => {
-    if (!user) return;
+    if (!user || !session?.access_token) return;
 
     setIsLoading(true);
     try {
       const response = await fetch('/api/conversations', {
-        headers: { 'x-user-id': user.id },
+        headers: getAuthHeaders(),
       });
 
       if (response.ok) {
@@ -70,7 +79,7 @@ export function ConversationSidebar({
     } finally {
       setIsLoading(false);
     }
-  }, [user]);
+  }, [user, session, getAuthHeaders]);
 
   useEffect(() => {
     loadConversations();
@@ -79,12 +88,12 @@ export function ConversationSidebar({
   // Delete conversation
   const handleDelete = async (id: string, e: React.MouseEvent) => {
     e.stopPropagation();
-    if (!user) return;
+    if (!user || !session?.access_token) return;
 
     try {
       const response = await fetch(`/api/conversations?id=${id}`, {
         method: 'DELETE',
-        headers: { 'x-user-id': user.id },
+        headers: getAuthHeaders(),
       });
 
       if (response.ok) {
@@ -107,7 +116,7 @@ export function ConversationSidebar({
 
   // Save edit
   const saveEdit = async (id: string) => {
-    if (!user || !editTitle.trim()) {
+    if (!user || !session?.access_token || !editTitle.trim()) {
       setEditingId(null);
       return;
     }
@@ -117,7 +126,7 @@ export function ConversationSidebar({
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
-          'x-user-id': user.id,
+          ...getAuthHeaders(),
         },
         body: JSON.stringify({ id, title: editTitle.trim() }),
       });

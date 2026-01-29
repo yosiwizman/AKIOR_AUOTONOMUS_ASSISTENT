@@ -10,11 +10,15 @@
  * - Streaming support ready
  * 
  * POST /api/chat
+ * 
+ * SECURITY: Requires valid JWT in Authorization header for authenticated features
  */
 
 import { NextRequest, NextResponse } from 'next/server';
 import OpenAI from 'openai';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
+import { verifyAuth, isAuthError } from '@/lib/server-auth';
+import { decrypt } from '@/lib/encryption';
 
 // Lazy initialization to avoid build-time errors
 function getOpenAI(apiKey?: string | null) {
@@ -49,7 +53,6 @@ interface Message {
 interface ChatRequest {
   message: string;
   history?: Message[];
-  userId?: string;
   conversationId?: string;
   isPublic?: boolean; // For free public interface
 }
@@ -79,7 +82,7 @@ function checkRateLimit(identifier: string): { allowed: boolean; remaining: numb
   return { allowed: true, remaining: RATE_LIMIT - record.count };
 }
 
-// Get user's agent settings (including API key)
+// Get user's agent settings (including encrypted API key)
 async function getAgentSettings(supabaseAdmin: SupabaseClient, userId: string) {
   try {
     const { data, error } = await supabaseAdmin
@@ -92,9 +95,25 @@ async function getAgentSettings(supabaseAdmin: SupabaseClient, userId: string) {
       console.error('Error fetching agent settings:', error);
     }
 
-    return data || {
+    if (data) {
+      // Decrypt the API key if it exists
+      let decryptedApiKey = null;
+      if (data.openai_api_key) {
+        decryptedApiKey = decrypt(data.openai_api_key);
+      }
+      
+      return {
+        agent_name: data.agent_name || 'AKIOR',
+        personality_prompt: data.personality_prompt || 'You are AKIOR, a helpful and knowledgeable AI assistant. You are professional, concise, and friendly.',
+        voice_id: data.voice_id || 'alloy',
+        voice_speed: data.voice_speed || 1.0,
+        openai_api_key: decryptedApiKey,
+      };
+    }
+
+    return {
       agent_name: 'AKIOR',
-      personality_prompt: 'You are AKIOR, a helpful and knowledgeable AI assistant. You are professional, concise, and friendly.',
+      personality_prompt: 'You are AKIOR, a helpful and knowledgeable AI assistant.',
       voice_id: 'alloy',
       voice_speed: 1.0,
       openai_api_key: null,
@@ -248,8 +267,20 @@ async function saveMessage(
 }
 
 // Load conversation history from database
-async function loadConversationHistory(supabaseAdmin: SupabaseClient, conversationId: string, limit = 50): Promise<Message[]> {
+async function loadConversationHistory(supabaseAdmin: SupabaseClient, conversationId: string, userId: string, limit = 50): Promise<Message[]> {
   try {
+    // First verify the conversation belongs to the user
+    const { data: conv } = await supabaseAdmin
+      .from('conversations')
+      .select('id')
+      .eq('id', conversationId)
+      .eq('user_id', userId)
+      .single();
+    
+    if (!conv) {
+      return [];
+    }
+
     const { data, error } = await supabaseAdmin
       .from('messages')
       .select('role, content')
@@ -390,7 +421,7 @@ export async function POST(request: NextRequest): Promise<NextResponse<ChatRespo
     }
 
     const body: ChatRequest = await request.json();
-    const { message, history = [], userId, conversationId, isPublic = false } = body;
+    const { message, history = [], conversationId, isPublic = false } = body;
 
     // Validate request
     if (!message || typeof message !== 'string') {
@@ -404,21 +435,15 @@ export async function POST(request: NextRequest): Promise<NextResponse<ChatRespo
     // Get Supabase admin client
     const supabaseAdmin = getSupabaseAdmin();
 
-    // Get agent settings (including user's API key) for authenticated users
-    const agentSettings = userId && supabaseAdmin
-      ? await getAgentSettings(supabaseAdmin, userId)
-      : { agent_name: 'AKIOR', personality_prompt: 'You are AKIOR, a helpful AI assistant.', openai_api_key: null };
-
-    // Check if OpenAI is configured (user's key takes priority)
-    const openai = getOpenAI(agentSettings.openai_api_key);
-    if (!openai) {
-      return NextResponse.json({
-        reply: `I'm currently running in demo mode without OpenAI integration.\n\nTo enable full AI capabilities:\n1. Go to Settings and add your OpenAI API key\n2. Or set OPENAI_API_KEY in the server environment\n\nYour message was: "${message.slice(0, 100)}${message.length > 100 ? '...' : ''}"`,
-      });
-    }
-
-    // For public interface, use minimal settings
+    // For public interface, use minimal settings without auth
     if (isPublic) {
+      const openai = getOpenAI();
+      if (!openai) {
+        return NextResponse.json({
+          reply: `I'm currently running in demo mode without OpenAI integration.\n\nTo enable full AI capabilities, set OPENAI_API_KEY in the server environment.\n\nYour message was: "${message.slice(0, 100)}${message.length > 100 ? '...' : ''}"`,
+        });
+      }
+
       const messages: OpenAI.Chat.ChatCompletionMessageParam[] = [
         {
           role: 'system',
@@ -455,11 +480,32 @@ Guidelines:
       });
     }
 
+    // For authenticated requests, verify JWT
+    const authResult = await verifyAuth(request);
+    if (isAuthError(authResult)) {
+      return NextResponse.json({ error: authResult.error }, { status: authResult.status });
+    }
+    
+    const userId = authResult.userId;
+
+    // Get agent settings (including user's encrypted API key)
+    const agentSettings = supabaseAdmin
+      ? await getAgentSettings(supabaseAdmin, userId)
+      : { agent_name: 'AKIOR', personality_prompt: 'You are AKIOR, a helpful AI assistant.', openai_api_key: null };
+
+    // Check if OpenAI is configured (user's key takes priority)
+    const openai = getOpenAI(agentSettings.openai_api_key);
+    if (!openai) {
+      return NextResponse.json({
+        reply: `I'm currently running in demo mode without OpenAI integration.\n\nTo enable full AI capabilities:\n1. Go to Settings and add your OpenAI API key\n2. Or set OPENAI_API_KEY in the server environment\n\nYour message was: "${message.slice(0, 100)}${message.length > 100 ? '...' : ''}"`,
+      });
+    }
+
     // Get or create conversation
     let activeConversationId = conversationId;
     let conversationHistory = history;
 
-    if (userId && supabaseAdmin) {
+    if (supabaseAdmin) {
       // Get or create conversation
       activeConversationId = await getOrCreateConversation(supabaseAdmin, userId, conversationId, message);
 
@@ -473,7 +519,7 @@ Guidelines:
           .eq('id', activeConversationId);
       } else if (activeConversationId && history.length === 0) {
         // Existing conversation but no history provided, load from DB
-        conversationHistory = await loadConversationHistory(supabaseAdmin, activeConversationId);
+        conversationHistory = await loadConversationHistory(supabaseAdmin, activeConversationId, userId);
       }
 
       // Save user message
@@ -486,7 +532,7 @@ Guidelines:
     let knowledgeContext = '';
     let memoryContext = '';
 
-    if (userId && supabaseAdmin) {
+    if (supabaseAdmin) {
       const [knowledgeResults, memoryResults] = await Promise.all([
         searchKnowledge(openai, supabaseAdmin, userId, message),
         searchMemories(openai, supabaseAdmin, userId, message),
@@ -542,7 +588,7 @@ Guidelines:
 
     // Save assistant message and extract memories
     let messageId: string | undefined;
-    if (userId && activeConversationId && supabaseAdmin) {
+    if (activeConversationId && supabaseAdmin) {
       messageId = await saveMessage(supabaseAdmin, activeConversationId, userId, 'assistant', reply) || undefined;
       
       // Extract and save memories in the background

@@ -1,9 +1,11 @@
 /**
  * Custom hook for OpenAI Text-to-Speech
+ * Uses Authorization header for authenticated requests
  */
 
 import { useState, useCallback, useRef } from 'react';
 import { OPENAI_VOICES, type OpenAIVoice } from '@/lib/tts-voices';
+import { useAuth } from '@/contexts/auth-context';
 
 // Re-export for convenience
 export { OPENAI_VOICES, type OpenAIVoice } from '@/lib/tts-voices';
@@ -11,8 +13,6 @@ export { OPENAI_VOICES, type OpenAIVoice } from '@/lib/tts-voices';
 interface UseOpenAITTSOptions {
   voice?: OpenAIVoice;
   speed?: number;
-  userId?: string;
-  apiKey?: string;
 }
 
 interface UseOpenAITTSReturn {
@@ -25,20 +25,15 @@ interface UseOpenAITTSReturn {
   setVoice: (voice: OpenAIVoice) => void;
   speed: number;
   setSpeed: (speed: number) => void;
-  userId: string | undefined;
-  setUserId: (userId: string | undefined) => void;
-  apiKey: string | undefined;
-  setApiKey: (apiKey: string | undefined) => void;
 }
 
 export function useOpenAITTS(options: UseOpenAITTSOptions = {}): UseOpenAITTSReturn {
+  const { session } = useAuth();
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [voice, setVoice] = useState<OpenAIVoice>(options.voice || 'alloy');
   const [speed, setSpeed] = useState(options.speed || 1.0);
-  const [userId, setUserId] = useState<string | undefined>(options.userId);
-  const [apiKey, setApiKey] = useState<string | undefined>(options.apiKey);
   
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const abortControllerRef = useRef<AbortController | null>(null);
@@ -69,10 +64,19 @@ export function useOpenAITTS(options: UseOpenAITTSOptions = {}): UseOpenAITTSRet
     try {
       abortControllerRef.current = new AbortController();
 
+      // Build headers with Authorization
+      const headers: HeadersInit = {
+        'Content-Type': 'application/json',
+      };
+      
+      if (session?.access_token) {
+        (headers as Record<string, string>)['Authorization'] = `Bearer ${session.access_token}`;
+      }
+
       const response = await fetch('/api/tts', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text, voice, speed, userId, apiKey }),
+        headers,
+        body: JSON.stringify({ text, voice, speed }),
         signal: abortControllerRef.current.signal,
       });
 
@@ -116,7 +120,7 @@ export function useOpenAITTS(options: UseOpenAITTSOptions = {}): UseOpenAITTSRet
       setError(err instanceof Error ? err.message : 'Failed to generate speech');
       setIsLoading(false);
     }
-  }, [voice, speed, userId, apiKey, stop]);
+  }, [voice, speed, session, stop]);
 
   return {
     isSpeaking,
@@ -128,9 +132,5 @@ export function useOpenAITTS(options: UseOpenAITTSOptions = {}): UseOpenAITTSRet
     setVoice,
     speed,
     setSpeed,
-    userId,
-    setUserId,
-    apiKey,
-    setApiKey,
   };
 }

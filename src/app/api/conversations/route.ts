@@ -5,10 +5,13 @@
  * POST /api/conversations - Create new conversation
  * DELETE /api/conversations?id=xxx - Delete conversation
  * PATCH /api/conversations - Update conversation (rename)
+ * 
+ * SECURITY: All endpoints require valid JWT in Authorization header
  */
 
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
+import { verifyAuth, isAuthError } from '@/lib/server-auth';
 
 // Lazy initialization to avoid build-time errors
 function getSupabaseAdmin() {
@@ -25,11 +28,13 @@ function getSupabaseAdmin() {
 // GET - List conversations
 export async function GET(request: NextRequest) {
   try {
-    const userId = request.headers.get('x-user-id');
-    
-    if (!userId) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Verify JWT token from Authorization header
+    const authResult = await verifyAuth(request);
+    if (isAuthError(authResult)) {
+      return NextResponse.json({ error: authResult.error }, { status: authResult.status });
     }
+    
+    const userId = authResult.userId;
 
     const supabaseAdmin = getSupabaseAdmin();
     if (!supabaseAdmin) {
@@ -67,11 +72,13 @@ export async function GET(request: NextRequest) {
 // POST - Create new conversation
 export async function POST(request: NextRequest) {
   try {
-    const userId = request.headers.get('x-user-id');
-    
-    if (!userId) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Verify JWT token from Authorization header
+    const authResult = await verifyAuth(request);
+    if (isAuthError(authResult)) {
+      return NextResponse.json({ error: authResult.error }, { status: authResult.status });
     }
+    
+    const userId = authResult.userId;
 
     const supabaseAdmin = getSupabaseAdmin();
     if (!supabaseAdmin) {
@@ -105,11 +112,13 @@ export async function POST(request: NextRequest) {
 // DELETE - Delete conversation
 export async function DELETE(request: NextRequest) {
   try {
-    const userId = request.headers.get('x-user-id');
-    
-    if (!userId) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Verify JWT token from Authorization header
+    const authResult = await verifyAuth(request);
+    if (isAuthError(authResult)) {
+      return NextResponse.json({ error: authResult.error }, { status: authResult.status });
     }
+    
+    const userId = authResult.userId;
 
     const supabaseAdmin = getSupabaseAdmin();
     if (!supabaseAdmin) {
@@ -124,6 +133,7 @@ export async function DELETE(request: NextRequest) {
     }
 
     // Delete conversation (messages will cascade delete)
+    // Ownership check: only delete if user_id matches
     const { error } = await supabaseAdmin
       .from('conversations')
       .delete()
@@ -145,11 +155,13 @@ export async function DELETE(request: NextRequest) {
 // PATCH - Update conversation (rename)
 export async function PATCH(request: NextRequest) {
   try {
-    const userId = request.headers.get('x-user-id');
-    
-    if (!userId) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Verify JWT token from Authorization header
+    const authResult = await verifyAuth(request);
+    if (isAuthError(authResult)) {
+      return NextResponse.json({ error: authResult.error }, { status: authResult.status });
     }
+    
+    const userId = authResult.userId;
 
     const supabaseAdmin = getSupabaseAdmin();
     if (!supabaseAdmin) {
@@ -163,6 +175,7 @@ export async function PATCH(request: NextRequest) {
       return NextResponse.json({ error: 'ID and title required' }, { status: 400 });
     }
 
+    // Ownership check: only update if user_id matches
     const { data, error } = await supabaseAdmin
       .from('conversations')
       .update({ title: title.slice(0, 100), updated_at: new Date().toISOString() })

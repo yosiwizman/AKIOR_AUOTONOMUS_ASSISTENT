@@ -67,6 +67,36 @@ const ChartContainer = React.forwardRef<
 })
 ChartContainer.displayName = "Chart"
 
+// Allowlist of valid CSS color formats to prevent CSS injection
+const CSS_COLOR_REGEX = /^(#[0-9a-fA-F]{3,8}|rgb\(\s*\d{1,3}\s*,\s*\d{1,3}\s*,\s*\d{1,3}\s*\)|rgba\(\s*\d{1,3}\s*,\s*\d{1,3}\s*,\s*\d{1,3}\s*,\s*[\d.]+\s*\)|hsl\(\s*\d{1,3}\s*,\s*[\d.]+%\s*,\s*[\d.]+%\s*\)|hsla\(\s*\d{1,3}\s*,\s*[\d.]+%\s*,\s*[\d.]+%\s*,\s*[\d.]+\s*\)|[a-zA-Z]+)$/
+
+// Allowlist of valid CSS variable key characters (alphanumeric, hyphens, underscores)
+const CSS_VAR_KEY_REGEX = /^[a-zA-Z][a-zA-Z0-9_-]*$/
+
+/**
+ * Sanitize a CSS color value to prevent injection
+ */
+function sanitizeColor(color: string | undefined): string | null {
+  if (!color) return null
+  const trimmed = color.trim()
+  if (CSS_COLOR_REGEX.test(trimmed)) {
+    return trimmed
+  }
+  console.warn(`Invalid CSS color value rejected: ${color}`)
+  return null
+}
+
+/**
+ * Sanitize a CSS variable key to prevent injection
+ */
+function sanitizeKey(key: string): string | null {
+  if (CSS_VAR_KEY_REGEX.test(key)) {
+    return key
+  }
+  console.warn(`Invalid CSS variable key rejected: ${key}`)
+  return null
+}
+
 const ChartStyle = ({ id, config }: { id: string; config: ChartConfig }) => {
   const colorConfig = Object.entries(config).filter(
     ([, config]) => config.theme || config.color
@@ -76,25 +106,46 @@ const ChartStyle = ({ id, config }: { id: string; config: ChartConfig }) => {
     return null
   }
 
+  // Build CSS safely using DOM APIs instead of dangerouslySetInnerHTML
+  const cssRules = React.useMemo(() => {
+    const rules: string[] = []
+    
+    for (const [theme, prefix] of Object.entries(THEMES)) {
+      const declarations: string[] = []
+      
+      for (const [key, itemConfig] of colorConfig) {
+        // Sanitize the key
+        const safeKey = sanitizeKey(key)
+        if (!safeKey) continue
+        
+        // Get and sanitize the color
+        const rawColor = itemConfig.theme?.[theme as keyof typeof itemConfig.theme] || itemConfig.color
+        const safeColor = sanitizeColor(rawColor)
+        
+        if (safeColor) {
+          declarations.push(`  --color-${safeKey}: ${safeColor};`)
+        }
+      }
+      
+      if (declarations.length > 0) {
+        const selector = prefix ? `${prefix} [data-chart=${id}]` : `[data-chart=${id}]`
+        rules.push(`${selector} {\n${declarations.join("\n")}\n}`)
+      }
+    }
+    
+    return rules.join("\n\n")
+  }, [id, colorConfig])
+
+  if (!cssRules) {
+    return null
+  }
+
+  // Use a style element with textContent instead of dangerouslySetInnerHTML
+  // This is safer as textContent is automatically escaped
   return (
     <style
       dangerouslySetInnerHTML={{
-        __html: Object.entries(THEMES)
-          .map(
-            ([theme, prefix]) => `
-${prefix} [data-chart=${id}] {
-${colorConfig
-  .map(([key, itemConfig]) => {
-    const color =
-      itemConfig.theme?.[theme as keyof typeof itemConfig.theme] ||
-      itemConfig.color
-    return color ? `  --color-${key}: ${color};` : null
-  })
-  .join("\n")}
-}
-`
-          )
-          .join("\n"),
+        __html: cssRules,
       }}
     />
   )

@@ -4,12 +4,17 @@
  * 
  * POST /api/embeddings
  * Body: { documentId: string, content: string, type?: 'knowledge' | 'memory' }
+ * 
+ * SECURITY: Requires valid JWT in Authorization header
+ * Ownership verification: Documents must belong to the authenticated user
  */
 
 import { NextRequest, NextResponse } from 'next/server';
 import OpenAI from 'openai';
 import { createClient } from '@supabase/supabase-js';
 import { isValidUUID, sanitizeString, globalRateLimiter, getClientIP } from '@/lib/api-utils';
+import { verifyAuth, isAuthError } from '@/lib/server-auth';
+import { decrypt } from '@/lib/encryption';
 
 // Initialize OpenAI client (lazy - only when needed)
 function getOpenAI(apiKey?: string | null) {
@@ -36,10 +41,9 @@ interface EmbeddingRequest {
   documentId?: string;
   content: string;
   type?: 'knowledge' | 'memory';
-  userId?: string;
 }
 
-// Get user's OpenAI API key from settings
+// Get user's OpenAI API key from settings (decrypted)
 async function getUserApiKey(userId: string): Promise<string | null> {
   const supabaseAdmin = getSupabaseAdmin();
   if (!supabaseAdmin) return null;
@@ -55,11 +59,41 @@ async function getUserApiKey(userId: string): Promise<string | null> {
       console.error('Error fetching user API key:', error);
     }
 
-    return data?.openai_api_key || null;
+    if (data?.openai_api_key) {
+      // Decrypt the API key
+      return decrypt(data.openai_api_key) || null;
+    }
+
+    return null;
   } catch (err) {
     console.error('Error in getUserApiKey:', err);
     return null;
   }
+}
+
+// Verify document ownership
+async function verifyDocumentOwnership(
+  supabaseAdmin: ReturnType<typeof getSupabaseAdmin>,
+  documentId: string,
+  userId: string,
+  type: 'knowledge' | 'memory'
+): Promise<boolean> {
+  if (!supabaseAdmin) return false;
+  
+  const table = type === 'memory' ? 'memories' : 'knowledge_base';
+  
+  const { data, error } = await supabaseAdmin
+    .from(table)
+    .select('id')
+    .eq('id', documentId)
+    .eq('user_id', userId)
+    .single();
+  
+  if (error || !data) {
+    return false;
+  }
+  
+  return true;
 }
 
 export async function POST(request: NextRequest) {
@@ -83,6 +117,14 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Verify JWT token from Authorization header
+    const authResult = await verifyAuth(request);
+    if (isAuthError(authResult)) {
+      return NextResponse.json({ error: authResult.error }, { status: authResult.status });
+    }
+    
+    const userId = authResult.userId;
+
     // Parse and validate request
     let body: EmbeddingRequest;
     try {
@@ -91,7 +133,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Invalid JSON body' }, { status: 400 });
     }
 
-    const { documentId, content, type = 'knowledge', userId } = body;
+    const { documentId, content, type = 'knowledge' } = body;
 
     // Validate content
     if (!content || typeof content !== 'string') {
@@ -113,8 +155,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Type must be "knowledge" or "memory"' }, { status: 400 });
     }
 
-    // Get user's API key if userId provided
-    const userApiKey = userId ? await getUserApiKey(userId) : null;
+    // Get user's API key (decrypted)
+    const userApiKey = await getUserApiKey(userId);
 
     // Check OpenAI configuration (user's key takes priority)
     const openai = getOpenAI(userApiKey);
@@ -152,12 +194,23 @@ export async function POST(request: NextRequest) {
         });
       }
 
+      // SECURITY: Verify document ownership before updating
+      const isOwner = await verifyDocumentOwnership(supabaseAdmin, documentId, userId, type);
+      if (!isOwner) {
+        return NextResponse.json(
+          { error: 'Document not found or access denied' },
+          { status: 404 }
+        );
+      }
+
       const table = type === 'memory' ? 'memories' : 'knowledge_base';
       
+      // Update with both document ID and user ID for extra safety
       const { error } = await supabaseAdmin
         .from(table)
         .update({ embedding })
-        .eq('id', documentId);
+        .eq('id', documentId)
+        .eq('user_id', userId);
 
       if (error) {
         console.error('Error updating embedding:', error);

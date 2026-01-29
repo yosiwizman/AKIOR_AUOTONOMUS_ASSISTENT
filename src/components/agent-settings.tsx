@@ -2,6 +2,7 @@
 
 /**
  * Agent Personality & Voice Settings
+ * API keys are encrypted server-side before storage
  */
 
 import { useState, useEffect, useCallback } from 'react';
@@ -29,7 +30,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/auth-context';
 import { useOpenAITTS, OPENAI_VOICES, OpenAIVoice } from '@/hooks/use-openai-tts';
 import { toast } from 'sonner';
@@ -41,7 +41,9 @@ interface AgentSettings {
   personality_prompt: string;
   voice_id: string;
   voice_speed: number;
-  openai_api_key?: string;
+  openai_api_key: string;
+  has_api_key?: boolean;
+  masked_api_key?: string;
 }
 
 const DEFAULT_SETTINGS: AgentSettings = {
@@ -72,14 +74,24 @@ const PERSONALITY_PRESETS = [
 ];
 
 export function AgentSettingsPanel() {
-  const { user } = useAuth();
+  const { user, session } = useAuth();
   const [settings, setSettings] = useState<AgentSettings>(DEFAULT_SETTINGS);
-  const [existingId, setExistingId] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
   const [hasChanges, setHasChanges] = useState(false);
   const [showApiKey, setShowApiKey] = useState(false);
   const [apiKeyStatus, setApiKeyStatus] = useState<'unknown' | 'valid' | 'invalid'>('unknown');
+
+  // Get auth headers
+  const getAuthHeaders = useCallback((): HeadersInit => {
+    const headers: HeadersInit = {
+      'Content-Type': 'application/json',
+    };
+    if (session?.access_token) {
+      (headers as Record<string, string>)['Authorization'] = `Bearer ${session.access_token}`;
+    }
+    return headers;
+  }, [session]);
 
   const { 
     speak, 
@@ -88,56 +100,48 @@ export function AgentSettingsPanel() {
     isLoading: isTTSLoading,
     setVoice,
     setSpeed,
-    setApiKey,
-    setUserId,
   } = useOpenAITTS({
     voice: settings.voice_id as OpenAIVoice,
     speed: settings.voice_speed,
-    userId: user?.id,
-    apiKey: settings.openai_api_key,
   });
 
-  // Load settings
+  // Load settings from API
   const loadSettings = useCallback(async () => {
-    if (!user) return;
+    if (!user || !session?.access_token) return;
 
     setIsLoading(true);
     try {
-      const { data, error } = await supabase
-        .from('agent_settings')
-        .select('*')
-        .eq('user_id', user.id)
-        .single();
+      const response = await fetch('/api/settings', {
+        headers: getAuthHeaders(),
+      });
 
-      if (error && error.code !== 'PGRST116') {
-        throw error;
+      if (!response.ok) {
+        throw new Error('Failed to load settings');
       }
 
-      if (data) {
-        setExistingId(data.id);
+      const data = await response.json();
+      
+      if (data.settings) {
         const loadedSettings = {
-          id: data.id,
-          agent_name: data.agent_name || DEFAULT_SETTINGS.agent_name,
-          personality_prompt: data.personality_prompt || DEFAULT_SETTINGS.personality_prompt,
-          voice_id: data.voice_id || DEFAULT_SETTINGS.voice_id,
-          voice_speed: data.voice_speed || DEFAULT_SETTINGS.voice_speed,
-          openai_api_key: data.openai_api_key || '',
+          id: data.settings.id,
+          agent_name: data.settings.agent_name || DEFAULT_SETTINGS.agent_name,
+          personality_prompt: data.settings.personality_prompt || DEFAULT_SETTINGS.personality_prompt,
+          voice_id: data.settings.voice_id || DEFAULT_SETTINGS.voice_id,
+          voice_speed: data.settings.voice_speed || DEFAULT_SETTINGS.voice_speed,
+          openai_api_key: '', // Don't show the actual key
+          has_api_key: data.settings.has_api_key,
+          masked_api_key: data.settings.masked_api_key,
         };
         setSettings(loadedSettings);
         
         // Update TTS hook with loaded settings
         setVoice(loadedSettings.voice_id as OpenAIVoice);
         setSpeed(loadedSettings.voice_speed);
-        setApiKey(loadedSettings.openai_api_key);
-        setUserId(user.id);
         
         // Check if API key exists
-        if (data.openai_api_key) {
+        if (data.settings.has_api_key) {
           setApiKeyStatus('valid');
         }
-      } else {
-        // No settings yet, set userId for TTS
-        setUserId(user.id);
       }
     } catch (err) {
       console.error('Error loading settings:', err);
@@ -145,71 +149,54 @@ export function AgentSettingsPanel() {
     } finally {
       setIsLoading(false);
     }
-  }, [user, setVoice, setSpeed, setApiKey, setUserId]);
+  }, [user, session, getAuthHeaders, setVoice, setSpeed]);
 
   useEffect(() => {
     loadSettings();
   }, [loadSettings]);
 
-  // Save settings - use update if exists, insert if not
+  // Save settings via API (API key is encrypted server-side)
   const handleSave = async () => {
-    if (!user) return;
+    if (!user || !session?.access_token) return;
 
     setIsSaving(true);
     try {
-      const settingsData = {
-        agent_name: settings.agent_name,
-        personality_prompt: settings.personality_prompt,
-        voice_id: settings.voice_id,
-        voice_speed: settings.voice_speed,
-        openai_api_key: settings.openai_api_key || null,
-        updated_at: new Date().toISOString(),
-      };
+      const response = await fetch('/api/settings', {
+        method: 'POST',
+        headers: getAuthHeaders(),
+        body: JSON.stringify({
+          agent_name: settings.agent_name,
+          personality_prompt: settings.personality_prompt,
+          voice_id: settings.voice_id,
+          voice_speed: settings.voice_speed,
+          openai_api_key: settings.openai_api_key, // Will be encrypted server-side
+        }),
+      });
 
-      let error;
-
-      if (existingId) {
-        // Update existing record
-        const result = await supabase
-          .from('agent_settings')
-          .update(settingsData)
-          .eq('id', existingId)
-          .eq('user_id', user.id);
-        error = result.error;
-      } else {
-        // Insert new record
-        const result = await supabase
-          .from('agent_settings')
-          .insert({
-            user_id: user.id,
-            ...settingsData,
-          })
-          .select('id')
-          .single();
-        
-        error = result.error;
-        if (result.data) {
-          setExistingId(result.data.id);
-        }
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.error || 'Failed to save settings');
       }
-
-      if (error) throw error;
-
-      // Update TTS hook with new API key
-      setApiKey(settings.openai_api_key);
 
       toast.success('Settings saved');
       setHasChanges(false);
       
       // Update API key status
-      if (settings.openai_api_key) {
+      if (settings.openai_api_key && settings.openai_api_key.startsWith('sk-')) {
         setApiKeyStatus('valid');
-      } else {
+        // Clear the input field and show masked version
+        setSettings(prev => ({
+          ...prev,
+          openai_api_key: '',
+          has_api_key: true,
+          masked_api_key: `${settings.openai_api_key.slice(0, 7)}...${settings.openai_api_key.slice(-4)}`,
+        }));
+      } else if (settings.openai_api_key === '') {
         setApiKeyStatus('unknown');
       }
     } catch (err) {
       console.error('Error saving settings:', err);
-      toast.error('Failed to save settings');
+      toast.error(err instanceof Error ? err.message : 'Failed to save settings');
     } finally {
       setIsSaving(false);
     }
@@ -227,20 +214,25 @@ export function AgentSettingsPanel() {
       setSpeed(value as number);
     } else if (key === 'openai_api_key') {
       setApiKeyStatus('unknown');
-      // Update API key in TTS hook immediately for testing
-      setApiKey(value as string);
     }
   };
 
   // Test voice
-  const testVoice = () => {
+  const testVoice = async () => {
     if (isSpeaking) {
       stop();
     } else {
-      if (!settings.openai_api_key) {
+      if (!settings.has_api_key && !settings.openai_api_key) {
         toast.error('Please enter your OpenAI API key first');
         return;
       }
+      
+      // For voice test, we need to save first if there's a new API key
+      if (settings.openai_api_key && settings.openai_api_key.startsWith('sk-')) {
+        toast.info('Please save your settings first to test the voice');
+        return;
+      }
+      
       speak(`Hello! I'm ${settings.agent_name}. This is how I sound with the current voice settings.`);
     }
   };
@@ -269,9 +261,9 @@ export function AgentSettingsPanel() {
               <Input
                 id="openai-key"
                 type={showApiKey ? 'text' : 'password'}
-                value={settings.openai_api_key || ''}
+                value={settings.openai_api_key}
                 onChange={(e) => updateSetting('openai_api_key', e.target.value)}
-                placeholder="sk-..."
+                placeholder={settings.has_api_key ? settings.masked_api_key : 'sk-...'}
                 className="bg-muted/50 pr-20"
               />
               <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1">
@@ -298,6 +290,7 @@ export function AgentSettingsPanel() {
             </div>
             <p className="text-xs text-muted-foreground">
               Your OpenAI API key is required for AI chat, voice, and embeddings. 
+              It is encrypted before being stored.
               Get one at{' '}
               <a 
                 href="https://platform.openai.com/api-keys" 
@@ -429,7 +422,7 @@ export function AgentSettingsPanel() {
           <Button
             variant="outline"
             onClick={testVoice}
-            disabled={isTTSLoading || !settings.openai_api_key}
+            disabled={isTTSLoading || (!settings.has_api_key && !settings.openai_api_key)}
             className="w-full"
           >
             {isTTSLoading ? (
@@ -439,7 +432,7 @@ export function AgentSettingsPanel() {
             )}
             {isSpeaking ? 'Stop' : 'Test Voice'}
           </Button>
-          {!settings.openai_api_key && (
+          {!settings.has_api_key && !settings.openai_api_key && (
             <p className="text-xs text-orange-500 text-center">
               Enter your OpenAI API key above to test voice
             </p>
