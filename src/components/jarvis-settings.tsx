@@ -2,7 +2,7 @@
 
 /**
  * AKIOR Settings View
- * Configuration panel with agent settings, voice, and memory management
+ * Enterprise-grade configuration with memory management
  */
 
 import { useState, useEffect, useCallback } from 'react';
@@ -10,7 +10,9 @@ import {
   Loader2, 
   Trash2, 
   Brain,
-  LogOut
+  LogOut,
+  RefreshCw,
+  AlertTriangle
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
@@ -28,6 +30,7 @@ import {
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/auth-context';
 import { AgentSettingsPanel } from './agent-settings';
+import { MemoryListSkeleton } from './loading-skeleton';
 import { toast } from 'sonner';
 
 interface Memory {
@@ -39,9 +42,10 @@ interface Memory {
 }
 
 export function AkiorSettings() {
-  const { user, signOut } = useAuth();
+  const { user, signOut, error: authError, clearError } = useAuth();
   const [memories, setMemories] = useState<Memory[]>([]);
   const [isLoadingMemories, setIsLoadingMemories] = useState(true);
+  const [isSigningOut, setIsSigningOut] = useState(false);
 
   // Load memories
   const loadMemories = useCallback(async () => {
@@ -60,6 +64,7 @@ export function AkiorSettings() {
       setMemories(data || []);
     } catch (err) {
       console.error('Error loading memories:', err);
+      toast.error('Failed to load memories');
     } finally {
       setIsLoadingMemories(false);
     }
@@ -68,6 +73,14 @@ export function AkiorSettings() {
   useEffect(() => {
     loadMemories();
   }, [loadMemories]);
+
+  // Show auth errors
+  useEffect(() => {
+    if (authError) {
+      toast.error(authError);
+      clearError();
+    }
+  }, [authError, clearError]);
 
   // Delete a memory
   const deleteMemory = async (id: string) => {
@@ -107,6 +120,23 @@ export function AkiorSettings() {
     }
   };
 
+  // Handle sign out
+  const handleSignOut = async () => {
+    setIsSigningOut(true);
+    try {
+      await signOut();
+    } finally {
+      setIsSigningOut(false);
+    }
+  };
+
+  // Get importance color
+  const getImportanceColor = (importance: number) => {
+    if (importance >= 8) return 'text-green-500';
+    if (importance >= 5) return 'text-primary';
+    return 'text-muted-foreground';
+  };
+
   return (
     <div className="flex flex-col h-full">
       {/* Header */}
@@ -120,10 +150,15 @@ export function AkiorSettings() {
         <Button
           variant="outline"
           size="sm"
-          onClick={signOut}
+          onClick={handleSignOut}
+          disabled={isSigningOut}
           className="text-muted-foreground"
         >
-          <LogOut className="w-4 h-4 mr-2" />
+          {isSigningOut ? (
+            <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+          ) : (
+            <LogOut className="w-4 h-4 mr-2" />
+          )}
           Sign Out
         </Button>
       </div>
@@ -142,37 +177,51 @@ export function AkiorSettings() {
                 Memory ({memories.length})
               </h3>
               
-              {memories.length > 0 && (
-                <AlertDialog>
-                  <AlertDialogTrigger asChild>
-                    <Button variant="ghost" size="sm" className="text-destructive">
-                      <Trash2 className="w-4 h-4 mr-2" />
-                      Clear All
-                    </Button>
-                  </AlertDialogTrigger>
-                  <AlertDialogContent>
-                    <AlertDialogHeader>
-                      <AlertDialogTitle>Clear all memories?</AlertDialogTitle>
-                      <AlertDialogDescription>
-                        This will permanently delete all memories AKIOR has learned about you. This action cannot be undone.
-                      </AlertDialogDescription>
-                    </AlertDialogHeader>
-                    <AlertDialogFooter>
-                      <AlertDialogCancel>Cancel</AlertDialogCancel>
-                      <AlertDialogAction onClick={clearAllMemories} className="bg-destructive">
+              <div className="flex items-center gap-2">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={loadMemories}
+                  disabled={isLoadingMemories}
+                  className="text-muted-foreground"
+                >
+                  <RefreshCw className={`w-4 h-4 mr-2 ${isLoadingMemories ? 'animate-spin' : ''}`} />
+                  Refresh
+                </Button>
+                
+                {memories.length > 0 && (
+                  <AlertDialog>
+                    <AlertDialogTrigger asChild>
+                      <Button variant="ghost" size="sm" className="text-destructive">
+                        <Trash2 className="w-4 h-4 mr-2" />
                         Clear All
-                      </AlertDialogAction>
-                    </AlertDialogFooter>
-                  </AlertDialogContent>
-                </AlertDialog>
-              )}
+                      </Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                      <AlertDialogHeader>
+                        <AlertDialogTitle className="flex items-center gap-2">
+                          <AlertTriangle className="w-5 h-5 text-destructive" />
+                          Clear all memories?
+                        </AlertDialogTitle>
+                        <AlertDialogDescription>
+                          This will permanently delete all {memories.length} memories AKIOR has learned about you. This action cannot be undone.
+                        </AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogAction onClick={clearAllMemories} className="bg-destructive hover:bg-destructive/90">
+                          Clear All Memories
+                        </AlertDialogAction>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
+                )}
+              </div>
             </div>
             
             <div className="akior-card">
               {isLoadingMemories ? (
-                <div className="flex items-center justify-center py-8">
-                  <Loader2 className="w-5 h-5 animate-spin text-primary" />
-                </div>
+                <MemoryListSkeleton />
               ) : memories.length === 0 ? (
                 <div className="text-center py-8">
                   <Brain className="w-10 h-10 text-muted-foreground/50 mx-auto mb-3" />
@@ -194,7 +243,7 @@ export function AkiorSettings() {
                           <span className="text-xs text-muted-foreground">
                             {new Date(memory.created_at).toLocaleDateString()}
                           </span>
-                          <span className="text-xs text-primary">
+                          <span className={`text-xs ${getImportanceColor(memory.importance)}`}>
                             Importance: {memory.importance}/10
                           </span>
                         </div>
@@ -228,7 +277,16 @@ export function AkiorSettings() {
                 </div>
                 <div>
                   <Label className="text-xs text-muted-foreground">User ID</Label>
-                  <p className="text-xs font-mono text-muted-foreground">{user?.id}</p>
+                  <p className="text-xs font-mono text-muted-foreground break-all">{user?.id}</p>
+                </div>
+                <div>
+                  <Label className="text-xs text-muted-foreground">Last Sign In</Label>
+                  <p className="text-sm">
+                    {user?.last_sign_in_at 
+                      ? new Date(user.last_sign_in_at).toLocaleString()
+                      : 'N/A'
+                    }
+                  </p>
                 </div>
               </div>
             </div>

@@ -2,7 +2,7 @@
 
 /**
  * Knowledge Base Management
- * Upload and manage documents for RAG
+ * Enterprise-grade document management for RAG
  */
 
 import { useState, useEffect, useCallback } from 'react';
@@ -14,7 +14,9 @@ import {
   Loader2,
   Search,
   BookOpen,
-  AlertCircle
+  AlertCircle,
+  RefreshCw,
+  CheckCircle2
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -28,8 +30,20 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/auth-context';
+import { KnowledgeBaseSkeleton } from './loading-skeleton';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 
@@ -50,6 +64,7 @@ export function KnowledgeBase() {
   const [isProcessing, setIsProcessing] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [processingId, setProcessingId] = useState<string | null>(null);
   
   // Form state
   const [newTitle, setNewTitle] = useState('');
@@ -85,6 +100,41 @@ export function KnowledgeBase() {
     loadItems();
   }, [loadItems]);
 
+  // Retry embedding generation
+  const retryEmbedding = async (item: KnowledgeItem) => {
+    setProcessingId(item.id);
+    try {
+      const response = await fetch('/api/embeddings', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          documentId: item.id,
+          content: item.content,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to generate embedding');
+      }
+
+      const data = await response.json();
+      
+      if (data.success) {
+        toast.success('Embedding generated successfully');
+        setItems(prev => prev.map(i => 
+          i.id === item.id ? { ...i, has_embedding: true } : i
+        ));
+      } else {
+        toast.error(data.message || 'Failed to generate embedding');
+      }
+    } catch (err) {
+      console.error('Error generating embedding:', err);
+      toast.error('Failed to generate embedding');
+    } finally {
+      setProcessingId(null);
+    }
+  };
+
   // Add new knowledge item
   const handleAdd = async () => {
     if (!user || !newTitle.trim() || !newContent.trim()) return;
@@ -116,11 +166,15 @@ export function KnowledgeBase() {
         }),
       });
 
-      if (!response.ok) {
-        console.warn('Embedding generation failed, document saved without embedding');
+      const embeddingResult = await response.json();
+      const hasEmbedding = embeddingResult.success === true;
+
+      if (!hasEmbedding) {
+        toast.warning('Document saved but embedding generation failed. You can retry later.');
+      } else {
+        toast.success('Knowledge added successfully');
       }
 
-      toast.success('Knowledge added successfully');
       setNewTitle('');
       setNewContent('');
       setDialogOpen(false);
@@ -161,6 +215,11 @@ export function KnowledgeBase() {
     item.content.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+  // Stats
+  const totalItems = items.length;
+  const embeddedItems = items.filter(i => i.has_embedding).length;
+  const pendingItems = totalItems - embeddedItems;
+
   return (
     <div className="flex flex-col h-full">
       {/* Header */}
@@ -199,7 +258,11 @@ export function KnowledgeBase() {
                     value={newTitle}
                     onChange={(e) => setNewTitle(e.target.value)}
                     className="bg-muted/50"
+                    maxLength={100}
                   />
+                  <p className="text-xs text-muted-foreground text-right">
+                    {newTitle.length}/100
+                  </p>
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="content">Content</Label>
@@ -209,7 +272,11 @@ export function KnowledgeBase() {
                     value={newContent}
                     onChange={(e) => setNewContent(e.target.value)}
                     className="min-h-[200px] bg-muted/50"
+                    maxLength={50000}
                   />
+                  <p className="text-xs text-muted-foreground text-right">
+                    {newContent.length.toLocaleString()}/50,000
+                  </p>
                 </div>
               </div>
               <div className="flex justify-end gap-3">
@@ -256,9 +323,7 @@ export function KnowledgeBase() {
       {/* Content */}
       <div className="flex-1 overflow-y-auto px-6 py-6">
         {isLoading ? (
-          <div className="flex items-center justify-center h-40">
-            <Loader2 className="w-6 h-6 animate-spin text-primary" />
-          </div>
+          <KnowledgeBaseSkeleton />
         ) : filteredItems.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-40 text-center">
             <FileText className="w-12 h-12 text-muted-foreground/50 mb-4" />
@@ -281,28 +346,76 @@ export function KnowledgeBase() {
                     <div className="flex items-center gap-2">
                       <FileText className="w-4 h-4 text-primary shrink-0" />
                       <h3 className="font-medium truncate">{item.title}</h3>
-                      {!item.has_embedding && (
+                      {item.has_embedding ? (
+                        <span className="text-xs text-green-500 flex items-center gap-1">
+                          <CheckCircle2 className="w-3 h-3" />
+                          Indexed
+                        </span>
+                      ) : (
                         <span className="text-xs text-orange-500 flex items-center gap-1">
                           <AlertCircle className="w-3 h-3" />
-                          No embedding
+                          Pending
                         </span>
                       )}
                     </div>
                     <p className="text-sm text-muted-foreground mt-2 line-clamp-3">
                       {item.content}
                     </p>
-                    <p className="text-xs text-muted-foreground mt-2">
-                      Added {new Date(item.created_at).toLocaleDateString()}
-                    </p>
+                    <div className="flex items-center gap-3 mt-2">
+                      <p className="text-xs text-muted-foreground">
+                        Added {new Date(item.created_at).toLocaleDateString()}
+                      </p>
+                      <p className="text-xs text-muted-foreground">
+                        {item.content.length.toLocaleString()} chars
+                      </p>
+                    </div>
                   </div>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={() => handleDelete(item.id)}
-                    className="opacity-0 group-hover:opacity-100 transition-opacity text-muted-foreground hover:text-destructive"
-                  >
-                    <Trash2 className="w-4 h-4" />
-                  </Button>
+                  <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                    {!item.has_embedding && (
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => retryEmbedding(item)}
+                        disabled={processingId === item.id}
+                        className="text-muted-foreground hover:text-primary"
+                        title="Retry embedding"
+                      >
+                        {processingId === item.id ? (
+                          <Loader2 className="w-4 h-4 animate-spin" />
+                        ) : (
+                          <RefreshCw className="w-4 h-4" />
+                        )}
+                      </Button>
+                    )}
+                    <AlertDialog>
+                      <AlertDialogTrigger asChild>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="text-muted-foreground hover:text-destructive"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </Button>
+                      </AlertDialogTrigger>
+                      <AlertDialogContent>
+                        <AlertDialogHeader>
+                          <AlertDialogTitle>Delete knowledge?</AlertDialogTitle>
+                          <AlertDialogDescription>
+                            This will permanently delete "{item.title}" from your knowledge base. This action cannot be undone.
+                          </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                          <AlertDialogCancel>Cancel</AlertDialogCancel>
+                          <AlertDialogAction 
+                            onClick={() => handleDelete(item.id)}
+                            className="bg-destructive hover:bg-destructive/90"
+                          >
+                            Delete
+                          </AlertDialogAction>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
+                  </div>
                 </div>
               </div>
             ))}
@@ -312,14 +425,23 @@ export function KnowledgeBase() {
 
       {/* Stats footer */}
       <div className="px-6 py-3 border-t border-border">
-        <p className="text-xs text-muted-foreground">
-          {items.length} document{items.length !== 1 ? 's' : ''} in knowledge base
-          {items.filter(i => i.has_embedding).length < items.length && (
-            <span className="text-orange-500 ml-2">
-              • {items.length - items.filter(i => i.has_embedding).length} pending embedding
+        <div className="flex items-center justify-between">
+          <p className="text-xs text-muted-foreground">
+            {totalItems} document{totalItems !== 1 ? 's' : ''} in knowledge base
+          </p>
+          <div className="flex items-center gap-4 text-xs">
+            <span className="text-green-500 flex items-center gap-1">
+              <CheckCircle2 className="w-3 h-3" />
+              {embeddedItems} indexed
             </span>
-          )}
-        </p>
+            {pendingItems > 0 && (
+              <span className="text-orange-500 flex items-center gap-1">
+                <AlertCircle className="w-3 h-3" />
+                {pendingItems} pending
+              </span>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );
