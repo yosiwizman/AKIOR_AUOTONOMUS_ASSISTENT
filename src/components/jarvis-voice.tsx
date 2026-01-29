@@ -73,9 +73,11 @@ export function AkiorVoice() {
     stop: stopSpeaking,
     setVoice,
     setSpeed,
+    setUserId,
   } = useOpenAITTS({
     voice: agentSettings.voice_id as OpenAIVoice,
     speed: agentSettings.voice_speed,
+    userId: user?.id,
   });
 
   // Load agent settings
@@ -100,8 +102,10 @@ export function AkiorVoice() {
       }
     };
 
+    // Set userId for TTS
+    setUserId(user.id);
     loadSettings();
-  }, [user, setVoice, setSpeed]);
+  }, [user, setVoice, setSpeed, setUserId]);
 
   // Sync voice transcript
   useEffect(() => {

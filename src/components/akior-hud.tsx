@@ -47,9 +47,11 @@ export function AkiorHUD() {
     stop: stopSpeaking,
     setVoice,
     setSpeed,
+    setUserId,
   } = useOpenAITTS({
     voice: agentSettings.voice_id as OpenAIVoice,
     speed: agentSettings.voice_speed,
+    userId: user?.id,
   });
 
   // Load agent settings
@@ -74,8 +76,10 @@ export function AkiorHUD() {
       }
     };
 
+    // Set userId for TTS
+    setUserId(user.id);
     loadSettings();
-  }, [user, setVoice, setSpeed]);
+  }, [user, setVoice, setSpeed, setUserId]);
 
   // Handle voice input completion
   const processVoiceInput = useCallback(async (text: string) => {

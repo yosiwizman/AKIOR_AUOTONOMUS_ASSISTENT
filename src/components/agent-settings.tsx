@@ -84,6 +84,7 @@ export function AgentSettingsPanel() {
   const { speak, stop, isSpeaking, isLoading: isTTSLoading } = useOpenAITTS({
     voice: settings.voice_id as OpenAIVoice,
     speed: settings.voice_speed,
+    userId: user?.id,
   });
 
   // Load settings

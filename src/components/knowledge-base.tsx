@@ -102,6 +102,8 @@ export function KnowledgeBase() {
 
   // Retry embedding generation
   const retryEmbedding = async (item: KnowledgeItem) => {
+    if (!user) return;
+    
     setProcessingId(item.id);
     try {
       const response = await fetch('/api/embeddings', {
@@ -110,6 +112,7 @@ export function KnowledgeBase() {
         body: JSON.stringify({
           documentId: item.id,
           content: item.content,
+          userId: user.id,
         }),
       });
 
@@ -163,6 +166,7 @@ export function KnowledgeBase() {
         body: JSON.stringify({
           documentId: insertedDoc.id,
           content: newContent.trim(),
+          userId: user.id,
         }),
       });
 

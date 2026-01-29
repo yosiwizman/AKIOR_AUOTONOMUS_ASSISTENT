@@ -12,11 +12,12 @@ import { createClient } from '@supabase/supabase-js';
 import { isValidUUID, sanitizeString, globalRateLimiter, getClientIP } from '@/lib/api-utils';
 
 // Initialize OpenAI client (lazy - only when needed)
-function getOpenAI() {
-  if (!process.env.OPENAI_API_KEY) {
+function getOpenAI(apiKey?: string | null) {
+  const key = apiKey || process.env.OPENAI_API_KEY;
+  if (!key) {
     return null;
   }
-  return new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+  return new OpenAI({ apiKey: key });
 }
 
 // Initialize Supabase admin client
@@ -35,6 +36,30 @@ interface EmbeddingRequest {
   documentId?: string;
   content: string;
   type?: 'knowledge' | 'memory';
+  userId?: string;
+}
+
+// Get user's OpenAI API key from settings
+async function getUserApiKey(userId: string): Promise<string | null> {
+  const supabaseAdmin = getSupabaseAdmin();
+  if (!supabaseAdmin) return null;
+
+  try {
+    const { data, error } = await supabaseAdmin
+      .from('agent_settings')
+      .select('openai_api_key')
+      .eq('user_id', userId)
+      .single();
+
+    if (error && error.code !== 'PGRST116') {
+      console.error('Error fetching user API key:', error);
+    }
+
+    return data?.openai_api_key || null;
+  } catch (err) {
+    console.error('Error in getUserApiKey:', err);
+    return null;
+  }
 }
 
 export async function POST(request: NextRequest) {
@@ -66,7 +91,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Invalid JSON body' }, { status: 400 });
     }
 
-    const { documentId, content, type = 'knowledge' } = body;
+    const { documentId, content, type = 'knowledge', userId } = body;
 
     // Validate content
     if (!content || typeof content !== 'string') {
@@ -88,13 +113,16 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Type must be "knowledge" or "memory"' }, { status: 400 });
     }
 
-    // Check OpenAI configuration
-    const openai = getOpenAI();
+    // Get user's API key if userId provided
+    const userApiKey = userId ? await getUserApiKey(userId) : null;
+
+    // Check OpenAI configuration (user's key takes priority)
+    const openai = getOpenAI(userApiKey);
     if (!openai) {
       console.warn('OpenAI API key not configured, skipping embedding generation');
       return NextResponse.json({ 
         success: false, 
-        message: 'OpenAI API key not configured',
+        message: 'OpenAI API key not configured. Please add your API key in Settings.',
         configured: false,
       }, { status: 200 });
     }

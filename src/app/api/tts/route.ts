@@ -14,19 +14,57 @@ import { NextRequest, NextResponse } from 'next/server';
 import OpenAI from 'openai';
 import { sanitizeString, globalRateLimiter, getClientIP } from '@/lib/api-utils';
 import { OPENAI_VOICES, VALID_VOICE_IDS, type OpenAIVoice } from '@/lib/tts-voices';
+import { createClient } from '@supabase/supabase-js';
 
 interface TTSRequest {
   text: string;
   voice?: string;
   speed?: number;
+  userId?: string;
 }
 
 // Lazy OpenAI initialization
-function getOpenAI() {
-  if (!process.env.OPENAI_API_KEY) {
+function getOpenAI(apiKey?: string | null) {
+  const key = apiKey || process.env.OPENAI_API_KEY;
+  if (!key) {
     return null;
   }
-  return new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+  return new OpenAI({ apiKey: key });
+}
+
+// Initialize Supabase admin client
+function getSupabaseAdmin() {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://ruftuoilatlzniuasoza.supabase.co';
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  
+  if (!key) {
+    return null;
+  }
+  
+  return createClient(url, key, { auth: { persistSession: false } });
+}
+
+// Get user's OpenAI API key from settings
+async function getUserApiKey(userId: string): Promise<string | null> {
+  const supabaseAdmin = getSupabaseAdmin();
+  if (!supabaseAdmin) return null;
+
+  try {
+    const { data, error } = await supabaseAdmin
+      .from('agent_settings')
+      .select('openai_api_key')
+      .eq('user_id', userId)
+      .single();
+
+    if (error && error.code !== 'PGRST116') {
+      console.error('Error fetching user API key:', error);
+    }
+
+    return data?.openai_api_key || null;
+  } catch (err) {
+    console.error('Error in getUserApiKey:', err);
+    return null;
+  }
 }
 
 export async function POST(request: NextRequest) {
@@ -57,7 +95,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Invalid JSON body' }, { status: 400 });
     }
 
-    const { text, voice = 'alloy', speed = 1.0 } = body;
+    const { text, voice = 'alloy', speed = 1.0, userId } = body;
 
     // Validate text
     if (!text || typeof text !== 'string') {
@@ -69,11 +107,14 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Text cannot be empty' }, { status: 400 });
     }
 
-    // Check OpenAI configuration
-    const openai = getOpenAI();
+    // Get user's API key if userId provided
+    const userApiKey = userId ? await getUserApiKey(userId) : null;
+
+    // Check OpenAI configuration (user's key takes priority)
+    const openai = getOpenAI(userApiKey);
     if (!openai) {
       return NextResponse.json(
-        { error: 'OpenAI API key not configured. TTS is unavailable.' },
+        { error: 'OpenAI API key not configured. Please add your API key in Settings.' },
         { status: 503 }
       );
     }
