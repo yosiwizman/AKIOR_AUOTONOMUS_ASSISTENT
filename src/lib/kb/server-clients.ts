@@ -15,3 +15,9 @@ export function getSupabaseAuthed(token: string): SupabaseClient {
     global: { headers: { Authorization: `Bearer ${token}` } },
   });
 }
+
+export function getSupabaseAdmin(): SupabaseClient | null {
+  const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  if (!serviceKey) return null;
+  return createClient(SUPABASE_URL, serviceKey, { auth: { persistSession: false } });
+}

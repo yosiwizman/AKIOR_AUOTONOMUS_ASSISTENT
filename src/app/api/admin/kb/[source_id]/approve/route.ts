@@ -1,10 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { verifyAuth, isAuthError } from '@/lib/server-auth';
-import { getSupabaseAuthed } from '@/lib/kb/server-clients';
+import { getSupabaseAdmin, getSupabaseAuthed } from '@/lib/kb/server-clients';
 import { safeId } from '@/lib/kb/hash';
 import { writeAuditEvent } from '@/lib/kb/audit';
 import { indexApprovedSource } from '@/lib/kb/ingestion';
 import { logJson } from '@/lib/kb/logger';
+import { assertAdmin } from '@/lib/kb/admin';
 
 export async function POST(req: NextRequest, ctx: { params: Promise<{ source_id: string }> }) {
   const traceId = safeId('trace');
@@ -16,6 +17,9 @@ export async function POST(req: NextRequest, ctx: { params: Promise<{ source_id:
       return NextResponse.json({ error: auth.error, trace_id: traceId }, { status: auth.status });
     }
 
+    // Governance: only allow admin to approve.
+    assertAdmin({ isAuthenticated: true, email: auth.email || null });
+
     const { source_id } = await ctx.params;
     if (!source_id) {
       return NextResponse.json({ error: 'Missing source_id', trace_id: traceId }, { status: 400 });
@@ -23,7 +27,10 @@ export async function POST(req: NextRequest, ctx: { params: Promise<{ source_id:
 
     const authHeader = req.headers.get('Authorization') || '';
     const token = authHeader.startsWith('Bearer ') ? authHeader.slice(7) : '';
-    const db = getSupabaseAuthed(token);
+
+    // Use service role if available so admin can approve across tenants/users.
+    const adminDb = getSupabaseAdmin();
+    const db = adminDb || getSupabaseAuthed(token);
 
     const { data: source, error: srcErr } = await db
       .from('sources')
@@ -35,7 +42,7 @@ export async function POST(req: NextRequest, ctx: { params: Promise<{ source_id:
       return NextResponse.json({ error: 'Source not found', trace_id: traceId }, { status: 404 });
     }
 
-    if (source.status === 'approved') {
+    if ((source as any).status === 'approved') {
       return NextResponse.json({ ok: true, trace_id: traceId, already: true });
     }
 
@@ -109,12 +116,13 @@ export async function POST(req: NextRequest, ctx: { params: Promise<{ source_id:
       indexed: indexResult,
     });
   } catch (err) {
+    const status = (err as any)?.status || 500;
     logJson('error', {
       trace_id: traceId,
       event: 'kb.approve.index.error',
       error: err instanceof Error ? err.message : String(err),
       ms: Date.now() - started,
     });
-    return NextResponse.json({ error: 'Failed to approve/index', trace_id: traceId }, { status: 500 });
+    return NextResponse.json({ error: status === 403 ? 'Forbidden' : 'Failed to approve/index', trace_id: traceId }, { status });
   }
 }

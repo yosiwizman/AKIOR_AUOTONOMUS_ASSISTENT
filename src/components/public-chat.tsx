@@ -12,6 +12,7 @@ import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
 import { AkiorLogo } from './jarvis-logo';
+import { RagStatusBadge } from '@/components/rag-status-badge';
 
 interface Message {
   role: 'user' | 'assistant';
@@ -48,7 +49,7 @@ export function PublicChat() {
     if (!message || isLoading) return;
 
     const userMessage: Message = { role: 'user', content: message };
-    setMessages(prev => [...prev, userMessage]);
+    setMessages((prev) => [...prev, userMessage]);
     setInput('');
     setIsLoading(true);
 
@@ -68,17 +69,23 @@ export function PublicChat() {
       }
 
       const data = await res.json();
-      
-      setMessages(prev => [...prev, {
-        role: 'assistant',
-        content: data.reply || "I'm sorry, I couldn't process that request.",
-      }]);
+
+      setMessages((prev) => [
+        ...prev,
+        {
+          role: 'assistant',
+          content: data.reply || "I'm sorry, I couldn't process that request.",
+        },
+      ]);
     } catch (err) {
       console.error('Chat error:', err);
-      setMessages(prev => [...prev, {
-        role: 'assistant',
-        content: "I'm having trouble connecting right now. Please try again in a moment.",
-      }]);
+      setMessages((prev) => [
+        ...prev,
+        {
+          role: 'assistant',
+          content: "I'm having trouble connecting right now. Please try again in a moment.",
+        },
+      ]);
     } finally {
       setIsLoading(false);
     }
@@ -95,16 +102,17 @@ export function PublicChat() {
     <div className="min-h-screen bg-background flex flex-col relative">
       {/* Header */}
       <header className="border-b border-border/50 bg-background/80 backdrop-blur-sm sticky top-0 z-10">
-        <div className="max-w-3xl mx-auto px-4 py-3 flex items-center">
+        <div className="max-w-3xl mx-auto px-4 py-3 flex items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
               <Bot className="w-4 h-4 text-primary" />
             </div>
             <div>
               <h1 className="text-sm font-semibold">Ask AKIOR</h1>
-              <p className="text-xs text-muted-foreground">Free AI Assistant</p>
+              <p className="text-xs text-muted-foreground">Public-safe spokesman KB</p>
             </div>
           </div>
+          <RagStatusBadge />
         </div>
       </header>
 
@@ -112,13 +120,7 @@ export function PublicChat() {
       <main className="flex-1 overflow-y-auto pb-32">
         <div className="max-w-3xl mx-auto px-4 py-6 space-y-4">
           {messages.map((msg, idx) => (
-            <div
-              key={idx}
-              className={cn(
-                'flex',
-                msg.role === 'user' ? 'justify-end' : 'justify-start'
-              )}
-            >
+            <div key={idx} className={cn('flex', msg.role === 'user' ? 'justify-end' : 'justify-start')}>
               <div
                 className={cn(
                   'max-w-[85%] rounded-2xl px-4 py-3',
@@ -127,9 +129,7 @@ export function PublicChat() {
                     : 'bg-muted/50 text-foreground rounded-bl-md'
                 )}
               >
-                <p className="text-sm whitespace-pre-wrap leading-relaxed">
-                  {msg.content}
-                </p>
+                <p className="text-sm whitespace-pre-wrap leading-relaxed">{msg.content}</p>
               </div>
             </div>
           ))}
@@ -175,16 +175,10 @@ export function PublicChat() {
               size="sm"
               className="bg-primary hover:bg-primary/90 shrink-0 rounded-lg"
             >
-              {isLoading ? (
-                <Loader2 className="w-4 h-4 animate-spin" />
-              ) : (
-                <Send className="w-4 h-4" />
-              )}
+              {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
             </Button>
           </div>
-          <p className="text-center text-xs text-muted-foreground mt-2">
-            Free to use • No account required
-          </p>
+          <p className="text-center text-xs text-muted-foreground mt-2">Free to use • Public documents only</p>
         </div>
       </footer>
 

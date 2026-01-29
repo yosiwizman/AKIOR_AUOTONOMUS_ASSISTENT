@@ -1,28 +1,28 @@
 'use client';
 
 /**
- * Knowledge Base Management
- * Enterprise-grade document management for RAG
+ * Governed Knowledge Base (Admin)
+ * - Upload (pending)
+ * - Admin approval -> indexing
+ * - Status + counts
  */
 
-import { useState, useEffect, useCallback } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   Upload,
   FileText,
-  Trash2,
-  Plus,
   Loader2,
   Search,
-  BookOpen,
-  AlertCircle,
-  RefreshCw,
+  ShieldCheck,
   CheckCircle2,
-  Paperclip,
+  Clock,
+  BadgeInfo,
 } from 'lucide-react';
+
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
+import { Switch } from '@/components/ui/switch';
 import {
   Dialog,
   DialogContent,
@@ -32,417 +32,363 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from '@/components/ui/alert-dialog';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { supabase } from '@/integrations/supabase/client';
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { Badge } from '@/components/ui/badge';
+
 import { useAuth } from '@/contexts/auth-context';
 import { KnowledgeBaseSkeleton } from './loading-skeleton';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
+import { RagStatusBadge } from '@/components/rag-status-badge';
 
-interface KnowledgeItem {
+type SourceStatus = 'pending' | 'approved' | 'rejected';
+type Classification = 'public' | 'internal' | 'restricted';
+
+type SourceRow = {
   id: string;
-  title: string;
-  content: string;
-  content_type: string;
+  title: string | null;
+  status: SourceStatus;
+  classification: Classification;
+  trust_level: number;
+  checksum: string;
   created_at: string;
-  has_embedding: boolean;
+  indexed_at: string | null;
+  created_by?: string | null;
+};
+
+type RagStatus = {
+  sources_total: number;
+  sources_approved: number;
+  chunks_total: number;
+  vectors_total: number;
+  last_index_time: string | null;
+  rag_state: 'OFF' | 'DEGRADED' | 'ON';
+};
+
+function statusPill(status: SourceStatus) {
+  if (status === 'approved') return 'bg-emerald-500/15 text-emerald-800 border-emerald-500/20';
+  if (status === 'rejected') return 'bg-rose-500/15 text-rose-700 border-rose-500/20';
+  return 'bg-amber-500/15 text-amber-800 border-amber-500/25';
+}
+
+function classificationPill(c: Classification) {
+  if (c === 'public') return 'bg-sky-500/15 text-sky-800 border-sky-500/25';
+  if (c === 'internal') return 'bg-indigo-500/15 text-indigo-800 border-indigo-500/25';
+  return 'bg-fuchsia-500/15 text-fuchsia-800 border-fuchsia-500/25';
 }
 
 export function KnowledgeBase() {
-  const { user, session } = useAuth();
-  const [items, setItems] = useState<KnowledgeItem[]>([]);
+  const { session } = useAuth();
+
   const [isLoading, setIsLoading] = useState(true);
-  const [isAdding, setIsAdding] = useState(false);
-  const [isProcessing, setIsProcessing] = useState(false);
+  const [sources, setSources] = useState<SourceRow[]>([]);
+  const [role, setRole] = useState<'admin' | 'user'>('user');
+  const [ragStatus, setRagStatus] = useState<RagStatus | null>(null);
+
   const [searchQuery, setSearchQuery] = useState('');
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [processingId, setProcessingId] = useState<string | null>(null);
 
   // Upload state
   const [uploadTitle, setUploadTitle] = useState('');
   const [uploadFile, setUploadFile] = useState<File | null>(null);
+  const [classification, setClassification] = useState<Classification>('public');
+  const [trustLevel, setTrustLevel] = useState('50');
+  const [restrictToMe, setRestrictToMe] = useState(false);
 
-  // Form state
-  const [newTitle, setNewTitle] = useState('');
-  const [newContent, setNewContent] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [approvingId, setApprovingId] = useState<string | null>(null);
 
-  const getAuthHeaders = useCallback((): HeadersInit => {
-    const headers: HeadersInit = {};
-    if (session?.access_token) {
-      (headers as Record<string, string>)['Authorization'] = `Bearer ${session.access_token}`;
-    }
-    return headers;
+  const authHeaders = useMemo(() => {
+    const h: Record<string, string> = {};
+    if (session?.access_token) h.Authorization = `Bearer ${session.access_token}`;
+    return h;
   }, [session]);
 
-  // Load knowledge base items
-  const loadItems = useCallback(async () => {
-    if (!user) return;
+  const load = useCallback(async () => {
+    if (!session?.access_token) return;
 
     setIsLoading(true);
     try {
-      const { data, error } = await supabase
-        .from('knowledge_base')
-        .select('id, title, content, content_type, created_at, embedding')
-        .eq('user_id', user.id)
-        .order('created_at', { ascending: false });
+      const [sourcesRes, statusRes] = await Promise.all([
+        fetch('/api/admin/kb/sources', { headers: authHeaders }),
+        fetch('/api/rag/status', { headers: authHeaders }),
+      ]);
 
-      if (error) throw error;
+      const sourcesJson = await sourcesRes.json().catch(() => ({}));
+      const statusJson = await statusRes.json().catch(() => ({}));
 
-      setItems(
-        data?.map((item) => ({
-          ...item,
-          has_embedding: item.embedding !== null,
-        })) || []
-      );
+      if (!sourcesRes.ok) throw new Error(sourcesJson.error || 'Failed to load sources');
+
+      setSources((sourcesJson.sources || []) as SourceRow[]);
+      setRole((sourcesJson.role as any) === 'admin' ? 'admin' : 'user');
+      if (statusRes.ok) setRagStatus(statusJson.data as RagStatus);
     } catch (err) {
-      console.error('Error loading knowledge base:', err);
-      toast.error('Failed to load knowledge base');
+      toast.error(err instanceof Error ? err.message : 'Failed to load knowledge base');
     } finally {
       setIsLoading(false);
     }
-  }, [user]);
+  }, [authHeaders, session]);
 
   useEffect(() => {
-    loadItems();
-  }, [loadItems]);
+    load();
+  }, [load]);
 
-  // Retry embedding generation
-  const retryEmbedding = async (item: KnowledgeItem) => {
-    if (!user) return;
-
-    setProcessingId(item.id);
-    try {
-      const response = await fetch('/api/embeddings', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          ...getAuthHeaders(),
-        },
-        body: JSON.stringify({
-          documentId: item.id,
-          content: item.content,
-          type: 'knowledge',
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to generate embedding');
-      }
-
-      const data = await response.json();
-
-      if (data.success) {
-        toast.success('Embedding generated successfully');
-        setItems((prev) => prev.map((i) => (i.id === item.id ? { ...i, has_embedding: true } : i)));
-      } else {
-        toast.error(data.message || 'Failed to generate embedding');
-      }
-    } catch (err) {
-      console.error('Error generating embedding:', err);
-      toast.error('Failed to generate embedding');
-    } finally {
-      setProcessingId(null);
-    }
-  };
-
-  // Add new knowledge item (text)
-  const handleAdd = async () => {
-    if (!user || !newTitle.trim() || !newContent.trim()) return;
-
-    setIsAdding(true);
-    try {
-      // Insert document
-      const { data: insertedDoc, error: insertError } = await supabase
-        .from('knowledge_base')
-        .insert({
-          user_id: user.id,
-          title: newTitle.trim(),
-          content: newContent.trim(),
-          content_type: 'text',
-        })
-        .select()
-        .single();
-
-      if (insertError) throw insertError;
-
-      // Generate embedding via API
-      setIsProcessing(true);
-      const response = await fetch('/api/embeddings', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          ...getAuthHeaders(),
-        },
-        body: JSON.stringify({
-          documentId: insertedDoc.id,
-          content: newContent.trim(),
-          type: 'knowledge',
-        }),
-      });
-
-      const embeddingResult = await response.json();
-      const hasEmbedding = embeddingResult.success === true;
-
-      if (!hasEmbedding) {
-        toast.warning('Saved, but indexing failed. You can retry later.');
-      } else {
-        toast.success('Knowledge added successfully');
-      }
-
-      setNewTitle('');
-      setNewContent('');
-      setDialogOpen(false);
-      loadItems();
-    } catch (err) {
-      console.error('Error adding knowledge:', err);
-      toast.error('Failed to add knowledge');
-    } finally {
-      setIsAdding(false);
-      setIsProcessing(false);
-    }
-  };
+  const filtered = sources.filter((s) => {
+    const q = searchQuery.trim().toLowerCase();
+    if (!q) return true;
+    const title = (s.title || '').toLowerCase();
+    return title.includes(q) || s.checksum.toLowerCase().includes(q);
+  });
 
   const handleUpload = async () => {
-    if (!user || !session?.access_token || !uploadFile) return;
+    if (!session?.access_token || !uploadFile || isSubmitting) return;
 
-    setIsAdding(true);
-    setIsProcessing(true);
-
+    setIsSubmitting(true);
     try {
       const form = new FormData();
       form.append('file', uploadFile);
       if (uploadTitle.trim()) form.append('title', uploadTitle.trim());
+      form.append('classification', classification);
+      form.append('trust_level', trustLevel);
+      form.append('restricted_only_me', restrictToMe ? 'true' : 'false');
 
-      const res = await fetch('/api/knowledge/ingest', {
+      const res = await fetch('/api/admin/kb/upload', {
         method: 'POST',
-        headers: getAuthHeaders(),
+        headers: authHeaders,
         body: form,
       });
 
-      const data = await res.json().catch(() => ({}));
+      const json = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(json.error || 'Upload failed');
 
-      if (!res.ok) {
-        throw new Error(data.error || 'Upload failed');
-      }
-
-      toast.success(`Learned from document (${data.chunks} chunk${data.chunks === 1 ? '' : 's'})`);
-      setUploadFile(null);
+      toast.success('Uploaded. Waiting for admin approval.');
       setUploadTitle('');
+      setUploadFile(null);
       setDialogOpen(false);
-      loadItems();
+      await load();
     } catch (err) {
-      console.error('Error uploading document:', err);
-      toast.error(err instanceof Error ? err.message : 'Failed to upload document');
+      toast.error(err instanceof Error ? err.message : 'Upload failed');
     } finally {
-      setIsAdding(false);
-      setIsProcessing(false);
+      setIsSubmitting(false);
     }
   };
 
-  // Delete knowledge item
-  const handleDelete = async (id: string) => {
-    if (!user) return;
+  const approve = async (sourceId: string) => {
+    if (!session?.access_token) return;
 
+    setApprovingId(sourceId);
     try {
-      const { error } = await supabase.from('knowledge_base').delete().eq('id', id).eq('user_id', user.id);
+      const res = await fetch(`/api/admin/kb/${sourceId}/approve`, {
+        method: 'POST',
+        headers: authHeaders,
+      });
 
-      if (error) throw error;
+      const json = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(json.error || 'Approve failed');
 
-      toast.success('Knowledge deleted');
-      setItems((prev) => prev.filter((item) => item.id !== id));
+      toast.success(`Approved and indexed (${json.indexed?.vectors || 0} vectors)`);
+      await load();
     } catch (err) {
-      console.error('Error deleting knowledge:', err);
-      toast.error('Failed to delete knowledge');
+      toast.error(err instanceof Error ? err.message : 'Approve failed');
+    } finally {
+      setApprovingId(null);
     }
   };
-
-  // Filter items by search
-  const filteredItems = items.filter(
-    (item) => item.title.toLowerCase().includes(searchQuery.toLowerCase()) || item.content.toLowerCase().includes(searchQuery.toLowerCase())
-  );
-
-  // Stats
-  const totalItems = items.length;
-  const embeddedItems = items.filter((i) => i.has_embedding).length;
-  const pendingItems = totalItems - embeddedItems;
 
   return (
     <div className="flex flex-col h-full">
       {/* Header */}
       <div className="px-6 py-4 border-b border-border">
-        <div className="flex items-center justify-between">
-          <div>
-            <h2 className="text-lg font-semibold flex items-center gap-2">
-              <BookOpen className="w-5 h-5 text-primary" />
-              Knowledge Base
-            </h2>
-            <p className="text-xs text-muted-foreground mt-0.5">Teach AKIOR by adding documents and information</p>
+        <div className="flex items-start justify-between gap-4">
+          <div className="min-w-0">
+            <div className="flex items-center gap-3">
+              <h2 className="text-lg font-semibold flex items-center gap-2">
+                <ShieldCheck className="w-5 h-5 text-primary" />
+                Knowledge Base
+              </h2>
+              <RagStatusBadge token={session?.access_token} />
+            </div>
+            <p className="text-xs text-muted-foreground mt-0.5">
+              Admin-approved ingestion • ACL/classification filtered retrieval • Audited access
+            </p>
+
+            {ragStatus && (
+              <div className="mt-3 grid grid-cols-2 sm:grid-cols-5 gap-2">
+                <div className="rounded-2xl border border-border bg-muted/25 px-3 py-2">
+                  <p className="text-[11px] text-muted-foreground">Sources</p>
+                  <p className="text-sm font-semibold">{ragStatus.sources_total}</p>
+                </div>
+                <div className="rounded-2xl border border-border bg-muted/25 px-3 py-2">
+                  <p className="text-[11px] text-muted-foreground">Approved</p>
+                  <p className="text-sm font-semibold">{ragStatus.sources_approved}</p>
+                </div>
+                <div className="rounded-2xl border border-border bg-muted/25 px-3 py-2">
+                  <p className="text-[11px] text-muted-foreground">Chunks</p>
+                  <p className="text-sm font-semibold">{ragStatus.chunks_total}</p>
+                </div>
+                <div className="rounded-2xl border border-border bg-muted/25 px-3 py-2">
+                  <p className="text-[11px] text-muted-foreground">Vectors</p>
+                  <p className="text-sm font-semibold">{ragStatus.vectors_total}</p>
+                </div>
+                <div className="rounded-2xl border border-border bg-muted/25 px-3 py-2">
+                  <p className="text-[11px] text-muted-foreground">Last index</p>
+                  <p className="text-sm font-semibold truncate">
+                    {ragStatus.last_index_time ? new Date(ragStatus.last_index_time).toLocaleString() : '—'}
+                  </p>
+                </div>
+              </div>
+            )}
+
+            {role !== 'admin' && (
+              <div className="mt-3 flex items-center gap-2 text-xs text-muted-foreground">
+                <BadgeInfo className="h-4 w-4 text-primary/70" />
+                <span>You can upload; admin approval is required to index and serve in RAG.</span>
+              </div>
+            )}
           </div>
 
-          <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-            <DialogTrigger asChild>
-              <Button className="bg-primary hover:bg-primary/90 rounded-xl">
-                <Plus className="w-4 h-4 mr-2" />
-                Add Knowledge
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-lg">
-              <DialogHeader>
-                <DialogTitle>Add Knowledge</DialogTitle>
-                <DialogDescription>Paste text or upload a document so AKIOR can use it for future answers.</DialogDescription>
-              </DialogHeader>
+          <div className="flex items-center gap-3 shrink-0">
+            <Button variant="outline" className="rounded-xl" onClick={load} disabled={isLoading}>
+              {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Refresh'}
+            </Button>
 
-              <Tabs defaultValue="text" className="w-full">
-                <TabsList className="grid w-full grid-cols-2 bg-muted/50 rounded-xl">
-                  <TabsTrigger value="text" className="rounded-lg">Text</TabsTrigger>
-                  <TabsTrigger value="upload" className="rounded-lg">Document</TabsTrigger>
-                </TabsList>
+            <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+              <DialogTrigger asChild>
+                <Button className="bg-primary hover:bg-primary/90 rounded-xl">
+                  <Upload className="w-4 h-4 mr-2" />
+                  Upload
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-lg">
+                <DialogHeader>
+                  <DialogTitle>Upload knowledge</DialogTitle>
+                  <DialogDescription>
+                    Upload a document. It will be parsed immediately, then must be admin-approved to be indexed.
+                  </DialogDescription>
+                </DialogHeader>
 
-                <TabsContent value="text" className="mt-4">
-                  <div className="space-y-4">
+                <div className="space-y-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="upload-title">Title (optional)</Label>
+                    <Input
+                      id="upload-title"
+                      placeholder="Defaults to filename"
+                      value={uploadTitle}
+                      onChange={(e) => setUploadTitle(e.target.value)}
+                      className="bg-muted/50 rounded-xl"
+                      maxLength={100}
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div className="space-y-2">
-                      <Label htmlFor="title">Title</Label>
+                      <Label>Classification</Label>
+                      <Select value={classification} onValueChange={(v) => setClassification(v as Classification)}>
+                        <SelectTrigger className="rounded-xl bg-muted/40">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="public">Public</SelectItem>
+                          <SelectItem value="internal">Internal</SelectItem>
+                          <SelectItem value="restricted">Restricted</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <p className="text-[11px] text-muted-foreground">
+                        Public is eligible for spokesman mode.
+                      </p>
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="trust">Trust level</Label>
                       <Input
-                        id="title"
-                        placeholder="e.g., Project requirements, Architecture notes…"
-                        value={newTitle}
-                        onChange={(e) => setNewTitle(e.target.value)}
-                        className="bg-muted/50 rounded-xl"
-                        maxLength={100}
+                        id="trust"
+                        inputMode="numeric"
+                        value={trustLevel}
+                        onChange={(e) => setTrustLevel(e.target.value.replace(/[^0-9]/g, '').slice(0, 3))}
+                        className="rounded-xl bg-muted/40"
+                        placeholder="0-100"
                       />
-                      <p className="text-xs text-muted-foreground text-right">{newTitle.length}/100</p>
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="content">Content</Label>
-                      <Textarea
-                        id="content"
-                        placeholder="Paste or type the information here…"
-                        value={newContent}
-                        onChange={(e) => setNewContent(e.target.value)}
-                        className="min-h-[200px] bg-muted/50 rounded-xl"
-                        maxLength={50000}
-                      />
-                      <p className="text-xs text-muted-foreground text-right">{newContent.length.toLocaleString()}/50,000</p>
-                    </div>
-
-                    <div className="flex justify-end gap-3">
-                      <Button variant="outline" onClick={() => setDialogOpen(false)} className="rounded-xl">
-                        Cancel
-                      </Button>
-                      <Button
-                        onClick={handleAdd}
-                        disabled={isAdding || !newTitle.trim() || !newContent.trim()}
-                        className="bg-primary hover:bg-primary/90 rounded-xl"
-                      >
-                        {isAdding ? (
-                          <>
-                            <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                            {isProcessing ? 'Indexing…' : 'Saving…'}
-                          </>
-                        ) : (
-                          <>
-                            <Upload className="w-4 h-4 mr-2" />
-                            Add
-                          </>
-                        )}
-                      </Button>
+                      <p className="text-[11px] text-muted-foreground">Used for governance signals (not ranking yet).</p>
                     </div>
                   </div>
-                </TabsContent>
 
-                <TabsContent value="upload" className="mt-4">
-                  <div className="space-y-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="upload-title">Title (optional)</Label>
-                      <Input
-                        id="upload-title"
-                        placeholder="Defaults to filename"
-                        value={uploadTitle}
-                        onChange={(e) => setUploadTitle(e.target.value)}
-                        className="bg-muted/50 rounded-xl"
-                        maxLength={100}
-                      />
+                  <div className="flex items-center justify-between rounded-2xl border border-border bg-muted/25 px-4 py-3">
+                    <div>
+                      <p className="text-sm font-medium">Restrict to me</p>
+                      <p className="text-[11px] text-muted-foreground">For restricted docs, adds an ACL for your user.</p>
                     </div>
+                    <Switch checked={restrictToMe} onCheckedChange={setRestrictToMe} />
+                  </div>
 
-                    <div className="space-y-2">
-                      <Label>Document</Label>
-                      <div
-                        className={cn(
-                          'rounded-2xl border border-border bg-muted/30 p-4',
-                          'flex items-center justify-between gap-4'
-                        )}
-                      >
-                        <div className="flex items-center gap-3 min-w-0">
-                          <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
-                            <Paperclip className="w-5 h-5 text-primary" />
-                          </div>
-                          <div className="min-w-0">
-                            <p className="text-sm font-medium truncate">
-                              {uploadFile ? uploadFile.name : 'Choose a file to upload'}
-                            </p>
-                            <p className="text-xs text-muted-foreground">
-                              Supports .txt, .md, .pdf, .docx (max 15MB)
-                            </p>
-                          </div>
+                  <div className="space-y-2">
+                    <Label>Document</Label>
+                    <div
+                      className={cn(
+                        'rounded-2xl border border-border bg-muted/30 p-4',
+                        'flex items-center justify-between gap-4'
+                      )}
+                    >
+                      <div className="flex items-center gap-3 min-w-0">
+                        <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
+                          <FileText className="w-5 h-5 text-primary" />
                         </div>
-                        <label className="shrink-0">
-                          <input
-                            type="file"
-                            className="hidden"
-                            accept=".txt,.md,.pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain,text/markdown"
-                            onChange={(e) => setUploadFile(e.target.files?.[0] || null)}
-                          />
-                          <Button type="button" variant="outline" className="rounded-xl">
-                            Browse
-                          </Button>
-                        </label>
+                        <div className="min-w-0">
+                          <p className="text-sm font-medium truncate">{uploadFile ? uploadFile.name : 'Choose a file'}</p>
+                          <p className="text-xs text-muted-foreground">.txt, .md, .pdf, .docx (max 15MB)</p>
+                        </div>
                       </div>
-                    </div>
-
-                    <div className="flex justify-end gap-3">
-                      <Button variant="outline" onClick={() => setDialogOpen(false)} className="rounded-xl">
-                        Cancel
-                      </Button>
-                      <Button
-                        onClick={handleUpload}
-                        disabled={isAdding || !uploadFile}
-                        className="bg-primary hover:bg-primary/90 rounded-xl"
-                      >
-                        {isAdding ? (
-                          <>
-                            <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                            Learning…
-                          </>
-                        ) : (
-                          <>
-                            <Upload className="w-4 h-4 mr-2" />
-                            Upload & Learn
-                          </>
-                        )}
-                      </Button>
+                      <label className="shrink-0">
+                        <input
+                          type="file"
+                          className="hidden"
+                          accept=".txt,.md,.pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain,text/markdown"
+                          onChange={(e) => setUploadFile(e.target.files?.[0] || null)}
+                        />
+                        <Button type="button" variant="outline" className="rounded-xl">
+                          Browse
+                        </Button>
+                      </label>
                     </div>
                   </div>
-                </TabsContent>
-              </Tabs>
-            </DialogContent>
-          </Dialog>
+
+                  <div className="flex justify-end gap-3">
+                    <Button variant="outline" onClick={() => setDialogOpen(false)} className="rounded-xl">
+                      Cancel
+                    </Button>
+                    <Button
+                      onClick={handleUpload}
+                      disabled={isSubmitting || !uploadFile}
+                      className="bg-primary hover:bg-primary/90 rounded-xl"
+                    >
+                      {isSubmitting ? (
+                        <>
+                          <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                          Uploading…
+                        </>
+                      ) : (
+                        <>
+                          <Upload className="w-4 h-4 mr-2" />
+                          Upload
+                        </>
+                      )}
+                    </Button>
+                  </div>
+                </div>
+              </DialogContent>
+            </Dialog>
+          </div>
         </div>
 
         {/* Search */}
         <div className="mt-4 relative">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
           <Input
-            placeholder="Search knowledge base..."
+            placeholder="Search by title or checksum…"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="pl-10 bg-muted/30 rounded-xl"
@@ -454,73 +400,72 @@ export function KnowledgeBase() {
       <div className="flex-1 overflow-y-auto px-6 py-6">
         {isLoading ? (
           <KnowledgeBaseSkeleton />
-        ) : filteredItems.length === 0 ? (
-          <div className="flex flex-col items-center justify-center h-40 text-center">
+        ) : filtered.length === 0 ? (
+          <div className="flex flex-col items-center justify-center h-44 text-center">
             <FileText className="w-12 h-12 text-muted-foreground/50 mb-4" />
-            <p className="text-muted-foreground">{searchQuery ? 'No matching documents found' : 'No knowledge added yet'}</p>
-            <p className="text-xs text-muted-foreground mt-1">{searchQuery ? 'Try a different search term' : 'Click “Add Knowledge” to get started'}</p>
+            <p className="text-muted-foreground">{searchQuery ? 'No matching sources' : 'No knowledge sources yet'}</p>
+            <p className="text-xs text-muted-foreground mt-1">
+              {searchQuery ? 'Try a different query' : 'Upload a document to start a governed ingestion flow'}
+            </p>
           </div>
         ) : (
-          <div className="grid gap-4 max-w-4xl">
-            {filteredItems.map((item) => (
-              <div key={item.id} className="akior-card group">
+          <div className="grid gap-4 max-w-5xl">
+            {filtered.map((s) => (
+              <div key={s.id} className="akior-card group">
                 <div className="flex items-start justify-between gap-4">
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2">
-                      <FileText className="w-4 h-4 text-primary shrink-0" />
-                      <h3 className="font-medium truncate">{item.title}</h3>
-                      {item.has_embedding ? (
-                        <span className="text-xs text-green-500 flex items-center gap-1">
-                          <CheckCircle2 className="w-3 h-3" />
-                          Indexed
-                        </span>
-                      ) : (
-                        <span className="text-xs text-orange-500 flex items-center gap-1">
-                          <AlertCircle className="w-3 h-3" />
-                          Pending
-                        </span>
-                      )}
+                  <div className="min-w-0">
+                    <div className="flex items-center flex-wrap gap-2">
+                      <h3 className="font-medium truncate">{s.title || 'Untitled source'}</h3>
+
+                      <Badge variant="outline" className={cn('rounded-full', statusPill(s.status))}>
+                        {s.status === 'approved' ? (
+                          <span className="inline-flex items-center gap-1">
+                            <CheckCircle2 className="h-3.5 w-3.5" /> Approved
+                          </span>
+                        ) : (
+                          <span className="inline-flex items-center gap-1">
+                            <Clock className="h-3.5 w-3.5" /> {s.status}
+                          </span>
+                        )}
+                      </Badge>
+
+                      <Badge variant="outline" className={cn('rounded-full', classificationPill(s.classification))}>
+                        {s.classification}
+                      </Badge>
+
+                      <Badge variant="secondary" className="rounded-full bg-muted/40">
+                        trust {s.trust_level}
+                      </Badge>
                     </div>
-                    <p className="text-sm text-muted-foreground mt-2 line-clamp-3">{item.content}</p>
-                    <div className="flex items-center gap-3 mt-2">
-                      <p className="text-xs text-muted-foreground">Added {new Date(item.created_at).toLocaleDateString()}</p>
-                      <p className="text-xs text-muted-foreground">{item.content.length.toLocaleString()} chars</p>
+
+                    <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-muted-foreground">
+                      <span>id: {s.id.slice(0, 8)}…</span>
+                      <span>checksum: {s.checksum.slice(0, 12)}…</span>
+                      <span>created {new Date(s.created_at).toLocaleString()}</span>
+                      <span>indexed {s.indexed_at ? new Date(s.indexed_at).toLocaleString() : '—'}</span>
                     </div>
                   </div>
-                  <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                    {!item.has_embedding && (
+
+                  <div className="flex items-center gap-2 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity">
+                    {role === 'admin' && s.status === 'pending' && (
                       <Button
-                        variant="ghost"
-                        size="icon"
-                        onClick={() => retryEmbedding(item)}
-                        disabled={processingId === item.id}
-                        className="text-muted-foreground hover:text-primary"
-                        title="Retry indexing"
+                        onClick={() => approve(s.id)}
+                        disabled={approvingId === s.id}
+                        className="rounded-xl bg-emerald-600 hover:bg-emerald-600/90"
                       >
-                        {processingId === item.id ? <Loader2 className="w-4 h-4 animate-spin" /> : <RefreshCw className="w-4 h-4" />}
+                        {approvingId === s.id ? (
+                          <>
+                            <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                            Approving…
+                          </>
+                        ) : (
+                          <>
+                            <CheckCircle2 className="h-4 w-4 mr-2" />
+                            Approve & Index
+                          </>
+                        )}
                       </Button>
                     )}
-                    <AlertDialog>
-                      <AlertDialogTrigger asChild>
-                        <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-destructive">
-                          <Trash2 className="w-4 h-4" />
-                        </Button>
-                      </AlertDialogTrigger>
-                      <AlertDialogContent>
-                        <AlertDialogHeader>
-                          <AlertDialogTitle>Delete knowledge?</AlertDialogTitle>
-                          <AlertDialogDescription>
-                            This will permanently delete "{item.title}" from your knowledge base. This action cannot be undone.
-                          </AlertDialogDescription>
-                        </AlertDialogHeader>
-                        <AlertDialogFooter>
-                          <AlertDialogCancel>Cancel</AlertDialogCancel>
-                          <AlertDialogAction onClick={() => handleDelete(item.id)} className="bg-destructive hover:bg-destructive/90">
-                            Delete
-                          </AlertDialogAction>
-                        </AlertDialogFooter>
-                      </AlertDialogContent>
-                    </AlertDialog>
                   </div>
                 </div>
               </div>
@@ -529,21 +474,14 @@ export function KnowledgeBase() {
         )}
       </div>
 
-      {/* Stats footer */}
+      {/* Footer */}
       <div className="px-6 py-3 border-t border-border">
         <div className="flex items-center justify-between">
-          <p className="text-xs text-muted-foreground">{totalItems} document{totalItems !== 1 ? 's' : ''} in knowledge base</p>
-          <div className="flex items-center gap-4 text-xs">
-            <span className="text-green-500 flex items-center gap-1">
-              <CheckCircle2 className="w-3 h-3" />
-              {embeddedItems} indexed
-            </span>
-            {pendingItems > 0 && (
-              <span className="text-orange-500 flex items-center gap-1">
-                <AlertCircle className="w-3 h-3" />
-                {pendingItems} pending
-              </span>
-            )}
+          <p className="text-xs text-muted-foreground">{sources.length} source{sources.length === 1 ? '' : 's'} total</p>
+          <div className="flex items-center gap-2">
+            <Badge variant="outline" className="rounded-full bg-muted/30">
+              role: {role}
+            </Badge>
           </div>
         </div>
       </div>

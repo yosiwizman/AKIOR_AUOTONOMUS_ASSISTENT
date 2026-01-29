@@ -7,6 +7,7 @@ import { roleForRequest, allowedClassifications } from '@/lib/kb/access';
 import { retrieveTopChunks } from '@/lib/kb/retriever';
 import { writeAuditEvent, writeRetrievalEvent } from '@/lib/kb/audit';
 import { getOpenAI, PROJECT_SCOPE_PROMPT } from '@/lib/chat/openai';
+import { logJson } from '@/lib/kb/logger';
 
 function getAuthToken(req: NextRequest) {
   const authHeader = req.headers.get('Authorization') || '';
@@ -51,6 +52,15 @@ export async function POST(req: NextRequest) {
     classifications,
     actorId,
     includeText: true,
+  });
+
+  logJson('info', {
+    trace_id: traceId,
+    event: 'kb.ask.retrieve',
+    role,
+    topK,
+    hits: hits.length,
+    sources_used: hits.map((h) => h.source_id).slice(0, 10),
   });
 
   if (actorId) {

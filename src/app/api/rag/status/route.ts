@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getSupabaseAnon, getSupabaseAuthed } from '@/lib/kb/server-clients';
+import { embedText } from '@/lib/kb/embedding';
 
 function getAuthToken(req: NextRequest) {
   const authHeader = req.headers.get('Authorization') || '';
@@ -28,9 +29,27 @@ export async function GET(req: NextRequest) {
   const sources_approved = approvedTotal || 0;
   const vectors_total = vectorsTotal || 0;
 
+  // Probe retriever health only if we expect vectors to exist.
+  let retriever_ok = false;
+  if (sources_approved > 0 && vectors_total > 0) {
+    try {
+      const probe = embedText('healthcheck');
+      const { error } = await db.rpc('match_kb_vectors', {
+        query_embedding: probe,
+        match_count: 1,
+        p_tenant_id: 'default',
+        p_classifications: ['public'],
+        p_actor_id: null,
+      });
+      retriever_ok = !error;
+    } catch {
+      retriever_ok = false;
+    }
+  }
+
   let rag_state: 'OFF' | 'DEGRADED' | 'ON' = 'OFF';
   if (sources_approved === 0) rag_state = 'OFF';
-  else if (sources_approved > 0 && vectors_total === 0) rag_state = 'DEGRADED';
+  else if (sources_approved > 0 && (vectors_total === 0 || !retriever_ok)) rag_state = 'DEGRADED';
   else rag_state = 'ON';
 
   return NextResponse.json({
@@ -42,6 +61,7 @@ export async function GET(req: NextRequest) {
       vectors_total,
       last_index_time: lastIndex?.indexed_at || null,
       rag_state,
+      retriever_ok,
     },
   });
 }

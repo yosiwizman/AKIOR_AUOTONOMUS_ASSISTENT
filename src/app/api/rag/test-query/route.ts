@@ -5,6 +5,7 @@ import { safeId } from '@/lib/kb/hash';
 import { roleForRequest, allowedClassifications } from '@/lib/kb/access';
 import { retrieveTopChunks } from '@/lib/kb/retriever';
 import { writeRetrievalEvent, writeAuditEvent } from '@/lib/kb/audit';
+import { logJson } from '@/lib/kb/logger';
 
 function getAuthToken(req: NextRequest) {
   const authHeader = req.headers.get('Authorization') || '';
@@ -46,6 +47,14 @@ export async function POST(req: NextRequest) {
     classifications,
     actorId,
     includeText: true,
+  });
+
+  logJson('info', {
+    trace_id: traceId,
+    event: 'kb.test_query',
+    role,
+    topK,
+    hits: hits.length,
   });
 
   if (actorId) {

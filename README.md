@@ -40,16 +40,23 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 src/
 ├── app/
 │   ├── api/
+│   │   ├── rag/
+│   │   │   ├── status/route.ts        # GET /api/rag/status
+│   │   │   └── test-query/route.ts    # POST /api/rag/test-query
+│   │   ├── admin/kb/
+│   │   │   ├── upload/route.ts        # POST /api/admin/kb/upload
+│   │   │   ├── sources/route.ts       # GET /api/admin/kb/sources
+│   │   │   └── [source_id]/approve/route.ts
 │   │   └── chat/
-│   │       └── route.ts      # POST /api/chat endpoint
-│   ├── globals.css           # AKIOR theme styles
-│   ├── layout.tsx            # Root layout
-│   └── page.tsx              # Main page (renders VoiceConsole)
+│   │       └── route.ts               # POST /api/chat (RAG + citations)
+│   ├── globals.css
+│   ├── layout.tsx
+│   └── page.tsx
 ├── components/
-│   └── voice-console.tsx     # Main UI component
-└── hooks/
-    ├── use-speech-recognition.ts  # Web Speech API STT hook
-    └── use-speech-synthesis.ts    # Web Speech API TTS hook
+│   ├── knowledge-base.tsx             # Governed KB UI (upload + approve)
+│   └── rag-status-badge.tsx           # RAG: OFF/DEGRADED/ON badge
+└── lib/
+    └── kb/                            # Chunking, embedding, retrieval, auditing
 ```
 
 ## API Reference
@@ -69,112 +76,69 @@ Send a message and receive an AKIOR-style response.
 }
 ```
 
-**Response:**
+**Response (includes RAG metadata when enabled):**
 ```json
 {
-  "reply": "AKIOR's response with technical details..."
+  "reply": "...",
+  "citations": [
+    {
+      "source_id": "...",
+      "source_version": 1,
+      "chunk_id": "...",
+      "confidence": 0.83,
+      "metadata": {}
+    }
+  ],
+  "rag": { "state": "ON" }
 }
 ```
 
-## Integrating a Real LLM
+## Governed RAG Runbook (Local-first)
 
-The response generation is isolated in a single function for easy replacement:
+### Classification + ACL rules
 
-### Location
-`src/app/api/chat/route.ts` → `generateAkiorResponse()` function
+- **Public**: eligible for unauthenticated "public-safe spokesman" retrieval.
+- **Internal**: only retrievable by authenticated users.
+- **Restricted**: retrievable only when the caller is authenticated *and* included in the document ACL.
 
-### Example: OpenAI Integration
+> ACL and classification enforcement is done at the database layer via RLS + metadata filtering.
 
-```typescript
-import OpenAI from 'openai';
+### Admin-approved ingestion flow
 
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+1) Upload a document (creates a **pending** source + parses it):
+- UI: **Knowledge Base** → **Upload**
+- API: `POST /api/admin/kb/upload`
 
-async function generateAkiorResponse(message: string, history: Message[]): Promise<string> {
-  const systemPrompt = `You are AKIOR, a technical AI assistant. 
-  - Be concise and technical
-  - Use structured bullet points
-  - Ask follow-up questions only if absolutely required
-  - Never overclaim capabilities`;
+2) Approve + index (chunks → embeds → vector index, emits audit events):
+- UI: **Approve & Index**
+- API: `POST /api/admin/kb/{source_id}/approve`
 
-  const messages = [
-    { role: 'system' as const, content: systemPrompt },
-    ...history.map(m => ({ role: m.role as 'user' | 'assistant', content: m.content })),
-    { role: 'user' as const, content: message }
-  ];
+> Admin allowlist is controlled by `AKIOR_ADMIN_EMAILS` (comma-separated) or `AKIOR_ADMIN_EMAIL_DOMAIN`.
 
-  const response = await openai.chat.completions.create({
-    model: 'gpt-4',
-    messages,
-    max_tokens: 500,
-  });
+### Verification endpoints
 
-  return response.choices[0]?.message?.content || 'No response generated.';
-}
-```
+- `GET /api/rag/status`
+  - Returns counts + `rag_state: OFF|DEGRADED|ON`.
+  - OFF: no approved sources
+  - DEGRADED: approved sources exist but vectors missing or retriever failing
+  - ON: vectors exist and retriever probe succeeds
 
-### Example: Anthropic Integration
+- `POST /api/rag/test-query` `{ "q": "...", "topK": 5 }`
+  - Returns top chunks + citation IDs **without** generating an answer.
 
-```typescript
-import Anthropic from '@anthropic-ai/sdk';
+### Proving OFF → ON
 
-const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+1) Before approval: `GET /api/rag/status` should show `rag_state=OFF`.
+2) Upload + approve/index a source.
+3) After indexing: `GET /api/rag/status` should show `rag_state=ON` and `vectors_total > 0`.
 
-async function generateAkiorResponse(message: string, history: Message[]): Promise<string> {
-  const response = await anthropic.messages.create({
-    model: 'claude-3-sonnet-20240229',
-    max_tokens: 500,
-    system: `You are AKIOR, a technical AI assistant. Be concise, use bullet points, never overclaim.`,
-    messages: [
-      ...history.map(m => ({ role: m.role as 'user' | 'assistant', content: m.content })),
-      { role: 'user', content: message }
-    ],
-  });
+### Redaction & safety
 
-  return response.content[0].type === 'text' ? response.content[0].text : 'No response generated.';
-}
-```
-
-## UI Components
-
-### Status Indicator
-Shows current state: Ready, Listening, Processing, Sending, Error, or Voice Unavailable.
-
-### Push-to-Talk Button
-Large circular button that toggles speech recognition. Glows green when listening.
-
-### Transcript Box
-Editable text area showing recognized speech. Can be manually edited before sending.
-
-### Response Box
-Displays AKIOR's response with optional TTS playback.
-
-### History Panel
-Scrollable list of conversation turns with timestamps. Limited to 20 turns (40 messages).
-
-### Speak Answer Toggle
-Enables/disables automatic text-to-speech for responses.
-
-## Troubleshooting
-
-### "Speech recognition not supported"
-- Use Chrome or Edge browser
-- Ensure you're on localhost or HTTPS
-
-### "Microphone access denied"
-- Click the lock icon in the address bar
-- Allow microphone permissions
-- Refresh the page
-
-### No response from API
-- Check browser DevTools console for errors
-- Verify the development server is running
-- Check Network tab for /api/chat requests
-
-### TTS not working
-- Check browser volume settings
-- Try a different voice in browser settings
-- Some browsers require user interaction before TTS works
+- Audit payloads are redacted to scrub:
+  - IPv4 addresses
+  - Bearer tokens / API keys
+  - configured internal hostnames (`AKIOR_INTERNAL_HOSTNAMES`)
+- Raw document content is never written to logs; only IDs/hashes are logged.
 
 ## Development
 
@@ -190,6 +154,9 @@ npm start
 
 # Run linting
 npm run lint
+
+# Run tests
+npm test
 ```
 
 ## License

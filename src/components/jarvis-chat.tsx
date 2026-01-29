@@ -15,6 +15,8 @@ import { useOpenAITTS, OpenAIVoice } from '@/hooks/use-openai-tts';
 import { supabase } from '@/integrations/supabase/client';
 import { ConversationSidebar } from './conversation-sidebar';
 import { cn } from '@/lib/utils';
+import { RagStatusBadge } from '@/components/rag-status-badge';
+import { RagOffHint } from '@/components/rag-off-hint';
 
 interface Message {
   id?: string;
@@ -270,8 +272,12 @@ export function AkiorChat() {
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-border">
           <div>
-            <h2 className="text-lg font-semibold">Chat with {agentSettings.agent_name}</h2>
-            <p className="text-xs text-muted-foreground mt-0.5">GPT-4o-mini • RAG enabled • Memory active • Conversations saved</p>
+            <div className="flex items-center gap-3">
+              <h2 className="text-lg font-semibold">Chat with {agentSettings.agent_name}</h2>
+              <RagStatusBadge token={session?.access_token} />
+            </div>
+            <p className="text-xs text-muted-foreground mt-0.5">Citations + governed retrieval • Memory + conversations preserved</p>
+            <RagOffHint token={session?.access_token} />
           </div>
           <div className="flex items-center gap-4">
             {/* TTS Toggle */}
