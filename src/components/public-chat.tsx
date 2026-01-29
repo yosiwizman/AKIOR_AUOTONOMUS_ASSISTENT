@@ -188,12 +188,12 @@ export function PublicChat() {
         </div>
       </footer>
 
-      {/* AKIOR Logo Button - Fixed bottom right */}
-      <Link 
-        href="/talk" 
-        className="fixed bottom-24 right-6 z-20 group transition-transform hover:scale-105"
+      {/* AKIOR Logo Button - Centered */}
+      <Link
+        href="/talk"
+        className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20 group transition-transform hover:scale-105"
       >
-        <AkiorLogo size="md" />
+        <AkiorLogo size="lg" />
       </Link>
     </div>
   );
