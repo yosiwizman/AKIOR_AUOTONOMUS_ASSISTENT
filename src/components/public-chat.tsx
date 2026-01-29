@@ -7,10 +7,11 @@
  */
 
 import { useState, useCallback, useRef, useEffect } from 'react';
-import { Send, Loader2, Bot, ArrowRight } from 'lucide-react';
+import { Send, Loader2, Bot } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
+import { AkiorLogo } from './jarvis-logo';
 
 interface Message {
   role: 'user' | 'assistant';
@@ -104,11 +105,9 @@ export function PublicChat() {
               <p className="text-xs text-muted-foreground">Free AI Assistant</p>
             </div>
           </div>
-          <Link href="/">
-            <Button variant="ghost" size="sm" className="text-xs text-muted-foreground">
-              Sign in for more
-              <ArrowRight className="w-3 h-3 ml-1" />
-            </Button>
+          {/* AKIOR Logo Button - Links to Talk to AKIOR */}
+          <Link href="/" className="group">
+            <AkiorLogo size="sm" className="transition-transform group-hover:scale-105" />
           </Link>
         </div>
       </header>
@@ -188,10 +187,7 @@ export function PublicChat() {
             </Button>
           </div>
           <p className="text-center text-xs text-muted-foreground mt-2">
-            Free to use • No account required • 
-            <Link href="/" className="text-primary hover:underline ml-1">
-              Sign in for full features
-            </Link>
+            Free to use • No account required
           </p>
         </div>
       </footer>
