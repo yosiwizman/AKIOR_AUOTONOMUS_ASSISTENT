@@ -261,112 +261,110 @@ export function AkiorVoice() {
         )}
 
         {/* Voice interface */}
-        <div className="flex-1 overflow-y-auto px-6 py-8">
-          <div className="max-w-2xl mx-auto space-y-8">
-            {/* Warnings */}
-            {!sttSupported && (
-              <div className="flex items-start gap-3 p-4 rounded-lg bg-orange-500/10 border border-orange-500/30">
-                <AlertCircle className="w-5 h-5 text-orange-500 flex-shrink-0 mt-0.5" />
-                <div>
-                  <p className="text-sm font-medium text-orange-500">Voice Input Unavailable</p>
-                  <p className="text-xs text-muted-foreground mt-1">Speech recognition is not supported. Please use Chrome or Edge.</p>
-                </div>
+        <div className="max-w-2xl mx-auto space-y-8">
+          {/* Warnings */}
+          {!sttSupported && (
+            <div className="flex items-start gap-3 p-4 rounded-lg bg-orange-500/10 border border-orange-500/30">
+              <AlertCircle className="w-5 h-5 text-orange-500 flex-shrink-0 mt-0.5" />
+              <div>
+                <p className="text-sm font-medium text-orange-500">Voice Input Unavailable</p>
+                <p className="text-xs text-muted-foreground mt-1">Speech recognition is not supported. Please use Chrome or Edge.</p>
               </div>
-            )}
+            </div>
+          )}
 
-            {(sttError || apiError) && (
-              <div className="flex items-start gap-3 p-4 rounded-lg bg-destructive/10 border border-destructive/30">
-                <AlertCircle className="w-5 h-5 text-destructive flex-shrink-0 mt-0.5" />
-                <p className="text-sm text-muted-foreground">{sttError || apiError}</p>
-              </div>
-            )}
+          {(sttError || apiError) && (
+            <div className="flex items-start gap-3 p-4 rounded-lg bg-destructive/10 border border-destructive/30">
+              <AlertCircle className="w-5 h-5 text-destructive flex-shrink-0 mt-0.5" />
+              <p className="text-sm text-muted-foreground">{sttError || apiError}</p>
+            </div>
+          )}
 
-            {/* Push-to-talk button */}
-            <div className="flex flex-col items-center gap-4">
+          {/* Push-to-talk button */}
+          <div className="flex flex-col items-center gap-4">
+            <Button
+              size="lg"
+              variant={isListening ? 'default' : 'outline'}
+              onClick={handlePushToTalk}
+              disabled={!sttSupported || isSending}
+              className={cn(
+                'w-28 h-28 rounded-full transition-all duration-300',
+                isListening ? 'bg-primary hover:bg-primary/90 akior-glow' : 'border-2 border-border hover:border-primary/50 hover:bg-primary/5',
+                !sttSupported && 'opacity-50 cursor-not-allowed'
+              )}
+            >
+              {isListening ? <MicOff className="w-10 h-10" /> : <Mic className="w-10 h-10 text-muted-foreground" />}
+            </Button>
+
+            <div className="text-center">
+              <p className={cn('text-sm font-medium', isListening ? 'text-primary' : 'text-muted-foreground')}>
+                {isListening ? 'Listening... Click to stop' : 'Click to speak'}
+              </p>
+            </div>
+          </div>
+
+          {/* Transcript input */}
+          <div className="space-y-3">
+            <Label className="text-sm font-medium text-muted-foreground">Your Message</Label>
+            <Textarea
+              value={transcript}
+              onChange={(e) => setTranscript(e.target.value)}
+              placeholder="Speak or type your message here..."
+              className="min-h-[100px] bg-muted/30 border-border focus:border-primary/50 resize-none text-sm"
+              disabled={isSending}
+            />
+            <div className="flex items-center justify-between">
               <Button
-                size="lg"
-                variant={isListening ? 'default' : 'outline'}
-                onClick={handlePushToTalk}
-                disabled={!sttSupported || isSending}
-                className={cn(
-                  'w-28 h-28 rounded-full transition-all duration-300',
-                  isListening ? 'bg-primary hover:bg-primary/90 akior-glow' : 'border-2 border-border hover:border-primary/50 hover:bg-primary/5',
-                  !sttSupported && 'opacity-50 cursor-not-allowed'
-                )}
+                variant="ghost"
+                size="sm"
+                onClick={() => {
+                  setTranscript('');
+                  clearTranscript();
+                }}
+                disabled={!transcript || isSending}
+                className="text-muted-foreground"
               >
-                {isListening ? <MicOff className="w-10 h-10" /> : <Mic className="w-10 h-10 text-muted-foreground" />}
+                <Trash2 className="w-4 h-4 mr-2" />
+                Clear
               </Button>
-
-              <div className="text-center">
-                <p className={cn('text-sm font-medium', isListening ? 'text-primary' : 'text-muted-foreground')}>
-                  {isListening ? 'Listening... Click to stop' : 'Click to speak'}
-                </p>
-              </div>
+              <Button onClick={sendMessage} disabled={!transcript.trim() || isSending} className="bg-primary hover:bg-primary/90">
+                {isSending ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Send className="w-4 h-4 mr-2" />}
+                Send
+              </Button>
             </div>
+          </div>
 
-            {/* Transcript input */}
+          {/* Response display */}
+          {latestResponse && (
             <div className="space-y-3">
-              <Label className="text-sm font-medium text-muted-foreground">Your Message</Label>
-              <Textarea
-                value={transcript}
-                onChange={(e) => setTranscript(e.target.value)}
-                placeholder="Speak or type your message here..."
-                className="min-h-[100px] bg-muted/30 border-border focus:border-primary/50 resize-none text-sm"
-                disabled={isSending}
-              />
               <div className="flex items-center justify-between">
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => {
-                    setTranscript('');
-                    clearTranscript();
-                  }}
-                  disabled={!transcript || isSending}
-                  className="text-muted-foreground"
-                >
-                  <Trash2 className="w-4 h-4 mr-2" />
-                  Clear
-                </Button>
-                <Button onClick={sendMessage} disabled={!transcript.trim() || isSending} className="bg-primary hover:bg-primary/90">
-                  {isSending ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Send className="w-4 h-4 mr-2" />}
-                  Send
-                </Button>
-              </div>
-            </div>
-
-            {/* Response display */}
-            {latestResponse && (
-              <div className="space-y-3">
-                <div className="flex items-center justify-between">
-                  <Label className="text-sm font-medium text-muted-foreground">{agentSettings.agent_name} Response</Label>
-                  <div className="flex items-center gap-3">
-                    {(isSpeaking || isTTSLoading) && (
-                      <Button variant="ghost" size="sm" onClick={stopSpeaking} className="text-muted-foreground text-xs">
-                        {isTTSLoading ? 'Loading...' : 'Stop'}
-                      </Button>
-                    )}
-                    <div className="flex items-center gap-2">
-                      <Switch id="speak-toggle" checked={speakEnabled} onCheckedChange={setSpeakEnabled} />
-                      <Label htmlFor="speak-toggle" className="text-xs cursor-pointer flex items-center gap-1">
-                        {speakEnabled ? <Volume2 className="w-3.5 h-3.5 text-primary" /> : <VolumeX className="w-3.5 h-3.5 text-muted-foreground" />}
-                        Auto-speak
-                      </Label>
-                    </div>
+                <Label className="text-sm font-medium text-muted-foreground">{agentSettings.agent_name} Response</Label>
+                <div className="flex items-center gap-3">
+                  {(isSpeaking || isTTSLoading) && (
+                    <Button variant="ghost" size="sm" onClick={stopSpeaking} className="text-muted-foreground text-xs">
+                      {isTTSLoading ? 'Loading...' : 'Stop'}
+                    </Button>
+                  )}
+                  <div className="flex items-center gap-2">
+                    <Switch id="speak-toggle" checked={speakEnabled} onCheckedChange={setSpeakEnabled} />
+                    <Label htmlFor="speak-toggle" className="text-xs cursor-pointer flex items-center gap-1">
+                      {speakEnabled ? <Volume2 className="w-3.5 h-3.5 text-primary" /> : <VolumeX className="w-3.5 h-3.5 text-muted-foreground" />}
+                      Auto-speak
+                    </Label>
                   </div>
                 </div>
-                <div
-                  className={cn(
-                    'p-4 rounded-lg bg-secondary/50 border border-border',
-                    'text-sm whitespace-pre-wrap leading-relaxed',
-                    (isSpeaking || isTTSLoading) && 'border-primary/30 akior-glow'
-                  )}
-                >
-                  {latestResponse.content}
-                </div>
               </div>
-            )}
-          </div>
+              <div
+                className={cn(
+                  'p-4 rounded-lg bg-secondary/50 border border-border',
+                  'text-sm whitespace-pre-wrap leading-relaxed',
+                  (isSpeaking || isTTSLoading) && 'border-primary/30 akior-glow'
+                )}
+              >
+                {latestResponse.content}
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>
