@@ -17,6 +17,7 @@ export async function retrieveTopChunks(opts: {
   topK: number;
   classifications: Classification[];
   includeText: boolean;
+  userId?: string;
 }): Promise<RetrievalHit[]> {
   const queryEmbedding = embedText(opts.q);
   const expectedDim = getEmbedDim();
@@ -27,7 +28,9 @@ export async function retrieveTopChunks(opts: {
   const { data, error } = await opts.db.rpc('match_kb_vectors', {
     query_embedding: queryEmbedding,
     match_count: opts.topK,
+    p_tenant_id: 'default',
     p_classifications: opts.classifications,
+    p_actor_id: opts.userId || null,
   });
 
   if (error) throw error;

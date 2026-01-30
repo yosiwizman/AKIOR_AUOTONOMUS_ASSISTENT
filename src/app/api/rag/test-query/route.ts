@@ -45,6 +45,7 @@ export async function POST(req: NextRequest) {
     topK,
     classifications,
     includeText: true,
+    userId: actorId || undefined,
   });
 
   logJson('info', {

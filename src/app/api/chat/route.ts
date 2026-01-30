@@ -81,6 +81,7 @@ export async function POST(request: NextRequest): Promise<NextResponse<ChatRespo
         topK: 5,
         classifications: allowedClassifications(role),
         includeText: true,
+        userId: undefined,
       });
 
       const citations = hits.map((h) => ({
@@ -201,6 +202,7 @@ export async function POST(request: NextRequest): Promise<NextResponse<ChatRespo
       topK: 6,
       classifications: allowedClassifications(role),
       includeText: true,
+      userId: userId,
     });
 
     citations = kbHits.map((h) => ({
