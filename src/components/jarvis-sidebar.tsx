@@ -12,18 +12,20 @@ import {
   Mic, 
   Settings,
   BookOpen,
-  X
+  X,
+  CircleDot
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 
 interface SidebarProps {
-  currentView: 'menu' | 'voice' | 'chat' | 'settings' | 'knowledge';
-  onViewChange: (view: 'menu' | 'voice' | 'chat' | 'settings' | 'knowledge') => void;
+  currentView: 'menu' | 'voice' | 'chat' | 'settings' | 'knowledge' | 'hud';
+  onViewChange: (view: 'menu' | 'voice' | 'chat' | 'settings' | 'knowledge' | 'hud') => void;
 }
 
 const menuItems = [
   { id: 'menu', label: 'Menu', icon: Menu },
+  { id: 'hud', label: 'Talk to AKIOR', icon: CircleDot },
   { id: 'voice', label: 'AKIOR (Voice)', icon: Mic },
   { id: 'chat', label: 'Chat', icon: MessageSquare },
   { id: 'knowledge', label: 'Knowledge Base', icon: BookOpen },
@@ -84,6 +86,7 @@ export function AkiorSidebar({ currentView, onViewChange }: SidebarProps) {
           {menuItems.map((item) => {
             const Icon = item.icon;
             const isActive = currentView === item.id;
+            const isHud = item.id === 'hud';
             
             return (
               <button
@@ -96,11 +99,13 @@ export function AkiorSidebar({ currentView, onViewChange }: SidebarProps) {
                   'w-full flex items-center gap-3 px-3 py-2.5 rounded-md',
                   'text-sm transition-all duration-200',
                   'border border-transparent',
-                  isActive && 'text-foreground bg-secondary/50 border-sidebar-border',
-                  !isActive && 'text-muted-foreground hover:text-foreground hover:bg-secondary/30 hover:border-sidebar-border'
+                  isHud && !isActive && 'text-cyan-400 hover:text-cyan-300 hover:bg-cyan-500/10 hover:border-cyan-500/30',
+                  isHud && isActive && 'text-cyan-300 bg-cyan-500/20 border-cyan-500/40',
+                  !isHud && isActive && 'text-foreground bg-secondary/50 border-sidebar-border',
+                  !isHud && !isActive && 'text-muted-foreground hover:text-foreground hover:bg-secondary/30 hover:border-sidebar-border'
                 )}
               >
-                <Icon className="w-4 h-4 shrink-0" />
+                <Icon className={cn("w-4 h-4 shrink-0", isHud && "text-cyan-400")} />
                 {!isCollapsed && <span>{item.label}</span>}
               </button>
             );
