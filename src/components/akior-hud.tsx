@@ -183,7 +183,7 @@ export function AkiorHUD() {
   };
 
   return (
-    <div className="flex-1 min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-background to-background/80 relative overflow-hidden">
+    <div className="flex-1 min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-background to-background/80 relative overflow-hidden p-4">
       {/* Background grid effect */}
       <div className="absolute inset-0 opacity-5">
         <div className="absolute inset-0" style={{
@@ -195,62 +195,60 @@ export function AkiorHUD() {
         }} />
       </div>
 
-      {/* Main HUD Container */}
-      <div className="relative">
-        {/* Outer rotating ring */}
+      {/* Main HUD Container - responsive sizing */}
+      <div className="relative w-full max-w-[420px] aspect-square flex items-center justify-center">
+        {/* Outer rotating ring - responsive */}
         <div className={cn(
           "absolute inset-0 rounded-full border-2 border-primary/30",
           "transition-all duration-1000",
           (isListening || isSpeaking || isProcessing) && "animate-spin-slow",
           hasError && "border-red-500/30"
         )} style={{
-          width: '480px',
-          height: '480px',
-          left: '-30px',
-          top: '-30px',
+          width: '100%',
+          height: '100%',
+          transform: 'scale(1.14)',
         }}>
           {/* Ring markers */}
           {[...Array(12)].map((_, i) => (
             <div
               key={i}
               className={cn(
-                "absolute w-2 h-4",
+                "absolute w-1.5 h-3 sm:w-2 sm:h-4",
                 hasError ? "bg-red-500/50" : "bg-primary/50"
               )}
               style={{
                 left: '50%',
                 top: '0',
                 transform: `translateX(-50%) rotate(${i * 30}deg)`,
-                transformOrigin: '50% 240px',
+                transformOrigin: '50% 50vw',
               }}
             />
           ))}
         </div>
 
-        {/* Middle ring */}
+        {/* Middle ring - responsive */}
         <div className={cn(
           "absolute rounded-full border border-cyan-500/40",
           "transition-all duration-500",
           (isListening || isSpeaking) && "border-cyan-400/60",
           hasError && "border-red-500/40"
         )} style={{
-          width: '440px',
-          height: '440px',
-          left: '-10px',
-          top: '-10px',
+          width: '95%',
+          height: '95%',
         }} />
 
-        {/* Main circle - clickable */}
+        {/* Main circle - clickable, responsive */}
         <button
           onClick={handleActivate}
           disabled={isProcessing}
           className={cn(
-            "relative w-[420px] h-[420px] rounded-full",
+            "relative w-full h-full max-w-[420px] max-h-[420px] rounded-full",
             "bg-gradient-to-br from-slate-900/90 via-slate-800/90 to-slate-900/90",
             "border-2 transition-all duration-300",
             "flex flex-col items-center justify-center",
             "focus:outline-none focus:ring-2 focus:ring-primary/50",
             "group cursor-pointer",
+            "active:scale-95", // Touch feedback
             isListening && "border-cyan-400 shadow-[0_0_60px_rgba(0,200,200,0.4)]",
             isSpeaking && "border-primary shadow-[0_0_60px_rgba(0,200,200,0.3)]",
             isProcessing && "border-yellow-500/50",
@@ -259,7 +257,7 @@ export function AkiorHUD() {
           )}
         >
           {/* Hexagon pattern background */}
-          <div className="absolute inset-8 opacity-30">
+          <div className="absolute inset-4 sm:inset-8 opacity-30">
             <svg viewBox="0 0 100 100" className="w-full h-full">
               <defs>
                 <pattern id="hexagons" width="10" height="17.32" patternUnits="userSpaceOnUse" patternTransform="scale(2)">
@@ -278,18 +276,18 @@ export function AkiorHUD() {
 
           {/* Inner glow ring */}
           <div className={cn(
-            "absolute inset-12 rounded-full border transition-all duration-300",
+            "absolute inset-8 sm:inset-12 rounded-full border transition-all duration-300",
             isListening && "border-cyan-400/60 shadow-[inset_0_0_30px_rgba(0,200,200,0.2)]",
             isSpeaking && "border-primary/60 shadow-[inset_0_0_30px_rgba(0,200,200,0.15)]",
             hasError && "border-red-500/40 shadow-[inset_0_0_30px_rgba(255,0,0,0.1)]",
             !isListening && !isSpeaking && !hasError && "border-cyan-500/20"
           )} />
 
-          {/* Center content */}
-          <div className="relative z-10 text-center px-8">
+          {/* Center content - responsive text */}
+          <div className="relative z-10 text-center px-4 sm:px-8">
             {/* AKIOR Logo Text */}
             <h1 className={cn(
-              "text-5xl font-bold tracking-[0.3em] mb-2 transition-all duration-300",
+              "text-3xl sm:text-4xl md:text-5xl font-bold tracking-[0.3em] mb-2 transition-all duration-300",
               "bg-gradient-to-r from-cyan-300 via-white to-cyan-300 bg-clip-text text-transparent",
               "drop-shadow-[0_0_10px_rgba(0,200,200,0.5)]",
               (isListening || isSpeaking) && "drop-shadow-[0_0_20px_rgba(0,200,200,0.8)]",
@@ -298,17 +296,17 @@ export function AkiorHUD() {
               {agentSettings.agent_name.toUpperCase()}
             </h1>
             
-            {/* Subtitle */}
+            {/* Subtitle - responsive */}
             <p className={cn(
-              "text-xs tracking-[0.2em] uppercase mb-6",
+              "text-[8px] sm:text-xs tracking-[0.2em] uppercase mb-4 sm:mb-6",
               hasError ? "text-red-400/80" : "text-cyan-400/80"
             )}>
               {hasError ? 'Connection Issue' : 'Advanced Knowledge Intelligence Operating Resource'}
             </p>
 
-            {/* Status indicator */}
+            {/* Status indicator - responsive */}
             <div className={cn(
-              "flex items-center justify-center gap-2 text-sm transition-all duration-300",
+              "flex items-center justify-center gap-2 text-xs sm:text-sm transition-all duration-300",
               isListening && "text-cyan-300",
               isSpeaking && "text-primary",
               isProcessing && "text-yellow-400",
@@ -316,27 +314,27 @@ export function AkiorHUD() {
               !isListening && !isSpeaking && !isProcessing && !hasError && "text-muted-foreground"
             )}>
               {hasError ? (
-                <AlertCircle className="w-5 h-5" />
+                <AlertCircle className="w-4 h-4 sm:w-5 sm:h-5" />
               ) : isListening ? (
-                <Mic className="w-5 h-5 animate-pulse" />
+                <Mic className="w-4 h-4 sm:w-5 sm:h-5 animate-pulse" />
               ) : isSpeaking ? (
-                <Volume2 className="w-5 h-5 animate-pulse" />
+                <Volume2 className="w-4 h-4 sm:w-5 sm:h-5 animate-pulse" />
               ) : (
-                <MicOff className="w-5 h-5 opacity-50 group-hover:opacity-100 transition-opacity" />
+                <MicOff className="w-4 h-4 sm:w-5 sm:h-5 opacity-50 group-hover:opacity-100 transition-opacity" />
               )}
-              <span className="uppercase tracking-wider">{statusText}</span>
+              <span className="uppercase tracking-wider text-xs sm:text-sm">{statusText}</span>
             </div>
 
             {/* Error message */}
             {hasError && speechError && (
-              <p className="mt-4 text-xs text-red-400/80 max-w-[250px]">
+              <p className="mt-3 sm:mt-4 text-[10px] sm:text-xs text-red-400/80 max-w-[200px] sm:max-w-[250px] mx-auto">
                 {speechError}
               </p>
             )}
 
             {/* Transcript display */}
             {transcript && isActive && !hasError && (
-              <p className="mt-4 text-sm text-cyan-300/80 max-w-[250px] truncate">
+              <p className="mt-3 sm:mt-4 text-xs sm:text-sm text-cyan-300/80 max-w-[200px] sm:max-w-[250px] mx-auto truncate">
                 &quot;{transcript}&quot;
               </p>
             )}
@@ -351,45 +349,45 @@ export function AkiorHUD() {
           )}
         </button>
 
-        {/* Corner decorations */}
+        {/* Corner decorations - responsive */}
         <div className={cn(
-          "absolute -top-2 -left-2 w-8 h-8 border-l-2 border-t-2",
+          "absolute -top-1 -left-1 sm:-top-2 sm:-left-2 w-6 h-6 sm:w-8 sm:h-8 border-l-2 border-t-2",
           hasError ? "border-red-500/50" : "border-cyan-500/50"
         )} />
         <div className={cn(
-          "absolute -top-2 -right-2 w-8 h-8 border-r-2 border-t-2",
+          "absolute -top-1 -right-1 sm:-top-2 sm:-right-2 w-6 h-6 sm:w-8 sm:h-8 border-r-2 border-t-2",
           hasError ? "border-red-500/50" : "border-cyan-500/50"
         )} />
         <div className={cn(
-          "absolute -bottom-2 -left-2 w-8 h-8 border-l-2 border-b-2",
+          "absolute -bottom-1 -left-1 sm:-bottom-2 sm:-left-2 w-6 h-6 sm:w-8 sm:h-8 border-l-2 border-b-2",
           hasError ? "border-red-500/50" : "border-cyan-500/50"
         )} />
         <div className={cn(
-          "absolute -bottom-2 -right-2 w-8 h-8 border-r-2 border-b-2",
+          "absolute -bottom-1 -right-1 sm:-bottom-2 sm:-right-2 w-6 h-6 sm:w-8 sm:h-8 border-r-2 border-b-2",
           hasError ? "border-red-500/50" : "border-cyan-500/50"
         )} />
       </div>
 
-      {/* Response text below HUD */}
+      {/* Response text below HUD - responsive */}
       {responseText && (
-        <div className="mt-8 max-w-lg text-center px-6 animate-fade-in">
-          <p className="text-sm text-muted-foreground leading-relaxed">
+        <div className="mt-6 sm:mt-8 max-w-lg text-center px-4 sm:px-6 animate-fade-in">
+          <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
             {responseText}
           </p>
         </div>
       )}
 
-      {/* Bottom status bar */}
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-4 text-xs text-muted-foreground">
+      {/* Bottom status bar - responsive */}
+      <div className="absolute bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-3 sm:gap-4 text-[10px] sm:text-xs text-muted-foreground px-4">
         <span className="flex items-center gap-1">
           <span className={cn(
-            "w-2 h-2 rounded-full",
+            "w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full",
             hasError ? "bg-red-500" : speechSupported ? "bg-green-500" : "bg-red-500"
           )} />
           Voice {hasError ? 'Error' : speechSupported ? 'Ready' : 'Unavailable'}
         </span>
-        <span className="text-border">|</span>
-        <span>Press ESC to exit</span>
+        <span className="text-border hidden sm:inline">|</span>
+        <span className="hidden sm:inline">Press ESC to exit</span>
       </div>
     </div>
   );

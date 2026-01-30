@@ -3,6 +3,7 @@
 /**
  * AKIOR App - Main Application Shell
  * Enterprise-grade with error boundaries and loading states
+ * Mobile-optimized and responsive
  */
 
 import { useState, Suspense } from 'react';
@@ -25,10 +26,10 @@ type ViewType = 'menu' | 'voice' | 'chat' | 'settings' | 'knowledge' | 'hud';
 // Loading fallback component
 function LoadingFallback({ message = 'Loading...' }: { message?: string }) {
   return (
-    <div className="flex-1 flex items-center justify-center">
+    <div className="flex-1 flex items-center justify-center p-4">
       <div className="flex flex-col items-center gap-4">
         <Loader2 className="w-8 h-8 animate-spin text-primary" />
-        <p className="text-sm text-muted-foreground">{message}</p>
+        <p className="text-sm text-muted-foreground text-center">{message}</p>
       </div>
     </div>
   );
@@ -37,7 +38,7 @@ function LoadingFallback({ message = 'Loading...' }: { message?: string }) {
 // Error fallback for individual views
 function ViewErrorFallback({ onRetry }: { onRetry: () => void }) {
   return (
-    <div className="flex-1 flex items-center justify-center p-6">
+    <div className="flex-1 flex items-center justify-center p-4 sm:p-6">
       <div className="text-center max-w-md">
         <div className="w-12 h-12 rounded-full bg-destructive/10 flex items-center justify-center mx-auto mb-4">
           <AlertTriangle className="w-6 h-6 text-destructive" />
@@ -67,7 +68,7 @@ export function AkiorApp() {
   // Show loading state
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
+      <div className="min-h-screen bg-background flex items-center justify-center p-4">
         <div className="flex flex-col items-center gap-4">
           <Loader2 className="w-8 h-8 animate-spin text-primary" />
           <p className="text-sm text-muted-foreground">Loading AKIOR...</p>
@@ -127,10 +128,11 @@ export function AkiorApp() {
         />
       </ErrorBoundary>
 
-      {/* Main content area */}
+      {/* Main content area - responsive padding for mobile */}
       <main className={cn(
         'min-h-screen transition-all duration-300',
-        'lg:ml-52' // Sidebar width on desktop
+        'lg:ml-52', // Sidebar width on desktop
+        'pb-safe' // Safe area for mobile devices
       )}>
         <div className="h-screen flex flex-col">
           {renderContent()}

@@ -202,42 +202,42 @@ export function KnowledgeBase() {
 
   return (
     <div className="flex flex-col h-full">
-      {/* Header */}
-      <div className="px-6 py-4 border-b border-border">
-        <div className="flex items-start justify-between gap-4">
-          <div className="min-w-0">
-            <div className="flex items-center gap-3">
-              <h2 className="text-lg font-semibold flex items-center gap-2">
-                <ShieldCheck className="w-5 h-5 text-primary" />
+      {/* Header - mobile optimized */}
+      <div className="px-4 sm:px-6 py-3 sm:py-4 border-b border-border">
+        <div className="flex items-start justify-between gap-3 sm:gap-4">
+          <div className="min-w-0 flex-1">
+            <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
+              <h2 className="text-base sm:text-lg font-semibold flex items-center gap-2">
+                <ShieldCheck className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
                 Knowledge Base
               </h2>
               <RagStatusBadge token={session?.access_token} />
             </div>
-            <p className="text-xs text-muted-foreground mt-0.5">
+            <p className="text-[10px] sm:text-xs text-muted-foreground mt-0.5 line-clamp-2">
               Admin-approved ingestion • ACL/classification filtered retrieval • Audited access
             </p>
 
             {ragStatus && (
-              <div className="mt-3 grid grid-cols-2 sm:grid-cols-5 gap-2">
-                <div className="rounded-2xl border border-border bg-muted/25 px-3 py-2">
-                  <p className="text-[11px] text-muted-foreground">Sources</p>
+              <div className="mt-3 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2">
+                <div className="rounded-2xl border border-border bg-muted/25 px-2 sm:px-3 py-2">
+                  <p className="text-[10px] sm:text-[11px] text-muted-foreground">Sources</p>
                   <p className="text-sm font-semibold">{ragStatus.sources_total}</p>
                 </div>
-                <div className="rounded-2xl border border-border bg-muted/25 px-3 py-2">
-                  <p className="text-[11px] text-muted-foreground">Approved</p>
+                <div className="rounded-2xl border border-border bg-muted/25 px-2 sm:px-3 py-2">
+                  <p className="text-[10px] sm:text-[11px] text-muted-foreground">Approved</p>
                   <p className="text-sm font-semibold">{ragStatus.sources_approved}</p>
                 </div>
-                <div className="rounded-2xl border border-border bg-muted/25 px-3 py-2">
-                  <p className="text-[11px] text-muted-foreground">Chunks</p>
+                <div className="rounded-2xl border border-border bg-muted/25 px-2 sm:px-3 py-2">
+                  <p className="text-[10px] sm:text-[11px] text-muted-foreground">Chunks</p>
                   <p className="text-sm font-semibold">{ragStatus.chunks_total}</p>
                 </div>
-                <div className="rounded-2xl border border-border bg-muted/25 px-3 py-2">
-                  <p className="text-[11px] text-muted-foreground">Vectors</p>
+                <div className="rounded-2xl border border-border bg-muted/25 px-2 sm:px-3 py-2">
+                  <p className="text-[10px] sm:text-[11px] text-muted-foreground">Vectors</p>
                   <p className="text-sm font-semibold">{ragStatus.vectors_total}</p>
                 </div>
-                <div className="rounded-2xl border border-border bg-muted/25 px-3 py-2">
-                  <p className="text-[11px] text-muted-foreground">Last index</p>
-                  <p className="text-sm font-semibold truncate">
+                <div className="rounded-2xl border border-border bg-muted/25 px-2 sm:px-3 py-2 col-span-2 sm:col-span-1">
+                  <p className="text-[10px] sm:text-[11px] text-muted-foreground">Last index</p>
+                  <p className="text-xs sm:text-sm font-semibold truncate">
                     {ragStatus.last_index_time ? new Date(ragStatus.last_index_time).toLocaleString() : '—'}
                   </p>
                 </div>
@@ -245,26 +245,33 @@ export function KnowledgeBase() {
             )}
 
             {role !== 'admin' && (
-              <div className="mt-3 flex items-center gap-2 text-xs text-muted-foreground">
-                <BadgeInfo className="h-4 w-4 text-primary/70" />
-                <span>You can upload; admin approval is required to index and serve in RAG.</span>
+              <div className="mt-3 flex items-center gap-2 text-[10px] sm:text-xs text-muted-foreground">
+                <BadgeInfo className="h-3 w-3 sm:h-4 sm:w-4 text-primary/70 shrink-0" />
+                <span className="line-clamp-2">You can upload; admin approval is required to index and serve in RAG.</span>
               </div>
             )}
           </div>
 
-          <div className="flex items-center gap-3 shrink-0">
-            <Button variant="outline" className="rounded-xl" onClick={load} disabled={isLoading}>
-              {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Refresh'}
+          <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+            <Button 
+              variant="outline" 
+              className="rounded-xl text-xs sm:text-sm h-9 sm:h-10" 
+              onClick={load} 
+              disabled={isLoading}
+              size="sm"
+            >
+              {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <span className="hidden sm:inline">Refresh</span>}
+              <span className="sm:hidden">↻</span>
             </Button>
 
             <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
               <DialogTrigger asChild>
-                <Button className="bg-primary hover:bg-primary/90 rounded-xl">
-                  <Upload className="w-4 h-4 mr-2" />
-                  Upload
+                <Button className="bg-primary hover:bg-primary/90 rounded-xl text-xs sm:text-sm h-9 sm:h-10" size="sm">
+                  <Upload className="w-4 h-4 sm:mr-2" />
+                  <span className="hidden sm:inline">Upload</span>
                 </Button>
               </DialogTrigger>
-              <DialogContent className="sm:max-w-lg">
+              <DialogContent className="max-w-[90vw] sm:max-w-lg max-h-[90vh] overflow-y-auto">
                 <DialogHeader>
                   <DialogTitle>Upload knowledge</DialogTitle>
                   <DialogDescription>
@@ -298,7 +305,7 @@ export function KnowledgeBase() {
                           <SelectItem value="restricted">Restricted</SelectItem>
                         </SelectContent>
                       </Select>
-                      <p className="text-[11px] text-muted-foreground">
+                      <p className="text-[10px] sm:text-[11px] text-muted-foreground">
                         Public is eligible for spokesman mode.
                       </p>
                     </div>
@@ -313,14 +320,14 @@ export function KnowledgeBase() {
                         className="rounded-xl bg-muted/40"
                         placeholder="0-100"
                       />
-                      <p className="text-[11px] text-muted-foreground">Used for governance signals (not ranking yet).</p>
+                      <p className="text-[10px] sm:text-[11px] text-muted-foreground">Used for governance signals (not ranking yet).</p>
                     </div>
                   </div>
 
-                  <div className="flex items-center justify-between rounded-2xl border border-border bg-muted/25 px-4 py-3">
+                  <div className="flex items-center justify-between rounded-2xl border border-border bg-muted/25 px-3 sm:px-4 py-3">
                     <div>
                       <p className="text-sm font-medium">Restrict to me</p>
-                      <p className="text-[11px] text-muted-foreground">For restricted docs, adds an ACL for your user.</p>
+                      <p className="text-[10px] sm:text-[11px] text-muted-foreground">For restricted docs, adds an ACL for your user.</p>
                     </div>
                     <Switch checked={restrictToMe} onCheckedChange={setRestrictToMe} />
                   </div>
@@ -329,8 +336,8 @@ export function KnowledgeBase() {
                     <Label>Document</Label>
                     <div
                       className={cn(
-                        'rounded-2xl border border-border bg-muted/30 p-4',
-                        'flex items-center justify-between gap-4'
+                        'rounded-2xl border border-border bg-muted/30 p-3 sm:p-4',
+                        'flex items-center justify-between gap-3 sm:gap-4'
                       )}
                     >
                       <div className="flex items-center gap-3 min-w-0">
@@ -339,7 +346,7 @@ export function KnowledgeBase() {
                         </div>
                         <div className="min-w-0">
                           <p className="text-sm font-medium truncate">{uploadFile ? uploadFile.name : 'Choose a file'}</p>
-                          <p className="text-xs text-muted-foreground">.txt, .md, .pdf, .docx (max 15MB)</p>
+                          <p className="text-[10px] sm:text-xs text-muted-foreground">.txt, .md, .pdf, .docx (max 15MB)</p>
                         </div>
                       </div>
                       <label className="shrink-0">
@@ -349,7 +356,7 @@ export function KnowledgeBase() {
                           accept=".txt,.md,.pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain,text/markdown"
                           onChange={(e) => setUploadFile(e.target.files?.[0] || null)}
                         />
-                        <Button type="button" variant="outline" className="rounded-xl">
+                        <Button type="button" variant="outline" className="rounded-xl text-xs sm:text-sm" size="sm">
                           Browse
                         </Button>
                       </label>
@@ -357,13 +364,14 @@ export function KnowledgeBase() {
                   </div>
 
                   <div className="flex justify-end gap-3">
-                    <Button variant="outline" onClick={() => setDialogOpen(false)} className="rounded-xl">
+                    <Button variant="outline" onClick={() => setDialogOpen(false)} className="rounded-xl text-xs sm:text-sm" size="sm">
                       Cancel
                     </Button>
                     <Button
                       onClick={handleUpload}
                       disabled={isSubmitting || !uploadFile}
-                      className="bg-primary hover:bg-primary/90 rounded-xl"
+                      className="bg-primary hover:bg-primary/90 rounded-xl text-xs sm:text-sm"
+                      size="sm"
                     >
                       {isSubmitting ? (
                         <>
@@ -384,24 +392,24 @@ export function KnowledgeBase() {
           </div>
         </div>
 
-        {/* Search */}
-        <div className="mt-4 relative">
+        {/* Search - mobile optimized */}
+        <div className="mt-3 sm:mt-4 relative">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
           <Input
             placeholder="Search by title or checksum…"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-10 bg-muted/30 rounded-xl"
+            className="pl-10 bg-muted/30 rounded-xl text-sm"
           />
         </div>
       </div>
 
-      {/* Content */}
-      <div className="flex-1 overflow-y-auto px-6 py-6">
+      {/* Content - mobile optimized */}
+      <div className="flex-1 overflow-y-auto px-4 sm:px-6 py-4 sm:py-6">
         {isLoading ? (
           <KnowledgeBaseSkeleton />
         ) : filtered.length === 0 ? (
-          <div className="flex flex-col items-center justify-center h-44 text-center">
+          <div className="flex flex-col items-center justify-center h-44 text-center px-4">
             <FileText className="w-12 h-12 text-muted-foreground/50 mb-4" />
             <p className="text-muted-foreground">{searchQuery ? 'No matching sources' : 'No knowledge sources yet'}</p>
             <p className="text-xs text-muted-foreground mt-1">
@@ -409,59 +417,61 @@ export function KnowledgeBase() {
             </p>
           </div>
         ) : (
-          <div className="grid gap-4 max-w-5xl">
+          <div className="grid gap-3 sm:gap-4 max-w-5xl">
             {filtered.map((s) => (
               <div key={s.id} className="akior-card group">
-                <div className="flex items-start justify-between gap-4">
-                  <div className="min-w-0">
+                <div className="flex items-start justify-between gap-3 sm:gap-4">
+                  <div className="min-w-0 flex-1">
                     <div className="flex items-center flex-wrap gap-2">
-                      <h3 className="font-medium truncate">{s.title || 'Untitled source'}</h3>
+                      <h3 className="font-medium truncate text-sm sm:text-base">{s.title || 'Untitled source'}</h3>
 
-                      <Badge variant="outline" className={cn('rounded-full', statusPill(s.status))}>
+                      <Badge variant="outline" className={cn('rounded-full text-[10px] sm:text-xs', statusPill(s.status))}>
                         {s.status === 'approved' ? (
                           <span className="inline-flex items-center gap-1">
-                            <CheckCircle2 className="h-3.5 w-3.5" /> Approved
+                            <CheckCircle2 className="h-3 w-3 sm:h-3.5 sm:w-3.5" /> Approved
                           </span>
                         ) : (
                           <span className="inline-flex items-center gap-1">
-                            <Clock className="h-3.5 w-3.5" /> {s.status}
+                            <Clock className="h-3 w-3 sm:h-3.5 sm:w-3.5" /> {s.status}
                           </span>
                         )}
                       </Badge>
 
-                      <Badge variant="outline" className={cn('rounded-full', classificationPill(s.classification))}>
+                      <Badge variant="outline" className={cn('rounded-full text-[10px] sm:text-xs', classificationPill(s.classification))}>
                         {s.classification}
                       </Badge>
 
-                      <Badge variant="secondary" className="rounded-full bg-muted/40">
+                      <Badge variant="secondary" className="rounded-full bg-muted/40 text-[10px] sm:text-xs">
                         trust {s.trust_level}
                       </Badge>
                     </div>
 
-                    <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-muted-foreground">
+                    <div className="mt-2 flex flex-wrap items-center gap-x-3 sm:gap-x-4 gap-y-1 text-[10px] sm:text-xs text-muted-foreground">
                       <span>id: {s.id.slice(0, 8)}…</span>
                       <span>checksum: {s.checksum.slice(0, 12)}…</span>
-                      <span>created {new Date(s.created_at).toLocaleString()}</span>
-                      <span>indexed {s.indexed_at ? new Date(s.indexed_at).toLocaleString() : '—'}</span>
+                      <span className="hidden sm:inline">created {new Date(s.created_at).toLocaleString()}</span>
+                      <span className="sm:hidden">created {new Date(s.created_at).toLocaleDateString()}</span>
+                      <span>indexed {s.indexed_at ? new Date(s.indexed_at).toLocaleDateString() : '—'}</span>
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-2 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity">
+                  <div className="flex items-center gap-2 shrink-0">
                     {role === 'admin' && s.status === 'pending' && (
                       <Button
                         onClick={() => approve(s.id)}
                         disabled={approvingId === s.id}
-                        className="rounded-xl bg-emerald-600 hover:bg-emerald-600/90"
+                        className="rounded-xl bg-emerald-600 hover:bg-emerald-600/90 text-xs sm:text-sm h-9 sm:h-auto"
+                        size="sm"
                       >
                         {approvingId === s.id ? (
                           <>
-                            <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                            Approving…
+                            <Loader2 className="h-4 w-4 sm:mr-2 animate-spin" />
+                            <span className="hidden sm:inline">Approving…</span>
                           </>
                         ) : (
                           <>
-                            <CheckCircle2 className="h-4 w-4 mr-2" />
-                            Approve & Index
+                            <CheckCircle2 className="h-4 w-4 sm:mr-2" />
+                            <span className="hidden sm:inline">Approve & Index</span>
                           </>
                         )}
                       </Button>
@@ -474,12 +484,12 @@ export function KnowledgeBase() {
         )}
       </div>
 
-      {/* Footer */}
-      <div className="px-6 py-3 border-t border-border">
+      {/* Footer - mobile optimized */}
+      <div className="px-4 sm:px-6 py-3 border-t border-border">
         <div className="flex items-center justify-between">
-          <p className="text-xs text-muted-foreground">{sources.length} source{sources.length === 1 ? '' : 's'} total</p>
+          <p className="text-[10px] sm:text-xs text-muted-foreground">{sources.length} source{sources.length === 1 ? '' : 's'} total</p>
           <div className="flex items-center gap-2">
-            <Badge variant="outline" className="rounded-full bg-muted/30">
+            <Badge variant="outline" className="rounded-full bg-muted/30 text-[10px] sm:text-xs">
               role: {role}
             </Badge>
           </div>

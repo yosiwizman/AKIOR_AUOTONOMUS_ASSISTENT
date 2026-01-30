@@ -207,26 +207,26 @@ export function AkiorVoice() {
 
   return (
     <div className="flex flex-col h-full">
-      {/* Header */}
-      <div className="px-6 py-4 border-b border-border">
-        <div className="flex items-center justify-between">
-          <div>
-            <h2 className="text-lg font-semibold">{agentSettings.agent_name} (Voice)</h2>
-            <p className="text-xs text-muted-foreground mt-0.5">
+      {/* Header - mobile optimized */}
+      <div className="px-4 sm:px-6 py-3 sm:py-4 border-b border-border">
+        <div className="flex items-center justify-between gap-3">
+          <div className="min-w-0 flex-1">
+            <h2 className="text-base sm:text-lg font-semibold truncate">{agentSettings.agent_name} (Voice)</h2>
+            <p className="text-[10px] sm:text-xs text-muted-foreground mt-0.5 line-clamp-1">
               Voice assistant with OpenAI TTS • {OPENAI_VOICES.find((v) => v.id === agentSettings.voice_id)?.name || 'Alloy'} voice
             </p>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 shrink-0">
             <Button
               variant="ghost"
               size="sm"
               onClick={() => setShowHistory(!showHistory)}
-              className={cn(showHistory && 'bg-secondary')}
+              className={cn(showHistory && 'bg-secondary', 'text-xs sm:text-sm')}
             >
-              <History className="w-4 h-4 mr-2" />
-              History
+              <History className="w-4 h-4 sm:mr-2" />
+              <span className="hidden sm:inline">History</span>
             </Button>
-            <Button variant="ghost" size="sm" onClick={handleNewConversation}>
+            <Button variant="ghost" size="sm" onClick={handleNewConversation} className="text-xs sm:text-sm">
               New
             </Button>
           </div>
@@ -235,9 +235,9 @@ export function AkiorVoice() {
 
       {/* Main content */}
       <div className="flex-1 overflow-hidden flex">
-        {/* History panel */}
+        {/* History panel - hide on mobile */}
         {showHistory && messages.length > 0 && (
-          <div className="w-80 border-r border-border bg-muted/20">
+          <div className="hidden sm:block w-80 border-r border-border bg-muted/20">
             <div className="p-3 border-b border-border">
               <h3 className="text-sm font-medium">Conversation History</h3>
               <p className="text-xs text-muted-foreground">{messages.length} messages</p>
@@ -260,12 +260,12 @@ export function AkiorVoice() {
           </div>
         )}
 
-        {/* Voice interface */}
-        <div className="flex-1 overflow-y-auto px-6 py-8">
-          <div className="max-w-2xl mx-auto space-y-8">
+        {/* Voice interface - mobile optimized */}
+        <div className="flex-1 overflow-y-auto px-4 sm:px-6 py-6 sm:py-8">
+          <div className="max-w-2xl mx-auto space-y-6 sm:space-y-8">
             {/* Warnings */}
             {!sttSupported && (
-              <div className="flex items-start gap-3 p-4 rounded-lg bg-orange-500/10 border border-orange-500/30">
+              <div className="flex items-start gap-3 p-3 sm:p-4 rounded-lg bg-orange-500/10 border border-orange-500/30">
                 <AlertCircle className="w-5 h-5 text-orange-500 flex-shrink-0 mt-0.5" />
                 <div>
                   <p className="text-sm font-medium text-orange-500">Voice Input Unavailable</p>
@@ -275,13 +275,13 @@ export function AkiorVoice() {
             )}
 
             {(sttError || apiError) && (
-              <div className="flex items-start gap-3 p-4 rounded-lg bg-destructive/10 border border-destructive/30">
+              <div className="flex items-start gap-3 p-3 sm:p-4 rounded-lg bg-destructive/10 border border-destructive/30">
                 <AlertCircle className="w-5 h-5 text-destructive flex-shrink-0 mt-0.5" />
                 <p className="text-sm text-muted-foreground">{sttError || apiError}</p>
               </div>
             )}
 
-            {/* Push-to-talk button */}
+            {/* Push-to-talk button - responsive sizing */}
             <div className="flex flex-col items-center gap-4">
               <Button
                 size="lg"
@@ -289,12 +289,13 @@ export function AkiorVoice() {
                 onClick={handlePushToTalk}
                 disabled={!sttSupported || isSending}
                 className={cn(
-                  'w-28 h-28 rounded-full transition-all duration-300',
+                  'w-24 h-24 sm:w-28 sm:h-28 rounded-full transition-all duration-300',
+                  'active:scale-95', // Touch feedback
                   isListening ? 'bg-primary hover:bg-primary/90 akior-glow' : 'border-2 border-border hover:border-primary/50 hover:bg-primary/5',
                   !sttSupported && 'opacity-50 cursor-not-allowed'
                 )}
               >
-                {isListening ? <MicOff className="w-10 h-10" /> : <Mic className="w-10 h-10 text-muted-foreground" />}
+                {isListening ? <MicOff className="w-8 h-8 sm:w-10 sm:h-10" /> : <Mic className="w-8 h-8 sm:w-10 sm:h-10 text-muted-foreground" />}
               </Button>
 
               <div className="text-center">
@@ -304,7 +305,7 @@ export function AkiorVoice() {
               </div>
             </div>
 
-            {/* Transcript input */}
+            {/* Transcript input - mobile optimized */}
             <div className="space-y-3">
               <Label className="text-sm font-medium text-muted-foreground">Your Message</Label>
               <Textarea
@@ -314,7 +315,7 @@ export function AkiorVoice() {
                 className="min-h-[100px] bg-muted/30 border-border focus:border-primary/50 resize-none text-sm"
                 disabled={isSending}
               />
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between gap-2">
                 <Button
                   variant="ghost"
                   size="sm"
@@ -323,42 +324,46 @@ export function AkiorVoice() {
                     clearTranscript();
                   }}
                   disabled={!transcript || isSending}
-                  className="text-muted-foreground"
+                  className="text-muted-foreground text-xs sm:text-sm"
                 >
-                  <Trash2 className="w-4 h-4 mr-2" />
-                  Clear
+                  <Trash2 className="w-4 h-4 sm:mr-2" />
+                  <span className="hidden sm:inline">Clear</span>
                 </Button>
-                <Button onClick={sendMessage} disabled={!transcript.trim() || isSending} className="bg-primary hover:bg-primary/90">
-                  {isSending ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Send className="w-4 h-4 mr-2" />}
+                <Button 
+                  onClick={sendMessage} 
+                  disabled={!transcript.trim() || isSending} 
+                  className="bg-primary hover:bg-primary/90 text-xs sm:text-sm"
+                >
+                  {isSending ? <Loader2 className="w-4 h-4 sm:mr-2 animate-spin" /> : <Send className="w-4 h-4 sm:mr-2" />}
                   Send
                 </Button>
               </div>
             </div>
 
-            {/* Response display */}
+            {/* Response display - mobile optimized */}
             {latestResponse && (
               <div className="space-y-3">
-                <div className="flex items-center justify-between">
+                <div className="flex items-center justify-between gap-3">
                   <Label className="text-sm font-medium text-muted-foreground">{agentSettings.agent_name} Response</Label>
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-2 sm:gap-3">
                     {(isSpeaking || isTTSLoading) && (
                       <Button variant="ghost" size="sm" onClick={stopSpeaking} className="text-muted-foreground text-xs">
                         {isTTSLoading ? 'Loading...' : 'Stop'}
                       </Button>
                     )}
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-1.5 sm:gap-2">
                       <Switch id="speak-toggle" checked={speakEnabled} onCheckedChange={setSpeakEnabled} />
-                      <Label htmlFor="speak-toggle" className="text-xs cursor-pointer flex items-center gap-1">
-                        {speakEnabled ? <Volume2 className="w-3.5 h-3.5 text-primary" /> : <VolumeX className="w-3.5 h-3.5 text-muted-foreground" />}
-                        Auto-speak
+                      <Label htmlFor="speak-toggle" className="text-[10px] sm:text-xs cursor-pointer flex items-center gap-1">
+                        {speakEnabled ? <Volume2 className="w-3 sm:w-3.5 h-3 sm:h-3.5 text-primary" /> : <VolumeX className="w-3 sm:w-3.5 h-3 sm:h-3.5 text-muted-foreground" />}
+                        <span className="hidden sm:inline">Auto-speak</span>
                       </Label>
                     </div>
                   </div>
                 </div>
                 <div
                   className={cn(
-                    'p-4 rounded-lg bg-secondary/50 border border-border',
-                    'text-sm whitespace-pre-wrap leading-relaxed',
+                    'p-3 sm:p-4 rounded-lg bg-secondary/50 border border-border',
+                    'text-sm whitespace-pre-wrap leading-relaxed break-words',
                     (isSpeaking || isTTSLoading) && 'border-primary/30 akior-glow'
                   )}
                 >

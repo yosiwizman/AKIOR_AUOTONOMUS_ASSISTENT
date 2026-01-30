@@ -2,10 +2,10 @@
 
 /**
  * AKIOR-style Sidebar Navigation
- * Matches the design from the reference images
+ * Mobile-optimized with touch-friendly interactions
  */
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { 
   Menu, 
   MessageSquare, 
@@ -36,13 +36,35 @@ export function AkiorSidebar({ currentView, onViewChange }: SidebarProps) {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
 
+  // Close mobile menu when view changes
+  useEffect(() => {
+    setIsMobileOpen(false);
+  }, [currentView]);
+
+  // Prevent body scroll when mobile menu is open
+  useEffect(() => {
+    if (isMobileOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isMobileOpen]);
+
   return (
     <>
-      {/* Mobile toggle button */}
+      {/* Mobile toggle button - larger touch target */}
       <Button
         variant="ghost"
         size="icon"
-        className="fixed top-4 left-4 z-50 lg:hidden"
+        className={cn(
+          "fixed top-3 left-3 z-50 lg:hidden",
+          "h-11 w-11", // Larger for touch
+          "bg-background/80 backdrop-blur-sm border border-border",
+          "hover:bg-background"
+        )}
         onClick={() => setIsMobileOpen(!isMobileOpen)}
       >
         {isMobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -51,7 +73,7 @@ export function AkiorSidebar({ currentView, onViewChange }: SidebarProps) {
       {/* Mobile overlay */}
       {isMobileOpen && (
         <div 
-          className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+          className="fixed inset-0 bg-black/60 z-40 lg:hidden backdrop-blur-sm"
           onClick={() => setIsMobileOpen(false)}
         />
       )}
@@ -61,17 +83,19 @@ export function AkiorSidebar({ currentView, onViewChange }: SidebarProps) {
         'fixed left-0 top-0 h-full z-40 flex flex-col',
         'bg-sidebar-background border-r border-sidebar-border',
         'transition-all duration-300',
-        isCollapsed ? 'w-16' : 'w-52',
+        isCollapsed ? 'w-16' : 'w-64 sm:w-52', // Wider on mobile when open
         // Mobile styles
         'lg:translate-x-0',
-        isMobileOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
+        isMobileOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0',
+        // Shadow on mobile
+        isMobileOpen && 'shadow-2xl'
       )}>
         {/* Header */}
         <div className="flex items-center gap-3 px-4 py-5 border-b border-sidebar-border">
           <Button
             variant="ghost"
             size="icon"
-            className="w-8 h-8 shrink-0"
+            className="w-8 h-8 shrink-0 hidden lg:flex"
             onClick={() => setIsCollapsed(!isCollapsed)}
           >
             <Menu className="w-4 h-4" />
@@ -81,7 +105,7 @@ export function AkiorSidebar({ currentView, onViewChange }: SidebarProps) {
           )}
         </div>
 
-        {/* Navigation */}
+        {/* Navigation - larger touch targets on mobile */}
         <nav className="flex-1 py-4 px-3 space-y-1 overflow-y-auto">
           {menuItems.filter(item => item.id !== 'voice').map((item) => {
             const Icon = item.icon;
@@ -93,19 +117,23 @@ export function AkiorSidebar({ currentView, onViewChange }: SidebarProps) {
                 key={item.id}
                 onClick={() => {
                   onViewChange(item.id);
-                  setIsMobileOpen(false);
                 }}
                 className={cn(
-                  'w-full flex items-center gap-3 px-3 py-2.5 rounded-md',
+                  'w-full flex items-center gap-3 px-3 rounded-md',
                   'text-sm transition-all duration-200',
                   'border border-transparent',
+                  // Larger touch target on mobile
+                  'py-3 lg:py-2.5',
+                  // Active states
                   isHud && !isActive && 'text-cyan-400 hover:text-cyan-300 hover:bg-cyan-500/10 hover:border-cyan-500/30',
                   isHud && isActive && 'text-cyan-300 bg-cyan-500/20 border-cyan-500/40',
                   !isHud && isActive && 'text-foreground bg-secondary/50 border-sidebar-border',
-                  !isHud && !isActive && 'text-muted-foreground hover:text-foreground hover:bg-secondary/30 hover:border-sidebar-border'
+                  !isHud && !isActive && 'text-muted-foreground hover:text-foreground hover:bg-secondary/30 hover:border-sidebar-border',
+                  // Touch feedback
+                  'active:scale-95'
                 )}
               >
-                <Icon className={cn("w-4 h-4 shrink-0", isHud && "text-cyan-400")} />
+                <Icon className={cn("w-5 h-5 lg:w-4 lg:h-4 shrink-0", isHud && "text-cyan-400")} />
                 {!isCollapsed && <span>{item.label}</span>}
               </button>
             );

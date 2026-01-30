@@ -20,12 +20,20 @@ export const metadata: Metadata = {
   description: "Personal AI assistant with knowledge base and memory",
   keywords: ["AI", "assistant", "knowledge base", "RAG", "voice", "TTS"],
   authors: [{ name: "AKIOR" }],
+  manifest: "/manifest.json",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: "AKIOR",
+  },
 };
 
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  maximumScale: 1,
+  maximumScale: 5, // Allow zoom for accessibility
+  userScalable: true,
+  viewportFit: "cover", // Support for notched devices
 };
 
 export default function RootLayout({
@@ -37,6 +45,9 @@ export default function RootLayout({
     <html lang="en" className="dark" suppressHydrationWarning>
       <head>
         <meta name="theme-color" content="#0a0a0f" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta name="format-detection" content="telephone=no" />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
@@ -45,7 +56,7 @@ export default function RootLayout({
           <AuthProvider>
             {children}
             <Toaster 
-              position="top-right" 
+              position="top-center"
               toastOptions={{
                 duration: 4000,
                 classNames: {

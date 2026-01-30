@@ -2,10 +2,10 @@
 
 /**
  * AKIOR Menu/Dashboard View
- * Card-based navigation matching the reference design
+ * Card-based navigation - mobile optimized
  */
 
-import { ArrowRight, CircleDot } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { AkiorLogo } from './jarvis-logo';
 import { useAuth } from '@/contexts/auth-context';
@@ -24,6 +24,8 @@ function MenuCard({ title, description, onClick, disabled, badge, highlight }: M
     <div 
       className={cn(
         'akior-card cursor-pointer group relative',
+        // Better touch feedback on mobile
+        'active:scale-[0.98] transition-transform',
         disabled && 'opacity-50 cursor-not-allowed',
         highlight && 'border-cyan-500/50 bg-gradient-to-br from-cyan-500/10 to-transparent hover:border-cyan-400/70'
       )}
@@ -38,10 +40,10 @@ function MenuCard({ title, description, onClick, disabled, badge, highlight }: M
         </span>
       )}
       <h3 className={cn(
-        "font-semibold mb-1",
+        "font-semibold mb-1 text-base sm:text-lg",
         highlight ? "text-cyan-300" : "text-foreground"
       )}>{title}</h3>
-      <p className="text-sm text-muted-foreground mb-4">{description}</p>
+      <p className="text-sm text-muted-foreground mb-4 line-clamp-2">{description}</p>
       <button 
         className={cn(
           'akior-link',
@@ -123,27 +125,27 @@ export function AkiorMenu({ onNavigate }: AkiorMenuProps) {
 
   return (
     <div className="flex flex-col h-full relative">
-      {/* Header */}
-      <div className="px-6 py-4 border-b border-border">
-        <div className="flex items-center justify-between">
-          <div>
+      {/* Header - mobile optimized */}
+      <div className="px-4 sm:px-6 py-4 border-b border-border">
+        <div className="flex items-center justify-between gap-4">
+          <div className="min-w-0">
             <h2 className="text-lg font-semibold">Dashboard</h2>
-            <p className="text-xs text-muted-foreground mt-0.5">
+            <p className="text-xs text-muted-foreground mt-0.5 truncate">
               Select a module to get started
             </p>
           </div>
           {user && (
-            <div className="text-right">
-              <p className="text-sm text-foreground">{user.email}</p>
+            <div className="text-right hidden sm:block">
+              <p className="text-sm text-foreground truncate max-w-[200px]">{user.email}</p>
               <p className="text-xs text-muted-foreground">Logged in</p>
             </div>
           )}
         </div>
       </div>
 
-      {/* Grid of cards */}
-      <div className="flex-1 overflow-y-auto px-6 py-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 max-w-5xl">
+      {/* Grid of cards - responsive columns */}
+      <div className="flex-1 overflow-y-auto px-4 sm:px-6 py-4 sm:py-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-3 sm:gap-4 max-w-5xl">
           {menuItems.map((item, idx) => (
             <MenuCard
               key={idx}
@@ -158,8 +160,8 @@ export function AkiorMenu({ onNavigate }: AkiorMenuProps) {
         </div>
       </div>
 
-      {/* AKIOR Logo - bottom right */}
-      <div className="absolute bottom-6 right-6 hidden lg:block">
+      {/* AKIOR Logo - bottom right, hidden on mobile */}
+      <div className="absolute bottom-6 right-6 hidden xl:block pointer-events-none">
         <AkiorLogo size="md" />
       </div>
     </div>

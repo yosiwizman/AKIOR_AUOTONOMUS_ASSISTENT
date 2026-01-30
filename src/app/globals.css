@@ -112,12 +112,31 @@
   body {
     @apply bg-background text-foreground;
   }
+  
+  /* Better text rendering on mobile */
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+  
+  /* Prevent text size adjustment on mobile */
+  body {
+    -webkit-text-size-adjust: 100%;
+    -moz-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+  
+  /* Better tap highlighting */
+  * {
+    -webkit-tap-highlight-color: rgba(0, 200, 200, 0.1);
+  }
 }
 
 /* AKIOR-style components */
 @layer components {
   .akior-card {
-    @apply bg-card border border-border rounded-lg p-5 transition-all duration-200;
+    @apply bg-card border border-border rounded-lg p-4 sm:p-5 transition-all duration-200;
   }
   
   .akior-card:hover {
@@ -145,15 +164,15 @@
   }
   
   .akior-bubble-user {
-    @apply bg-primary text-primary-foreground rounded-2xl rounded-br-md px-4 py-2.5 max-w-[80%] ml-auto;
+    @apply bg-primary text-primary-foreground rounded-2xl rounded-br-md px-3 py-2 sm:px-4 sm:py-2.5;
   }
   
   .akior-bubble-assistant {
-    @apply bg-secondary/80 text-foreground rounded-2xl rounded-bl-md px-4 py-3 max-w-[85%];
+    @apply bg-secondary/80 text-foreground rounded-2xl rounded-bl-md px-3 py-2.5 sm:px-4 sm:py-3;
   }
   
   .akior-thinking {
-    @apply inline-flex items-center gap-2 text-sm text-muted-foreground bg-secondary/60 rounded-full px-3 py-1.5;
+    @apply inline-flex items-center gap-2 text-xs sm:text-sm text-muted-foreground bg-secondary/60 rounded-full px-3 py-1.5;
   }
   
   .akior-glow {
@@ -176,6 +195,15 @@
     50% {
       opacity: 1;
     }
+  }
+  
+  /* Safe area padding for mobile devices */
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  
+  .pt-safe {
+    padding-top: env(safe-area-inset-top);
   }
 }
 
@@ -236,4 +264,24 @@
 
 .animate-fade-in {
   animation: fade-in 0.5s ease-out;
+}
+
+/* Mobile optimizations */
+@media (max-width: 640px) {
+  /* Reduce motion for better performance on mobile */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+  
+  /* Better scrolling on mobile */
+  .overflow-y-auto,
+  .overflow-x-auto {
+    -webkit-overflow-scrolling: touch;
+  }
 }

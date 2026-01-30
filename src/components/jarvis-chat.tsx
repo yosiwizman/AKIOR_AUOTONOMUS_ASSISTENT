@@ -258,30 +258,37 @@ export function AkiorChat() {
 
   return (
     <div className="flex h-full">
-      {/* Conversation Sidebar */}
-      <ConversationSidebar
-        currentConversationId={currentConversationId}
-        onSelectConversation={handleSelectConversation}
-        onNewConversation={handleNewConversation}
-        isCollapsed={sidebarCollapsed}
-        onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
-      />
+      {/* Conversation Sidebar - hide on mobile by default */}
+      <div className={cn(
+        "hidden lg:block",
+        sidebarCollapsed && "lg:hidden"
+      )}>
+        <ConversationSidebar
+          currentConversationId={currentConversationId}
+          onSelectConversation={handleSelectConversation}
+          onNewConversation={handleNewConversation}
+          isCollapsed={sidebarCollapsed}
+          onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
+        />
+      </div>
 
       {/* Main Chat Area */}
       <div className="flex-1 flex flex-col min-w-0">
-        {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-border">
-          <div>
-            <div className="flex items-center gap-3">
-              <h2 className="text-lg font-semibold">Chat with {agentSettings.agent_name}</h2>
+        {/* Header - mobile optimized */}
+        <div className="flex items-start sm:items-center justify-between px-4 sm:px-6 py-3 sm:py-4 border-b border-border gap-3">
+          <div className="min-w-0 flex-1">
+            <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
+              <h2 className="text-base sm:text-lg font-semibold truncate">Chat with {agentSettings.agent_name}</h2>
               <RagStatusBadge token={session?.access_token} />
             </div>
-            <p className="text-xs text-muted-foreground mt-0.5">Citations + governed retrieval • Memory + conversations preserved</p>
+            <p className="text-[10px] sm:text-xs text-muted-foreground mt-0.5 line-clamp-1">
+              Citations + governed retrieval • Memory + conversations preserved
+            </p>
             <RagOffHint token={session?.access_token} />
           </div>
-          <div className="flex items-center gap-4">
-            {/* TTS Toggle */}
-            <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 sm:gap-4 shrink-0">
+            {/* TTS Toggle - compact on mobile */}
+            <div className="flex items-center gap-1.5 sm:gap-2">
               <Switch
                 id="chat-speak-toggle"
                 checked={speakEnabled}
@@ -290,37 +297,40 @@ export function AkiorChat() {
                   if (!checked) stopSpeaking();
                 }}
               />
-              <Label htmlFor="chat-speak-toggle" className="text-xs cursor-pointer flex items-center gap-1">
+              <Label htmlFor="chat-speak-toggle" className="text-[10px] sm:text-xs cursor-pointer flex items-center gap-1">
                 {speakEnabled ? (
-                  <Volume2 className="w-3.5 h-3.5 text-primary" />
+                  <Volume2 className="w-3 sm:w-3.5 h-3 sm:h-3.5 text-primary" />
                 ) : (
-                  <VolumeX className="w-3.5 h-3.5 text-muted-foreground" />
+                  <VolumeX className="w-3 sm:w-3.5 h-3 sm:h-3.5 text-muted-foreground" />
                 )}
-                TTS
+                <span className="hidden sm:inline">TTS</span>
               </Label>
             </div>
           </div>
         </div>
 
-        {/* Messages area */}
-        <div className="flex-1 overflow-y-auto px-6 py-6">
-          <div className="max-w-4xl mx-auto space-y-6">
+        {/* Messages area - optimized padding for mobile */}
+        <div className="flex-1 overflow-y-auto px-3 sm:px-6 py-4 sm:py-6">
+          <div className="max-w-4xl mx-auto space-y-4 sm:space-y-6">
             {messages.map((msg, idx) => (
               <div key={msg.id || idx} className="space-y-1">
                 {/* Label */}
                 <div
                   className={cn(
-                    'text-xs text-muted-foreground uppercase tracking-wider',
+                    'text-[10px] sm:text-xs text-muted-foreground uppercase tracking-wider',
                     msg.role === 'user' ? 'text-right' : 'text-left'
                   )}
                 >
                   {msg.role === 'user' ? 'YOU' : agentSettings.agent_name.toUpperCase()}
                 </div>
 
-                {/* Message bubble */}
+                {/* Message bubble - better mobile sizing */}
                 <div className={cn('flex', msg.role === 'user' ? 'justify-end' : 'justify-start')}>
-                  <div className={cn(msg.role === 'user' ? 'akior-bubble-user' : 'akior-bubble-assistant')}>
-                    <p className="text-sm whitespace-pre-wrap leading-relaxed">{msg.content}</p>
+                  <div className={cn(
+                    msg.role === 'user' ? 'akior-bubble-user' : 'akior-bubble-assistant',
+                    'max-w-[90%] sm:max-w-[80%]'
+                  )}>
+                    <p className="text-sm whitespace-pre-wrap leading-relaxed break-words">{msg.content}</p>
                   </div>
                 </div>
               </div>
@@ -329,14 +339,14 @@ export function AkiorChat() {
             {/* Thinking indicator */}
             {isLoading && (
               <div className="space-y-1">
-                <div className="text-xs text-muted-foreground uppercase tracking-wider">{agentSettings.agent_name.toUpperCase()}</div>
+                <div className="text-[10px] sm:text-xs text-muted-foreground uppercase tracking-wider">{agentSettings.agent_name.toUpperCase()}</div>
                 <div className="akior-thinking">
                   <div className="flex gap-1">
                     <span className="w-1.5 h-1.5 bg-primary rounded-full pulse-dot" style={{ animationDelay: '0ms' }} />
                     <span className="w-1.5 h-1.5 bg-primary rounded-full pulse-dot" style={{ animationDelay: '200ms' }} />
                     <span className="w-1.5 h-1.5 bg-primary rounded-full pulse-dot" style={{ animationDelay: '400ms' }} />
                   </div>
-                  <span>Thinking...</span>
+                  <span className="text-xs sm:text-sm">Thinking...</span>
                 </div>
               </div>
             )}
@@ -355,16 +365,16 @@ export function AkiorChat() {
           </div>
         </div>
 
-        {/* Input area */}
-        <div className="px-6 py-4 border-t border-border">
+        {/* Input area - mobile optimized */}
+        <div className="px-3 sm:px-6 py-3 sm:py-4 border-t border-border">
           <div className="max-w-4xl mx-auto">
-            <div className="flex items-end gap-3 bg-muted/30 rounded-xl border border-border p-3">
+            <div className="flex items-end gap-2 sm:gap-3 bg-muted/30 rounded-xl border border-border p-2 sm:p-3">
               <textarea
                 ref={inputRef}
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={handleKeyDown}
-                placeholder={`Ask ${agentSettings.agent_name} anything... (Shift + Enter for a new line)`}
+                placeholder={`Ask ${agentSettings.agent_name} anything...`}
                 className={cn(
                   'flex-1 bg-transparent border-0 resize-none',
                   'text-sm placeholder:text-muted-foreground',
@@ -378,17 +388,17 @@ export function AkiorChat() {
                 onClick={sendMessage}
                 disabled={!input.trim() || isLoading}
                 size="sm"
-                className="bg-primary hover:bg-primary/90 text-primary-foreground shrink-0"
+                className="bg-primary hover:bg-primary/90 text-primary-foreground shrink-0 h-9 sm:h-10"
               >
                 {isLoading ? (
                   <>
-                    <Loader2 className="w-4 h-4 mr-1.5 animate-spin" />
-                    Sending...
+                    <Loader2 className="w-4 h-4 sm:mr-1.5 animate-spin" />
+                    <span className="hidden sm:inline">Sending...</span>
                   </>
                 ) : (
                   <>
-                    <Send className="w-4 h-4 mr-1.5" />
-                    Send
+                    <Send className="w-4 h-4 sm:mr-1.5" />
+                    <span className="hidden sm:inline">Send</span>
                   </>
                 )}
               </Button>

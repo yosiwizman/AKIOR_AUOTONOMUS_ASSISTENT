@@ -139,11 +139,11 @@ export function AkiorSettings() {
 
   return (
     <div className="flex flex-col h-full">
-      {/* Header */}
-      <div className="px-6 py-4 border-b border-border flex items-center justify-between">
-        <div>
-          <h2 className="text-lg font-semibold">Settings</h2>
-          <p className="text-xs text-muted-foreground mt-0.5">
+      {/* Header - mobile optimized */}
+      <div className="px-4 sm:px-6 py-3 sm:py-4 border-b border-border flex items-center justify-between gap-3">
+        <div className="min-w-0 flex-1">
+          <h2 className="text-base sm:text-lg font-semibold">Settings</h2>
+          <p className="text-[10px] sm:text-xs text-muted-foreground mt-0.5 truncate">
             Configure your AKIOR assistant
           </p>
         </div>
@@ -152,26 +152,26 @@ export function AkiorSettings() {
           size="sm"
           onClick={handleSignOut}
           disabled={isSigningOut}
-          className="text-muted-foreground"
+          className="text-muted-foreground shrink-0 text-xs sm:text-sm"
         >
           {isSigningOut ? (
-            <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+            <Loader2 className="w-4 h-4 sm:mr-2 animate-spin" />
           ) : (
-            <LogOut className="w-4 h-4 mr-2" />
+            <LogOut className="w-4 h-4 sm:mr-2" />
           )}
-          Sign Out
+          <span className="hidden sm:inline">Sign Out</span>
         </Button>
       </div>
 
-      {/* Settings content */}
-      <div className="flex-1 overflow-y-auto px-6 py-6">
-        <div className="max-w-2xl space-y-8">
+      {/* Settings content - mobile optimized */}
+      <div className="flex-1 overflow-y-auto px-4 sm:px-6 py-4 sm:py-6">
+        <div className="max-w-2xl space-y-6 sm:space-y-8">
           {/* Agent Settings */}
           <AgentSettingsPanel />
 
           {/* Memory Management */}
           <section className="space-y-4">
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between gap-3">
               <h3 className="text-sm font-semibold text-foreground uppercase tracking-wider flex items-center gap-2">
                 <Brain className="w-4 h-4 text-primary" />
                 Memory ({memories.length})
@@ -183,21 +183,21 @@ export function AkiorSettings() {
                   size="sm"
                   onClick={loadMemories}
                   disabled={isLoadingMemories}
-                  className="text-muted-foreground"
+                  className="text-muted-foreground text-xs sm:text-sm"
                 >
-                  <RefreshCw className={`w-4 h-4 mr-2 ${isLoadingMemories ? 'animate-spin' : ''}`} />
-                  Refresh
+                  <RefreshCw className={`w-4 h-4 sm:mr-2 ${isLoadingMemories ? 'animate-spin' : ''}`} />
+                  <span className="hidden sm:inline">Refresh</span>
                 </Button>
                 
                 {memories.length > 0 && (
                   <AlertDialog>
                     <AlertDialogTrigger asChild>
-                      <Button variant="ghost" size="sm" className="text-destructive">
-                        <Trash2 className="w-4 h-4 mr-2" />
-                        Clear All
+                      <Button variant="ghost" size="sm" className="text-destructive text-xs sm:text-sm">
+                        <Trash2 className="w-4 h-4 sm:mr-2" />
+                        <span className="hidden sm:inline">Clear All</span>
                       </Button>
                     </AlertDialogTrigger>
-                    <AlertDialogContent>
+                    <AlertDialogContent className="max-w-[90vw] sm:max-w-lg">
                       <AlertDialogHeader>
                         <AlertDialogTitle className="flex items-center gap-2">
                           <AlertTriangle className="w-5 h-5 text-destructive" />
@@ -238,8 +238,8 @@ export function AkiorSettings() {
                       className="flex items-start justify-between gap-3 p-3 rounded-lg bg-muted/30 group"
                     >
                       <div className="flex-1 min-w-0">
-                        <p className="text-sm">{memory.content}</p>
-                        <div className="flex items-center gap-2 mt-1">
+                        <p className="text-sm break-words">{memory.content}</p>
+                        <div className="flex items-center gap-2 mt-1 flex-wrap">
                           <span className="text-xs text-muted-foreground">
                             {new Date(memory.created_at).toLocaleDateString()}
                           </span>
@@ -252,7 +252,7 @@ export function AkiorSettings() {
                         variant="ghost"
                         size="icon"
                         onClick={() => deleteMemory(memory.id)}
-                        className="opacity-0 group-hover:opacity-100 transition-opacity h-8 w-8 text-muted-foreground hover:text-destructive"
+                        className="opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity h-8 w-8 text-muted-foreground hover:text-destructive shrink-0"
                       >
                         <Trash2 className="w-4 h-4" />
                       </Button>
@@ -273,7 +273,7 @@ export function AkiorSettings() {
               <div className="space-y-3">
                 <div>
                   <Label className="text-xs text-muted-foreground">Email</Label>
-                  <p className="text-sm">{user?.email}</p>
+                  <p className="text-sm break-all">{user?.email}</p>
                 </div>
                 <div>
                   <Label className="text-xs text-muted-foreground">User ID</Label>
@@ -292,14 +292,14 @@ export function AkiorSettings() {
             </div>
           </section>
 
-          {/* System Info */}
+          {/* System Info - responsive grid */}
           <section className="space-y-4">
             <h3 className="text-sm font-semibold text-foreground uppercase tracking-wider">
               System Information
             </h3>
             
             <div className="akior-card">
-              <div className="grid grid-cols-2 gap-4 text-sm">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 text-sm">
                 <div>
                   <span className="text-muted-foreground">Version:</span>
                   <span className="ml-2 text-foreground">2.0.0</span>
