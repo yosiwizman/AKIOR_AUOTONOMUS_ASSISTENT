@@ -83,7 +83,7 @@ export function AkiorSidebar({ currentView, onViewChange }: SidebarProps) {
 
         {/* Navigation */}
         <nav className="flex-1 py-4 px-3 space-y-1 overflow-y-auto">
-          {menuItems.map((item) => {
+          {menuItems.filter(item => item.id !== 'voice').map((item) => {
             const Icon = item.icon;
             const isActive = currentView === item.id;
             const isHud = item.id === 'hud';
