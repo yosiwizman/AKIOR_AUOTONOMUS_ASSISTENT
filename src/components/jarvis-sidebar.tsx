@@ -24,7 +24,12 @@ interface SidebarProps {
 }
 
 const menuItems = [
+  { id: 'menu', label: 'Menu', icon: Menu },
   { id: 'hud', label: 'Talk to AKIOR', icon: CircleDot },
+  { id: 'voice', label: 'AKIOR (Voice)', icon: Mic },
+  { id: 'chat', label: 'Chat', icon: MessageSquare },
+  { id: 'knowledge', label: 'Knowledge Base', icon: BookOpen },
+  { id: 'settings', label: 'Settings', icon: Settings },
 ] as const;
 
 export function AkiorSidebar({ currentView, onViewChange }: SidebarProps) {
