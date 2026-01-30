@@ -1,8 +1,5 @@
-/* Background gradient */
-/* Logo and title */
-/* Auth form */
-/* Footer */
 'use client';
+
 import { Auth } from "@supabase/auth-ui-react";
 import { ThemeSupa } from "@supabase/auth-ui-shared";
 import { supabase } from "@/integrations/supabase/client";
@@ -11,8 +8,10 @@ import { AkiorLogo } from "./jarvis-logo";
 export function LoginPage() {
     return (
         <div className="min-h-screen bg-background flex flex-col items-center justify-center p-6">
+            {/* Background gradient */}
             <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-primary/10 pointer-events-none" />
 
+            {/* Logo and title */}
             <div className="relative z-10 w-full max-w-md space-y-8">
                 <div className="text-center space-y-4">
                     <div className="flex justify-center">
@@ -26,6 +25,7 @@ export function LoginPage() {
                     </div>
                 </div>
 
+                {/* Auth form */}
                 <div className="bg-card border border-border rounded-xl p-6 shadow-xl">
                     <Auth
                         supabaseClient={supabase}
