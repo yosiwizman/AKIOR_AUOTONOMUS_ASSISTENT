@@ -42,15 +42,13 @@ export async function POST(req: NextRequest) {
   const classifications = allowedClassifications(role);
   const tenantId = (req.headers.get('x-tenant-id') || 'default').slice(0, 64);
 
-  const db = token ? getSupabaseAuthed(token) : getSupabaseAnon();
+  const db = token ? getSupabaseAuthed(token, tenantId) : getSupabaseAnon(tenantId);
 
   const hits = await retrieveTopChunks({
     db,
     q,
     topK,
-    tenantId,
     classifications,
-    actorId,
     includeText: true,
   });
 

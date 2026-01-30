@@ -126,6 +126,10 @@ export async function ingestAndParse(opts: {
     }
   }
 
+  if (!sourceId) {
+    throw new Error('Failed to create or resolve source id');
+  }
+
   const extracted = await extractTextFromFile(opts.file);
   const parsedText = extracted.trim();
 

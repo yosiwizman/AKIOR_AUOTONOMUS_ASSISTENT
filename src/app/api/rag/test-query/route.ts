@@ -26,7 +26,12 @@ export async function POST(req: NextRequest) {
     email: !auth || 'error' in auth ? null : auth.email,
   });
 
-  const db = token ? getSupabaseAuthed(token) : getSupabaseAnon();
+  const tenantId = (req.headers.get('x-tenant-id') || 'default').slice(0, 64);
+
+  const actorId = !auth || 'error' in auth ? null : auth.userId;
+  const classifications = allowedClassifications(role);
+
+  const db = token ? getSupabaseAuthed(token, tenantId) : getSupabaseAnon(tenantId);
 
   const body = await req.json().catch(() => ({}));
   const q = String(body.q || '').slice(0, 2000);
@@ -34,18 +39,11 @@ export async function POST(req: NextRequest) {
 
   if (!q) return NextResponse.json({ error: 'Missing q', trace_id: traceId }, { status: 400 });
 
-  const tenantId = (req.headers.get('x-tenant-id') || 'default').slice(0, 64);
-
-  const actorId = !auth || 'error' in auth ? null : auth.userId;
-  const classifications = allowedClassifications(role);
-
   const hits = await retrieveTopChunks({
     db,
     q,
     topK,
-    tenantId,
     classifications,
-    actorId,
     includeText: true,
   });
 

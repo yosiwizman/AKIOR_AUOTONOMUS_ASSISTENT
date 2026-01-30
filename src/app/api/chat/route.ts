@@ -72,16 +72,14 @@ export async function POST(request: NextRequest): Promise<NextResponse<ChatRespo
     // -------------------------------------------------------------------------
     if (isPublic) {
       const traceId = safeId('trace');
-      const ragDb = getSupabaseAnon();
+      const ragDb = getSupabaseAnon(tenantId);
 
       const role = roleForRequest({ isPublicMode: true, isAuthenticated: false, email: null });
       const hits = await retrieveTopChunks({
         db: ragDb,
         q: message,
         topK: 5,
-        tenantId,
         classifications: allowedClassifications(role),
-        actorId: null,
         includeText: true,
       });
 
@@ -194,16 +192,14 @@ export async function POST(request: NextRequest): Promise<NextResponse<ChatRespo
 
     // Governed KB retrieval (enforces classification + ACL via RLS)
     const traceId = safeId('trace');
-    const ragDb = token ? getSupabaseAuthed(token) : getSupabaseAnon();
+    const ragDb = token ? getSupabaseAuthed(token, tenantId) : getSupabaseAnon(tenantId);
     const role = roleForRequest({ isPublicMode: false, isAuthenticated: true, email: authResult.email || null });
 
     const kbHits = await retrieveTopChunks({
       db: ragDb,
       q: message,
       topK: 6,
-      tenantId,
       classifications: allowedClassifications(role),
-      actorId: userId,
       includeText: true,
     });
 
