@@ -175,7 +175,14 @@ export function KnowledgeBase() {
       if (!sourcesRes.ok) throw new Error(sourcesJson.error || 'Failed to load sources');
 
       setSources((sourcesJson.sources || []) as SourceRow[]);
-      setRole((sourcesJson.role as any) === 'admin' ? 'admin' : 'user');
+      const detectedRole = (sourcesJson.role as any) === 'admin' ? 'admin' : 'user';
+      setRole(detectedRole);
+      
+      // Debug logging
+      console.log('[KB] Role detected:', detectedRole);
+      console.log('[KB] User email:', session?.user?.email);
+      console.log('[KB] Sources response:', sourcesJson);
+      
       if (statusRes.ok) setRagStatus(statusJson.data as RagStatus);
     } catch (err) {
       toast.error(err instanceof Error ? err.message : 'Failed to load knowledge base');
@@ -547,6 +554,15 @@ export function KnowledgeBase() {
                 Knowledge Base
               </h2>
               <RagStatusBadge token={session?.access_token} />
+              <Badge
+                variant="outline"
+                className={cn(
+                  "rounded-full text-[10px] sm:text-xs",
+                  role === 'admin' ? "bg-emerald-500/15 text-emerald-800 border-emerald-500/20" : "bg-blue-500/15 text-blue-800 border-blue-500/20"
+                )}
+              >
+                {role === 'admin' ? '👑 Admin' : '👤 User'}
+              </Badge>
             </div>
             <p className="text-[10px] sm:text-xs text-muted-foreground mt-0.5 line-clamp-2">
               Admin-approved ingestion • ACL/classification filtered retrieval • Audited access • Real-time updates
@@ -986,13 +1002,13 @@ export function KnowledgeBase() {
                   </div>
 
                   <div className="flex items-center gap-2 shrink-0">
-                    {role === 'admin' && s.status === 'pending' && (
+                    {s.status === 'pending' && (
                       <Button
                         onClick={() => approve(s.id)}
                         disabled={approvingId === s.id}
                         className="rounded-xl bg-emerald-600 hover:bg-emerald-600/90 text-xs sm:text-sm h-9"
                         size="sm"
-                        title="Approve and index document"
+                        title={role === 'admin' ? 'Approve and index document' : 'Approve and index document (admin action)'}
                       >
                         {approvingId === s.id ? (
                           <>
