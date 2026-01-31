@@ -11,8 +11,7 @@ let mammoth: any;
 
 async function loadParsers() {
   if (!pdfParse) {
-    const pdfModule = await import('pdf-parse');
-    pdfParse = pdfModule.default || pdfModule;
+    pdfParse = await import('pdf-parse');
   }
   if (!mammoth) {
     mammoth = await import('mammoth');
