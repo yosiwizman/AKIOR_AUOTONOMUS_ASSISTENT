@@ -2,7 +2,7 @@
 
 /**
  * Governed Knowledge Base (Admin)
- * - Upload (pending)
+ * - Upload with progress visualization
  * - Admin approval -> indexing
  * - Status + counts
  * - Real-time updates
@@ -25,6 +25,8 @@ import {
   RefreshCw,
   Info,
   Zap,
+  AlertCircle,
+  PlayCircle,
 } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
@@ -57,6 +59,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
+import { Progress } from '@/components/ui/progress';
 import {
   Collapsible,
   CollapsibleContent,
@@ -95,6 +98,8 @@ type RagStatus = {
   rag_state: 'OFF' | 'DEGRADED' | 'ON';
 };
 
+type UploadStage = 'idle' | 'uploading' | 'parsing' | 'complete' | 'error';
+
 function statusPill(status: SourceStatus) {
   if (status === 'approved') return 'bg-emerald-500/15 text-emerald-800 border-emerald-500/20';
   if (status === 'rejected') return 'bg-rose-500/15 text-rose-700 border-rose-500/20';
@@ -129,6 +134,11 @@ export function KnowledgeBase() {
   const [restrictToMe, setRestrictToMe] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
 
+  // Upload progress state
+  const [uploadStage, setUploadStage] = useState<UploadStage>('idle');
+  const [uploadProgress, setUploadProgress] = useState(0);
+  const [uploadError, setUploadError] = useState<string | null>(null);
+
   // Edit state
   const [editTitle, setEditTitle] = useState('');
   const [editClassification, setEditClassification] = useState<Classification>('public');
@@ -138,10 +148,10 @@ export function KnowledgeBase() {
   const [approvingId, setApprovingId] = useState<string | null>(null);
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [isEditing, setIsEditing] = useState(false);
-
   const [showOptimizationTips, setShowOptimizationTips] = useState(false);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const abortControllerRef = useRef<AbortController | null>(null);
 
   const authHeaders = useMemo(() => {
     const h: Record<string, string> = {};
@@ -257,6 +267,9 @@ export function KnowledgeBase() {
     }
     
     setUploadFile(file);
+    setUploadError(null);
+    setUploadStage('idle');
+    setUploadProgress(0);
     toast.success(`File selected: ${file.name}`);
   };
 
@@ -287,11 +300,40 @@ export function KnowledgeBase() {
     fileInputRef.current?.click();
   };
 
+  const simulateProgress = (stage: UploadStage, startProgress: number, endProgress: number, duration: number) => {
+    const steps = 20;
+    const increment = (endProgress - startProgress) / steps;
+    const interval = duration / steps;
+    
+    let currentProgress = startProgress;
+    const timer = setInterval(() => {
+      currentProgress += increment;
+      if (currentProgress >= endProgress) {
+        setUploadProgress(endProgress);
+        clearInterval(timer);
+      } else {
+        setUploadProgress(currentProgress);
+      }
+    }, interval);
+    
+    return timer;
+  };
+
   const handleUpload = async () => {
     if (!session?.access_token || !uploadFile || isSubmitting) return;
 
     setIsSubmitting(true);
+    setUploadError(null);
+    setUploadStage('uploading');
+    setUploadProgress(0);
+
+    // Create abort controller for cancellation
+    abortControllerRef.current = new AbortController();
+
     try {
+      // Stage 1: Uploading (0-40%)
+      const uploadTimer = simulateProgress('uploading', 0, 40, 1000);
+
       const form = new FormData();
       form.append('file', uploadFile);
       if (uploadTitle.trim()) form.append('title', uploadTitle.trim());
@@ -303,29 +345,73 @@ export function KnowledgeBase() {
         method: 'POST',
         headers: authHeaders,
         body: form,
+        signal: abortControllerRef.current.signal,
       });
 
+      clearInterval(uploadTimer);
+      setUploadProgress(40);
+
+      // Stage 2: Parsing (40-80%)
+      setUploadStage('parsing');
+      const parseTimer = simulateProgress('parsing', 40, 80, 1500);
+
       const json = await res.json().catch(() => ({}));
+      
+      clearInterval(parseTimer);
+      setUploadProgress(80);
+
       if (!res.ok) throw new Error(json.error || 'Upload failed');
 
-      toast.success('Uploaded. Waiting for admin approval.');
-      setUploadTitle('');
-      setUploadFile(null);
-      setClassification('public');
-      setTrustLevel('50');
-      setRestrictToMe(false);
-      setDialogOpen(false);
-      await load();
-    } catch (err) {
-      toast.error(err instanceof Error ? err.message : 'Upload failed');
+      // Stage 3: Complete (80-100%)
+      setUploadStage('complete');
+      simulateProgress('complete', 80, 100, 500);
+
+      setTimeout(() => {
+        toast.success('Document uploaded! Awaiting admin approval for indexing.');
+        setUploadTitle('');
+        setUploadFile(null);
+        setClassification('public');
+        setTrustLevel('50');
+        setRestrictToMe(false);
+        setUploadStage('idle');
+        setUploadProgress(0);
+        setDialogOpen(false);
+        load();
+      }, 500);
+    } catch (err: any) {
+      if (err.name === 'AbortError') {
+        setUploadError('Upload cancelled');
+        toast.error('Upload cancelled');
+      } else {
+        setUploadError(err instanceof Error ? err.message : 'Upload failed');
+        toast.error(err instanceof Error ? err.message : 'Upload failed');
+      }
+      setUploadStage('error');
     } finally {
       setIsSubmitting(false);
+      abortControllerRef.current = null;
     }
+  };
+
+  const handleCancelUpload = () => {
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+    }
+  };
+
+  const handleRetryUpload = () => {
+    setUploadError(null);
+    setUploadStage('idle');
+    setUploadProgress(0);
+    handleUpload();
   };
 
   const handleClearFile = (e: React.MouseEvent) => {
     e.stopPropagation();
     setUploadFile(null);
+    setUploadError(null);
+    setUploadStage('idle');
+    setUploadProgress(0);
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
     }
@@ -427,6 +513,26 @@ export function KnowledgeBase() {
     if (size < 1000) return `${size} chars`;
     if (size < 1000000) return `${(size / 1000).toFixed(1)}K chars`;
     return `${(size / 1000000).toFixed(2)}M chars`;
+  };
+
+  const getUploadStageLabel = () => {
+    switch (uploadStage) {
+      case 'uploading': return 'Uploading file...';
+      case 'parsing': return 'Parsing document...';
+      case 'complete': return 'Complete!';
+      case 'error': return 'Upload failed';
+      default: return '';
+    }
+  };
+
+  const getUploadStageIcon = () => {
+    switch (uploadStage) {
+      case 'uploading': return <Upload className="w-4 h-4 animate-pulse" />;
+      case 'parsing': return <Loader2 className="w-4 h-4 animate-spin" />;
+      case 'complete': return <CheckCircle2 className="w-4 h-4 text-emerald-500" />;
+      case 'error': return <AlertCircle className="w-4 h-4 text-destructive" />;
+      default: return null;
+    }
   };
 
   return (
@@ -590,13 +696,14 @@ export function KnowledgeBase() {
                       onChange={(e) => setUploadTitle(e.target.value)}
                       className="bg-muted/50 rounded-xl"
                       maxLength={100}
+                      disabled={isSubmitting}
                     />
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div className="space-y-2">
                       <Label>Classification</Label>
-                      <Select value={classification} onValueChange={(v) => setClassification(v as Classification)}>
+                      <Select value={classification} onValueChange={(v) => setClassification(v as Classification)} disabled={isSubmitting}>
                         <SelectTrigger className="rounded-xl bg-muted/40">
                           <SelectValue />
                         </SelectTrigger>
@@ -620,6 +727,7 @@ export function KnowledgeBase() {
                         onChange={(e) => setTrustLevel(e.target.value.replace(/[^0-9]/g, '').slice(0, 3))}
                         className="rounded-xl bg-muted/40"
                         placeholder="0-100"
+                        disabled={isSubmitting}
                       />
                       <p className="text-[10px] sm:text-[11px] text-muted-foreground">Used for governance signals (not ranking yet).</p>
                     </div>
@@ -630,7 +738,7 @@ export function KnowledgeBase() {
                       <p className="text-sm font-medium">Restrict to me</p>
                       <p className="text-[10px] sm:text-[11px] text-muted-foreground">For restricted docs, adds an ACL for your user.</p>
                     </div>
-                    <Switch checked={restrictToMe} onCheckedChange={setRestrictToMe} />
+                    <Switch checked={restrictToMe} onCheckedChange={setRestrictToMe} disabled={isSubmitting} />
                   </div>
 
                   <div className="space-y-2">
@@ -641,12 +749,13 @@ export function KnowledgeBase() {
                         'flex items-center justify-between gap-3 sm:gap-4',
                         'transition-colors cursor-pointer hover:bg-muted/50',
                         isDragging && 'border-primary bg-primary/5',
-                        uploadFile && 'border-solid border-primary/50'
+                        uploadFile && 'border-solid border-primary/50',
+                        isSubmitting && 'opacity-50 cursor-not-allowed'
                       )}
                       onDragOver={handleDragOver}
                       onDragLeave={handleDragLeave}
                       onDrop={handleDrop}
-                      onClick={handleBrowseClick}
+                      onClick={!isSubmitting ? handleBrowseClick : undefined}
                     >
                       <div className="flex items-center gap-3 min-w-0 flex-1">
                         <div className={cn(
@@ -677,9 +786,10 @@ export function KnowledgeBase() {
                         accept=".txt,.md,.pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain,text/markdown"
                         onChange={(e) => handleFileSelect(e.target.files?.[0] || null)}
                         onClick={(e) => e.stopPropagation()}
+                        disabled={isSubmitting}
                       />
                       <div className="flex items-center gap-2 shrink-0">
-                        {uploadFile && (
+                        {uploadFile && !isSubmitting && (
                           <Button
                             type="button"
                             variant="ghost"
@@ -690,44 +800,109 @@ export function KnowledgeBase() {
                             <X className="h-4 w-4 text-destructive" />
                           </Button>
                         )}
-                        <Button 
-                          type="button" 
-                          variant="outline" 
-                          className="rounded-xl text-xs sm:text-sm" 
-                          size="sm"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleBrowseClick();
-                          }}
-                        >
-                          Browse
-                        </Button>
+                        {!isSubmitting && (
+                          <Button 
+                            type="button" 
+                            variant="outline" 
+                            className="rounded-xl text-xs sm:text-sm" 
+                            size="sm"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleBrowseClick();
+                            }}
+                          >
+                            Browse
+                          </Button>
+                        )}
                       </div>
                     </div>
                   </div>
 
+                  {/* Upload Progress */}
+                  {uploadStage !== 'idle' && (
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-between text-sm">
+                        <div className="flex items-center gap-2">
+                          {getUploadStageIcon()}
+                          <span className={cn(
+                            "font-medium",
+                            uploadStage === 'error' && "text-destructive",
+                            uploadStage === 'complete' && "text-emerald-500"
+                          )}>
+                            {getUploadStageLabel()}
+                          </span>
+                        </div>
+                        <span className="text-xs text-muted-foreground">
+                          {Math.round(uploadProgress)}%
+                        </span>
+                      </div>
+                      <Progress 
+                        value={uploadProgress} 
+                        className={cn(
+                          "h-2",
+                          uploadStage === 'error' && "[&>div]:bg-destructive",
+                          uploadStage === 'complete' && "[&>div]:bg-emerald-500"
+                        )}
+                      />
+                      {uploadError && (
+                        <p className="text-xs text-destructive flex items-center gap-1">
+                          <AlertCircle className="h-3 w-3" />
+                          {uploadError}
+                        </p>
+                      )}
+                    </div>
+                  )}
+
                   <div className="flex justify-end gap-3">
-                    <Button variant="outline" onClick={() => setDialogOpen(false)} className="rounded-xl text-xs sm:text-sm" size="sm">
-                      Cancel
-                    </Button>
-                    <Button
-                      onClick={handleUpload}
-                      disabled={isSubmitting || !uploadFile}
-                      className="bg-primary hover:bg-primary/90 rounded-xl text-xs sm:text-sm"
-                      size="sm"
-                    >
-                      {isSubmitting ? (
-                        <>
-                          <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                          Uploading…
-                        </>
-                      ) : (
-                        <>
+                    {uploadStage === 'error' ? (
+                      <>
+                        <Button 
+                          variant="outline" 
+                          onClick={() => {
+                            setUploadError(null);
+                            setUploadStage('idle');
+                            setUploadProgress(0);
+                          }} 
+                          className="rounded-xl text-xs sm:text-sm" 
+                          size="sm"
+                        >
+                          Cancel
+                        </Button>
+                        <Button
+                          onClick={handleRetryUpload}
+                          className="bg-primary hover:bg-primary/90 rounded-xl text-xs sm:text-sm"
+                          size="sm"
+                        >
+                          <RefreshCw className="w-4 h-4 mr-2" />
+                          Retry Upload
+                        </Button>
+                      </>
+                    ) : isSubmitting ? (
+                      <Button
+                        variant="outline"
+                        onClick={handleCancelUpload}
+                        className="rounded-xl text-xs sm:text-sm"
+                        size="sm"
+                      >
+                        <X className="w-4 h-4 mr-2" />
+                        Cancel Upload
+                      </Button>
+                    ) : (
+                      <>
+                        <Button variant="outline" onClick={() => setDialogOpen(false)} className="rounded-xl text-xs sm:text-sm" size="sm">
+                          Cancel
+                        </Button>
+                        <Button
+                          onClick={handleUpload}
+                          disabled={!uploadFile}
+                          className="bg-primary hover:bg-primary/90 rounded-xl text-xs sm:text-sm"
+                          size="sm"
+                        >
                           <Upload className="w-4 h-4 mr-2" />
                           Upload
-                        </>
-                      )}
-                    </Button>
+                        </Button>
+                      </>
+                    )}
                   </div>
                 </div>
               </DialogContent>
@@ -773,9 +948,13 @@ export function KnowledgeBase() {
                           <span className="inline-flex items-center gap-1">
                             <CheckCircle2 className="h-3 w-3 sm:h-3.5 sm:w-3.5" /> Approved
                           </span>
+                        ) : s.status === 'pending' ? (
+                          <span className="inline-flex items-center gap-1">
+                            <Clock className="h-3 w-3 sm:h-3.5 sm:w-3.5" /> Awaiting Approval
+                          </span>
                         ) : (
                           <span className="inline-flex items-center gap-1">
-                            <Clock className="h-3 w-3 sm:h-3.5 sm:w-3.5" /> {s.status}
+                            <AlertCircle className="h-3 w-3 sm:h-3.5 sm:w-3.5" /> {s.status}
                           </span>
                         )}
                       </Badge>
@@ -797,6 +976,13 @@ export function KnowledgeBase() {
                       <span className="sm:hidden">created {new Date(s.created_at).toLocaleDateString()}</span>
                       <span>indexed {s.indexed_at ? new Date(s.indexed_at).toLocaleDateString() : '—'}</span>
                     </div>
+
+                    {s.status === 'pending' && (
+                      <div className="mt-2 flex items-center gap-2 text-[10px] sm:text-xs text-amber-600 dark:text-amber-500">
+                        <Clock className="h-3 w-3 animate-pulse" />
+                        <span>Document uploaded and parsed. Waiting for admin to approve and index for RAG.</span>
+                      </div>
+                    )}
                   </div>
 
                   <div className="flex items-center gap-2 shrink-0">
