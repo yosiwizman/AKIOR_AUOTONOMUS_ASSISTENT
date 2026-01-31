@@ -990,18 +990,19 @@ export function KnowledgeBase() {
                       <Button
                         onClick={() => approve(s.id)}
                         disabled={approvingId === s.id}
-                        className="rounded-xl bg-emerald-600 hover:bg-emerald-600/90 text-xs sm:text-sm h-9 sm:h-auto"
+                        className="rounded-xl bg-emerald-600 hover:bg-emerald-600/90 text-xs sm:text-sm h-9"
                         size="sm"
+                        title="Approve and index document"
                       >
                         {approvingId === s.id ? (
                           <>
                             <Loader2 className="h-4 w-4 sm:mr-2 animate-spin" />
-                            <span className="hidden sm:inline">Approving…</span>
+                            <span className="hidden sm:inline">Indexing…</span>
                           </>
                         ) : (
                           <>
                             <CheckCircle2 className="h-4 w-4 sm:mr-2" />
-                            <span className="hidden sm:inline">Approve & Index</span>
+                            <span className="hidden sm:inline">Approve</span>
                           </>
                         )}
                       </Button>
