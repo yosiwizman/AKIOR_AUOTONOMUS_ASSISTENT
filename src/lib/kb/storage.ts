@@ -8,9 +8,28 @@ export type StoredObject = {
 
 async function ensureBucket(db: SupabaseClient, bucket: string) {
   // Best-effort: bucket creation requires elevated privileges.
-  const { data: existing } = await db.storage.listBuckets();
-  if (existing?.some((b) => b.name === bucket)) return;
-  await db.storage.createBucket(bucket, { public: false }).catch(() => null);
+  try {
+    const { data: existing, error: listError } = await db.storage.listBuckets();
+    
+    if (listError) {
+      console.error('[storage] Failed to list buckets:', listError);
+      return;
+    }
+    
+    if (existing?.some((b) => b.name === bucket)) {
+      console.log('[storage] Bucket exists:', bucket);
+      return;
+    }
+    
+    console.log('[storage] Creating bucket:', bucket);
+    const { error: createError } = await db.storage.createBucket(bucket, { public: false });
+    
+    if (createError) {
+      console.error('[storage] Failed to create bucket:', createError);
+    }
+  } catch (err) {
+    console.error('[storage] ensureBucket error:', err);
+  }
 }
 
 export async function storeBytes(opts: {
@@ -25,6 +44,14 @@ export async function storeBytes(opts: {
 
   try {
     await ensureBucket(opts.db, opts.bucket);
+    
+    console.log('[storage] Uploading to bucket:', {
+      bucket: opts.bucket,
+      path,
+      size: opts.bytes.length,
+      contentType: opts.contentType,
+    });
+    
     const { error } = await opts.db.storage.from(opts.bucket).upload(path, opts.bytes, {
       contentType: opts.contentType,
       upsert: true,
@@ -36,9 +63,15 @@ export async function storeBytes(opts: {
         path,
         error: error.message,
         statusCode: (error as any).statusCode,
+        details: error,
       });
       throw new Error(`Storage upload failed: ${error.message}`);
     }
+
+    console.log('[storage] Upload successful:', {
+      bucket: opts.bucket,
+      path,
+    });
 
     return { ref: `supabase://storage/${opts.bucket}/${path}`, bytesHash };
   } catch (err) {
@@ -46,6 +79,7 @@ export async function storeBytes(opts: {
       bucket: opts.bucket,
       path,
       error: err instanceof Error ? err.message : String(err),
+      stack: err instanceof Error ? err.stack : undefined,
     });
     // Fallback: inline reference (still hashed, still verifiable, but not object storage)
     return { ref: `inline://sha256/${bytesHash}`, bytesHash };

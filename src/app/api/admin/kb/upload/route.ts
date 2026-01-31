@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { verifyAuth, isAuthError } from '@/lib/server-auth';
-import { getSupabaseAuthed } from '@/lib/kb/server-clients';
+import { getSupabaseAuthed, getSupabaseAdmin } from '@/lib/kb/server-clients';
 import { ingestAndParse } from '@/lib/kb/ingestion';
 import { safeId, sha256Hex } from '@/lib/kb/hash';
 import { writeAuditEvent } from '@/lib/kb/audit';
@@ -29,6 +29,22 @@ export async function POST(req: NextRequest) {
 
     const authHeader = req.headers.get('Authorization') || '';
     const token = authHeader.startsWith('Bearer ') ? authHeader.slice(7) : '';
+    
+    // Use admin client for storage operations to bypass RLS
+    const adminDb = getSupabaseAdmin(tenantId);
+    if (!adminDb) {
+      logJson('error', {
+        trace_id: traceId,
+        event: 'kb.upload.error',
+        error: 'SUPABASE_SERVICE_ROLE_KEY not configured',
+      });
+      return NextResponse.json({ 
+        error: 'Server configuration error. Please contact support.', 
+        trace_id: traceId 
+      }, { status: 500 });
+    }
+    
+    // Use authenticated client for regular database operations
     const db = getSupabaseAuthed(token, tenantId);
 
     const form = await req.formData();
@@ -65,8 +81,10 @@ export async function POST(req: NextRequest) {
       trust_level: trustLevel,
     });
 
+    // Pass both admin client (for storage) and regular client (for database)
     const { sourceId, checksum, originalRef, parsedRef } = await ingestAndParse({
       db,
+      storageDb: adminDb,
       actorId: auth.userId,
       tenantId,
       title,

@@ -43,6 +43,7 @@ export async function extractTextFromFile(file: File): Promise<string> {
 
 export async function ingestAndParse(opts: {
   db: SupabaseClient;
+  storageDb?: SupabaseClient; // Optional admin client for storage operations
   actorId: string;
   tenantId: string;
   title: string;
@@ -53,6 +54,9 @@ export async function ingestAndParse(opts: {
 }): Promise<{ sourceId: string; sourceVersionId: string; checksum: string; originalRef: string; parsedRef: string }> {
   const rawBytes = new Uint8Array(await opts.file.arrayBuffer());
   const checksum = sha256Hex(Buffer.from(rawBytes));
+  
+  // Use storage client if provided, otherwise use regular client
+  const storageClient = opts.storageDb || opts.db;
 
   // Idempotency / de-dupe: if this exact content already exists for tenant+classification, reuse it.
   const { data: existingSource } = await opts.db
@@ -85,7 +89,7 @@ export async function ingestAndParse(opts: {
 
   // Store raw bytes (best-effort idempotent by content hash path)
   const storedRaw = await storeBytes({
-    db: opts.db,
+    db: storageClient,
     bucket: 'kb-raw',
     pathPrefix: opts.actorId,
     bytes: rawBytes,
@@ -150,7 +154,7 @@ export async function ingestAndParse(opts: {
   }
 
   const storedParsed = await storeBytes({
-    db: opts.db,
+    db: storageClient,
     bucket: 'kb-parsed',
     pathPrefix: opts.actorId,
     bytes: new TextEncoder().encode(parsedText),
