@@ -7,7 +7,7 @@
  * - Status + counts
  */
 
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState, useRef } from 'react';
 import {
   Upload,
   FileText,
@@ -17,6 +17,7 @@ import {
   CheckCircle2,
   Clock,
   BadgeInfo,
+  X,
 } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
@@ -99,9 +100,12 @@ export function KnowledgeBase() {
   const [classification, setClassification] = useState<Classification>('public');
   const [trustLevel, setTrustLevel] = useState('50');
   const [restrictToMe, setRestrictToMe] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [approvingId, setApprovingId] = useState<string | null>(null);
+
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const authHeaders = useMemo(() => {
     const h: Record<string, string> = {};
@@ -145,6 +149,62 @@ export function KnowledgeBase() {
     return title.includes(q) || s.checksum.toLowerCase().includes(q);
   });
 
+  const handleFileSelect = (file: File | null) => {
+    if (!file) return;
+    
+    // Validate file size
+    if (file.size > 15 * 1024 * 1024) {
+      toast.error('File too large. Maximum size is 15MB.');
+      return;
+    }
+    
+    // Validate file type
+    const validTypes = [
+      'application/pdf',
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+      'text/plain',
+      'text/markdown',
+    ];
+    const validExtensions = ['.pdf', '.docx', '.txt', '.md'];
+    const fileName = file.name.toLowerCase();
+    const hasValidExtension = validExtensions.some(ext => fileName.endsWith(ext));
+    
+    if (!validTypes.includes(file.type) && !hasValidExtension) {
+      toast.error('Invalid file type. Please upload PDF, DOCX, TXT, or MD files.');
+      return;
+    }
+    
+    setUploadFile(file);
+    toast.success(`File selected: ${file.name}`);
+  };
+
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(true);
+  };
+
+  const handleDragLeave = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+  };
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+    
+    const files = e.dataTransfer.files;
+    if (files && files.length > 0) {
+      handleFileSelect(files[0]);
+    }
+  };
+
+  const handleBrowseClick = () => {
+    fileInputRef.current?.click();
+  };
+
   const handleUpload = async () => {
     if (!session?.access_token || !uploadFile || isSubmitting) return;
 
@@ -169,12 +229,23 @@ export function KnowledgeBase() {
       toast.success('Uploaded. Waiting for admin approval.');
       setUploadTitle('');
       setUploadFile(null);
+      setClassification('public');
+      setTrustLevel('50');
+      setRestrictToMe(false);
       setDialogOpen(false);
       await load();
     } catch (err) {
       toast.error(err instanceof Error ? err.message : 'Upload failed');
     } finally {
       setIsSubmitting(false);
+    }
+  };
+
+  const handleClearFile = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setUploadFile(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
     }
   };
 
@@ -336,30 +407,72 @@ export function KnowledgeBase() {
                     <Label>Document</Label>
                     <div
                       className={cn(
-                        'rounded-2xl border border-border bg-muted/30 p-3 sm:p-4',
-                        'flex items-center justify-between gap-3 sm:gap-4'
+                        'rounded-2xl border-2 border-dashed bg-muted/30 p-3 sm:p-4',
+                        'flex items-center justify-between gap-3 sm:gap-4',
+                        'transition-colors cursor-pointer hover:bg-muted/50',
+                        isDragging && 'border-primary bg-primary/5',
+                        uploadFile && 'border-solid border-primary/50'
                       )}
+                      onDragOver={handleDragOver}
+                      onDragLeave={handleDragLeave}
+                      onDrop={handleDrop}
+                      onClick={handleBrowseClick}
                     >
-                      <div className="flex items-center gap-3 min-w-0">
-                        <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
-                          <FileText className="w-5 h-5 text-primary" />
+                      <div className="flex items-center gap-3 min-w-0 flex-1">
+                        <div className={cn(
+                          "w-10 h-10 rounded-xl flex items-center justify-center shrink-0",
+                          uploadFile ? "bg-primary/20" : "bg-primary/10"
+                        )}>
+                          <FileText className={cn(
+                            "w-5 h-5",
+                            uploadFile ? "text-primary" : "text-primary/70"
+                          )} />
                         </div>
-                        <div className="min-w-0">
-                          <p className="text-sm font-medium truncate">{uploadFile ? uploadFile.name : 'Choose a file'}</p>
-                          <p className="text-[10px] sm:text-xs text-muted-foreground">.txt, .md, .pdf, .docx (max 15MB)</p>
+                        <div className="min-w-0 flex-1">
+                          <p className="text-sm font-medium truncate">
+                            {uploadFile ? uploadFile.name : isDragging ? 'Drop file here' : 'Choose a file or drag & drop'}
+                          </p>
+                          <p className="text-[10px] sm:text-xs text-muted-foreground">
+                            {uploadFile 
+                              ? `${(uploadFile.size / 1024 / 1024).toFixed(2)} MB`
+                              : '.txt, .md, .pdf, .docx (max 15MB)'
+                            }
+                          </p>
                         </div>
                       </div>
-                      <label className="shrink-0">
-                        <input
-                          type="file"
-                          className="hidden"
-                          accept=".txt,.md,.pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain,text/markdown"
-                          onChange={(e) => setUploadFile(e.target.files?.[0] || null)}
-                        />
-                        <Button type="button" variant="outline" className="rounded-xl text-xs sm:text-sm" size="sm">
+                      <input
+                        ref={fileInputRef}
+                        type="file"
+                        className="hidden"
+                        accept=".txt,.md,.pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain,text/markdown"
+                        onChange={(e) => handleFileSelect(e.target.files?.[0] || null)}
+                        onClick={(e) => e.stopPropagation()}
+                      />
+                      <div className="flex items-center gap-2 shrink-0">
+                        {uploadFile && (
+                          <Button
+                            type="button"
+                            variant="ghost"
+                            size="sm"
+                            className="h-8 w-8 p-0 rounded-lg hover:bg-destructive/10"
+                            onClick={handleClearFile}
+                          >
+                            <X className="h-4 w-4 text-destructive" />
+                          </Button>
+                        )}
+                        <Button 
+                          type="button" 
+                          variant="outline" 
+                          className="rounded-xl text-xs sm:text-sm" 
+                          size="sm"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleBrowseClick();
+                          }}
+                        >
                           Browse
                         </Button>
-                      </label>
+                      </div>
                     </div>
                   </div>
 
