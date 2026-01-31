@@ -1,5 +1,3 @@
-import * as pdfParse from 'pdf-parse';
-import mammoth from 'mammoth';
 import { chunkText } from './chunking';
 import { embedText, getEmbedDim } from './embedding';
 import { sha256Hex } from './hash';
@@ -7,13 +5,29 @@ import { storeBytes } from './storage';
 import type { SupabaseClient } from '@supabase/supabase-js';
 import type { Classification } from './access';
 
+// Dynamic imports for Node.js-only libraries
+let pdfParse: any;
+let mammoth: any;
+
+async function loadParsers() {
+  if (!pdfParse) {
+    const pdfModule = await import('pdf-parse');
+    pdfParse = pdfModule.default || pdfModule;
+  }
+  if (!mammoth) {
+    mammoth = await import('mammoth');
+  }
+}
+
 export async function extractTextFromFile(file: File): Promise<string> {
+  await loadParsers();
+  
   const buffer = Buffer.from(await file.arrayBuffer());
   const mime = (file.type || '').toLowerCase();
   const lowerName = (file.name || '').toLowerCase();
 
   if (mime === 'application/pdf' || lowerName.endsWith('.pdf')) {
-    const parsed = await (pdfParse as unknown as (buf: Buffer) => Promise<{ text: string }>)(buffer);
+    const parsed = await pdfParse(buffer);
     return parsed.text || '';
   }
 

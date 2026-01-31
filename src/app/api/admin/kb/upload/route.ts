@@ -7,6 +7,10 @@ import { writeAuditEvent } from '@/lib/kb/audit';
 import { logJson } from '@/lib/kb/logger';
 import type { Classification } from '@/lib/kb/access';
 
+// Force Node.js runtime for file parsing libraries (pdf-parse, mammoth)
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
+
 function safeTitleFromName(name: string) {
   return name.replace(/\.[^/.]+$/, '').replace(/[^a-zA-Z0-9 _-]+/g, '').trim().slice(0, 100) || 'Document';
 }
