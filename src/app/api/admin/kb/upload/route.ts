@@ -55,6 +55,16 @@ export async function POST(req: NextRequest) {
     const restrictedOnlyMe = ((form.get('restricted_only_me') as string | null) || 'false').toLowerCase() === 'true';
     const aclUserIds = restrictedOnlyMe || classification === 'restricted' ? [auth.userId] : null;
 
+    logJson('info', {
+      trace_id: traceId,
+      event: 'kb.upload.start',
+      user_id: auth.userId,
+      file_name: file.name,
+      file_size: file.size,
+      classification,
+      trust_level: trustLevel,
+    });
+
     const { sourceId, checksum, originalRef, parsedRef } = await ingestAndParse({
       db,
       actorId: auth.userId,
@@ -114,12 +124,31 @@ export async function POST(req: NextRequest) {
       status: 'pending',
     });
   } catch (err) {
+    const errorMessage = err instanceof Error ? err.message : String(err);
+    const errorStack = err instanceof Error ? err.stack : undefined;
+    
     logJson('error', {
       trace_id: traceId,
       event: 'kb.upload.error',
-      error: err instanceof Error ? err.message : String(err),
+      error: errorMessage,
+      error_stack: errorStack,
       ms: Date.now() - started,
     });
-    return NextResponse.json({ error: 'Failed to upload', trace_id: traceId }, { status: 500 });
+    
+    // Provide more specific error messages for common issues
+    let userMessage = 'Failed to upload';
+    if (errorMessage.includes('storage')) {
+      userMessage = 'Storage error: Unable to save file. Please check storage permissions.';
+    } else if (errorMessage.includes('bucket')) {
+      userMessage = 'Storage bucket error: Please contact support.';
+    } else if (errorMessage.includes('parse') || errorMessage.includes('extract')) {
+      userMessage = 'Failed to parse document. Please ensure the file is not corrupted.';
+    }
+    
+    return NextResponse.json({ 
+      error: userMessage, 
+      trace_id: traceId,
+      details: process.env.NODE_ENV === 'development' ? errorMessage : undefined
+    }, { status: 500 });
   }
 }

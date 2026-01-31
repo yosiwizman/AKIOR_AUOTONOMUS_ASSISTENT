@@ -29,10 +29,24 @@ export async function storeBytes(opts: {
       contentType: opts.contentType,
       upsert: true,
     });
-    if (error) throw error;
+    
+    if (error) {
+      console.error('[storage] Upload error:', {
+        bucket: opts.bucket,
+        path,
+        error: error.message,
+        statusCode: (error as any).statusCode,
+      });
+      throw new Error(`Storage upload failed: ${error.message}`);
+    }
 
     return { ref: `supabase://storage/${opts.bucket}/${path}`, bytesHash };
-  } catch {
+  } catch (err) {
+    console.error('[storage] Failed to store bytes:', {
+      bucket: opts.bucket,
+      path,
+      error: err instanceof Error ? err.message : String(err),
+    });
     // Fallback: inline reference (still hashed, still verifiable, but not object storage)
     return { ref: `inline://sha256/${bytesHash}`, bytesHash };
   }
