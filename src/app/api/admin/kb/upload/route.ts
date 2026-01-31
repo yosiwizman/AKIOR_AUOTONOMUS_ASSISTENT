@@ -38,8 +38,8 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Missing file', trace_id: traceId }, { status: 400 });
     }
 
-    if (file.size > 15 * 1024 * 1024) {
-      return NextResponse.json({ error: 'File too large (max 15MB)', trace_id: traceId }, { status: 400 });
+    if (file.size > 50 * 1024 * 1024) {
+      return NextResponse.json({ error: 'File too large (max 50MB)', trace_id: traceId }, { status: 400 });
     }
 
     const title = ((form.get('title') as string | null) || '').trim().slice(0, 100) || safeTitleFromName(file.name);

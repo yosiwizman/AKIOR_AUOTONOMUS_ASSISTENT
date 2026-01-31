@@ -22,7 +22,7 @@ export async function GET(req: NextRequest) {
   // Defense-in-depth even when using service role.
   const query = db
     .from('sources')
-    .select('id, title, status, classification, trust_level, checksum, created_at, indexed_at, created_by')
+    .select('id, title, status, classification, trust_level, checksum, created_at, indexed_at, created_by, document_size')
     .eq('tenant_id', tenantId)
     .order('created_at', { ascending: false });
 

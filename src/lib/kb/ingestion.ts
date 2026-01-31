@@ -92,6 +92,11 @@ export async function ingestAndParse(opts: {
     contentType: opts.file.type || 'application/octet-stream',
   });
 
+  // Extract and parse text
+  const extracted = await extractTextFromFile(opts.file);
+  const parsedText = extracted.trim();
+  const documentSize = parsedText.length;
+
   // Create source row (may race under unique checksum constraint)
   let sourceId = existingSource?.id as string | undefined;
   let originalRef = storedRaw.ref;
@@ -110,6 +115,7 @@ export async function ingestAndParse(opts: {
         tenant_id: opts.tenantId,
         acl_user_ids: opts.aclUserIds,
         created_by: opts.actorId,
+        document_size: documentSize,
       })
       .select('id, original_ref')
       .single();
@@ -143,9 +149,6 @@ export async function ingestAndParse(opts: {
     throw new Error('Failed to create or resolve source id');
   }
 
-  const extracted = await extractTextFromFile(opts.file);
-  const parsedText = extracted.trim();
-
   const storedParsed = await storeBytes({
     db: opts.db,
     bucket: 'kb-parsed',
@@ -163,6 +166,7 @@ export async function ingestAndParse(opts: {
         parsed_ref: storedParsed.ref,
         metadata_json: {
           parsed_bytes_hash: storedParsed.bytesHash,
+          document_size: documentSize,
           // Keep the parsed text in DB for local-first indexing/debug.
           // Do not log this field.
           text: parsedText,

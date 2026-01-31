@@ -5,6 +5,8 @@
  * - Upload (pending)
  * - Admin approval -> indexing
  * - Status + counts
+ * - Real-time updates
+ * - Delete & Edit capabilities
  */
 
 import { useCallback, useEffect, useMemo, useState, useRef } from 'react';
@@ -18,6 +20,11 @@ import {
   Clock,
   BadgeInfo,
   X,
+  Trash2,
+  Edit2,
+  RefreshCw,
+  Info,
+  Zap,
 } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
@@ -33,6 +40,16 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog';
+import {
   Select,
   SelectContent,
   SelectItem,
@@ -40,12 +57,18 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from '@/components/ui/collapsible';
 
 import { useAuth } from '@/contexts/auth-context';
 import { KnowledgeBaseSkeleton } from './loading-skeleton';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 import { RagStatusBadge } from '@/components/rag-status-badge';
+import { supabase } from '@/integrations/supabase/client';
 
 type SourceStatus = 'pending' | 'approved' | 'rejected';
 type Classification = 'public' | 'internal' | 'restricted';
@@ -60,6 +83,7 @@ type SourceRow = {
   created_at: string;
   indexed_at: string | null;
   created_by?: string | null;
+  document_size?: number;
 };
 
 type RagStatus = {
@@ -93,6 +117,9 @@ export function KnowledgeBase() {
 
   const [searchQuery, setSearchQuery] = useState('');
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [editDialogOpen, setEditDialogOpen] = useState(false);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [selectedSource, setSelectedSource] = useState<SourceRow | null>(null);
 
   // Upload state
   const [uploadTitle, setUploadTitle] = useState('');
@@ -102,8 +129,17 @@ export function KnowledgeBase() {
   const [restrictToMe, setRestrictToMe] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
 
+  // Edit state
+  const [editTitle, setEditTitle] = useState('');
+  const [editClassification, setEditClassification] = useState<Classification>('public');
+  const [editTrustLevel, setEditTrustLevel] = useState('50');
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [approvingId, setApprovingId] = useState<string | null>(null);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [isEditing, setIsEditing] = useState(false);
+
+  const [showOptimizationTips, setShowOptimizationTips] = useState(false);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -138,9 +174,55 @@ export function KnowledgeBase() {
     }
   }, [authHeaders, session]);
 
+  // Real-time subscription for live updates
   useEffect(() => {
+    if (!session?.access_token) return;
+
     load();
-  }, [load]);
+
+    // Subscribe to real-time changes on sources table
+    const channel = supabase
+      .channel('sources-changes')
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'sources',
+        },
+        (payload) => {
+          console.log('[KB] Real-time update:', payload);
+          
+          if (payload.eventType === 'INSERT') {
+            setSources((prev) => [payload.new as SourceRow, ...prev]);
+            toast.success('New document added');
+          } else if (payload.eventType === 'UPDATE') {
+            setSources((prev) =>
+              prev.map((s) => (s.id === payload.new.id ? (payload.new as SourceRow) : s))
+            );
+            if ((payload.new as any).status === 'approved') {
+              toast.success('Document approved and indexed');
+            }
+          } else if (payload.eventType === 'DELETE') {
+            setSources((prev) => prev.filter((s) => s.id !== payload.old.id));
+            toast.info('Document deleted');
+          }
+          
+          // Refresh RAG status after changes
+          fetch('/api/rag/status', { headers: authHeaders })
+            .then((res) => res.json())
+            .then((json) => {
+              if (json.data) setRagStatus(json.data as RagStatus);
+            })
+            .catch(() => {});
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [load, session, authHeaders]);
 
   const filtered = sources.filter((s) => {
     const q = searchQuery.trim().toLowerCase();
@@ -152,9 +234,9 @@ export function KnowledgeBase() {
   const handleFileSelect = (file: File | null) => {
     if (!file) return;
     
-    // Validate file size
-    if (file.size > 15 * 1024 * 1024) {
-      toast.error('File too large. Maximum size is 15MB.');
+    // Validate file size - increased to 50MB for better RAG capacity
+    if (file.size > 50 * 1024 * 1024) {
+      toast.error('File too large. Maximum size is 50MB.');
       return;
     }
     
@@ -271,6 +353,82 @@ export function KnowledgeBase() {
     }
   };
 
+  const handleDelete = async (sourceId: string) => {
+    if (!session?.access_token) return;
+
+    setDeletingId(sourceId);
+    try {
+      const res = await fetch(`/api/admin/kb/${sourceId}`, {
+        method: 'DELETE',
+        headers: authHeaders,
+      });
+
+      const json = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(json.error || 'Delete failed');
+
+      toast.success('Document deleted successfully');
+      setDeleteDialogOpen(false);
+      setSelectedSource(null);
+      await load();
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : 'Delete failed');
+    } finally {
+      setDeletingId(null);
+    }
+  };
+
+  const handleEdit = async () => {
+    if (!session?.access_token || !selectedSource) return;
+
+    setIsEditing(true);
+    try {
+      const res = await fetch(`/api/admin/kb/${selectedSource.id}`, {
+        method: 'PATCH',
+        headers: {
+          ...authHeaders,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          title: editTitle.trim() || null,
+          classification: editClassification,
+          trust_level: parseInt(editTrustLevel, 10),
+        }),
+      });
+
+      const json = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(json.error || 'Update failed');
+
+      toast.success('Document updated successfully');
+      setEditDialogOpen(false);
+      setSelectedSource(null);
+      await load();
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : 'Update failed');
+    } finally {
+      setIsEditing(false);
+    }
+  };
+
+  const openEditDialog = (source: SourceRow) => {
+    setSelectedSource(source);
+    setEditTitle(source.title || '');
+    setEditClassification(source.classification);
+    setEditTrustLevel(source.trust_level.toString());
+    setEditDialogOpen(true);
+  };
+
+  const openDeleteDialog = (source: SourceRow) => {
+    setSelectedSource(source);
+    setDeleteDialogOpen(true);
+  };
+
+  const formatDocumentSize = (size?: number) => {
+    if (!size) return 'N/A';
+    if (size < 1000) return `${size} chars`;
+    if (size < 1000000) return `${(size / 1000).toFixed(1)}K chars`;
+    return `${(size / 1000000).toFixed(2)}M chars`;
+  };
+
   return (
     <div className="flex flex-col h-full">
       {/* Header - mobile optimized */}
@@ -285,7 +443,7 @@ export function KnowledgeBase() {
               <RagStatusBadge token={session?.access_token} />
             </div>
             <p className="text-[10px] sm:text-xs text-muted-foreground mt-0.5 line-clamp-2">
-              Admin-approved ingestion • ACL/classification filtered retrieval • Audited access
+              Admin-approved ingestion • ACL/classification filtered retrieval • Audited access • Real-time updates
             </p>
 
             {ragStatus && (
@@ -315,6 +473,72 @@ export function KnowledgeBase() {
               </div>
             )}
 
+            {/* RAG Optimization Tips */}
+            <Collapsible open={showOptimizationTips} onOpenChange={setShowOptimizationTips} className="mt-3">
+              <CollapsibleTrigger asChild>
+                <Button variant="outline" size="sm" className="w-full rounded-xl text-xs">
+                  <Zap className="h-3 w-3 mr-2" />
+                  {showOptimizationTips ? 'Hide' : 'Show'} RAG Optimization Tips
+                  <Info className="h-3 w-3 ml-auto" />
+                </Button>
+              </CollapsibleTrigger>
+              <CollapsibleContent className="mt-2">
+                <div className="rounded-2xl border border-border bg-muted/25 p-3 sm:p-4 space-y-3">
+                  <div>
+                    <h4 className="text-xs font-semibold mb-1 flex items-center gap-1">
+                      <CheckCircle2 className="h-3 w-3 text-emerald-500" />
+                      Document Optimization
+                    </h4>
+                    <ul className="text-[10px] sm:text-xs text-muted-foreground space-y-1 ml-4">
+                      <li>• Keep documents focused and well-structured</li>
+                      <li>• Use clear headings and sections</li>
+                      <li>• Optimal size: 5K-500K characters per document</li>
+                      <li>• Max upload: 50MB per file</li>
+                    </ul>
+                  </div>
+                  
+                  <div>
+                    <h4 className="text-xs font-semibold mb-1 flex items-center gap-1">
+                      <CheckCircle2 className="h-3 w-3 text-emerald-500" />
+                      Chunking Strategy
+                    </h4>
+                    <ul className="text-[10px] sm:text-xs text-muted-foreground space-y-1 ml-4">
+                      <li>• Default: 1200 chars/chunk with 150 char overlap</li>
+                      <li>• Max 200 chunks per document</li>
+                      <li>• Each chunk becomes a searchable vector</li>
+                    </ul>
+                  </div>
+                  
+                  <div>
+                    <h4 className="text-xs font-semibold mb-1 flex items-center gap-1">
+                      <CheckCircle2 className="h-3 w-3 text-emerald-500" />
+                      Memory & Performance
+                    </h4>
+                    <ul className="text-[10px] sm:text-xs text-muted-foreground space-y-1 ml-4">
+                      <li>• Vectors: {ragStatus?.vectors_total || 0} indexed</li>
+                      <li>• Each vector: ~1536 dimensions (OpenAI)</li>
+                      <li>• Real-time updates via Supabase Realtime</li>
+                      <li>• Automatic deduplication by checksum</li>
+                    </ul>
+                  </div>
+                  
+                  <div>
+                    <h4 className="text-xs font-semibold mb-1 flex items-center gap-1">
+                      <CheckCircle2 className="h-3 w-3 text-emerald-500" />
+                      Best Practices
+                    </h4>
+                    <ul className="text-[10px] sm:text-xs text-muted-foreground space-y-1 ml-4">
+                      <li>• Use 'public' classification for general knowledge</li>
+                      <li>• Set trust level 80-100 for verified sources</li>
+                      <li>• Approve documents promptly for RAG availability</li>
+                      <li>• Delete outdated documents to maintain quality</li>
+                      <li>• Edit metadata without re-uploading</li>
+                    </ul>
+                  </div>
+                </div>
+              </CollapsibleContent>
+            </Collapsible>
+
             {role !== 'admin' && (
               <div className="mt-3 flex items-center gap-2 text-[10px] sm:text-xs text-muted-foreground">
                 <BadgeInfo className="h-3 w-3 sm:h-4 sm:w-4 text-primary/70 shrink-0" />
@@ -331,8 +555,14 @@ export function KnowledgeBase() {
               disabled={isLoading}
               size="sm"
             >
-              {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <span className="hidden sm:inline">Refresh</span>}
-              <span className="sm:hidden">↻</span>
+              {isLoading ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : (
+                <>
+                  <RefreshCw className="h-4 w-4 sm:mr-2" />
+                  <span className="hidden sm:inline">Refresh</span>
+                </>
+              )}
             </Button>
 
             <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
@@ -435,7 +665,7 @@ export function KnowledgeBase() {
                           <p className="text-[10px] sm:text-xs text-muted-foreground">
                             {uploadFile 
                               ? `${(uploadFile.size / 1024 / 1024).toFixed(2)} MB`
-                              : '.txt, .md, .pdf, .docx (max 15MB)'
+                              : '.txt, .md, .pdf, .docx (max 50MB)'
                             }
                           </p>
                         </div>
@@ -562,6 +792,7 @@ export function KnowledgeBase() {
                     <div className="mt-2 flex flex-wrap items-center gap-x-3 sm:gap-x-4 gap-y-1 text-[10px] sm:text-xs text-muted-foreground">
                       <span>id: {s.id.slice(0, 8)}…</span>
                       <span>checksum: {s.checksum.slice(0, 12)}…</span>
+                      <span>size: {formatDocumentSize(s.document_size)}</span>
                       <span className="hidden sm:inline">created {new Date(s.created_at).toLocaleString()}</span>
                       <span className="sm:hidden">created {new Date(s.created_at).toLocaleDateString()}</span>
                       <span>indexed {s.indexed_at ? new Date(s.indexed_at).toLocaleDateString() : '—'}</span>
@@ -589,6 +820,26 @@ export function KnowledgeBase() {
                         )}
                       </Button>
                     )}
+                    
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="rounded-xl h-9 w-9 p-0"
+                      onClick={() => openEditDialog(s)}
+                      title="Edit document"
+                    >
+                      <Edit2 className="h-4 w-4" />
+                    </Button>
+                    
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="rounded-xl h-9 w-9 p-0 hover:bg-destructive/10 hover:text-destructive hover:border-destructive/50"
+                      onClick={() => openDeleteDialog(s)}
+                      title="Delete document"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
                   </div>
                 </div>
               </div>
@@ -596,6 +847,117 @@ export function KnowledgeBase() {
           </div>
         )}
       </div>
+
+      {/* Edit Dialog */}
+      <Dialog open={editDialogOpen} onOpenChange={setEditDialogOpen}>
+        <DialogContent className="max-w-[90vw] sm:max-w-lg">
+          <DialogHeader>
+            <DialogTitle>Edit Document</DialogTitle>
+            <DialogDescription>
+              Update document metadata. Changes will be reflected immediately.
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="edit-title">Title</Label>
+              <Input
+                id="edit-title"
+                placeholder="Document title"
+                value={editTitle}
+                onChange={(e) => setEditTitle(e.target.value)}
+                className="bg-muted/50 rounded-xl"
+                maxLength={100}
+              />
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div className="space-y-2">
+                <Label>Classification</Label>
+                <Select value={editClassification} onValueChange={(v) => setEditClassification(v as Classification)}>
+                  <SelectTrigger className="rounded-xl bg-muted/40">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="public">Public</SelectItem>
+                    <SelectItem value="internal">Internal</SelectItem>
+                    <SelectItem value="restricted">Restricted</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="edit-trust">Trust level</Label>
+                <Input
+                  id="edit-trust"
+                  inputMode="numeric"
+                  value={editTrustLevel}
+                  onChange={(e) => setEditTrustLevel(e.target.value.replace(/[^0-9]/g, '').slice(0, 3))}
+                  className="rounded-xl bg-muted/40"
+                  placeholder="0-100"
+                />
+              </div>
+            </div>
+
+            <div className="flex justify-end gap-3">
+              <Button variant="outline" onClick={() => setEditDialogOpen(false)} className="rounded-xl text-xs sm:text-sm" size="sm">
+                Cancel
+              </Button>
+              <Button
+                onClick={handleEdit}
+                disabled={isEditing}
+                className="bg-primary hover:bg-primary/90 rounded-xl text-xs sm:text-sm"
+                size="sm"
+              >
+                {isEditing ? (
+                  <>
+                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                    Saving…
+                  </>
+                ) : (
+                  <>
+                    <Edit2 className="w-4 h-4 mr-2" />
+                    Save Changes
+                  </>
+                )}
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Delete Confirmation Dialog */}
+      <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete Document</AlertDialogTitle>
+            <AlertDialogDescription>
+              Are you sure you want to delete "{selectedSource?.title || 'this document'}"? 
+              This will remove all associated chunks and vectors. This action cannot be undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={() => selectedSource && handleDelete(selectedSource.id)}
+              disabled={deletingId === selectedSource?.id}
+              className="bg-destructive hover:bg-destructive/90"
+            >
+              {deletingId === selectedSource?.id ? (
+                <>
+                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                  Deleting…
+                </>
+              ) : (
+                <>
+                  <Trash2 className="w-4 h-4 mr-2" />
+                  Delete
+                </>
+              )}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
 
       {/* Footer - mobile optimized */}
       <div className="px-4 sm:px-6 py-3 border-t border-border">
