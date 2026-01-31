@@ -554,15 +554,6 @@ export function KnowledgeBase() {
                 Knowledge Base
               </h2>
               <RagStatusBadge token={session?.access_token} />
-              <Badge
-                variant="outline"
-                className={cn(
-                  "rounded-full text-[10px] sm:text-xs",
-                  role === 'admin' ? "bg-emerald-500/15 text-emerald-800 border-emerald-500/20" : "bg-blue-500/15 text-blue-800 border-blue-500/20"
-                )}
-              >
-                {role === 'admin' ? '👑 Admin' : '👤 User'}
-              </Badge>
             </div>
             <p className="text-[10px] sm:text-xs text-muted-foreground mt-0.5 line-clamp-2">
               Admin-approved ingestion • ACL/classification filtered retrieval • Audited access • Real-time updates
@@ -661,12 +652,10 @@ export function KnowledgeBase() {
               </CollapsibleContent>
             </Collapsible>
 
-            {role !== 'admin' && (
-              <div className="mt-3 flex items-center gap-2 text-[10px] sm:text-xs text-muted-foreground">
-                <BadgeInfo className="h-3 w-3 sm:h-4 sm:w-4 text-primary/70 shrink-0" />
-                <span className="line-clamp-2">You can upload; admin approval is required to index and serve in RAG.</span>
-              </div>
-            )}
+            <div className="mt-3 flex items-center gap-2 text-[10px] sm:text-xs text-muted-foreground">
+              <BadgeInfo className="h-3 w-3 sm:h-4 sm:w-4 text-primary/70 shrink-0" />
+              <span className="line-clamp-2">Upload documents and approve them to make them searchable in RAG.</span>
+            </div>
           </div>
 
           <div className="flex items-center gap-2 sm:gap-3 shrink-0">
@@ -1008,7 +997,7 @@ export function KnowledgeBase() {
                         disabled={approvingId === s.id}
                         className="rounded-xl bg-emerald-600 hover:bg-emerald-600/90 text-xs sm:text-sm h-9"
                         size="sm"
-                        title={role === 'admin' ? 'Approve and index document' : 'Approve and index document (admin action)'}
+                        title="Approve and index document for RAG"
                       >
                         {approvingId === s.id ? (
                           <>
@@ -1166,11 +1155,6 @@ export function KnowledgeBase() {
       <div className="px-4 sm:px-6 py-3 border-t border-border">
         <div className="flex items-center justify-between">
           <p className="text-[10px] sm:text-xs text-muted-foreground">{sources.length} source{sources.length === 1 ? '' : 's'} total</p>
-          <div className="flex items-center gap-2">
-            <Badge variant="outline" className="rounded-full bg-muted/30 text-[10px] sm:text-xs">
-              role: {role}
-            </Badge>
-          </div>
         </div>
       </div>
     </div>
