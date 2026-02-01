@@ -11,7 +11,8 @@ let mammoth: any;
 
 async function loadParsers() {
   if (!pdfParse) {
-    pdfParse = await import('pdf-parse');
+    const pdfModule: any = await import('pdf-parse');
+    pdfParse = pdfModule.default || pdfModule;
   }
   if (!mammoth) {
     mammoth = await import('mammoth');
@@ -25,20 +26,47 @@ export async function extractTextFromFile(file: File): Promise<string> {
   const mime = (file.type || '').toLowerCase();
   const lowerName = (file.name || '').toLowerCase();
 
-  if (mime === 'application/pdf' || lowerName.endsWith('.pdf')) {
-    const parsed = await pdfParse(buffer);
-    return parsed.text || '';
-  }
+  console.log('[ingestion] extractTextFromFile:', {
+    fileName: file.name,
+    fileSize: file.size,
+    mimeType: mime,
+    hasPdfParse: !!pdfParse,
+    hasMammoth: !!mammoth,
+  });
 
-  if (
-    mime === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
-    lowerName.endsWith('.docx')
-  ) {
-    const { value } = await mammoth.extractRawText({ buffer });
-    return value || '';
-  }
+  try {
+    if (mime === 'application/pdf' || lowerName.endsWith('.pdf')) {
+      console.log('[ingestion] Parsing PDF file');
+      const parsed = await pdfParse(buffer);
+      const text = parsed.text || '';
+      console.log('[ingestion] PDF parsed successfully, text length:', text.length);
+      return text;
+    }
 
-  return buffer.toString('utf8');
+    if (
+      mime === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
+      lowerName.endsWith('.docx')
+    ) {
+      console.log('[ingestion] Parsing DOCX file');
+      const { value } = await mammoth.extractRawText({ buffer });
+      const text = value || '';
+      console.log('[ingestion] DOCX parsed successfully, text length:', text.length);
+      return text;
+    }
+
+    console.log('[ingestion] Treating as plain text file');
+    const text = buffer.toString('utf8');
+    console.log('[ingestion] Plain text extracted, length:', text.length);
+    return text;
+  } catch (err) {
+    console.error('[ingestion] extractTextFromFile error:', {
+      error: err instanceof Error ? err.message : String(err),
+      stack: err instanceof Error ? err.stack : undefined,
+      fileName: file.name,
+      mimeType: mime,
+    });
+    throw err;
+  }
 }
 
 export async function ingestAndParse(opts: {
