@@ -114,14 +114,30 @@ export function AkiorVoice() {
     loadSettings();
   }, [user, setVoice, setSpeed]);
 
-  // Sync voice transcript
+  // Sync voice transcript and auto-send when speech recognition stops
   useEffect(() => {
     if (voiceTranscript) {
       setTranscript(voiceTranscript.replace(/\s*\[.*\]$/, ''));
     }
   }, [voiceTranscript]);
 
-  const sendMessage = useCallback(async () => {
+  // Auto-send when user stops talking (recognition goes from listening to idle)
+  useEffect(() => {
+    const wasListening = recognitionStatus === 'idle' && transcript.trim().length > 0;
+    
+    if (wasListening && !isSending) {
+      // Small delay to ensure we have the final transcript
+      const timer = setTimeout(() => {
+        if (transcript.trim().length > 0) {
+          sendMessage(true);
+        }
+      }, 300);
+      
+      return () => clearTimeout(timer);
+    }
+  }, [recognitionStatus, transcript, isSending, sendMessage]);
+
+  const sendMessage = useCallback(async (autoSend = false) => {
     const message = transcript.trim();
     if (!message || isSending) return;
 
@@ -172,8 +188,9 @@ export function AkiorVoice() {
       setTranscript('');
       clearTranscript();
 
-      // Speak response if enabled
+      // Speak response immediately if enabled (don't wait for state updates)
       if (speakEnabled) {
+        // Start speaking as soon as we have the response
         speak(reply);
       }
     } catch (err) {
@@ -186,13 +203,15 @@ export function AkiorVoice() {
 
   const handlePushToTalk = useCallback(() => {
     if (recognitionStatus === 'listening') {
+      // Stop listening - this will trigger auto-send via useEffect
       stopListening();
     } else {
       setTranscript('');
       clearTranscript();
+      stopSpeaking(); // Stop any ongoing speech
       startListening();
     }
-  }, [recognitionStatus, startListening, stopListening, clearTranscript]);
+  }, [recognitionStatus, startListening, stopListening, clearTranscript, stopSpeaking]);
 
   const handleNewConversation = () => {
     setMessages([]);
@@ -329,9 +348,9 @@ export function AkiorVoice() {
                   <Trash2 className="w-4 h-4 sm:mr-2" />
                   <span className="hidden sm:inline">Clear</span>
                 </Button>
-                <Button 
-                  onClick={sendMessage} 
-                  disabled={!transcript.trim() || isSending} 
+                <Button
+                  onClick={() => sendMessage(false)}
+                  disabled={!transcript.trim() || isSending}
                   className="bg-primary hover:bg-primary/90 text-xs sm:text-sm"
                 >
                   {isSending ? <Loader2 className="w-4 h-4 sm:mr-2 animate-spin" /> : <Send className="w-4 h-4 sm:mr-2" />}

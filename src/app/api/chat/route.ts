@@ -271,16 +271,21 @@ export async function POST(request: NextRequest): Promise<NextResponse<ChatRespo
       memoryContext
     );
 
+    // Optimize for voice: shorter context window and faster response
+    const isVoiceChannel = channel === 'voice';
+    const contextWindow = isVoiceChannel ? 10 : 30;
+    const maxTokens = isVoiceChannel ? 800 : 1800;
+
     const messagesForModel: OpenAI.Chat.ChatCompletionMessageParam[] = [
       { role: 'system', content: systemPrompt },
-      ...conversationHistory.slice(-30).map((m: Message) => ({ role: m.role as 'user' | 'assistant', content: m.content })),
+      ...conversationHistory.slice(-contextWindow).map((m: Message) => ({ role: m.role as 'user' | 'assistant', content: m.content })),
       { role: 'user', content: message },
     ];
 
     const completion = await openai.chat.completions.create({
       model: 'gpt-4o-mini',
       messages: messagesForModel,
-      max_tokens: 1800,
+      max_tokens: maxTokens,
       temperature: 0.4,
     });
 

@@ -129,12 +129,13 @@ export function useSpeechRecognition(): UseSpeechRecognitionReturn {
     setIsSupported(true);
     const recognition = new SpeechRecognitionAPI();
 
-    // Configure recognition
-    recognition.continuous = true;
+    // Configure recognition - optimized for faster response
+    recognition.continuous = false; // Changed to false for faster finalization
     recognition.interimResults = true;
     recognition.lang = 'en-US';
+    recognition.maxAlternatives = 1; // Reduce processing overhead
 
-    // Handle results
+    // Handle results - optimized for speed
     recognition.onresult = (event: SpeechRecognitionEvent) => {
       // Reset retry count on successful result
       retryCountRef.current = 0;
@@ -154,6 +155,16 @@ export function useSpeechRecognition(): UseSpeechRecognitionReturn {
       if (finalText) {
         setFinalTranscript((prev) => prev + finalText);
         setTranscript((prev) => prev + finalText);
+        // Auto-stop after getting final result for faster response
+        setTimeout(() => {
+          if (recognitionRef.current) {
+            try {
+              recognitionRef.current.stop();
+            } catch {
+              // Ignore if already stopped
+            }
+          }
+        }, 100);
       } else {
         // Show interim results
         setTranscript((prev) => {
