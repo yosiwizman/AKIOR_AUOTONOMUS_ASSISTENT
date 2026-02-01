@@ -20,6 +20,12 @@ export async function POST(req: NextRequest) {
   const started = Date.now();
 
   try {
+    logJson('info', {
+      trace_id: traceId,
+      event: 'kb.upload.request_received',
+      has_service_key: !!process.env.SUPABASE_SERVICE_ROLE_KEY,
+    });
+
     const auth = await verifyAuth(req);
     if (isAuthError(auth)) {
       return NextResponse.json({ error: auth.error, trace_id: traceId }, { status: auth.status });
@@ -37,10 +43,14 @@ export async function POST(req: NextRequest) {
         trace_id: traceId,
         event: 'kb.upload.error',
         error: 'SUPABASE_SERVICE_ROLE_KEY not configured',
+        env_check: {
+          has_key: !!process.env.SUPABASE_SERVICE_ROLE_KEY,
+          key_length: process.env.SUPABASE_SERVICE_ROLE_KEY?.length || 0,
+        },
       });
-      return NextResponse.json({ 
-        error: 'Server configuration error. Please contact support.', 
-        trace_id: traceId 
+      return NextResponse.json({
+        error: 'Server configuration error: Missing service role key',
+        trace_id: traceId
       }, { status: 500 });
     }
     
@@ -79,20 +89,48 @@ export async function POST(req: NextRequest) {
       file_size: file.size,
       classification,
       trust_level: trustLevel,
+      has_admin_client: !!adminDb,
+      has_auth_client: !!db,
     });
 
-    // Pass both admin client (for storage) and regular client (for database)
-    const { sourceId, checksum, originalRef, parsedRef } = await ingestAndParse({
-      db,
-      storageDb: adminDb,
-      actorId: auth.userId,
-      tenantId,
-      title,
-      file,
-      classification,
-      trustLevel,
-      aclUserIds,
-    });
+    let sourceId: string;
+    let checksum: string;
+    let originalRef: string;
+    let parsedRef: string;
+
+    try {
+      // Pass both admin client (for storage) and regular client (for database)
+      const result = await ingestAndParse({
+        db,
+        storageDb: adminDb,
+        actorId: auth.userId,
+        tenantId,
+        title,
+        file,
+        classification,
+        trustLevel,
+        aclUserIds,
+      });
+      
+      sourceId = result.sourceId;
+      checksum = result.checksum;
+      originalRef = result.originalRef;
+      parsedRef = result.parsedRef;
+      
+      logJson('info', {
+        trace_id: traceId,
+        event: 'kb.upload.ingestion_complete',
+        source_id: sourceId,
+      });
+    } catch (ingestionError) {
+      logJson('error', {
+        trace_id: traceId,
+        event: 'kb.upload.ingestion_failed',
+        error: ingestionError instanceof Error ? ingestionError.message : String(ingestionError),
+        stack: ingestionError instanceof Error ? ingestionError.stack : undefined,
+      });
+      throw ingestionError;
+    }
 
     await writeAuditEvent({
       db,

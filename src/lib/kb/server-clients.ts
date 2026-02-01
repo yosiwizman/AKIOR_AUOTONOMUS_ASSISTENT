@@ -32,10 +32,25 @@ export function getSupabaseAuthed(token: string, tenantId?: string): SupabaseCli
 
 export function getSupabaseAdmin(tenantId?: string): SupabaseClient | null {
   const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  if (!serviceKey) return null;
+  
+  console.log('[server-clients] getSupabaseAdmin called:', {
+    has_service_key: !!serviceKey,
+    key_length: serviceKey?.length || 0,
+    key_prefix: serviceKey?.substring(0, 20) || 'none',
+    tenant_id: tenantId,
+  });
+  
+  if (!serviceKey) {
+    console.error('[server-clients] SUPABASE_SERVICE_ROLE_KEY is not set');
+    return null;
+  }
+  
   const headers = buildHeaders({ tenantId });
-  return createClient(SUPABASE_URL, serviceKey, {
+  const client = createClient(SUPABASE_URL, serviceKey, {
     auth: { persistSession: false },
     global: Object.keys(headers).length ? { headers } : undefined,
   });
+  
+  console.log('[server-clients] Admin client created successfully');
+  return client;
 }

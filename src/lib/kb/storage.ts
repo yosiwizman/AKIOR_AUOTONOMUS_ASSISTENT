@@ -42,45 +42,60 @@ export async function storeBytes(opts: {
   const bytesHash = sha256Hex(Buffer.from(opts.bytes));
   const path = `${opts.pathPrefix}/${bytesHash}`;
 
+  console.log('[storage] storeBytes called:', {
+    bucket: opts.bucket,
+    path,
+    size: opts.bytes.length,
+    contentType: opts.contentType,
+    pathPrefix: opts.pathPrefix,
+  });
+
   try {
     await ensureBucket(opts.db, opts.bucket);
     
-    console.log('[storage] Uploading to bucket:', {
+    console.log('[storage] Attempting upload to bucket:', {
       bucket: opts.bucket,
       path,
       size: opts.bytes.length,
       contentType: opts.contentType,
     });
     
-    const { error } = await opts.db.storage.from(opts.bucket).upload(path, opts.bytes, {
+    const uploadResult = await opts.db.storage.from(opts.bucket).upload(path, opts.bytes, {
       contentType: opts.contentType,
       upsert: true,
     });
     
-    if (error) {
+    if (uploadResult.error) {
       console.error('[storage] Upload error:', {
         bucket: opts.bucket,
         path,
-        error: error.message,
-        statusCode: (error as any).statusCode,
-        details: error,
+        error: uploadResult.error.message,
+        statusCode: (uploadResult.error as any).statusCode,
+        name: (uploadResult.error as any).name,
+        details: uploadResult.error,
       });
-      throw new Error(`Storage upload failed: ${error.message}`);
+      throw new Error(`Storage upload failed: ${uploadResult.error.message}`);
     }
 
     console.log('[storage] Upload successful:', {
       bucket: opts.bucket,
       path,
+      uploadPath: uploadResult.data?.path,
     });
 
     return { ref: `supabase://storage/${opts.bucket}/${path}`, bytesHash };
   } catch (err) {
-    console.error('[storage] Failed to store bytes:', {
+    console.error('[storage] Failed to store bytes (caught exception):', {
       bucket: opts.bucket,
       path,
       error: err instanceof Error ? err.message : String(err),
+      errorName: err instanceof Error ? err.name : 'Unknown',
       stack: err instanceof Error ? err.stack : undefined,
     });
+    
+    // Log the fallback
+    console.warn('[storage] Using inline fallback reference');
+    
     // Fallback: inline reference (still hashed, still verifiable, but not object storage)
     return { ref: `inline://sha256/${bytesHash}`, bytesHash };
   }
