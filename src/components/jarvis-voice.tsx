@@ -121,22 +121,6 @@ export function AkiorVoice() {
     }
   }, [voiceTranscript]);
 
-  // Auto-send when user stops talking (recognition goes from listening to idle)
-  useEffect(() => {
-    const wasListening = recognitionStatus === 'idle' && transcript.trim().length > 0;
-    
-    if (wasListening && !isSending) {
-      // Small delay to ensure we have the final transcript
-      const timer = setTimeout(() => {
-        if (transcript.trim().length > 0) {
-          sendMessage(true);
-        }
-      }, 300);
-      
-      return () => clearTimeout(timer);
-    }
-  }, [recognitionStatus, transcript, isSending, sendMessage]);
-
   const sendMessage = useCallback(async (autoSend = false) => {
     const message = transcript.trim();
     if (!message || isSending) return;
@@ -200,6 +184,22 @@ export function AkiorVoice() {
       setIsSending(false);
     }
   }, [transcript, isSending, messages, currentConversationId, clearTranscript, stopSpeaking, speakEnabled, speak, getAuthHeaders]);
+
+  // Auto-send when user stops talking (recognition goes from listening to idle)
+  useEffect(() => {
+    // Only trigger when recognition just stopped and we have content
+    if (recognitionStatus === 'idle' && transcript.trim().length > 0 && !isSending) {
+      // Small delay to ensure we have the final transcript
+      const timer = setTimeout(() => {
+        const currentTranscript = transcript.trim();
+        if (currentTranscript.length > 0 && !isSending) {
+          sendMessage(true);
+        }
+      }, 300);
+      
+      return () => clearTimeout(timer);
+    }
+  }, [recognitionStatus, transcript, isSending, sendMessage]);
 
   const handlePushToTalk = useCallback(() => {
     if (recognitionStatus === 'listening') {

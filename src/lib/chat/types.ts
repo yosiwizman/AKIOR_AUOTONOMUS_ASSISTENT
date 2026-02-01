@@ -1,5 +1,15 @@
+/**
+ * Chat API Type Definitions
+ * Ensures type safety across client and server
+ */
+
+export type MessageRole = 'user' | 'assistant' | 'system';
+export type ChannelType = 'chat' | 'voice' | 'hud' | 'public' | 'unknown';
+export type RAGState = 'OFF' | 'ON' | 'DEGRADED';
+export type UserRole = 'public' | 'user' | 'admin';
+
 export interface Message {
-  role: 'user' | 'assistant' | 'system';
+  role: MessageRole;
   content: string;
 }
 
@@ -8,16 +18,22 @@ export interface ChatRequest {
   history?: Message[];
   conversationId?: string;
   isPublic?: boolean;
-  channel?: 'chat' | 'voice' | 'hud' | 'public' | 'unknown';
+  channel?: ChannelType;
 }
 
-export type Citation = {
+export interface Citation {
   source_id: string;
   source_version: number;
   chunk_id: string;
   confidence: number;
   metadata: Record<string, unknown>;
-};
+}
+
+export interface RAGInfo {
+  state: RAGState;
+  role?: UserRole;
+  trace_id?: string;
+}
 
 export interface ChatResponse {
   reply: string;
@@ -25,9 +41,5 @@ export interface ChatResponse {
   messageId?: string;
   tokensUsed?: number;
   citations?: Citation[];
-  rag?: {
-    state: 'OFF' | 'ON' | 'DEGRADED';
-    role?: 'public' | 'user' | 'admin';
-    trace_id?: string;
-  };
+  rag?: RAGInfo;
 }

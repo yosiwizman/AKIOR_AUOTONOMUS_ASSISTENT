@@ -23,7 +23,7 @@ import { getOrCreateConversation, saveMessage, loadConversationHistory } from '.
 import { extractAndSaveMemory } from '../../../lib/chat/memory';
 import { getRequestMeta } from '../../../lib/chat/meta';
 import { checkRateLimit } from '../../../lib/chat/rate-limit';
-import type { ChatRequest, ChatResponse, Message } from '../../../lib/chat/types';
+import type { ChatRequest, ChatResponse, Message, UserRole } from '../../../lib/chat/types';
 
 import { getSupabaseAnon, getSupabaseAuthed } from '@/lib/kb/server-clients';
 import { roleForRequest, allowedClassifications } from '@/lib/kb/access';
@@ -95,13 +95,14 @@ export async function POST(request: NextRequest): Promise<NextResponse<ChatRespo
       const openai = getOpenAI();
       if (!openai) {
         const best = hits[0];
-        return NextResponse.json({
+        const demoPublicResponse: ChatResponse = {
           reply: best?.text
             ? `Based on the public knowledge base, here is the most relevant excerpt:\n\n${best.text}`
             : `I'm currently running in demo mode without OpenAI integration, and no public knowledge matched yet.\n\nYour message was: "${message.slice(0, 100)}${message.length > 100 ? '...' : ''}"`,
           citations,
-          rag: { state: hits.length > 0 ? 'ON' : 'OFF', role },
-        } as any);
+          rag: { state: hits.length > 0 ? 'ON' : 'OFF', role: role as UserRole },
+        };
+        return NextResponse.json(demoPublicResponse);
       }
 
       const context = hits
@@ -127,13 +128,15 @@ export async function POST(request: NextRequest): Promise<NextResponse<ChatRespo
         temperature: 0.4,
       });
 
+      const publicResponse: ChatResponse = {
+        reply: completion.choices[0].message.content || 'I apologize, but I was unable to generate a response.',
+        tokensUsed: completion.usage?.total_tokens,
+        citations,
+        rag: { state: hits.length > 0 ? 'ON' : 'OFF', role: role as UserRole, trace_id: traceId },
+      };
+      
       return NextResponse.json(
-        {
-          reply: completion.choices[0].message.content || 'I apologize, but I was unable to generate a response.',
-          tokensUsed: completion.usage?.total_tokens,
-          citations,
-          rag: { state: hits.length > 0 ? 'ON' : 'OFF', role, trace_id: traceId },
-        } as any,
+        publicResponse,
         {
           headers: {
             'X-RateLimit-Remaining': rateLimit.remaining.toString(),
@@ -163,9 +166,10 @@ export async function POST(request: NextRequest): Promise<NextResponse<ChatRespo
 
     const openai = getOpenAI((agentSettings as any).openai_api_key);
     if (!openai) {
-      return NextResponse.json({
+      const demoResponse: ChatResponse = {
         reply: `I'm currently running in demo mode without OpenAI integration.\n\nTo enable full AI capabilities:\n1. Go to Settings and add your OpenAI API key\n2. Or set OPENAI_API_KEY in the server environment\n\nYour message was: "${message.slice(0, 100)}${message.length > 100 ? '...' : ''}"`,
-      } as any);
+      };
+      return NextResponse.json(demoResponse);
     }
 
     let activeConversationId = conversationId;
@@ -314,15 +318,17 @@ export async function POST(request: NextRequest): Promise<NextResponse<ChatRespo
       });
     }
 
+    const response: ChatResponse = {
+      reply,
+      conversationId: activeConversationId || undefined,
+      messageId,
+      tokensUsed: completion.usage?.total_tokens,
+      citations,
+      rag: { state: kbHits.length > 0 ? 'ON' : 'OFF', role: role as UserRole, trace_id: traceId },
+    };
+    
     return NextResponse.json(
-      {
-        reply,
-        conversationId: activeConversationId || undefined,
-        messageId,
-        tokensUsed: completion.usage?.total_tokens,
-        citations,
-        rag: { state: kbHits.length > 0 ? 'ON' : 'OFF', role, trace_id: traceId },
-      } as any,
+      response,
       {
         headers: {
           'X-RateLimit-Remaining': rateLimit.remaining.toString(),

@@ -133,7 +133,6 @@ export function useSpeechRecognition(): UseSpeechRecognitionReturn {
     recognition.continuous = false; // Changed to false for faster finalization
     recognition.interimResults = true;
     recognition.lang = 'en-US';
-    recognition.maxAlternatives = 1; // Reduce processing overhead
 
     // Handle results - optimized for speed
     recognition.onresult = (event: SpeechRecognitionEvent) => {
