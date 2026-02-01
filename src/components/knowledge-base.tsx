@@ -211,7 +211,16 @@ export function KnowledgeBase() {
           console.log('[KB] Real-time update:', payload);
           
           if (payload.eventType === 'INSERT') {
-            setSources((prev) => [payload.new as SourceRow, ...prev]);
+            console.log('[KB] INSERT event received:', payload.new);
+            setSources((prev) => {
+              // Check if source already exists to avoid duplicates
+              if (prev.some(s => s.id === (payload.new as any).id)) {
+                console.log('[KB] Source already exists, skipping duplicate');
+                return prev;
+              }
+              console.log('[KB] Adding new source to list');
+              return [payload.new as SourceRow, ...prev];
+            });
             toast.success('New document added');
           } else if (payload.eventType === 'UPDATE') {
             setSources((prev) =>
@@ -383,7 +392,12 @@ export function KnowledgeBase() {
         setUploadStage('idle');
         setUploadProgress(0);
         setDialogOpen(false);
-        load();
+        
+        // Fallback: refresh after 2 seconds if real-time doesn't update
+        setTimeout(() => {
+          console.log('[KB] Fallback refresh after upload');
+          load();
+        }, 2000);
       }, 500);
     } catch (err: any) {
       if (err.name === 'AbortError') {
