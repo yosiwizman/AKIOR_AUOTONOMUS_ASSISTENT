@@ -6,7 +6,8 @@ export async function extractAndSaveMemory(
   db: SupabaseClient,
   userId: string,
   userMessage: string,
-  assistantResponse: string
+  assistantResponse: string,
+  conversationId?: string
 ) {
   try {
     const extractionResponse = await openai.chat.completions.create({
@@ -53,6 +54,7 @@ Examples of things to remember:
           content: memory.content,
           memory_type: 'fact',
           importance: Math.min(10, Math.max(1, memory.importance || 5)),
+          conversation_id: conversationId || null,
         })
         .select('id')
         .single();

@@ -304,7 +304,7 @@ export async function POST(request: NextRequest): Promise<NextResponse<ChatRespo
       messageId = (await saveMessage(db, activeConversationId, userId, 'assistant', reply)) || undefined;
 
       // Memory extraction is best-effort
-      extractAndSaveMemory(openai, db, userId, message, reply).catch(console.error);
+      extractAndSaveMemory(openai, db, userId, message, reply, activeConversationId).catch(console.error);
 
       // Backend-only interaction log
       await db.from('interaction_logs').insert({
