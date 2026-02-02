@@ -1,54 +1,127 @@
-import { sha256Hex } from './hash';
+import { createHash } from 'crypto';
+import OpenAI from 'openai';
 
-const DEFAULT_DIM = 256;
-
+/**
+ * Get embedding dimension for the model
+ * text-embedding-3-small: 1536 dimensions
+ * text-embedding-3-large: 3072 dimensions
+ */
 export function getEmbedDim(): number {
-  const raw = (process.env.EMBED_DIM || '').trim();
-  const n = Number.parseInt(raw, 10);
-  if (!raw) return DEFAULT_DIM;
-  if (!Number.isFinite(n) || n <= 0) return DEFAULT_DIM;
-  // Keep a sane bound; avoids accidental huge allocations.
-  return Math.max(16, Math.min(4096, n));
-}
-
-function l2Normalize(vec: Float32Array) {
-  let sum = 0;
-  for (let i = 0; i < vec.length; i++) sum += vec[i] * vec[i];
-  const norm = Math.sqrt(sum) || 1;
-  for (let i = 0; i < vec.length; i++) vec[i] = vec[i] / norm;
+  return 1536;
 }
 
 /**
- * Local-first deterministic embedding.
- *
- * Not a foundation-model embedding: it's a stable semantic-ish hash vector suitable
- * for a verifiable RAG slice without external dependencies.
+ * Get OpenAI client for embeddings
  */
-export function embedText(text: string): number[] {
-  const dim = getEmbedDim();
-  const cleaned = text
-    .toLowerCase()
-    .replace(/[^a-z0-9\s]/g, ' ')
-    .replace(/\s{2,}/g, ' ')
-    .trim();
-
-  const tokens = cleaned.split(' ').filter(Boolean).slice(0, 4000);
-  const vec = new Float32Array(dim);
-
-  for (const t of tokens) {
-    const h = sha256Hex(t);
-    // Use first 8 bytes as two indices + a sign.
-    const a = parseInt(h.slice(0, 8), 16) >>> 0;
-    const b = parseInt(h.slice(8, 16), 16) >>> 0;
-    const i1 = a % dim;
-    const i2 = b % dim;
-    const sign = (a & 1) === 0 ? 1 : -1;
-    vec[i1] += 1 * sign;
-    vec[i2] += 0.5 * sign;
+function getOpenAIClient(): OpenAI | null {
+  const apiKey = process.env.OPENAI_API_KEY;
+  if (!apiKey) {
+    console.warn('[embedding] No OPENAI_API_KEY found, using deterministic embeddings');
+    return null;
   }
-
-  l2Normalize(vec);
-  return Array.from(vec);
+  return new OpenAI({ apiKey });
 }
 
-export const EMBEDDING_DIMS = getEmbedDim();
+/**
+ * Generate embeddings using OpenAI API (production)
+ * Falls back to deterministic embeddings if API key not available
+ */
+export async function embedTextAsync(text: string): Promise<number[]> {
+  const openai = getOpenAIClient();
+  
+  if (openai) {
+    try {
+      const response = await openai.embeddings.create({
+        model: 'text-embedding-3-small',
+        input: text.slice(0, 8000), // Limit to ~8k chars to stay within token limits
+        encoding_format: 'float',
+      });
+      
+      return response.data[0].embedding;
+    } catch (error) {
+      console.error('[embedding] OpenAI API error, falling back to deterministic:', error);
+      // Fall through to deterministic
+    }
+  }
+  
+  // Fallback to deterministic embeddings
+  return embedTextDeterministic(text);
+}
+
+/**
+ * Synchronous embedding function (uses deterministic method)
+ * Use embedTextAsync() for production with OpenAI API
+ */
+export function embedText(text: string): number[] {
+  return embedTextDeterministic(text);
+}
+
+/**
+ * Deterministic embedding for demo/testing
+ * Generates consistent embeddings based on text hash
+ * 
+ * NOTE: This is for demo purposes only. In production, use embedTextAsync()
+ * which calls the OpenAI embeddings API for better quality.
+ */
+function embedTextDeterministic(text: string): number[] {
+  const dim = getEmbedDim();
+  const hash = createHash('sha256').update(text).digest();
+
+  const embedding = new Array(dim);
+  for (let i = 0; i < dim; i++) {
+    const byteIndex = i % hash.length;
+    const nextByteIndex = (i + 1) % hash.length;
+    
+    // Use two bytes to get more variation
+    const val1 = hash[byteIndex] / 255;
+    const val2 = hash[nextByteIndex] / 255;
+    
+    // Combine and normalize to [-1, 1]
+    embedding[i] = (val1 + val2) / 2 * 2 - 1;
+  }
+
+  // Normalize to unit vector (required for cosine similarity)
+  const norm = Math.sqrt(embedding.reduce((sum, val) => sum + val * val, 0));
+  return embedding.map(val => val / norm);
+}
+
+/**
+ * Batch embed multiple texts (more efficient for bulk operations)
+ */
+export async function embedTextBatch(texts: string[]): Promise<number[][]> {
+  const openai = getOpenAIClient();
+  
+  if (openai && texts.length > 0) {
+    try {
+      // OpenAI supports up to 2048 inputs per request
+      const batchSize = 100; // Conservative batch size
+      const results: number[][] = [];
+      
+      for (let i = 0; i < texts.length; i += batchSize) {
+        const batch = texts.slice(i, i + batchSize);
+        const response = await openai.embeddings.create({
+          model: 'text-embedding-3-small',
+          input: batch.map(t => t.slice(0, 8000)),
+          encoding_format: 'float',
+        });
+        
+        results.push(...response.data.map(d => d.embedding));
+      }
+      
+      return results;
+    } catch (error) {
+      console.error('[embedding] Batch embedding error, falling back:', error);
+      // Fall through to deterministic
+    }
+  }
+  
+  // Fallback to deterministic
+  return texts.map(embedTextDeterministic);
+}
+
+/**
+ * Check if OpenAI embeddings are available
+ */
+export function isOpenAIEmbeddingsAvailable(): boolean {
+  return !!process.env.OPENAI_API_KEY;
+}

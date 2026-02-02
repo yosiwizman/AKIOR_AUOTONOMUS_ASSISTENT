@@ -1,5 +1,5 @@
 import { chunkText } from './chunking';
-import { embedText, getEmbedDim } from './embedding';
+import { embedText, embedTextBatch, getEmbedDim, isOpenAIEmbeddingsAvailable } from './embedding';
 import { sha256Hex } from './hash';
 import { storeBytes } from './storage';
 import type { SupabaseClient } from '@supabase/supabase-js';
@@ -316,29 +316,59 @@ export async function indexApprovedSource(opts: {
 
   const existingVec = new Set<string>((existingVecRows || []).map((r: any) => r.chunk_id as string));
 
-  const vectorRows = chunkRows
-    .map((c, i) => {
-      const chunkId = existingByHash.get(c.text_hash);
-      if (!chunkId) throw new Error('Chunk insert mismatch');
-      if (existingVec.has(chunkId)) return null;
+  // Prepare texts for embedding
+  const textsToEmbed: string[] = [];
+  const chunkIdsToEmbed: string[] = [];
+  
+  for (let i = 0; i < chunkRows.length; i++) {
+    const c = chunkRows[i];
+    const chunkId = existingByHash.get(c.text_hash);
+    if (!chunkId) throw new Error('Chunk insert mismatch');
+    if (existingVec.has(chunkId)) continue;
+    
+    textsToEmbed.push((c.metadata_json as any)?.text || '');
+    chunkIdsToEmbed.push(chunkId);
+  }
 
-      const embedding = embedText((c.metadata_json as any)?.text || '');
-      assertEmbeddingDims(embedding);
+  if (textsToEmbed.length === 0) {
+    await opts.db.from('sources').update({ indexed_at: new Date().toISOString() }).eq('id', opts.sourceId);
+    return { chunks: chunkRows.length, vectors: existingVec.size };
+  }
 
-      return {
-        chunk_id: chunkId,
-        embedding,
-        tenant_id: opts.tenantId,
-        classification: opts.classification,
-        acl_user_ids: opts.aclUserIds,
-        metadata_json: {
-          source_id: opts.sourceId,
-          source_version: opts.sourceVersion,
-          chunk_ordinal: i,
-        },
-      };
-    })
-    .filter(Boolean) as any[];
+  // Use batch embedding if OpenAI is available, otherwise fall back to sync
+  let embeddings: number[][];
+  
+  if (isOpenAIEmbeddingsAvailable()) {
+    console.log(`[ingestion] Using OpenAI batch embeddings for ${textsToEmbed.length} chunks`);
+    embeddings = await embedTextBatch(textsToEmbed);
+  } else {
+    console.log(`[ingestion] Using deterministic embeddings for ${textsToEmbed.length} chunks (no OpenAI API key)`);
+    embeddings = textsToEmbed.map(embedText);
+  }
+
+  // Validate embedding dimensions
+  for (const embedding of embeddings) {
+    assertEmbeddingDims(embedding);
+  }
+
+  // Build vector rows
+  const vectorRows = chunkIdsToEmbed.map((chunkId, idx) => {
+    const chunkRow = chunkRows.find(c => existingByHash.get(c.text_hash) === chunkId);
+    if (!chunkRow) throw new Error('Chunk row not found');
+    
+    return {
+      chunk_id: chunkId,
+      embedding: embeddings[idx],
+      tenant_id: opts.tenantId,
+      classification: opts.classification,
+      acl_user_ids: opts.aclUserIds,
+      metadata_json: {
+        source_id: opts.sourceId,
+        source_version: opts.sourceVersion,
+        chunk_ordinal: chunkRows.indexOf(chunkRow),
+      },
+    };
+  });
 
   if (vectorRows.length > 0) {
     const { error: vecErr } = await opts.db.from('vectors').insert(vectorRows);

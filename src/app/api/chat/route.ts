@@ -37,13 +37,16 @@ export async function POST(request: NextRequest): Promise<NextResponse<ChatRespo
   try {
     const meta = getRequestMeta(request);
 
-    const rateLimit = checkRateLimit(meta.ip);
+    const rateLimit = await checkRateLimit(meta.ip);
     if (!rateLimit.allowed) {
       return NextResponse.json(
         { error: 'Rate limit exceeded. Please try again later.' },
         {
           status: 429,
-          headers: { 'X-RateLimit-Remaining': '0', 'Retry-After': '60' },
+          headers: { 
+            'X-RateLimit-Remaining': '0', 
+            'Retry-After': rateLimit.reset ? Math.ceil((rateLimit.reset - Date.now()) / 1000).toString() : '60',
+          },
         }
       );
     }
