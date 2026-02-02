@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { roleForRequest, allowedClassifications, isAdmin } from '@/lib/kb/access';
+import { roleForRequest, allowedClassifications } from '@/lib/kb/access';
 
 describe('KB Access Control', () => {
   describe('roleForRequest', () => {
@@ -12,24 +12,14 @@ describe('KB Access Control', () => {
       expect(role).toBe('public');
     });
 
-    it('should return admin role for admin users', () => {
-      // Mock admin check
-      const role = roleForRequest({
-        isPublicMode: false,
-        isAuthenticated: true,
-        email: 'admin@example.com',
-      });
-      // Note: This will be 'authenticated' unless AKIOR_ADMIN_EMAILS is set
-      expect(['authenticated', 'admin']).toContain(role);
-    });
-
-    it('should return authenticated role for regular users', () => {
+    it('should return admin role for authenticated users', () => {
+      // In single-user/owner mode, all authenticated users are admins
       const role = roleForRequest({
         isPublicMode: false,
         isAuthenticated: true,
         email: 'user@example.com',
       });
-      expect(role).toBe('authenticated');
+      expect(role).toBe('admin');
     });
 
     it('should return public role for unauthenticated users', () => {
@@ -48,8 +38,8 @@ describe('KB Access Control', () => {
       expect(classifications).toEqual(['public']);
     });
 
-    it('should allow public and internal for authenticated role', () => {
-      const classifications = allowedClassifications('authenticated');
+    it('should allow public and internal for user role', () => {
+      const classifications = allowedClassifications('user');
       expect(classifications).toEqual(['public', 'internal']);
     });
 
@@ -57,19 +47,5 @@ describe('KB Access Control', () => {
       const classifications = allowedClassifications('admin');
       expect(classifications).toEqual(['public', 'internal', 'restricted']);
     });
-  });
-
-  describe('isAdmin', () => {
-    it('should return false for null email', () => {
-      expect(isAdmin(null)).toBe(false);
-      expect(isAdmin(undefined)).toBe(false);
-    });
-
-    it('should return false for non-admin email', () => {
-      expect(isAdmin('user@example.com')).toBe(false);
-    });
-
-    // Note: Actual admin check depends on environment variables
-    // AKIOR_ADMIN_EMAILS or AKIOR_ADMIN_EMAIL_DOMAIN
   });
 });
