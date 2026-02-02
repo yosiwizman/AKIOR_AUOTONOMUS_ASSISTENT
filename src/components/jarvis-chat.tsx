@@ -6,17 +6,29 @@
  */
 
 import { useState, useCallback, useRef, useEffect } from 'react';
-import { Send, Loader2, Volume2, VolumeX } from 'lucide-react';
+import { Send, Loader2, Volume2, VolumeX, Plus, Trash2, AlertTriangle, History, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
 import { useAuth } from '@/contexts/auth-context';
 import { useOpenAITTS, OpenAIVoice } from '@/hooks/use-openai-tts';
 import { supabase } from '@/integrations/supabase/client';
-import { ConversationSidebar } from './conversation-sidebar';
+import { ConversationHistory } from './conversation-history';
 import { cn } from '@/lib/utils';
 import { RagStatusBadge } from '@/components/rag-status-badge';
 import { RagOffHint } from '@/components/rag-off-hint';
+import { toast } from 'sonner';
 
 interface Message {
   id?: string;
@@ -38,7 +50,7 @@ export function AkiorChat() {
   const [isLoading, setIsLoading] = useState(false);
   const [speakEnabled, setSpeakEnabled] = useState(false);
   const [currentConversationId, setCurrentConversationId] = useState<string | null>(null);
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [showHistory, setShowHistory] = useState(false);
   const [agentSettings, setAgentSettings] = useState<AgentSettings>({
     agent_name: 'AKIOR',
     voice_id: 'alloy',
@@ -115,31 +127,15 @@ export function AkiorChat() {
               timestamp: new Date(m.created_at),
             }))
           );
+          setCurrentConversationId(conversationId);
+          setShowHistory(false); // Close history after selecting
         }
       } catch (err) {
         console.error('Error loading conversation:', err);
+        toast.error('Failed to load conversation');
       }
     },
     [user, session, getAuthHeaders]
-  );
-
-  // Handle conversation selection
-  const handleSelectConversation = useCallback(
-    (id: string | null) => {
-      setCurrentConversationId(id);
-      if (id) {
-        loadConversation(id);
-      } else {
-        setMessages([
-          {
-            role: 'assistant',
-            content: `Hello! I'm ${agentSettings.agent_name}. How can I help you today?`,
-            timestamp: new Date(),
-          },
-        ]);
-      }
-    },
-    [loadConversation, agentSettings.agent_name]
   );
 
   // Start new conversation
@@ -154,6 +150,17 @@ export function AkiorChat() {
     ]);
     stopSpeaking();
   }, [agentSettings.agent_name, stopSpeaking]);
+
+  // Clear current view
+  const clearConversation = useCallback(() => {
+    setMessages([
+      {
+        role: 'assistant',
+        content: `Hello! I'm ${agentSettings.agent_name}. How can I help you today?`,
+        timestamp: new Date(),
+      },
+    ]);
+  }, [agentSettings.agent_name]);
 
   // Initialize with greeting
   useEffect(() => {
@@ -257,21 +264,7 @@ export function AkiorChat() {
   };
 
   return (
-    <div className="flex h-full">
-      {/* Conversation Sidebar - hide on mobile by default */}
-      <div className={cn(
-        "hidden lg:block",
-        sidebarCollapsed && "lg:hidden"
-      )}>
-        <ConversationSidebar
-          currentConversationId={currentConversationId}
-          onSelectConversation={handleSelectConversation}
-          onNewConversation={handleNewConversation}
-          isCollapsed={sidebarCollapsed}
-          onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
-        />
-      </div>
-
+    <div className="flex h-full relative">
       {/* Main Chat Area */}
       <div className="flex-1 flex flex-col min-w-0">
         {/* Header - mobile optimized */}
@@ -286,7 +279,53 @@ export function AkiorChat() {
             </p>
             <RagOffHint token={session?.access_token} />
           </div>
-          <div className="flex items-center gap-2 sm:gap-4 shrink-0">
+          <div className="flex items-center gap-2 shrink-0">
+            {/* History Toggle */}
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setShowHistory(!showHistory)}
+              className="text-muted-foreground"
+            >
+              <History className="w-4 h-4 sm:mr-2" />
+              <span className="hidden sm:inline">History</span>
+            </Button>
+
+            {/* New Conversation */}
+            <Button variant="ghost" size="sm" onClick={handleNewConversation} className="text-muted-foreground">
+              <Plus className="w-4 h-4 sm:mr-2" />
+              <span className="hidden sm:inline">New</span>
+            </Button>
+
+            {/* Clear */}
+            {messages.length > 1 && (
+              <AlertDialog>
+                <AlertDialogTrigger asChild>
+                  <Button variant="ghost" size="sm" className="text-destructive">
+                    <Trash2 className="w-4 h-4 sm:mr-2" />
+                    <span className="hidden sm:inline">Clear</span>
+                  </Button>
+                </AlertDialogTrigger>
+                <AlertDialogContent className="max-w-[90vw] sm:max-w-lg">
+                  <AlertDialogHeader>
+                    <AlertDialogTitle className="flex items-center gap-2">
+                      <AlertTriangle className="w-5 h-5 text-destructive" />
+                      Clear conversation?
+                    </AlertDialogTitle>
+                    <AlertDialogDescription>
+                      This will clear the current view. Your conversation history is still saved.
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogAction onClick={clearConversation} className="bg-destructive hover:bg-destructive/90">
+                      Clear
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+            )}
+
             {/* TTS Toggle - compact on mobile */}
             <div className="flex items-center gap-1.5 sm:gap-2">
               <Switch
@@ -326,10 +365,12 @@ export function AkiorChat() {
 
                 {/* Message bubble - better mobile sizing */}
                 <div className={cn('flex', msg.role === 'user' ? 'justify-end' : 'justify-start')}>
-                  <div className={cn(
-                    msg.role === 'user' ? 'akior-bubble-user' : 'akior-bubble-assistant',
-                    'max-w-[90%] sm:max-w-[80%]'
-                  )}>
+                  <div
+                    className={cn(
+                      msg.role === 'user' ? 'akior-bubble-user' : 'akior-bubble-assistant',
+                      'max-w-[90%] sm:max-w-[80%]'
+                    )}
+                  >
                     <p className="text-sm whitespace-pre-wrap leading-relaxed break-words">{msg.content}</p>
                   </div>
                 </div>
@@ -339,7 +380,9 @@ export function AkiorChat() {
             {/* Thinking indicator */}
             {isLoading && (
               <div className="space-y-1">
-                <div className="text-[10px] sm:text-xs text-muted-foreground uppercase tracking-wider">{agentSettings.agent_name.toUpperCase()}</div>
+                <div className="text-[10px] sm:text-xs text-muted-foreground uppercase tracking-wider">
+                  {agentSettings.agent_name.toUpperCase()}
+                </div>
                 <div className="akior-thinking">
                   <div className="flex gap-1">
                     <span className="w-1.5 h-1.5 bg-primary rounded-full pulse-dot" style={{ animationDelay: '0ms' }} />
@@ -406,6 +449,40 @@ export function AkiorChat() {
           </div>
         </div>
       </div>
+
+      {/* Conversation History Sidebar - Desktop */}
+      {showHistory && (
+        <>
+          <div className="hidden md:block w-80 border-l border-border bg-card">
+            <ConversationHistory />
+          </div>
+
+          {/* Conversation History Sidebar - Mobile */}
+          <div
+            className={cn(
+              'fixed inset-0 z-40 md:hidden bg-background transition-transform duration-300',
+              showHistory ? 'translate-x-0' : 'translate-x-full'
+            )}
+          >
+            <div className="flex flex-col h-full">
+              <div className="flex items-center justify-between p-4 border-b border-border">
+                <h2 className="text-lg font-semibold">Conversation History</h2>
+                <Button variant="ghost" size="icon" onClick={() => setShowHistory(false)}>
+                  <X className="w-5 h-5" />
+                </Button>
+              </div>
+              <div className="flex-1 overflow-hidden">
+                <ConversationHistory />
+              </div>
+            </div>
+          </div>
+
+          {/* Overlay for mobile */}
+          {showHistory && (
+            <div className="fixed inset-0 bg-black/50 z-30 md:hidden" onClick={() => setShowHistory(false)} />
+          )}
+        </>
+      )}
     </div>
   );
 }
