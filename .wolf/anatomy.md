@@ -1,7 +1,7 @@
 # anatomy.md
 
-> Auto-maintained by OpenWolf. Last scanned: 2026-04-03T17:06:19.976Z
-> Files: 611 tracked | Anatomy hits: 0 | Misses: 0
+> Auto-maintained by OpenWolf. Last scanned: 2026-04-03T17:09:07.280Z
+> Files: 615 tracked | Anatomy hits: 0 | Misses: 0
 
 ## ../.claude/projects/-Users-yosiwizman-akior/memory/
 
@@ -1060,7 +1060,7 @@
 
 ## forge/jarvis-v5-os/apps/web/app/
 
-- `globals.css` — Styles: 20 rules, 105 vars (~2151 tok)
+- `globals.css` — Styles: 20 rules, 105 vars (~2210 tok)
 - `layout.tsx` — RootLayout (~2746 tok)
 
 ## forge/jarvis-v5-os/apps/web/app/api/tasks/
@@ -1085,11 +1085,14 @@
 
 ## forge/jarvis-v5-os/apps/web/src/components/
 
+- `FileUpload.tsx` — FileUpload (~2059 tok)
 - `HudWidget.tsx` — getWeatherEmoji (~3620 tok)
+- `SetupRequiredBanner.tsx` — SetupRequiredBanner (~1094 tok)
 
 ## forge/jarvis-v5-os/apps/web/src/hooks/
 
-- `useSystemStatus.ts` — Get the display text for a status level (~1000 tok)
+- `useSystemMetrics.ts` — Exports useSystemMetrics (~731 tok)
+- `useSystemStatus.ts` — Get the display text for a status level (~1005 tok)
 
 ## forge/jarvis-v5-os/apps/web/src/lib/
 
@@ -1101,13 +1104,17 @@
 - `compose.jarvis.yml` — AKIOR V6 Local Host Deployment (~1271 tok)
 - `jarvis.env.example` — AKIOR Server Environment Variables for Local Host Deployment (~179 tok)
 
+## forge/jarvis-v5-os/e2e/
+
+- `branding.smoke.spec.ts` — API routes: GET (1 endpoints) (~1375 tok)
+
 ## forge/jarvis-v5-os/packages/shared/src/
 
 - `settings.ts` — Deep-merge integration settings to ensure every integration has all required fields. (~4582 tok)
 
 ## forge/jarvis-v5-os/scripts/
 
-- `smoke.ts` — AKIOR V5 Smoke Test Script (~1731 tok)
+- `smoke.ts` — AKIOR V5 Smoke Test Script (~1748 tok)
 
 ## openclaw/
 

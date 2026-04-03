@@ -528,6 +528,110 @@
       "related_bugs": [],
       "occurrences": 1,
       "last_seen": "2026-04-03T17:06:19.984Z"
+    },
+    {
+      "id": "bug-034",
+      "timestamp": "2026-04-03T17:07:59.626Z",
+      "error_message": "Null/undefined access in ",
+      "file": "forge/jarvis-v5-os/apps/web/src/hooks/useSystemMetrics.ts",
+      "root_cause": "Property access on potentially null/undefined value",
+      "fix": "Added null safety (optional chaining or null check)",
+      "tags": [
+        "auto-detected",
+        "null-safety",
+        "ts"
+      ],
+      "related_bugs": [],
+      "occurrences": 1,
+      "last_seen": "2026-04-03T17:07:59.626Z"
+    },
+    {
+      "id": "bug-035",
+      "timestamp": "2026-04-03T17:08:27.967Z",
+      "error_message": "Incorrect value in code",
+      "file": "forge/jarvis-v5-os/apps/web/src/components/SetupRequiredBanner.tsx",
+      "root_cause": "Had \"w-12 h-12 text-amber-400\"",
+      "fix": "Changed to \"w-10 h-10 text-amber-400\"",
+      "tags": [
+        "auto-detected",
+        "wrong-value",
+        "tsx"
+      ],
+      "related_bugs": [],
+      "occurrences": 1,
+      "last_seen": "2026-04-03T17:08:27.967Z"
+    },
+    {
+      "id": "bug-036",
+      "timestamp": "2026-04-03T17:08:32.847Z",
+      "error_message": "Incorrect value in code",
+      "file": "forge/jarvis-v5-os/apps/web/src/components/FileUpload.tsx",
+      "root_cause": "Had \"h-12 w-12 text-cyan-400\"",
+      "fix": "Changed to \"h-10 w-10 text-cyan-400\"",
+      "tags": [
+        "auto-detected",
+        "wrong-value",
+        "tsx"
+      ],
+      "related_bugs": [],
+      "occurrences": 1,
+      "last_seen": "2026-04-03T17:08:32.847Z"
+    },
+    {
+      "id": "bug-037",
+      "timestamp": "2026-04-03T17:08:40.048Z",
+      "error_message": "Wrong reference: JARVIS_SMOKE_BASE_URL should be AKIOR_SMOKE_BASE_URL",
+      "file": "forge/jarvis-v5-os/scripts/smoke.ts",
+      "root_cause": "Used \"JARVIS_SMOKE_BASE_URL\" instead of \"AKIOR_SMOKE_BASE_URL\"",
+      "fix": "Changed JARVIS_SMOKE_BASE_URL → AKIOR_SMOKE_BASE_URL",
+      "tags": [
+        "auto-detected",
+        "wrong-reference",
+        "ts"
+      ],
+      "related_bugs": [],
+      "occurrences": 1,
+      "last_seen": "2026-04-03T17:08:40.048Z"
+    },
+    {
+      "id": "bug-038",
+      "timestamp": "2026-04-03T17:09:07.288Z",
+      "error_message": "Incorrect value in code",
+      "file": "forge/jarvis-v5-os/e2e/branding.smoke.spec.ts",
+      "root_cause": "Had 'jarvis (voice) page shows AKIOR HUD without J.A.R",
+      "fix": "Changed to 'voice page shows AKIOR HUD without J.A.R.V.I.S.'",
+      "tags": [
+        "auto-detected",
+        "wrong-value",
+        "ts"
+      ],
+      "related_bugs": [],
+      "occurrences": 1,
+      "last_seen": "2026-04-03T17:09:07.288Z"
+    },
+    {
+      "id": "bug-039",
+      "timestamp": "2026-04-03T18:00:00.000Z",
+      "error_message": "HUD bar shows LOADING/ERROR permanently when backend is unavailable",
+      "file": "forge/jarvis-v5-os/apps/web/src/hooks/useSystemStatus.ts",
+      "root_cause": "Initial state level was 'loading' which displayed LOADING text for up to 10s until first fetch resolved; useSystemMetrics had no fallback metrics on error leaving UI in degraded state",
+      "fix": "Changed initial status level from 'loading' to 'standalone' (displays 'OK'); added fallback metrics in useSystemMetrics catch block so CPU/Memory show 0 instead of dashes when backend is down",
+      "tags": ["hud", "status", "loading", "graceful-degradation", "ui"],
+      "related_bugs": [],
+      "occurrences": 1,
+      "last_seen": "2026-04-03T18:00:00.000Z"
+    },
+    {
+      "id": "bug-040",
+      "timestamp": "2026-04-03T18:00:00.000Z",
+      "error_message": "SVG icons could expand beyond intended size in flex containers",
+      "file": "forge/jarvis-v5-os/apps/web/app/globals.css",
+      "root_cause": "No global safety net for SVG sizing; decorative icons in FileUpload and SetupRequiredBanner were 48px (w-12) which was at the upper limit",
+      "fix": "Added global CSS rule for SVG max-width/max-height/flex-shrink-0; reduced FileUpload and SetupRequiredBanner hero icons from w-12 h-12 to w-10 h-10 (40px)",
+      "tags": ["svg", "icons", "sizing", "css", "ui"],
+      "related_bugs": [],
+      "occurrences": 1,
+      "last_seen": "2026-04-03T18:00:00.000Z"
     }
   ]
 }

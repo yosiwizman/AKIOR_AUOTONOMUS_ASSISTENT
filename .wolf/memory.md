@@ -426,3 +426,14 @@
 | 13:06 | Edited forge/jarvis-v5-os/apps/server/src/routes/https.routes.ts | "docker exec jarvis-caddy " → "docker exec akior-caddy c" | ~21 |
 | 13:06 | Session end: 26 writes across 14 files (jarvis-ci.yml, brand.ts, akior-logo.svg, test-backend.js, index.html) | 35 reads | ~21550 tok |
 | 13:07 | Session end: 26 writes across 14 files (jarvis-ci.yml, brand.ts, akior-logo.svg, test-backend.js, index.html) | 38 reads | ~21735 tok |
+| 13:07 | Edited forge/jarvis-v5-os/apps/web/src/hooks/useSystemStatus.ts | 5→5 lines | ~38 |
+| 13:07 | Edited forge/jarvis-v5-os/apps/web/src/hooks/useSystemMetrics.ts | added nullish coalescing | ~128 |
+| 13:08 | Edited forge/jarvis-v5-os/apps/web/src/hooks/useSystemMetrics.ts | 6→8 lines | ~75 |
+| 13:08 | Edited forge/jarvis-v5-os/apps/web/app/globals.css | modified not() | ~72 |
+| 13:08 | Edited forge/jarvis-v5-os/apps/web/src/components/SetupRequiredBanner.tsx | "w-12 h-12 text-amber-400" → "w-10 h-10 text-amber-400" | ~14 |
+| 13:08 | Edited forge/jarvis-v5-os/apps/web/src/components/FileUpload.tsx | "h-12 w-12 text-cyan-400" → "h-10 w-10 text-cyan-400" | ~14 |
+| 13:08 | Edited forge/jarvis-v5-os/scripts/smoke.ts | inline fix | ~29 |
+| 13:09 | Edited forge/jarvis-v5-os/e2e/branding.smoke.spec.ts | "jarvis (voice) page shows" → "voice page shows AKIOR HU" | ~23 |
+| 18:00 | Fixed HUD LOADING/ERROR bug: changed initial status to standalone, added metrics fallback | useSystemStatus.ts, useSystemMetrics.ts | OK | ~3000 |
+| 18:00 | Fixed SVG sizing: added global CSS safety net, reduced hero icons to w-10 h-10 | globals.css, FileUpload.tsx, SetupRequiredBanner.tsx | OK | ~1000 |
+| 13:09 | Session end: 34 writes across 19 files (jarvis-ci.yml, brand.ts, akior-logo.svg, test-backend.js, index.html) | 52 reads | ~86094 tok |
