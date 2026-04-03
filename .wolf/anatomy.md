@@ -1,7 +1,7 @@
 # anatomy.md
 
-> Auto-maintained by OpenWolf. Last scanned: 2026-04-03T06:01:26.443Z
-> Files: 552 tracked | Anatomy hits: 0 | Misses: 0
+> Auto-maintained by OpenWolf. Last scanned: 2026-04-03T06:16:13.948Z
+> Files: 556 tracked | Anatomy hits: 0 | Misses: 0
 
 ## ../.claude/projects/-Users-yosiwizman-akior/memory/
 
@@ -974,10 +974,13 @@
 
 ## reports/
 
+- `calendar-2026-04-03-v2.md` — Calendar Report — 2026-04-03 (v2 Morning Run) (~73 tok)
 - `calendar-2026-04-03.md` — Calendar — 2026-04-03 (Thu) + 2026-04-04 (Fri) (~73 tok)
 - `competitor-research-2026-04-03.md` — Pilates Equipment Competitor Research Report (~1931 tok)
 - `cto-briefing-2026-04-03-update.md` — AKIOR CTO Briefing Update — 2026-04-03 (Thursday, Evening) (~1077 tok)
+- `cto-briefing-2026-04-03-v2.md` — CTO Morning Briefing — 2026-04-03 (v2) (~594 tok)
 - `cto-briefing-2026-04-03.md` — AKIOR CTO Morning Briefing — 2026-04-03 (Thursday) (~682 tok)
+- `email-triage-2026-04-03-v2.md` — Email Triage Report — 2026-04-03 (v2 Morning Run) (~605 tok)
 - `email-triage-2026-04-03.md` — Email Triage — 2026-04-03 (~364 tok)
 - `lp-inbox-2026-04-03.md` — Live Pilates USA Inbox Sweep — 2026-04-03 (~247 tok)
 - `lp-product-scrape-2026-04-03.md` — Live Pilates USA -- Product Catalog Scrape (~904 tok)
@@ -992,3 +995,7 @@
 
 - `clawr.ing-memory.md` — clawr.ing memory (~105 tok)
 - `SKILL.md` — clawr.ing (~401 tok)
+
+## skills/facetime/
+
+- `SKILL.md` — FaceTime Audio Call Skill (~655 tok)
