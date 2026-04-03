@@ -16,13 +16,28 @@
       "count": 1,
       "tokens": 682,
       "first_read": "2026-04-03T05:10:59.216Z"
+    },
+    "/Users/yosiwizman/akior/src/lib/tts-voices.ts": {
+      "count": 1,
+      "tokens": 0,
+      "first_read": "2026-04-03T05:11:22.799Z"
+    },
+    "/Users/yosiwizman/akior/src/components/jarvis-voice.tsx": {
+      "count": 1,
+      "tokens": 0,
+      "first_read": "2026-04-03T05:11:23.242Z"
+    },
+    "/Users/yosiwizman/akior/src/components/voice-console.tsx": {
+      "count": 1,
+      "tokens": 0,
+      "first_read": "2026-04-03T05:11:24.630Z"
     }
   },
   "files_written": [],
   "edit_counts": {},
   "anatomy_hits": 3,
-  "anatomy_misses": 0,
+  "anatomy_misses": 3,
   "repeated_reads_warned": 1,
   "cerebrum_warnings": 0,
-  "stop_count": 4
+  "stop_count": 5
 }
