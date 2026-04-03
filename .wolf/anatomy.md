@@ -1,7 +1,7 @@
 # anatomy.md
 
-> Auto-maintained by OpenWolf. Last scanned: 2026-04-03T04:08:37.005Z
-> Files: 533 tracked | Anatomy hits: 0 | Misses: 0
+> Auto-maintained by OpenWolf. Last scanned: 2026-04-03T04:27:15.787Z
+> Files: 534 tracked | Anatomy hits: 0 | Misses: 0
 
 ## ./
 
@@ -60,9 +60,10 @@
 - `AKIOR-SSOT-LOCK-MEMO.md` — SSOT Lock Memo — Experiment Mode (~610 tok)
 - `AKIOR-SYSTEM-STATUS.md` — AKIOR System Status (~1499 tok)
 - `AKIOR-TOOL-ADOPTION-DECISIONS-01.md` — AKIOR — External Tool Adoption Decisions (~1247 tok)
+- `BOOTSTRAP-COMPLETION-REPORT.md` — AKIOR Bootstrap Completion Report (~1613 tok)
 - `bootstrap-report.md` — AKIOR Bootstrap Completion Report — Formal (~1991 tok)
 - `CLAUDE_EXECUTION_TEMPLATE.md` — AKIOR CLAUDE EXECUTION TEMPLATE (~1120 tok)
-- `PROJECT_LOG.md` — AKIOR PROJECT LOG (~3592 tok)
+- `PROJECT_LOG.md` — AKIOR PROJECT LOG (~3718 tok)
 - `RUNTIME-REFERENCE.md` — AKIOR Runtime Reference (~1747 tok)
 - `SESSION_HANDOFF_TEMPLATE.md` — AKIOR SESSION HANDOFF TEMPLATE (~1108 tok)
 - `SSOT-REGISTER.md` — SSOT Register (~478 tok)
@@ -84,7 +85,7 @@
 
 ## evidence/terminal/
 
-- `alexandra-gmail-send.md` — Alexandra Sarbu — Gmail Draft Evidence (~224 tok)
+- `alexandra-gmail-send.md` — Alexandra Sarbu — Gmail Draft Evidence (~212 tok)
 - `claude-scheduled-tasks-setup-01.md` — Claude Desktop Scheduled Tasks — Ready to Paste (~616 tok)
 - `computer-use-enablement-plan.md` — Computer Use Enablement Plan (~642 tok)
 - `daily-canary-summary.md` — Daily Canary Summary (~73 tok)
@@ -949,7 +950,7 @@
 
 ## openclaw/
 
-- `SOUL.md` — AKIOR — Autonomous AI Operating System (~978 tok)
+- `SOUL.md` — AKIOR — Autonomous AI Operating System (~1051 tok)
 
 ## reports/
 

@@ -11,9 +11,9 @@
 | Field | Value |
 |-------|-------|
 | **Target milestone** | v1 bootstrap / operational readiness |
-| **Active layer** | L8 — COMPLETE |
-| **Distance** | NEAR |
-| **Last verified step** | Task 30 | Phase 8 — first CTO work: email triage, calendar, LP sweep, Alexandra draft, system health, CTO briefing |
+| **Active layer** | V1 BOOTSTRAP COMPLETE |
+| **Distance** | ARRIVED |
+| **Last verified step** | Task 31 | V1 Close — Alexandra email SENT, SEND doctrine established, bootstrap completion report created |
 | **Last updated** | 2026-04-03 |
 
 > Update this block whenever a new entry is appended. This is the quick-glance state.
@@ -96,7 +96,8 @@
 2026-04-03 | Task 28 | Phase 6 WhatsApp multi-number + Task 19 attempt + Memory MCP fix + git baseline | COMPLETE | L6 | WhatsApp: allowFrom set to [+13054098490, +17865181777], gateway reinstalled (PID 58194); Task 19 (Alexandra Wix send): BLOCKED — Wix requires login, no stored session/credentials, OWNER ACTION NEEDED; Memory MCP: @exaudeus/memory-mcp bootstrap broken, replaced with @modelcontextprotocol/server-memory (active next session); Git: .gitignore created, baseline commit created; Canaries: 4/4 PASS | NEAR | Next: owner logs into Wix via Playwright to unblock Task 19; test new Memory MCP on next session | Owner: action needed (Wix login)
 2026-04-03 | Task 29 | Phase 7 full autonomous tool access + one-time authorization | COMPLETE | L7 | OpenClaw: dmPolicy=allowlist with [+13054098490,+17865181777]; exec approvals wildcard (*/*) set; 4 plugins enabled (duckduckgo, diffs, llm-task, lobster); 3 ClawHub skills installed (macos-calendar, notification, reminder); 2 skills skipped (VirusTotal flagged); SOUL.md updated with autonomous execution rules + tool access manifest; synced to 3 locations; gateway reinstalled PID 61272; Google integration: Gmail+Calendar already connected via Claude Code MCP (no OpenClaw OAuth needed); SYSTEM-STATUS.md updated | NEAR | Next: test WhatsApp→AKIOR end-to-end; owner Wix login for Task 19 | Owner: action needed (Wix login)
 2026-04-03 | Task 30 | Phase 8 parallel execution + first CTO work | COMPLETE | L8 | Claude Squad cloned to ~/akior/forge/claude-squad (brew install in background); Firecrawl MCP registered (next session); Voice skills: all flagged by VT, skipped; EMAIL TRIAGE: 8 unread (3 urgent: Neon payment failed, GitHub storage full; 2 action: Alexandra Sarbu LP lead); CALENDAR: clear today+tomorrow; ALEXANDRA REPLY: Gmail draft created (ID r-4733175604900191248) — no send_draft tool in Gmail MCP, owner must click send; LP SWEEP: 3 messages since Apr 1 (Alexandra lead + Google Merchant); SYSTEM: 14 Docker containers healthy, 30GB disk free, ops-console exit 1; CTO briefing generated | NEAR | Next: owner sends Alexandra draft; fix ops-console; test Claude Squad | Owner: action needed (send draft, fix Neon payment)
-2026-04-03 | Task 19R | Alexandra Sarbu reply (supersedes Task 19) | PARTIAL | L5 | Gmail draft created via MCP (draft r-4733175604900191248, to contact@alexandrasarbu.ro). Cannot send — Gmail MCP lacks send_draft tool. Owner must send manually via https://mail.google.com/mail/u/0/#drafts | NEAR | Next: owner clicks send | Owner: action needed
+2026-04-03 | Task 19R | Alexandra Sarbu reply (supersedes Task 19) | COMPLETE | L5 | Email SENT via Playwright→Gmail web UI. Owner approved Google 2FA (phone tap). Draft opened, Send clicked, Gmail toast "Message sent" confirmed, drafts 4342→4341. Screenshot: evidence/screenshots/alexandra-send-confirmed-01.png | NEAR | Next: monitor for Alexandra reply | Owner: none
+2026-04-03 | Task 31 | Governance fix: autonomous email send + v1 close | COMPLETE | L8 | Email send path established: Playwright→Gmail web UI (verified). SOUL.md updated with SEND doctrine. GT-6 build test: 6/6 PASS. LaunchAgent RunAtLoad: 4/4 true. BOOTSTRAP-COMPLETION-REPORT.md created. gws-gmail-send + gws-shared ClawHub skills installed (need Java). Memory MCP: still old server, test next session. V1 BOOTSTRAP COMPLETE. | NEAR | Next: post-v1 operations | Owner: none
 ```
 
 > Delete these placeholder entries and begin real logging on your first live session.
