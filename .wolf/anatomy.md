@@ -1,6 +1,6 @@
 # anatomy.md
 
-> Auto-maintained by OpenWolf. Last scanned: 2026-04-03T21:04:43.644Z
+> Auto-maintained by OpenWolf. Last scanned: 2026-04-03T21:05:22.850Z
 > Files: 637 tracked | Anatomy hits: 0 | Misses: 0
 
 ## ../.claude/projects/-Users-yosiwizman-akior/memory/
@@ -119,7 +119,7 @@
 ## docs/
 
 - `AKIOR-BRAND-GUIDE.md` — AKIOR Brand Guide (~1315 tok)
-- `AKIOR-SYSTEM-STATUS.md` — AKIOR System Status (~890 tok)
+- `AKIOR-SYSTEM-STATUS.md` — AKIOR System Status (~974 tok)
 
 ## docs/ssot/
 
@@ -1101,11 +1101,11 @@
 
 ## forge/jarvis-v5-os/apps/web/app/jarvis/
 
-- `page.tsx` — Dedicated Full-Screen AKIOR Page (~12188 tok)
+- `page.tsx` — Dedicated Full-Screen AKIOR Page (~12256 tok)
 
 ## forge/jarvis-v5-os/apps/web/app/login/
 
-- `page.tsx` — LoginContent — renders form (~3299 tok)
+- `page.tsx` — LoginContent — renders form (~3490 tok)
 
 ## forge/jarvis-v5-os/apps/web/app/settings/
 
@@ -1129,7 +1129,7 @@
 - `BrandMark.tsx` — Dynamic AKIOR brand mark component — sacred geometry logo (~468 tok)
 - `FileUpload.tsx` — FileUpload (~2059 tok)
 - `HudWidget.tsx` — getWeatherEmoji (~3752 tok)
-- `JarvisAssistant.tsx` — FFT_BARS (~12607 tok)
+- `JarvisAssistant.tsx` — FFT_BARS (~12590 tok)
 - `SetupRequiredBanner.tsx` — SetupRequiredBanner (~1094 tok)
 
 ## forge/jarvis-v5-os/apps/web/src/hooks/

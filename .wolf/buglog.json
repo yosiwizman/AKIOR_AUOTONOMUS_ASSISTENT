@@ -866,8 +866,56 @@
         "tsx"
       ],
       "related_bugs": [],
+      "occurrences": 2,
+      "last_seen": "2026-04-03T21:05:00.757Z"
+    },
+    {
+      "id": "bug-055",
+      "timestamp": "2026-04-03T21:04:47.661Z",
+      "error_message": "Significant refactor of ",
+      "file": "forge/jarvis-v5-os/apps/web/app/login/page.tsx",
+      "root_cause": "5 lines replaced/restructured",
+      "fix": "Rewrote 5→19 lines (5 removed) | Also: <AkiorLogo; className={status === \"active\" ? \"voice-active\" : ",
+      "tags": [
+        "auto-detected",
+        "refactor",
+        "tsx"
+      ],
+      "related_bugs": [],
+      "occurrences": 2,
+      "last_seen": "2026-04-03T21:05:22.859Z"
+    },
+    {
+      "id": "bug-056",
+      "timestamp": "2026-04-03T21:04:53.922Z",
+      "error_message": "Incorrect value in code",
+      "file": "forge/jarvis-v5-os/apps/web/src/components/JarvisAssistant.tsx",
+      "root_cause": "Had \"./AkiorLogo\"",
+      "fix": "Changed to \"./akior/AkiorCore\"",
+      "tags": [
+        "auto-detected",
+        "wrong-value",
+        "tsx"
+      ],
+      "related_bugs": [],
       "occurrences": 1,
-      "last_seen": "2026-04-03T21:04:43.652Z"
+      "last_seen": "2026-04-03T21:04:53.922Z"
+    },
+    {
+      "id": "bug-057",
+      "timestamp": "2026-04-03T21:05:10.823Z",
+      "error_message": "Type error",
+      "file": "forge/jarvis-v5-os/apps/web/app/jarvis/page.tsx",
+      "root_cause": "Missing or incorrect type annotation",
+      "fix": "Added type assertion/annotation",
+      "tags": [
+        "auto-detected",
+        "type-fix",
+        "tsx"
+      ],
+      "related_bugs": [],
+      "occurrences": 1,
+      "last_seen": "2026-04-03T21:05:10.823Z"
     }
   ]
 }
