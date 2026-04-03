@@ -101,6 +101,16 @@
       "count": 1,
       "tokens": 0,
       "first_read": "2026-04-03T11:48:09.785Z"
+    },
+    "/Users/yosiwizman/akior/README.md": {
+      "count": 1,
+      "tokens": 0,
+      "first_read": "2026-04-03T12:16:17.704Z"
+    },
+    "/Users/yosiwizman/akior/LICENSE": {
+      "count": 1,
+      "tokens": 0,
+      "first_read": "2026-04-03T12:16:18.133Z"
     }
   },
   "files_written": [
@@ -413,8 +423,8 @@
     "../.openclaw/workspace-dev/skills/yahoo-mail/SKILL.md": 1
   },
   "anatomy_hits": 5,
-  "anatomy_misses": 15,
+  "anatomy_misses": 17,
   "repeated_reads_warned": 14,
   "cerebrum_warnings": 0,
-  "stop_count": 26
+  "stop_count": 27
 }
