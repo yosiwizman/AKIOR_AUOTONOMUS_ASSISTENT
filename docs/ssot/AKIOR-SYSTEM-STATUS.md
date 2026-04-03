@@ -1,6 +1,6 @@
 # AKIOR System Status
 
-**Generated:** 2026-04-03T08:30Z (V2 Phase 2 — parallel agent expansion)
+**Generated:** 2026-04-03T10:00Z (V2 Phase 3 — voice + STT + avatar research)
 **Purpose:** Canonical "what is AKIOR right now" document
 **Refresh:** Update after each major system change
 
@@ -36,6 +36,7 @@
 | jq | 1.7.1 | JSON processor |
 | OpenClaw | 2026.4.2 | WhatsApp + autonomous agent gateway |
 | OpenWolf | 1.0.4 | Claude Code second brain (persistent memory) |
+| whisper-cpp | 1.8.4 | Local speech-to-text (ggml-base model) |
 | ClawHub | 0.9.0 | Skill marketplace CLI |
 
 ---
@@ -113,9 +114,10 @@
 | LLM Task | llm-task | enabled | Phase 7 |
 | Lobster | lobster | enabled | Phase 7 |
 | Browser | browser | loaded | Phase 7 |
-| Voice Call | voice-call | enabled | V2 |
+| Voice Call | voice-call | DISABLED (conflicts with clawring) | V2 |
 | ElevenLabs | elevenlabs | enabled (needs API key) | V2 |
 | Deepgram | deepgram | enabled (needs API key) | V2 |
+| Groq (Whisper fallback) | groq | enabled | V2 Phase 3 |
 | BlueBubbles | bluebubbles | enabled (needs server) | V2 |
 | iMessage | imessage | enabled | V2 |
 
