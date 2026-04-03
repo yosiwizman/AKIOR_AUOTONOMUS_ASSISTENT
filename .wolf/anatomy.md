@@ -1,7 +1,7 @@
 # anatomy.md
 
-> Auto-maintained by OpenWolf. Last scanned: 2026-04-03T11:45:58.145Z
-> Files: 563 tracked | Anatomy hits: 0 | Misses: 0
+> Auto-maintained by OpenWolf. Last scanned: 2026-04-03T11:46:52.592Z
+> Files: 565 tracked | Anatomy hits: 0 | Misses: 0
 
 ## ../.claude/projects/-Users-yosiwizman-akior/memory/
 
@@ -10,11 +10,15 @@
 
 ## ../.config/himalaya/
 
-- `config.toml` — Himalaya Email Client Configuration for AKIOR (~248 tok)
+- `config.toml` — Himalaya Email Client Configuration for AKIOR (~245 tok)
 
 ## ../.openclaw/workspace-dev/skills/cron-manager/
 
 - `SKILL.md` — Cron Manager (~2266 tok)
+
+## ../.openclaw/workspace-dev/skills/yahoo-mail/
+
+- `SKILL.md` — Yahoo Mail Skill — AKIOR (~405 tok)
 
 ## ../Library/LaunchAgents/
 
@@ -40,6 +44,10 @@
 ## .claude/rules/
 
 - `openwolf.md` (~313 tok)
+
+## .github/workflows/
+
+- `akior-health.yml` — CI: AKIOR Health Check (~230 tok)
 
 ## checkpoints/
 
