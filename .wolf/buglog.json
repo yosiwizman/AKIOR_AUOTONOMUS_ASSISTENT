@@ -295,15 +295,15 @@
       "error_message": "Missing error handling in unknown",
       "file": "forge/jarvis-v5-os/apps/server/src/index.ts",
       "root_cause": "Code path had no error handling — exceptions would propagate uncaught",
-      "fix": "Added try/catch block | Also: // Load AKIOR memory context to enrich system prompt; let memoryContext = \"\";",
+      "fix": "Added try/catch block | Also: // Load AKIOR memory context to enrich system prompt; let memoryContext = \"\"; | Also: // CLOUD (Anthropic) PATH; if (cloudApiKey && isAnthropicProvider) {",
       "tags": [
         "auto-detected",
         "error-handling",
         "ts"
       ],
       "related_bugs": [],
-      "occurrences": 2,
-      "last_seen": "2026-04-03T12:52:08.004Z"
+      "occurrences": 3,
+      "last_seen": "2026-04-03T12:53:04.643Z"
     },
     {
       "id": "bug-020",

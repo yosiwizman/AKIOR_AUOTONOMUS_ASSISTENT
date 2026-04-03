@@ -1,6 +1,6 @@
 # anatomy.md
 
-> Auto-maintained by OpenWolf. Last scanned: 2026-04-03T12:52:42.240Z
+> Auto-maintained by OpenWolf. Last scanned: 2026-04-03T12:53:04.636Z
 > Files: 585 tracked | Anatomy hits: 0 | Misses: 0
 
 ## ../.claude/projects/-Users-yosiwizman-akior/memory/
@@ -999,7 +999,7 @@
 
 ## forge/jarvis-v5-os/apps/server/src/
 
-- `index.ts` — API routes: GET, POST (5 endpoints) (~42645 tok)
+- `index.ts` — API routes: GET, POST (5 endpoints) (~43536 tok)
 
 ## forge/jarvis-v5-os/apps/server/src/clients/
 

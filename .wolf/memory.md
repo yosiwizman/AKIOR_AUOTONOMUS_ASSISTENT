@@ -334,3 +334,6 @@
 | 08:52 | Edited ../.openclaw/openclaw.json | 3→3 lines | ~16 |
 | 08:52 | Edited forge/jarvis-v5-os/apps/server/src/index.ts | modified if() | ~72 |
 | 08:52 | Session end: 109 writes across 33 files (email-triage-2026-04-03-v2.md, calendar-2026-04-03-v2.md, SKILL.md, cto-briefing-2026-04-03-v2.md, SOUL.md) | 56 reads | ~172500 tok |
+| 08:53 | Edited forge/jarvis-v5-os/apps/server/src/index.ts | added error handling | ~979 |
+| 08:53 | Fixed duplicate iMessage/WhatsApp messages: disabled bluebubbles plugin conflicting with native imessage plugin | ~/.openclaw/openclaw.json | cross-channel duplication resolved | ~3000 |
+| 08:53 | Session end: 110 writes across 33 files (email-triage-2026-04-03-v2.md, calendar-2026-04-03-v2.md, SKILL.md, cto-briefing-2026-04-03-v2.md, SOUL.md) | 57 reads | ~173479 tok |
