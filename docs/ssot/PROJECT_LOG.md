@@ -10,10 +10,10 @@
 
 | Field | Value |
 |-------|-------|
-| **Target milestone** | v1 bootstrap / operational readiness |
-| **Active layer** | V1 BOOTSTRAP COMPLETE |
-| **Distance** | ARRIVED |
-| **Last verified step** | Task 31 | V1 Close — Alexandra email SENT, SEND doctrine established, bootstrap completion report created |
+| **Target milestone** | v2 expansion / parallel operations |
+| **Active layer** | V2 EXPANSION — IN PROGRESS |
+| **Distance** | NEAR |
+| **Last verified step** | Task 34 | V2 parallel agents complete — voice plugins, browser tools, GitHub push, weekly cron, 8 new skills |
 | **Last updated** | 2026-04-03 |
 
 > Update this block whenever a new entry is appended. This is the quick-glance state.
@@ -98,6 +98,9 @@
 2026-04-03 | Task 30 | Phase 8 parallel execution + first CTO work | COMPLETE | L8 | Claude Squad cloned to ~/akior/forge/claude-squad (brew install in background); Firecrawl MCP registered (next session); Voice skills: all flagged by VT, skipped; EMAIL TRIAGE: 8 unread (3 urgent: Neon payment failed, GitHub storage full; 2 action: Alexandra Sarbu LP lead); CALENDAR: clear today+tomorrow; ALEXANDRA REPLY: Gmail draft created (ID r-4733175604900191248) — no send_draft tool in Gmail MCP, owner must click send; LP SWEEP: 3 messages since Apr 1 (Alexandra lead + Google Merchant); SYSTEM: 14 Docker containers healthy, 30GB disk free, ops-console exit 1; CTO briefing generated | NEAR | Next: owner sends Alexandra draft; fix ops-console; test Claude Squad | Owner: action needed (send draft, fix Neon payment)
 2026-04-03 | Task 19R | Alexandra Sarbu reply (supersedes Task 19) | COMPLETE | L5 | Email SENT via Playwright→Gmail web UI. Owner approved Google 2FA (phone tap). Draft opened, Send clicked, Gmail toast "Message sent" confirmed, drafts 4342→4341. Screenshot: evidence/screenshots/alexandra-send-confirmed-01.png | NEAR | Next: monitor for Alexandra reply | Owner: none
 2026-04-03 | Task 31 | Governance fix: autonomous email send + v1 close | COMPLETE | L8 | Email send path established: Playwright→Gmail web UI (verified). SOUL.md updated with SEND doctrine. GT-6 build test: 6/6 PASS. LaunchAgent RunAtLoad: 4/4 true. BOOTSTRAP-COMPLETION-REPORT.md created. gws-gmail-send + gws-shared ClawHub skills installed (need Java). Memory MCP: still old server, test next session. V1 BOOTSTRAP COMPLETE. | NEAR | Next: post-v1 operations | Owner: none
+2026-04-03 | Task 32 | V2 Agent 1: Voice + Communications | COMPLETE | V2 | 5 OpenClaw plugins enabled (voice-call, elevenlabs, deepgram, bluebubbles, imessage). ClawHub voice skills found but not installed (VT unverified). WhatsApp voice transcription needs Deepgram API key. iMessage available via native plugin (AppleScript) or BlueBubbles (needs server app). | NEAR | Next: owner provides ElevenLabs + Deepgram API keys | Owner: API keys needed
+2026-04-03 | Task 33 | V2 Agent 2: Browser + GUI Automation | COMPLETE | V2 | Firecrawl MCP registered (local scraping mode, no API key needed). Playwright confirmed healthy. ShowUI-Aloha classified R&D-only (GPU-dependent). GUI automation gap: osascript/AppleScript available natively, cliclick available via brew. No ClawHub GUI skills verified for macOS. | NEAR | Next: test Firecrawl on next session | Owner: none
+2026-04-03 | Task 34 | V2 Agent 3: Tools + Hardening | COMPLETE | V2 | 8 new ClawHub skills installed (web-scraper-jina, smart-web-scraper, scrapling-web-scraper, smart-file-manager, system-resource-monitor, system-info, data-analyst-pro, data-anomaly-detector). 8 skills skipped (VT flagged). GitHub push: ~/akior/ pushed to github.com/yosiwizman/akior (private). Weekly regression cron: created (Sundays 6am ET). Khoj: not available, classified R&D-only. Total workspace skills: 26. | NEAR | Next: verify weekly cron first run | Owner: none
 ```
 
 > Delete these placeholder entries and begin real logging on your first live session.

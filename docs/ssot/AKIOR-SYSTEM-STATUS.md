@@ -48,6 +48,7 @@
 | lp-inbox-sweep | Every 6 hours | idle |
 | canary-health | Daily 6:57 AM ET | idle |
 | evening-summary | Daily 9:07 PM ET | ok (last ran) |
+| weekly-regression | Sundays 6:00 AM ET | idle (new) |
 
 ---
 
@@ -58,7 +59,8 @@
 | playwright | @playwright/mcp@latest | LIVE | Navigated livepilatesusa.com + screenshot saved |
 | context7 | @upstash/context7-mcp | LIVE | Available in tool list |
 | ddg-search | ddg-mcp-search | LIVE | Searched "Live Pilates USA V12" — 3 results returned |
-| memory | @exaudeus/memory-mcp | PARTIAL | Config exists but bootstrap fails (lobe not resolving) |
+| memory | @modelcontextprotocol/server-memory | REPLACED | Test next session |
+| firecrawl | firecrawl-mcp | REGISTERED | Local scraping mode, active next session |
 
 ---
 
@@ -98,15 +100,20 @@
 
 ---
 
-## OpenClaw Plugins (newly enabled in Phase 7)
+## OpenClaw Plugins (enabled through V2)
 
-| Plugin | ID | Status |
-|--------|-----|--------|
-| DuckDuckGo | duckduckgo | enabled |
-| Diffs | diffs | enabled |
-| LLM Task | llm-task | enabled |
-| Lobster | lobster | enabled |
-| Browser | browser | loaded (was already on) |
+| Plugin | ID | Status | Added |
+|--------|-----|--------|-------|
+| DuckDuckGo | duckduckgo | enabled | Phase 7 |
+| Diffs | diffs | enabled | Phase 7 |
+| LLM Task | llm-task | enabled | Phase 7 |
+| Lobster | lobster | enabled | Phase 7 |
+| Browser | browser | loaded | Phase 7 |
+| Voice Call | voice-call | enabled | V2 |
+| ElevenLabs | elevenlabs | enabled (needs API key) | V2 |
+| Deepgram | deepgram | enabled (needs API key) | V2 |
+| BlueBubbles | bluebubbles | enabled (needs server) | V2 |
+| iMessage | imessage | enabled | V2 |
 
 ## ClawHub Skills (installed to ~/.openclaw/workspace-dev/skills/)
 
@@ -120,6 +127,16 @@
 | macos-calendar | latest | macOS Calendar integration |
 | notification | latest | Terminal notifications |
 | reminder | latest | Natural-language reminders |
+| gws-gmail-send | latest | Gmail send via gws CLI |
+| gws-shared | latest | Shared gws auth/config |
+| web-scraper-jina | latest | Web scraping via Jina |
+| smart-web-scraper | latest | Intelligent web scraping |
+| scrapling-web-scraper | latest | Scrapling-based scraper |
+| smart-file-manager | latest | File management |
+| system-resource-monitor | latest | System resource monitoring |
+| system-info | latest | System information |
+| data-analyst-pro | latest | Data analysis |
+| data-anomaly-detector | latest | Anomaly detection |
 
 ---
 
@@ -154,18 +171,15 @@
 |------|--------|----------|
 | Google Drive connector | No MCP available | Deferred |
 | Brave Search MCP | Needs API key from owner | Owner action |
-| iMessage Channel | Not yet activated | Phase 3 deferred |
-| Full Golden Task Suite GT-1–GT-8 | Not formally run | Phase 3 deferred |
-| Weekly regression suite | Not yet baselined | Phase 3 deferred |
-| Ollama sustained-load test | Not yet run | Phase 3 deferred |
-| App Packs (Instagram, Canva, QuickBooks) | Not yet configured | Phase 3 deferred |
-| Memory persistence test (write-read-back) | Not yet run | v1 sign-off gap |
-| Scheduled Tasks (Claude Desktop) survive Mac restart | Not tested | v1 sign-off gap |
-| MCP tools (playwright, ddg-search, context7) | VERIFIED LIVE | Tested 2026-04-03 |
-| Memory MCP | Replaced with @modelcontextprotocol/server-memory | Test next session |
-| Task 19 (Alexandra Wix send) | Wix login required | Owner action needed |
-| GitHub ClawHub skills | Flagged by VirusTotal (openclaw-github-assistant, github-cli) | Skipped per security posture |
-| Alexandra Sarbu Wix send (Task 19) | Draft ready, not sent | Needs Wix browser session |
+| iMessage Channel | Plugin enabled (imessage + bluebubbles) | V2 — needs testing |
+| ElevenLabs API key | Needed for speech synthesis | Owner action |
+| Deepgram API key | Needed for voice transcription | Owner action |
+| gogcli OAuth credentials | JSON download from Google Cloud Console | Owner action |
+| GUI automation | No macOS-native solution, osascript available | R&D |
+| Ollama sustained-load test | Not yet run | Deferred |
+| App Packs (Instagram, Canva, QuickBooks) | Not yet configured | Deferred |
+| Memory MCP | Replaced, test next session | Next session |
+| Firecrawl MCP | Registered, test next session | Next session |
 | ~/akior/ git repo | Initialized but no commits | Housekeeping |
 
 ---

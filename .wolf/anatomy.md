@@ -1,12 +1,12 @@
 # anatomy.md
 
-> Auto-maintained by OpenWolf. Last scanned: 2026-04-03T04:49:11.301Z
-> Files: 536 tracked | Anatomy hits: 0 | Misses: 0
+> Auto-maintained by OpenWolf. Last scanned: 2026-04-03T04:56:15.577Z
+> Files: 538 tracked | Anatomy hits: 0 | Misses: 0
 
 ## ./
 
 - `.DS_Store` (~2184 tok)
-- `.gitignore` — Git ignore rules (~29 tok)
+- `.gitignore` — Git ignore rules (~127 tok)
 - `CLAUDE.md` — OpenWolf (~848 tok)
 
 ## .claude/
@@ -58,12 +58,12 @@
 - `AKIOR-OS-SSOT-v1.0-EXPERIMENT-LOCK.md` — AKIOR OS — Single Source of Truth (~14616 tok)
 - `AKIOR-OWNER-INTERACTION-MODEL.md` — AKIOR OS — Owner Interaction Model (~771 tok)
 - `AKIOR-SSOT-LOCK-MEMO.md` — SSOT Lock Memo — Experiment Mode (~610 tok)
-- `AKIOR-SYSTEM-STATUS.md` — AKIOR System Status (~1499 tok)
+- `AKIOR-SYSTEM-STATUS.md` — AKIOR System Status (~1653 tok)
 - `AKIOR-TOOL-ADOPTION-DECISIONS-01.md` — AKIOR — External Tool Adoption Decisions (~1247 tok)
 - `BOOTSTRAP-COMPLETION-REPORT.md` — AKIOR Bootstrap Completion Report (~1613 tok)
 - `bootstrap-report.md` — AKIOR Bootstrap Completion Report — Formal (~1991 tok)
 - `CLAUDE_EXECUTION_TEMPLATE.md` — AKIOR CLAUDE EXECUTION TEMPLATE (~1120 tok)
-- `PROJECT_LOG.md` — AKIOR PROJECT LOG (~3718 tok)
+- `PROJECT_LOG.md` — AKIOR PROJECT LOG (~4071 tok)
 - `RUNTIME-REFERENCE.md` — AKIOR Runtime Reference (~1747 tok)
 - `SESSION_HANDOFF_TEMPLATE.md` — AKIOR SESSION HANDOFF TEMPLATE (~1108 tok)
 - `SSOT-REGISTER.md` — SSOT Register (~478 tok)
@@ -961,3 +961,5 @@
 - `system-health-2026-04-03.md` — System Health — 2026-04-03 (~437 tok)
 - `v2-agent1-voice-comms.md` — V2 Agent 1 -- Voice & Communications Setup Report (~1443 tok)
 - `v2-agent2-browser-gui.md` — V2 Agent 2 — Browser & GUI Capabilities Report (~1365 tok)
+- `v2-agent3-tools-hardening.md` — V2 Agent 3 — Tools Expansion & System Hardening Report (~1027 tok)
+- `v2-expansion-report-2026-04-03.md` — AKIOR V2 Expansion Report — 2026-04-03 (~867 tok)
