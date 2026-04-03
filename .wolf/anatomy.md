@@ -1,7 +1,7 @@
 # anatomy.md
 
-> Auto-maintained by OpenWolf. Last scanned: 2026-04-03T11:59:43.804Z
-> Files: 565 tracked | Anatomy hits: 0 | Misses: 0
+> Auto-maintained by OpenWolf. Last scanned: 2026-04-03T12:17:04.963Z
+> Files: 568 tracked | Anatomy hits: 0 | Misses: 0
 
 ## ../.claude/projects/-Users-yosiwizman-akior/memory/
 
@@ -36,6 +36,8 @@
 - `.DS_Store` (~2184 tok)
 - `.gitignore` — Git ignore rules (~127 tok)
 - `CLAUDE.md` — OpenWolf (~848 tok)
+- `LICENSE` (~285 tok)
+- `README.md` — Project documentation (~1767 tok)
 
 ## .claude/
 
@@ -998,6 +1000,7 @@
 - `competitor-research-2026-04-03.md` — Pilates Equipment Competitor Research Report (~1931 tok)
 - `cto-briefing-2026-04-03-update.md` — AKIOR CTO Briefing Update — 2026-04-03 (Thursday, Evening) (~1077 tok)
 - `cto-briefing-2026-04-03-v2.md` — CTO Morning Briefing — 2026-04-03 (v2) (~594 tok)
+- `cto-briefing-2026-04-03-v3.md` — CTO Morning Briefing — 2026-04-03 v3 (~800 tok)
 - `cto-briefing-2026-04-03.md` — AKIOR CTO Morning Briefing — 2026-04-03 (Thursday) (~682 tok)
 - `email-triage-2026-04-03-v2.md` — Email Triage Report — 2026-04-03 (v2 Morning Run) (~605 tok)
 - `email-triage-2026-04-03.md` — Email Triage — 2026-04-03 (~364 tok)
