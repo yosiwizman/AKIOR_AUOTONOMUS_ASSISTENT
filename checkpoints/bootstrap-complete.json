@@ -1,0 +1,27 @@
+{
+  "event": "bootstrap-complete",
+  "timestamp": "2026-04-01T00:43:00Z",
+  "phase1_passed": 14,
+  "phase2a_status": "pass",
+  "phase2a_remote": "https://github.com/yosiwizman/akior-health-check",
+  "phase2b_status": "pass",
+  "ollama_status": "operational",
+  "ollama_model": "qwen2.5-coder:7b",
+  "connectors": {
+    "gmail": "pass",
+    "github": "pass",
+    "calendar": "pass",
+    "drive": "fail"
+  },
+  "docker": "running",
+  "permissions": "hardened",
+  "overall": "ONLINE",
+  "phase3_deferred": [
+    "iMessage Channel",
+    "Computer Use",
+    "App Packs",
+    "Full Golden Task Suite",
+    "Weekly Regression",
+    "Ollama sustained-load test"
+  ]
+}

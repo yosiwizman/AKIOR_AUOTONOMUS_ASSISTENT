@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AKIOR — Operations Dashboard</title>
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --bg2: #12121a;
+    --bg3: #1a1a28;
+    --cyan: #00e5ff;
+    --green: #00ff88;
+    --red: #ff3860;
+    --yellow: #ffd700;
+    --dim: #555570;
+    --text: #c8c8e0;
+    --white: #eeeef6;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+    font-size: 14px;
+    line-height: 1.6;
+    padding: 24px;
+  }
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--bg3);
+    padding-bottom: 16px;
+    margin-bottom: 24px;
+  }
+  h1 {
+    font-size: 28px;
+    color: var(--cyan);
+    letter-spacing: 4px;
+    text-transform: uppercase;
+  }
+  h1 span { color: var(--dim); font-size: 14px; letter-spacing: 1px; }
+  .timestamp { color: var(--dim); font-size: 12px; }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+    gap: 20px;
+  }
+  .card {
+    background: var(--bg2);
+    border: 1px solid var(--bg3);
+    border-radius: 8px;
+    padding: 20px;
+  }
+  .card h2 {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--cyan);
+    margin-bottom: 14px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--bg3);
+  }
+  table { width: 100%; border-collapse: collapse; }
+  th { text-align: left; color: var(--dim); font-size: 11px; text-transform: uppercase; letter-spacing: 1px; padding: 6px 8px; }
+  td { padding: 6px 8px; font-size: 13px; border-top: 1px solid #ffffff08; }
+  .status { display: inline-block; padding: 2px 10px; border-radius: 12px; font-size: 11px; font-weight: 600; }
+  .status-ok { background: #00ff8818; color: var(--green); }
+  .status-warn { background: #ffd70018; color: var(--yellow); }
+  .status-err { background: #ff386018; color: var(--red); }
+  .status-off { background: #55557018; color: var(--dim); }
+  .canary-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  .canary-item {
+    background: var(--bg3);
+    padding: 10px 14px;
+    border-radius: 6px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .canary-label { font-size: 12px; color: var(--dim); }
+  .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+  .dot-green { background: var(--green); box-shadow: 0 0 6px var(--green); }
+  .dot-red { background: var(--red); box-shadow: 0 0 6px var(--red); }
+  .channel-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #ffffff06; }
+  .channel-name { font-size: 13px; }
+  .actions { display: flex; flex-wrap: wrap; gap: 8px; }
+  .btn {
+    background: var(--bg3);
+    border: 1px solid var(--cyan);
+    color: var(--cyan);
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn:hover { background: var(--cyan); color: var(--bg); }
+  .alert { background: #ff386012; border-left: 3px solid var(--red); padding: 10px 14px; border-radius: 0 6px 6px 0; margin-bottom: 8px; font-size: 13px; }
+  .alert-warn { background: #ffd70012; border-left-color: var(--yellow); }
+  .cron-row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #ffffff06; font-size: 13px; }
+  .cron-sched { color: var(--dim); font-size: 11px; }
+  .full-width { grid-column: 1 / -1; }
+  .briefing-content { font-size: 13px; line-height: 1.7; max-height: 220px; overflow-y: auto; }
+  .briefing-content::-webkit-scrollbar { width: 4px; }
+  .briefing-content::-webkit-scrollbar-thumb { background: var(--bg3); border-radius: 2px; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>AKIOR <span>Operations Dashboard</span></h1>
+  <div class="timestamp">Last updated: 2026-04-03 · Phase 7 — Full Autonomy</div>
+</header>
+
+<div class="grid">
+
+  <!-- SYSTEM STATUS -->
+  <div class="card">
+    <h2>System Status</h2>
+    <table>
+      <tr><th>Service</th><th>Status</th></tr>
+      <tr><td>OpenClaw Gateway</td><td><span class="status status-ok">Running</span></td></tr>
+      <tr><td>AKIOR Ops Console</td><td><span class="status status-ok">:8420</span></td></tr>
+      <tr><td>tmux watchdog</td><td><span class="status status-ok">Active</span></td></tr>
+      <tr><td>Docker (14 containers)</td><td><span class="status status-ok">Running</span></td></tr>
+      <tr><td>Ollama (4 models)</td><td><span class="status status-ok">Running</span></td></tr>
+      <tr><td>OpenWolf v1.0.4</td><td><span class="status status-ok">524 files</span></td></tr>
+    </table>
+  </div>
+
+  <!-- CANARY HEALTH -->
+  <div class="card">
+    <h2>Canary Health — 4/4 Pass</h2>
+    <div class="canary-grid">
+      <div class="canary-item"><span class="canary-label">Filesystem</span><span class="dot dot-green"></span></div>
+      <div class="canary-item"><span class="canary-label">Ollama</span><span class="dot dot-green"></span></div>
+      <div class="canary-item"><span class="canary-label">GitHub</span><span class="dot dot-green"></span></div>
+      <div class="canary-item"><span class="canary-label">Gmail</span><span class="dot dot-green"></span></div>
+    </div>
+    <br>
+    <h2 style="border:0;margin:0;padding:0;">Alerts</h2>
+    <div style="margin-top:10px;">
+      <div class="alert">Vercel deploys failing — deployer not in "software 4 all" team</div>
+      <div class="alert">GitHub Actions storage at 100% — CI/CD blocked</div>
+      <div class="alert alert-warn">GitHub PAT "GitRepoDigestAI" expires in 6 days</div>
+    </div>
+  </div>
+
+  <!-- CHANNELS -->
+  <div class="card">
+    <h2>Active Channels</h2>
+    <div class="channel-row"><span class="channel-name">Gmail (MCP)</span><span class="status status-ok">Read/Draft</span></div>
+    <div class="channel-row"><span class="channel-name">Google Calendar (MCP)</span><span class="status status-ok">Full Access</span></div>
+    <div class="channel-row"><span class="channel-name">WhatsApp (OpenClaw)</span><span class="status status-ok">Linked</span></div>
+    <div class="channel-row"><span class="channel-name">iMessage</span><span class="status status-warn">Plugin only</span></div>
+    <div class="channel-row"><span class="channel-name">Voice Calls</span><span class="status status-off">Needs API Key</span></div>
+    <div class="channel-row"><span class="channel-name">Playwright Browser</span><span class="status status-ok">Live</span></div>
+    <div class="channel-row"><span class="channel-name">DDG Search (MCP)</span><span class="status status-ok">Live</span></div>
+    <div class="channel-row"><span class="channel-name">Supabase (MCP)</span><span class="status status-ok">Live</span></div>
+  </div>
+
+  <!-- CRON JOBS -->
+  <div class="card">
+    <h2>Cron Jobs</h2>
+    <div class="cron-row"><span>Morning Briefing</span><span class="cron-sched">Daily 8:03 AM ET</span><span class="status status-ok">idle</span></div>
+    <div class="cron-row"><span>Email Triage</span><span class="cron-sched">Every 4h</span><span class="status status-ok">idle</span></div>
+    <div class="cron-row"><span>LP Inbox Sweep</span><span class="cron-sched">Every 6h</span><span class="status status-ok">idle</span></div>
+    <div class="cron-row"><span>Canary Health</span><span class="cron-sched">Daily 6:57 AM ET</span><span class="status status-ok">idle</span></div>
+    <div class="cron-row"><span>Evening Summary</span><span class="cron-sched">Daily 9:07 PM ET</span><span class="status status-ok">last ran</span></div>
+    <div class="cron-row"><span>Weekly Regression</span><span class="cron-sched">Sundays 6 AM ET</span><span class="status status-off">new</span></div>
+  </div>
+
+  <!-- BRIEFING -->
+  <div class="card full-width">
+    <h2>CTO Briefing — 2026-04-03</h2>
+    <div class="briefing-content">
+      <strong>Gmail (last 24h — 20 messages):</strong><br>
+      &bull; <span style="color:var(--red)">URGENT:</span> 2 Vercel deploy failures (akior production on "software 4 all" team)<br>
+      &bull; <span style="color:var(--red)">URGENT:</span> GitHub Actions storage at 100% — CI/CD blocked<br>
+      &bull; <span style="color:var(--yellow)">ACTION:</span> GitHub PAT "GitRepoDigestAI" expires in 6 days<br>
+      &bull; <span style="color:var(--green)">SENT:</span> Alexandra Sarbu reply (V12 Pilates pricing) delivered<br>
+      &bull; INFO: Brave Search API account created<br>
+      &bull; FYI: Newsletters — Core Collab, Bubble, Medium, NVIDIA, Devpost, WPBakery<br><br>
+      <strong>Calendar:</strong> No events scheduled today.<br><br>
+      <strong>System:</strong> All 6 services running. 4/4 canaries passing. 6 cron jobs configured.<br><br>
+      <strong>V2 Phase 2 Progress:</strong><br>
+      &bull; Email autonomy: Gmail MCP operational (search/read/draft) — no direct send yet<br>
+      &bull; Voice: Plugins loaded, need API keys (clawr.ing or Twilio path)<br>
+      &bull; iMessage: Testing in progress<br>
+      &bull; Web scraping: DDG + Playwright operational, Firecrawl pending<br>
+      &bull; Dashboard: Live at localhost:8421
+    </div>
+  </div>
+
+  <!-- QUICK ACTIONS -->
+  <div class="card full-width">
+    <h2>Quick Actions</h2>
+    <div class="actions">
+      <button class="btn" onclick="alert('Run: openclaw cron trigger morning-briefing')">Run Morning Briefing</button>
+      <button class="btn" onclick="alert('Run: openclaw cron trigger email-triage')">Triage Email</button>
+      <button class="btn" onclick="alert('Run: openclaw cron trigger canary-health')">Run Canaries</button>
+      <button class="btn" onclick="alert('Run: openclaw cron trigger lp-inbox-sweep')">LP Inbox Sweep</button>
+      <button class="btn" onclick="alert('Navigate to http://localhost:8420')">Ops Console</button>
+      <button class="btn" onclick="alert('Run: gog gmail search is:unread --max 10 --json')">Unread Emails</button>
+      <button class="btn" onclick="location.reload()">Refresh Dashboard</button>
+    </div>
+  </div>
+
+</div>
+
+<footer style="text-align:center; color:var(--dim); font-size:11px; margin-top:32px; padding-top:16px; border-top:1px solid var(--bg3);">
+  AKIOR Autonomous Operating System &middot; Phase 7 &middot; Full Autonomy &middot; Mac Mini
+</footer>
+
+</body>
+</html>

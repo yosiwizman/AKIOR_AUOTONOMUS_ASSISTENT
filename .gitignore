@@ -1,0 +1,36 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Node (should not exist in this repo, but just in case)
+node_modules/
+.next/
+dist/
+
+# Environment & secrets
+.env
+.env.*
+*.pem
+*.key
+credentials.json
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Playwright MCP cache
+.playwright-mcp/
+
+# OpenWolf session files (not session data)
+.wolf/hooks/_session.json
+.wolf/designqc-captures/
+
+# Evidence terminal logs (can be large)
+evidence/terminal/
+
+# Temp files
+*.tmp
+*.bak
+.git-bak/
