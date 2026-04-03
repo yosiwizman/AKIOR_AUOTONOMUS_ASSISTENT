@@ -1,6 +1,6 @@
 # AKIOR System Status
 
-**Generated:** 2026-04-03T12:00Z (V2 Phase 3 COMPLETE — voice transcription, morning ops, Jarvis audit, dashboard upgrade, iMessage + FaceTime)
+**Generated:** 2026-04-03T18:00Z (V2 Phase 4 COMPLETE — fresh repo, voice verified, cron skill, Yahoo email, dashboard API + Jarvis plan)
 **Purpose:** Canonical "what is AKIOR right now" document
 **Refresh:** Update after each major system change
 
@@ -17,6 +17,7 @@
 | Docker | Running (14 containers) | Docker Desktop |
 | Ollama | Running (4 models) | Homebrew service |
 | AKIOR Dashboard | Running v2.0-phase3 (localhost:8421) | LaunchAgent com.akior.dashboard (KeepAlive) — auto-refresh 60s, email triage, collapsible panels |
+| AKIOR Dashboard API | Running (localhost:8422) | LaunchAgent com.akior.dashboard-api (KeepAlive) — 5 endpoints, live data |
 
 ---
 
@@ -38,6 +39,7 @@
 | OpenWolf | 1.0.4 | Claude Code second brain (persistent memory) |
 | whisper-cpp | 1.8.4 | Local speech-to-text (ggml-base model) |
 | ClawHub | 0.9.0 | Skill marketplace CLI |
+| Himalaya | 1.2.0 | CLI email client (Yahoo IMAP/SMTP) |
 
 ---
 
@@ -76,8 +78,9 @@
 
 | Channel | Status | Detail |
 |---------|--------|--------|
-| WhatsApp | ON, linked, allowlist mode | +13054098490, +17865181777; voice transcription working (whisper-cpp local) |
-| iMessage | PARTIAL — outbound active, inbound pending FDA | Outbound via osascript + imsg CLI. Inbound BLOCKED: macOS Full Disk Access needed for imsg + node |
+| WhatsApp | ON, linked, allowlist mode | +13054098490, +17865181777; voice transcription VERIFIED end-to-end (whisper-cpp local) |
+| iMessage | PARTIAL — outbound active, inbound crash-looping | Outbound via osascript + imsg CLI. Inbound BLOCKED: provider crash-looping, pending FDA grant |
+| Yahoo Email | INSTALLED, pending credentials | Himalaya CLI + imap-smtp-email skill. Owner must generate Yahoo app-specific password |
 | FaceTime | READY — skill installed, not yet live-tested | URL scheme verified, skill at skills/facetime/SKILL.md, SOUL.md updated |
 | clawr.ing (Phone) | ON, API key configured | skills/clawring/SKILL.md — managed voice calls |
 | Dashboard | ON v2.0-phase3, localhost:8421 | Auto-refresh 60s, email triage, collapsible panels, uptime display |
@@ -144,6 +147,8 @@
 | system-info | latest | System information |
 | data-analyst-pro | latest | Data analysis |
 | data-anomaly-detector | latest | Anomaly detection |
+| cron-manager | latest | Natural language cron job management (20+ patterns) |
+| imap-smtp-email | latest | IMAP/SMTP email integration (Yahoo) |
 
 ---
 
@@ -191,7 +196,9 @@
 | App Packs (Instagram, Canva, QuickBooks) | Not yet configured | Deferred |
 | Memory MCP | Replaced, test next session | Next session |
 | Firecrawl MCP | Registered, test next session | Next session |
-| ~/akior/ git repo | Active, pushed to github.com/yosiwizman/akior | Resolved |
+| ~/akior/ git repo | Active, pushed to github.com/yosiwizman/AKIOR_AUOTONOMUS_ASSISTENT | Resolved |
+| Old akior-os repo | Deletion blocked by token scope | Owner action |
+| Yahoo email credentials | Owner must generate Yahoo app-specific password | Owner action |
 | FaceTime audio | Skill ready, not yet live-tested | Next test |
 
 ---

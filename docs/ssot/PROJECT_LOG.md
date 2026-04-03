@@ -13,7 +13,7 @@
 | **Target milestone** | v2 expansion / parallel operations |
 | **Active layer** | V2 EXPANSION — IN PROGRESS |
 | **Distance** | NEAR |
-| **Last verified step** | Task 39 | V2 Phase 3 complete — voice transcription, morning ops, Jarvis audit, dashboard upgrade, iMessage + FaceTime setup |
+| **Last verified step** | Task 44 | V2 Phase 4 complete — fresh repo, voice verified, cron skill, Yahoo email, dashboard API + Jarvis plan |
 | **Last updated** | 2026-04-03 |
 
 > Update this block whenever a new entry is appended. This is the quick-glance state.
@@ -106,6 +106,11 @@
 2026-04-03 | Task 37 | Jarvis V5 UI Audit + Dashboard Upgrade | COMPLETE | V2 | Identified 32 reusable components, 7 hooks from Jarvis. Dashboard upgraded: auto-refresh 60s, email triage section, collapsible panels, uptime display, v2.0-phase3 footer. | NEAR | Next: evaluate Jarvis component extraction | Owner: none
 2026-04-03 | Task 38 | iMessage Channel Setup | PARTIAL | V2 | Outbound fully working via osascript + imsg CLI. OpenClaw iMessage plugin configured. Inbound BLOCKED by macOS Full Disk Access — requires manual FDA grant for imsg and node. | NEAR | Next: owner grants FDA for imsg + node | Owner: action needed (FDA grant)
 2026-04-03 | Task 39 | FaceTime Audio Call Setup | COMPLETE | V2 | URL scheme verified, skill created at skills/facetime/SKILL.md, copied to OpenClaw workspace, SOUL.md updated. No calls placed. | NEAR | Next: live-test FaceTime call | Owner: none
+2026-04-03 | Task 40 | Fresh Repo Push + Clean Slate | COMPLETE | V2 | Pushed to yosiwizman/AKIOR_AUOTONOMUS_ASSISTENT. Both ~/akior-os-clean and ~/akior remotes updated. Old akior-os repo deletion blocked by token scope. | NEAR | Next: owner deletes old akior-os repo | Owner: action needed (delete old repo)
+2026-04-03 | Task 41 | WhatsApp Voice Transcription Verification | COMPLETE | V2 | Full pipeline verified: whisper-cli v1.8.4, ffmpeg v8.1, ggml-base.bin model, wrapper script, OpenClaw config all green. Two test files transcribed successfully. iMessage provider crash-looping (unrelated, pending FDA grant). | NEAR | Next: monitor voice messages | Owner: none
+2026-04-03 | Task 42 | WhatsApp Cron Job Skill | COMPLETE | V2 | Created cron-manager skill at ~/.openclaw/workspace-dev/skills/cron-manager/SKILL.md. Supports 20+ natural language time patterns mapped to cron expressions. openclaw cron CLI verified with 6 existing jobs. Gateway restarted. | NEAR | Next: test cron triggers | Owner: none
+2026-04-03 | Task 43 | Yahoo Email Integration | COMPLETE | V2 | Installed ClawHub imap-smtp-email skill + Himalaya CLI v1.2.0. Config templates created for Yahoo IMAP/SMTP. | NEAR | Next: owner generates Yahoo app-specific password | Owner: action needed (Yahoo app password)
+2026-04-03 | Task 44 | Dashboard Live Data API + Jarvis Migration Plan | COMPLETE | V2 | Created Node.js API server on port 8422 with 5 endpoints. Dashboard updated to fetch live data. LaunchAgent created and running. Jarvis migration plan: 10 P1 components, 36-52 hours estimated. | NEAR | Next: begin Jarvis component extraction | Owner: none
 ```
 
 > Delete these placeholder entries and begin real logging on your first live session.

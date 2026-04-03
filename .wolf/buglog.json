@@ -64,6 +64,22 @@
       "related_bugs": [],
       "occurrences": 1,
       "last_seen": "2026-04-03T11:21:23.078Z"
+    },
+    {
+      "id": "bug-005",
+      "timestamp": "2026-04-03T11:23:52.124Z",
+      "error_message": "Wrong reference: akior should be AKIOR_AUOTONOMUS_ASSISTENT",
+      "file": "docs/ssot/AKIOR-SYSTEM-STATUS.md",
+      "root_cause": "Used \"akior\" instead of \"AKIOR_AUOTONOMUS_ASSISTENT\"",
+      "fix": "Changed akior → AKIOR_AUOTONOMUS_ASSISTENT",
+      "tags": [
+        "auto-detected",
+        "wrong-reference",
+        "md"
+      ],
+      "related_bugs": [],
+      "occurrences": 1,
+      "last_seen": "2026-04-03T11:23:52.124Z"
     }
   ]
 }
