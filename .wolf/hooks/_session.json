@@ -8,7 +8,7 @@
       "first_read": "2026-04-03T05:10:49.200Z"
     },
     "/Users/yosiwizman/akior/docs/ssot/AKIOR-SYSTEM-STATUS.md": {
-      "count": 2,
+      "count": 3,
       "tokens": 1653,
       "first_read": "2026-04-03T05:10:58.757Z"
     },
@@ -36,6 +36,16 @@
       "count": 1,
       "tokens": 0,
       "first_read": "2026-04-03T05:17:10.297Z"
+    },
+    "/Users/yosiwizman/akior/reports/lp-product-scrape-2026-04-03.md": {
+      "count": 1,
+      "tokens": 904,
+      "first_read": "2026-04-03T05:17:27.310Z"
+    },
+    "/Users/yosiwizman/akior/reports/competitor-research-2026-04-03.md": {
+      "count": 1,
+      "tokens": 1931,
+      "first_read": "2026-04-03T05:17:27.471Z"
     }
   },
   "files_written": [
@@ -86,6 +96,36 @@
       "action": "create",
       "tokens": 34,
       "at": "2026-04-03T05:17:14.700Z"
+    },
+    {
+      "file": "/Users/yosiwizman/akior/docs/ssot/AKIOR-SYSTEM-STATUS.md",
+      "action": "edit",
+      "tokens": 21,
+      "at": "2026-04-03T05:17:35.500Z"
+    },
+    {
+      "file": "/Users/yosiwizman/akior/docs/ssot/AKIOR-SYSTEM-STATUS.md",
+      "action": "edit",
+      "tokens": 118,
+      "at": "2026-04-03T05:17:41.936Z"
+    },
+    {
+      "file": "/Users/yosiwizman/akior/docs/ssot/AKIOR-SYSTEM-STATUS.md",
+      "action": "edit",
+      "tokens": 23,
+      "at": "2026-04-03T05:17:45.522Z"
+    },
+    {
+      "file": "/Users/yosiwizman/akior/docs/ssot/AKIOR-SYSTEM-STATUS.md",
+      "action": "edit",
+      "tokens": 46,
+      "at": "2026-04-03T05:17:51.798Z"
+    },
+    {
+      "file": "/Users/yosiwizman/akior/docs/ssot/AKIOR-SYSTEM-STATUS.md",
+      "action": "edit",
+      "tokens": 41,
+      "at": "2026-04-03T05:17:56.025Z"
     }
   ],
   "edit_counts": {
@@ -96,11 +136,12 @@
     "skills/clawring/SKILL.md": 1,
     "skills/clawring/clawr.ing-memory.md": 1,
     "../.claude/projects/-Users-yosiwizman-akior/memory/feedback_phone_calls.md": 1,
-    "../.claude/projects/-Users-yosiwizman-akior/memory/MEMORY.md": 1
+    "../.claude/projects/-Users-yosiwizman-akior/memory/MEMORY.md": 1,
+    "docs/ssot/AKIOR-SYSTEM-STATUS.md": 5
   },
-  "anatomy_hits": 3,
+  "anatomy_hits": 5,
   "anatomy_misses": 4,
-  "repeated_reads_warned": 2,
+  "repeated_reads_warned": 3,
   "cerebrum_warnings": 0,
-  "stop_count": 6
+  "stop_count": 7
 }
