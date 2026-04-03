@@ -1,7 +1,7 @@
 # anatomy.md
 
-> Auto-maintained by OpenWolf. Last scanned: 2026-04-03T06:21:40.217Z
-> Files: 557 tracked | Anatomy hits: 0 | Misses: 0
+> Auto-maintained by OpenWolf. Last scanned: 2026-04-03T11:19:48.053Z
+> Files: 558 tracked | Anatomy hits: 0 | Misses: 0
 
 ## ../.claude/projects/-Users-yosiwizman-akior/memory/
 
@@ -47,6 +47,7 @@
 ## config/
 
 - `.DS_Store` (~1639 tok)
+- `yahoo-email-config.yaml` — Yahoo Email Configuration for AKIOR (~317 tok)
 
 ## config/canary/
 

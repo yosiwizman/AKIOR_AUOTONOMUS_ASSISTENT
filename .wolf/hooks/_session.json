@@ -46,6 +46,11 @@
       "count": 1,
       "tokens": 0,
       "first_read": "2026-04-03T11:19:18.912Z"
+    },
+    "/Users/yosiwizman/.openclaw/workspace-dev/skills/imap-smtp-email/SKILL.md": {
+      "count": 1,
+      "tokens": 0,
+      "first_read": "2026-04-03T11:19:31.244Z"
     }
   },
   "files_written": [
@@ -144,6 +149,12 @@
       "action": "edit",
       "tokens": 42,
       "at": "2026-04-03T06:21:40.224Z"
+    },
+    {
+      "file": "/Users/yosiwizman/akior/config/yahoo-email-config.yaml",
+      "action": "create",
+      "tokens": 317,
+      "at": "2026-04-03T11:19:48.060Z"
     }
   ],
   "edit_counts": {
@@ -155,11 +166,12 @@
     "scripts/whisper-transcribe.sh": 1,
     "dashboard/index.html": 1,
     "docs/ssot/PROJECT_LOG.md": 2,
-    "docs/ssot/AKIOR-SYSTEM-STATUS.md": 5
+    "docs/ssot/AKIOR-SYSTEM-STATUS.md": 5,
+    "config/yahoo-email-config.yaml": 1
   },
   "anatomy_hits": 4,
-  "anatomy_misses": 5,
+  "anatomy_misses": 6,
   "repeated_reads_warned": 4,
   "cerebrum_warnings": 0,
-  "stop_count": 8
+  "stop_count": 9
 }

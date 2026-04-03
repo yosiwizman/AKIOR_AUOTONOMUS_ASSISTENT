@@ -2,14 +2,14 @@
   "version": 1,
   "created_at": "2026-04-02T23:25:31.532Z",
   "lifetime": {
-    "total_tokens_estimated": 375975,
-    "total_reads": 218,
-    "total_writes": 508,
+    "total_tokens_estimated": 398265,
+    "total_reads": 228,
+    "total_writes": 525,
     "total_sessions": 8,
-    "anatomy_hits": 109,
-    "anatomy_misses": 109,
-    "repeated_reads_blocked": 92,
-    "estimated_savings_vs_bare_cli": 137635
+    "anatomy_hits": 113,
+    "anatomy_misses": 115,
+    "repeated_reads_blocked": 96,
+    "estimated_savings_vs_bare_cli": 145873
   },
   "sessions": [
     {
@@ -4412,6 +4412,168 @@
         "output_tokens_estimated": 9775,
         "reads_count": 9,
         "writes_count": 16,
+        "repeated_reads_blocked": 4,
+        "anatomy_lookups": 4
+      }
+    },
+    {
+      "id": "session-2026-04-03-0208",
+      "started": "2026-04-03T06:08:00.519Z",
+      "ended": "2026-04-03T11:19:48.987Z",
+      "reads": [
+        {
+          "file": "/Users/yosiwizman/akior/dashboard/index.html",
+          "tokens_estimated": 5222,
+          "was_repeated": true,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/SOUL.md",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/.openclaw/openclaw.json",
+          "tokens_estimated": 0,
+          "was_repeated": true,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/openclaw/SOUL.md",
+          "tokens_estimated": 1108,
+          "was_repeated": true,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/PROJECT_LOG.md",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/AKIOR-SYSTEM-STATUS.md",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/docs/ssot/PROJECT_LOG.md",
+          "tokens_estimated": 4071,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/docs/ssot/AKIOR-SYSTEM-STATUS.md",
+          "tokens_estimated": 1797,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/reports/jarvis-ui-audit-2026-04-03.md",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/.openclaw/workspace-dev/skills/imap-smtp-email/SKILL.md",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        }
+      ],
+      "writes": [
+        {
+          "file": "/Users/yosiwizman/akior/reports/email-triage-2026-04-03-v2.md",
+          "tokens_estimated": 692,
+          "action": "create"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/reports/calendar-2026-04-03-v2.md",
+          "tokens_estimated": 84,
+          "action": "create"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/skills/facetime/SKILL.md",
+          "tokens_estimated": 749,
+          "action": "create"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/reports/cto-briefing-2026-04-03-v2.md",
+          "tokens_estimated": 679,
+          "action": "create"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/openclaw/SOUL.md",
+          "tokens_estimated": 61,
+          "action": "edit"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/openclaw/SOUL.md",
+          "tokens_estimated": 72,
+          "action": "edit"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/scripts/whisper-transcribe.sh",
+          "tokens_estimated": 295,
+          "action": "create"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/openclaw/SOUL.md",
+          "tokens_estimated": 465,
+          "action": "edit"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/dashboard/index.html",
+          "tokens_estimated": 5595,
+          "action": "create"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/docs/ssot/PROJECT_LOG.md",
+          "tokens_estimated": 44,
+          "action": "edit"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/docs/ssot/PROJECT_LOG.md",
+          "tokens_estimated": 591,
+          "action": "edit"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/docs/ssot/AKIOR-SYSTEM-STATUS.md",
+          "tokens_estimated": 41,
+          "action": "edit"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/docs/ssot/AKIOR-SYSTEM-STATUS.md",
+          "tokens_estimated": 45,
+          "action": "edit"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/docs/ssot/AKIOR-SYSTEM-STATUS.md",
+          "tokens_estimated": 180,
+          "action": "edit"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/docs/ssot/AKIOR-SYSTEM-STATUS.md",
+          "tokens_estimated": 140,
+          "action": "edit"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/docs/ssot/AKIOR-SYSTEM-STATUS.md",
+          "tokens_estimated": 42,
+          "action": "edit"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/config/yahoo-email-config.yaml",
+          "tokens_estimated": 317,
+          "action": "create"
+        }
+      ],
+      "totals": {
+        "input_tokens_estimated": 12198,
+        "output_tokens_estimated": 10092,
+        "reads_count": 10,
+        "writes_count": 17,
         "repeated_reads_blocked": 4,
         "anatomy_lookups": 4
       }

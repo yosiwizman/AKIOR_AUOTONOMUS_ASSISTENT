@@ -1,0 +1,34 @@
+# Yahoo Email Configuration for AKIOR
+# =====================================
+# OWNER ACTION NEEDED: Generate an app-specific password at:
+#   https://login.yahoo.com/account/security/app-passwords
+# (Requires 2-Step Verification enabled on the Yahoo account)
+
+yahoo_account:
+  email: "OWNER_YAHOO_EMAIL@yahoo.com"        # <-- Replace with actual Yahoo email
+  app_password: "OWNER_APP_PASSWORD"           # <-- Replace with Yahoo app password
+
+  imap:
+    host: imap.mail.yahoo.com
+    port: 993
+    tls: true
+    reject_unauthorized: true
+    mailbox: INBOX
+
+  smtp:
+    host: smtp.mail.yahoo.com
+    port: 465
+    secure: true                               # SSL on port 465
+    reject_unauthorized: true
+
+# ClawHub imap-smtp-email config location: ~/.config/imap-smtp-email/.env
+# Himalaya config location: ~/.config/himalaya/config.toml
+#
+# After filling in credentials, run:
+#   akior-yahoo-setup (see instructions below)
+#
+# To apply to ClawHub skill:
+#   Copy values into ~/.config/imap-smtp-email/.env with YAHOO_ prefix
+#
+# To apply to himalaya:
+#   Copy values into ~/.config/himalaya/config.toml
