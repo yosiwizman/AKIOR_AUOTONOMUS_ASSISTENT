@@ -3,8 +3,8 @@
   "started": "2026-04-03T06:08:00.519Z",
   "files_read": {
     "/Users/yosiwizman/akior/dashboard/index.html": {
-      "count": 2,
-      "tokens": 5222,
+      "count": 3,
+      "tokens": 6031,
       "first_read": "2026-04-03T06:15:28.041Z"
     },
     "/Users/yosiwizman/akior/SOUL.md": {
@@ -253,12 +253,12 @@
       "first_read": "2026-04-03T12:44:23.930Z"
     },
     "/Users/yosiwizman/akior/forge/jarvis-v5-os/.wolf/anatomy.md": {
-      "count": 3,
+      "count": 6,
       "tokens": 0,
       "first_read": "2026-04-03T12:49:52.680Z"
     },
     "/Users/yosiwizman/akior/forge/jarvis-v5-os/.wolf/cerebrum.md": {
-      "count": 3,
+      "count": 5,
       "tokens": 0,
       "first_read": "2026-04-03T12:49:53.104Z"
     },
@@ -306,6 +306,26 @@
       "count": 1,
       "tokens": 0,
       "first_read": "2026-04-03T13:10:31.367Z"
+    },
+    "/Users/yosiwizman/akior/forge/jarvis-v5-os/apps/web/.env.local": {
+      "count": 1,
+      "tokens": 0,
+      "first_read": "2026-04-03T13:21:12.285Z"
+    },
+    "/Users/yosiwizman/akior/forge/jarvis-v5-os/apps/web/src/components/HudWidget.tsx": {
+      "count": 1,
+      "tokens": 0,
+      "first_read": "2026-04-03T13:21:14.950Z"
+    },
+    "/Users/yosiwizman/akior/forge/jarvis-v5-os/apps/web/app/login/page.tsx": {
+      "count": 1,
+      "tokens": 0,
+      "first_read": "2026-04-03T13:21:15.409Z"
+    },
+    "/Users/yosiwizman/akior/forge/jarvis-v5-os/apps/web/app/jarvis/page.tsx": {
+      "count": 1,
+      "tokens": 0,
+      "first_read": "2026-04-03T13:21:15.726Z"
     }
   },
   "files_written": [
@@ -1137,8 +1157,8 @@
     "reports/jarvis-ui-live-audit-2026-04-03.md": 1
   },
   "anatomy_hits": 9,
-  "anatomy_misses": 52,
-  "repeated_reads_warned": 137,
+  "anatomy_misses": 56,
+  "repeated_reads_warned": 143,
   "cerebrum_warnings": 0,
-  "stop_count": 53
+  "stop_count": 54
 }
