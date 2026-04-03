@@ -1,7 +1,7 @@
 # anatomy.md
 
-> Auto-maintained by OpenWolf. Last scanned: 2026-04-03T11:20:16.203Z
-> Files: 561 tracked | Anatomy hits: 0 | Misses: 0
+> Auto-maintained by OpenWolf. Last scanned: 2026-04-03T11:20:44.141Z
+> Files: 562 tracked | Anatomy hits: 0 | Misses: 0
 
 ## ../.claude/projects/-Users-yosiwizman-akior/memory/
 
@@ -992,6 +992,7 @@
 - `cto-briefing-2026-04-03.md` — AKIOR CTO Morning Briefing — 2026-04-03 (Thursday) (~682 tok)
 - `email-triage-2026-04-03-v2.md` — Email Triage Report — 2026-04-03 (v2 Morning Run) (~605 tok)
 - `email-triage-2026-04-03.md` — Email Triage — 2026-04-03 (~364 tok)
+- `jarvis-to-akior-ui-plan.md` — Jarvis V5 to AKIOR UI Migration Plan (~2278 tok)
 - `lp-inbox-2026-04-03.md` — Live Pilates USA Inbox Sweep — 2026-04-03 (~247 tok)
 - `lp-product-scrape-2026-04-03.md` — Live Pilates USA -- Product Catalog Scrape (~904 tok)
 - `system-health-2026-04-03.md` — System Health — 2026-04-03 (~437 tok)

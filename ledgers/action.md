@@ -17,3 +17,11 @@
 - Installed `himalaya` CLI email client (v1.2.0)
 - Created config templates with Yahoo IMAP/SMTP settings
 - Status: PENDING owner credentials (app-specific password)
+
+## 2026-04-03 07:18 — Cron Manager Skill Created
+- Created `~/.openclaw/workspace-dev/skills/cron-manager/SKILL.md`
+- Skill enables natural-language cron job management via WhatsApp/chat
+- Supports: create, list, delete, enable, disable, edit, run-now
+- Maps natural language time expressions to cron/interval syntax
+- Gateway restarted to pick up new skill
+- All 6 existing cron jobs verified operational after restart
