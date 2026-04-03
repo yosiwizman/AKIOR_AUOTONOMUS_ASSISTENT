@@ -13,7 +13,7 @@
 | **Target milestone** | v2 expansion / parallel operations |
 | **Active layer** | V2 EXPANSION — IN PROGRESS |
 | **Distance** | NEAR |
-| **Last verified step** | Task 64 | V2 Phase 8 complete — LLM wired, echo fixed, ops final, UI live |
+| **Last verified step** | Task 69 | V2 Phase 9 complete — pronunciation, group skills, UI audit |
 | **Last updated** | 2026-04-03 |
 
 > Update this block whenever a new entry is appended. This is the quick-glance state.
@@ -131,6 +131,11 @@
 2026-04-03 | Task 62 | Launch Jarvis UI | COMPLETE | V2 | UI live at http://localhost:3001 (redirects to /login). Already running from Phase 7. | NEAR | Next: fix iMessage echo | Owner: none
 2026-04-03 | Task 63 | Fix iMessage Echo/Channel Routing | COMPLETE | V2 | Root cause: both bluebubbles AND imessage plugins enabled simultaneously, causing double ingestion. Disabled bluebubbles plugin. Gateway restarted. No more echo. | NEAR | Next: morning ops final | Owner: none
 2026-04-03 | Task 64 | Morning Ops Final | COMPLETE | V2 | System Grade A-. Gmail/Yahoo clear, calendar empty, canaries 4/4, disk 31GB free, 14 Docker containers healthy, 4 Ollama models, gateway 62ms/16 sessions. Briefing pushed. | NEAR | Next: V2 Phase 9 | Owner: none
+2026-04-03 | Task 65 | Fix AKIOR + Owner Name Pronunciation | COMPLETE | V2 | Updated clawr.ing skill, memory, and all 3 SOUL.md copies. AKIOR = "AH-key-or", owner = "Mr W". Test call placed, went to voicemail. | NEAR | Next: WhatsApp group skills | Owner: none
+2026-04-03 | Task 66 | WhatsApp Group Assistant Skill | COMPLETE | V2 | Created group-assistant skill with 4 modes: Silent Absorber, Translation, Selective Reply, Task Extraction. Config template at ~/akior/config/whatsapp-groups/_template.json. | NEAR | Next: OpenClaw group config | Owner: none
+2026-04-03 | Task 67 | OpenClaw Group Config | COMPLETE | V2 | Set requireMention:true for all WhatsApp groups. Mention patterns: AKIOR, @AKIOR. DM allowlist unchanged. Gateway restarted. | NEAR | Next: verify Ollama + Memory endpoints | Owner: none
+2026-04-03 | Task 68 | Complete Ollama + Memory UI Wiring | COMPLETE | V2 | Both endpoints existed from Phase 8: GET /api/integrations/ollama/models and GET /api/memory. Build clean. Already done. | NEAR | Next: Jarvis UI inspection | Owner: none
+2026-04-03 | Task 69 | Jarvis UI Inspection + Screenshots | COMPLETE | V2 | 20 screenshots captured. CRITICAL: Next.js webpack cache corrupted causing CSS/JS 500 errors. 24 routes discovered, 15 render HTML. 340 "Jarvis" references across 33 files. Full audit at ~/akior/reports/jarvis-ui-live-audit-2026-04-03.md. | NEAR | Next: fix webpack cache + rebrand UI | Owner: none
 ```
 
 > Delete these placeholder entries and begin real logging on your first live session.

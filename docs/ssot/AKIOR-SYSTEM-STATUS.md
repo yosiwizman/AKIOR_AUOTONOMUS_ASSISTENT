@@ -18,7 +18,7 @@
 | Ollama | Running (4 models: qwen2.5-coder:7b, qwen3:14b, llama3.1, tinyllama:1.1b) | Homebrew service |
 | AKIOR Dashboard | Running v2.0-phase3 (localhost:8421) | LaunchAgent com.akior.dashboard (KeepAlive) — auto-refresh 60s, email triage, collapsible panels |
 | AKIOR Dashboard API | Running (localhost:8422) | LaunchAgent com.akior.dashboard-api (KeepAlive) — 5 endpoints, live data |
-| Jarvis V5 UI | Running (localhost:3001) | ~/akior/forge/jarvis-v5-os — Next.js 14 frontend, /tasks page, avatar selection, settings/functions verified working |
+| Jarvis V5 UI | Running (localhost:3001) — webpack cache corrupted | ~/akior/forge/jarvis-v5-os — Next.js 14 frontend, /tasks page, avatar selection, settings/functions verified; CSS/JS 500 errors from corrupted .next cache; 340 "Jarvis" refs need rebranding |
 
 ---
 
@@ -80,11 +80,11 @@
 
 | Channel | Status | Detail |
 |---------|--------|--------|
-| WhatsApp | ON, linked, allowlist mode | +13054098490, +17865181777; voice transcription FIXED (tools.media.audio.models configured with whisper-cpp-base) |
+| WhatsApp | ON, linked, allowlist mode | +13054098490, +17865181777; voice transcription FIXED; group-assistant skill ready (4 modes), requireMention:true for all groups |
 | iMessage | FIXED — echo resolved, bluebubbles disabled | Outbound via osascript + imsg CLI. Root cause (Phase 8): both bluebubbles AND imessage plugins enabled causing double ingestion. BlueBubbles disabled. Per-channel-peer routing active. |
 | Yahoo Email | OPERATIONAL (tested with real credentials) | Himalaya CLI + imap-smtp-email skill. Live-tested successfully via Himalaya. |
 | FaceTime | READY — skill installed, not yet live-tested | URL scheme verified, skill at skills/facetime/SKILL.md, SOUL.md updated |
-| clawr.ing (Phone) | ON, API key configured | skills/clawring/SKILL.md — managed voice calls |
+| clawr.ing (Phone) | ON, pronunciation fixed (AH-key-or, Mr W) | skills/clawring/SKILL.md — managed voice calls, name pronunciation corrected |
 | Dashboard | ON v2.0-phase3, localhost:8421 | Auto-refresh 60s, email triage, collapsible panels, uptime display |
 
 ---
@@ -205,6 +205,8 @@
 | FaceTime audio | Skill ready, not yet live-tested | Next test |
 | LLM wiring (Anthropic) | COMPLETE — Anthropic-cloud provider fully wired, build clean, model default claude-sonnet-4-20250514 | Resolved |
 | LLM wiring (Ollama) | COMPLETE — Ollama working via local-compatible provider and localLlmClient.ts | Resolved |
+| Ollama/Memory endpoints | COMPLETE — GET /api/integrations/ollama/models and GET /api/memory confirmed working | Resolved |
+| Jarvis UI webpack cache | CORRUPTED — CSS/JS 500 errors, needs rebuild; 340 "Jarvis" references across 33 files need rebranding | Action needed |
 
 ---
 
