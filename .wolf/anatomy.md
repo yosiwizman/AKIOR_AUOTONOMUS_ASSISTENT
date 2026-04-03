@@ -1,12 +1,16 @@
 # anatomy.md
 
-> Auto-maintained by OpenWolf. Last scanned: 2026-04-03T11:19:48.053Z
-> Files: 558 tracked | Anatomy hits: 0 | Misses: 0
+> Auto-maintained by OpenWolf. Last scanned: 2026-04-03T11:19:57.455Z
+> Files: 560 tracked | Anatomy hits: 0 | Misses: 0
 
 ## ../.claude/projects/-Users-yosiwizman-akior/memory/
 
 - `feedback_phone_calls.md` (~168 tok)
 - `MEMORY.md` (~30 tok)
+
+## ../.config/himalaya/
+
+- `config.toml` — Himalaya Email Client Configuration for AKIOR (~251 tok)
 
 ## ../Library/LaunchAgents/
 
@@ -67,6 +71,7 @@
 
 ## dashboard/
 
+- `api.js` — AKIOR Dashboard API Server (~1897 tok)
 - `index.html` — AKIOR — Operations Dashboard (~5222 tok)
 
 ## docs/ssot/
