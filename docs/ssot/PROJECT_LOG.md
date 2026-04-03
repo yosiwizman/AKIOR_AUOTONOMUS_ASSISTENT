@@ -11,9 +11,9 @@
 | Field | Value |
 |-------|-------|
 | **Target milestone** | v1 bootstrap / operational readiness |
-| **Active layer** | L7 — COMPLETE |
+| **Active layer** | L8 — COMPLETE |
 | **Distance** | NEAR |
-| **Last verified step** | Task 29 | Phase 7 — full autonomous tool access configured, exec approvals wildcard, 4 plugins + 3 skills added |
+| **Last verified step** | Task 30 | Phase 8 — first CTO work: email triage, calendar, LP sweep, Alexandra draft, system health, CTO briefing |
 | **Last updated** | 2026-04-03 |
 
 > Update this block whenever a new entry is appended. This is the quick-glance state.
@@ -95,6 +95,8 @@
 2026-04-03 | Task 27 | Phase 5 MCP live verification (first autonomous execution test) | COMPLETE | L6 | Playwright: navigated livepilatesusa.com + screenshot saved to evidence/screenshots/playwright-test-01.png; DDG Search: "Live Pilates USA V12" returned 3 results; Context7: available in tool list; Memory MCP: bootstrap fails (lobe not resolving — config exists at memory-config.json but server can't resolve); Canaries: 4/4 PASS; SYSTEM-STATUS.md updated with verified results | NEAR | Next: debug Memory MCP bootstrap; use Playwright for Task 19 (Alexandra Wix send) | Owner: none
 2026-04-03 | Task 28 | Phase 6 WhatsApp multi-number + Task 19 attempt + Memory MCP fix + git baseline | COMPLETE | L6 | WhatsApp: allowFrom set to [+13054098490, +17865181777], gateway reinstalled (PID 58194); Task 19 (Alexandra Wix send): BLOCKED — Wix requires login, no stored session/credentials, OWNER ACTION NEEDED; Memory MCP: @exaudeus/memory-mcp bootstrap broken, replaced with @modelcontextprotocol/server-memory (active next session); Git: .gitignore created, baseline commit created; Canaries: 4/4 PASS | NEAR | Next: owner logs into Wix via Playwright to unblock Task 19; test new Memory MCP on next session | Owner: action needed (Wix login)
 2026-04-03 | Task 29 | Phase 7 full autonomous tool access + one-time authorization | COMPLETE | L7 | OpenClaw: dmPolicy=allowlist with [+13054098490,+17865181777]; exec approvals wildcard (*/*) set; 4 plugins enabled (duckduckgo, diffs, llm-task, lobster); 3 ClawHub skills installed (macos-calendar, notification, reminder); 2 skills skipped (VirusTotal flagged); SOUL.md updated with autonomous execution rules + tool access manifest; synced to 3 locations; gateway reinstalled PID 61272; Google integration: Gmail+Calendar already connected via Claude Code MCP (no OpenClaw OAuth needed); SYSTEM-STATUS.md updated | NEAR | Next: test WhatsApp→AKIOR end-to-end; owner Wix login for Task 19 | Owner: action needed (Wix login)
+2026-04-03 | Task 30 | Phase 8 parallel execution + first CTO work | COMPLETE | L8 | Claude Squad cloned to ~/akior/forge/claude-squad (brew install in background); Firecrawl MCP registered (next session); Voice skills: all flagged by VT, skipped; EMAIL TRIAGE: 8 unread (3 urgent: Neon payment failed, GitHub storage full; 2 action: Alexandra Sarbu LP lead); CALENDAR: clear today+tomorrow; ALEXANDRA REPLY: Gmail draft created (ID r-4733175604900191248) — no send_draft tool in Gmail MCP, owner must click send; LP SWEEP: 3 messages since Apr 1 (Alexandra lead + Google Merchant); SYSTEM: 14 Docker containers healthy, 30GB disk free, ops-console exit 1; CTO briefing generated | NEAR | Next: owner sends Alexandra draft; fix ops-console; test Claude Squad | Owner: action needed (send draft, fix Neon payment)
+2026-04-03 | Task 19R | Alexandra Sarbu reply (supersedes Task 19) | PARTIAL | L5 | Gmail draft created via MCP (draft r-4733175604900191248, to contact@alexandrasarbu.ro). Cannot send — Gmail MCP lacks send_draft tool. Owner must send manually via https://mail.google.com/mail/u/0/#drafts | NEAR | Next: owner clicks send | Owner: action needed
 ```
 
 > Delete these placeholder entries and begin real logging on your first live session.

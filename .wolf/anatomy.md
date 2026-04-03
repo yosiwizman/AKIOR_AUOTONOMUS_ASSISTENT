@@ -1,7 +1,7 @@
 # anatomy.md
 
-> Auto-maintained by OpenWolf. Last scanned: 2026-04-03T02:30:48.567Z
-> Files: 527 tracked | Anatomy hits: 0 | Misses: 0
+> Auto-maintained by OpenWolf. Last scanned: 2026-04-03T04:08:37.005Z
+> Files: 533 tracked | Anatomy hits: 0 | Misses: 0
 
 ## ./
 
@@ -62,7 +62,7 @@
 - `AKIOR-TOOL-ADOPTION-DECISIONS-01.md` — AKIOR — External Tool Adoption Decisions (~1247 tok)
 - `bootstrap-report.md` — AKIOR Bootstrap Completion Report — Formal (~1991 tok)
 - `CLAUDE_EXECUTION_TEMPLATE.md` — AKIOR CLAUDE EXECUTION TEMPLATE (~1120 tok)
-- `PROJECT_LOG.md` — AKIOR PROJECT LOG (~3302 tok)
+- `PROJECT_LOG.md` — AKIOR PROJECT LOG (~3592 tok)
 - `RUNTIME-REFERENCE.md` — AKIOR Runtime Reference (~1747 tok)
 - `SESSION_HANDOFF_TEMPLATE.md` — AKIOR SESSION HANDOFF TEMPLATE (~1108 tok)
 - `SSOT-REGISTER.md` — SSOT Register (~478 tok)
@@ -84,6 +84,7 @@
 
 ## evidence/terminal/
 
+- `alexandra-gmail-send.md` — Alexandra Sarbu — Gmail Draft Evidence (~224 tok)
 - `claude-scheduled-tasks-setup-01.md` — Claude Desktop Scheduled Tasks — Ready to Paste (~616 tok)
 - `computer-use-enablement-plan.md` — Computer Use Enablement Plan (~642 tok)
 - `daily-canary-summary.md` — Daily Canary Summary (~73 tok)
@@ -949,3 +950,11 @@
 ## openclaw/
 
 - `SOUL.md` — AKIOR — Autonomous AI Operating System (~978 tok)
+
+## reports/
+
+- `calendar-2026-04-03.md` — Calendar — 2026-04-03 (Thu) + 2026-04-04 (Fri) (~73 tok)
+- `cto-briefing-2026-04-03.md` — AKIOR CTO Morning Briefing — 2026-04-03 (Thursday) (~682 tok)
+- `email-triage-2026-04-03.md` — Email Triage — 2026-04-03 (~364 tok)
+- `lp-inbox-2026-04-03.md` — Live Pilates USA Inbox Sweep — 2026-04-03 (~247 tok)
+- `system-health-2026-04-03.md` — System Health — 2026-04-03 (~437 tok)
