@@ -3,8 +3,8 @@
   "started": "2026-04-03T06:08:00.519Z",
   "files_read": {
     "/Users/yosiwizman/akior/dashboard/index.html": {
-      "count": 1,
-      "tokens": 2785,
+      "count": 2,
+      "tokens": 5222,
       "first_read": "2026-04-03T06:15:28.041Z"
     },
     "/Users/yosiwizman/akior/SOUL.md": {
@@ -41,6 +41,11 @@
       "count": 1,
       "tokens": 1797,
       "first_read": "2026-04-03T06:20:44.478Z"
+    },
+    "/Users/yosiwizman/akior/reports/jarvis-ui-audit-2026-04-03.md": {
+      "count": 1,
+      "tokens": 0,
+      "first_read": "2026-04-03T11:19:18.912Z"
     }
   },
   "files_written": [
@@ -153,8 +158,8 @@
     "docs/ssot/AKIOR-SYSTEM-STATUS.md": 5
   },
   "anatomy_hits": 4,
-  "anatomy_misses": 4,
-  "repeated_reads_warned": 3,
+  "anatomy_misses": 5,
+  "repeated_reads_warned": 4,
   "cerebrum_warnings": 0,
-  "stop_count": 7
+  "stop_count": 8
 }

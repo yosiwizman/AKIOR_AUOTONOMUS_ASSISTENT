@@ -1,14 +1,20 @@
-# Daily Canary Summary
+# Daily Canary Summary — April 3, 2026
 
-**Run timestamp:** 2026-04-03T06:15:31Z
-**Result:** 4/4 passed
+**Timestamp:** Friday, April 3rd, 2026 — 6:57 AM ET
 
-| Canary | Status | Detail |
-|--------|--------|--------|
-| Filesystem | PASS | PASS |
-| Ollama | PASS | PASS |
-| GitHub | PASS | PASS |
-| Gmail | PASS | PASS |
+## Results
 
-## Classification
-All systems nominal.
+### Daily Canaries: ✅ PASS (4/4)
+- All core system canaries executed successfully
+- No anomalies detected
+
+### Morning Resume Check: ✅ COMPLETE  
+- Status written to `/Users/yosiwizman/akior/evidence/terminal/morning-resume-status-latest.md`
+- System ready for operations
+
+## Status: HEALTHY
+All daily health checks passed. AKIOR systems operational.
+
+---
+**Executed by:** AKIOR Operating System  
+**Job ID:** cron:438404e5-0217-4201-acb2-7a070d6d84df
