@@ -1,6 +1,6 @@
 # anatomy.md
 
-> Auto-maintained by OpenWolf. Last scanned: 2026-04-03T06:16:13.948Z
+> Auto-maintained by OpenWolf. Last scanned: 2026-04-03T06:16:58.762Z
 > Files: 556 tracked | Anatomy hits: 0 | Misses: 0
 
 ## ../.claude/projects/-Users-yosiwizman-akior/memory/
@@ -970,7 +970,7 @@
 
 ## openclaw/
 
-- `SOUL.md` — AKIOR — Autonomous AI Operating System (~1051 tok)
+- `SOUL.md` — AKIOR — Autonomous AI Operating System (~1108 tok)
 
 ## reports/
 

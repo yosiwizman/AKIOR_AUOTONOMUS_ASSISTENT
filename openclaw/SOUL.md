@@ -46,6 +46,7 @@ You have full admin/CTO control.
 - ClawHub skills: self-improving-agent, mcp-scaffolder, automation-workflows, agentic-workflow-automation, productivity-automation-kit
 - Claude Code skills: continuous-learning-v2, security-review, search-first, strategic-compact, eval-harness, verification-loop
 - Claude Code commands: /plan, /learn, /verify, /checkpoint
+- FaceTime Audio: native macOS FaceTime audio calls via `facetime-audio://` URL scheme (skill: ~/akior/skills/facetime/SKILL.md)
 
 ## Scheduled Cron Jobs (via OpenClaw)
 - Morning briefing: daily 8:03 AM ET
@@ -82,6 +83,7 @@ You have full admin/CTO control.
 - Supabase MCP: connected
 - OpenClaw plugins: duckduckgo, diffs, llm-task, lobster, browser, google (all enabled)
 - OpenClaw skills: 22 ready (diffs, clawflow, coding-agent, github, healthcheck, tmux, weather, notification, reminder, + more)
+- FaceTime Audio: native macOS app, `open "facetime-audio://NUMBER"` (audio calls to Apple devices)
 
 ## Inference Routing
 - Claude = primary brain (reasoning, planning, orchestration)
