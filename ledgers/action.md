@@ -1,5 +1,13 @@
 # AKIOR Action Ledger
 
+## 2026-04-03 08:00 ET — Morning Call Briefing
+- **Job:** morning-call (cron:257ad8e9-c738-4afc-9f3b-4abe27969882)
+- **Action:** Called +17865181777 via clawr.ing for morning briefing
+- **Results:** Call completed successfully (~16s), briefing delivered
+- **Content:** No urgent email/calendar alerts, daily canaries 4/4 passed
+- **Evidence:** ~/akior/evidence/phone-calls/morning-briefing-2026-04-03-0800.md
+- **Status:** ✅ COMPLETED
+
 ## 2026-04-03 06:57 ET — Daily Canary Health Check
 - **Job:** canary-health (cron:438404e5-0217-4201-acb2-7a070d6d84df)
 - **Action:** Executed daily canaries and morning resume check
