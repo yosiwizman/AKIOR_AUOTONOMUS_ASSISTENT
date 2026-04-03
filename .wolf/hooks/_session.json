@@ -33,13 +33,13 @@
       "first_read": "2026-04-03T06:20:12.351Z"
     },
     "/Users/yosiwizman/akior/docs/ssot/PROJECT_LOG.md": {
-      "count": 1,
-      "tokens": 4071,
+      "count": 2,
+      "tokens": 4455,
       "first_read": "2026-04-03T06:20:27.237Z"
     },
     "/Users/yosiwizman/akior/docs/ssot/AKIOR-SYSTEM-STATUS.md": {
-      "count": 1,
-      "tokens": 1797,
+      "count": 2,
+      "tokens": 1988,
       "first_read": "2026-04-03T06:20:44.478Z"
     },
     "/Users/yosiwizman/akior/reports/jarvis-ui-audit-2026-04-03.md": {
@@ -56,6 +56,11 @@
       "count": 1,
       "tokens": 1897,
       "first_read": "2026-04-03T11:20:48.156Z"
+    },
+    "/Users/yosiwizman/Library/LaunchAgents/com.akior.dashboard.plist": {
+      "count": 1,
+      "tokens": 0,
+      "first_read": "2026-04-03T11:21:29.130Z"
     }
   },
   "files_written": [
@@ -184,6 +189,24 @@
       "action": "create",
       "tokens": 2603,
       "at": "2026-04-03T11:20:44.148Z"
+    },
+    {
+      "file": "/Users/yosiwizman/akior/dashboard/index.html",
+      "action": "edit",
+      "tokens": 1697,
+      "at": "2026-04-03T11:21:23.077Z"
+    },
+    {
+      "file": "/Users/yosiwizman/akior/dashboard/index.html",
+      "action": "edit",
+      "tokens": 14,
+      "at": "2026-04-03T11:21:27.759Z"
+    },
+    {
+      "file": "/Users/yosiwizman/Library/LaunchAgents/com.akior.dashboard-api.plist",
+      "action": "create",
+      "tokens": 243,
+      "at": "2026-04-03T11:21:36.042Z"
     }
   ],
   "edit_counts": {
@@ -193,18 +216,19 @@
     "reports/cto-briefing-2026-04-03-v2.md": 1,
     "openclaw/SOUL.md": 3,
     "scripts/whisper-transcribe.sh": 1,
-    "dashboard/index.html": 1,
+    "dashboard/index.html": 3,
     "docs/ssot/PROJECT_LOG.md": 2,
     "docs/ssot/AKIOR-SYSTEM-STATUS.md": 5,
     "config/yahoo-email-config.yaml": 1,
     "../.config/himalaya/config.toml": 1,
     "dashboard/api.js": 1,
     "../.openclaw/workspace-dev/skills/cron-manager/SKILL.md": 1,
-    "reports/jarvis-to-akior-ui-plan.md": 1
+    "reports/jarvis-to-akior-ui-plan.md": 1,
+    "../Library/LaunchAgents/com.akior.dashboard-api.plist": 1
   },
   "anatomy_hits": 5,
-  "anatomy_misses": 6,
-  "repeated_reads_warned": 4,
+  "anatomy_misses": 7,
+  "repeated_reads_warned": 6,
   "cerebrum_warnings": 0,
-  "stop_count": 12
+  "stop_count": 13
 }

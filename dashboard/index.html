@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="refresh" content="60">
+<!-- auto-refresh handled by JS fetch cycle -->
 <title>AKIOR — Operations Dashboard</title>
 <style>
   :root {
@@ -398,60 +398,150 @@
   }
   restoreCollapsedState();
 
-  // ---- Email triage loader ----
+  // ---- API base URL ----
+  const API_BASE = 'http://localhost:8422';
+
+  // ---- Markdown to HTML parser ----
+  function markdownToHtml(text) {
+    const lines = text.split('\n').filter(function(l) { return l.trim().length > 0; });
+    let html = '';
+    lines.forEach(function(line) {
+      line = line.trim();
+      if (line.startsWith('# ')) {
+        // skip title
+      } else if (line.startsWith('## ')) {
+        html += '<div style="color:var(--cyan);font-size:12px;text-transform:uppercase;letter-spacing:1px;margin:14px 0 8px;border-bottom:1px solid var(--bg3);padding-bottom:4px;">' + line.replace('## ', '') + '</div>';
+      } else if (line.startsWith('- ') || line.startsWith('* ')) {
+        const content = line.replace(/^[-*]\s+/, '');
+        let colored = content;
+        if (/urgent|critical|fail/i.test(content)) {
+          colored = '<span style="color:var(--red)">' + content + '</span>';
+        } else if (/action|warning|expir/i.test(content)) {
+          colored = '<span style="color:var(--yellow)">' + content + '</span>';
+        } else if (/sent|done|complete|success/i.test(content)) {
+          colored = '<span style="color:var(--green)">' + content + '</span>';
+        }
+        html += '<div style="padding:3px 0;font-size:13px;">&bull; ' + colored + '</div>';
+      } else if (line.startsWith('**') || line.startsWith('###')) {
+        html += '<div style="color:var(--white);font-weight:600;margin-top:10px;font-size:13px;">' + line.replace(/[#*]+/g, '').trim() + '</div>';
+      } else {
+        html += '<div style="font-size:13px;padding:2px 0;">' + line + '</div>';
+      }
+    });
+    return html;
+  }
+
+  // ---- Fetch system status ----
+  function loadStatus() {
+    fetch(API_BASE + '/api/status')
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        if (!data.services) return;
+        const tbody = document.querySelector('#card-system table');
+        if (!tbody) return;
+        let html = '<tr><th>Service</th><th>Status</th></tr>';
+        data.services.forEach(function(svc) {
+          const cls = svc.status === 'running' || svc.status === 'active' ? 'status-ok' : 'status-off';
+          const label = svc.detail ? svc.detail : svc.status;
+          html += '<tr><td>' + svc.name + '</td><td><span class="status ' + cls + '">' + label + '</span></td></tr>';
+        });
+        tbody.innerHTML = html;
+      })
+      .catch(function() { /* keep static fallback */ });
+  }
+
+  // ---- Fetch cron jobs ----
+  function loadCron() {
+    fetch(API_BASE + '/api/cron')
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        if (!data.jobs) return;
+        const body = document.querySelector('#card-cron .card-body');
+        if (!body) return;
+        let html = '';
+        data.jobs.forEach(function(job) {
+          const cls = job.status === 'new' ? 'status-off' : 'status-ok';
+          html += '<div class="cron-row"><span>' + job.name + '</span><span class="cron-sched">' + job.schedule + '</span><span class="status ' + cls + '">' + job.status + '</span></div>';
+        });
+        body.innerHTML = html;
+      })
+      .catch(function() { /* keep static fallback */ });
+  }
+
+  // ---- Fetch email triage ----
   function loadEmailTriage() {
     const container = document.getElementById('email-triage-content');
-    // Try to fetch the email triage report via local file server
-    // Since this is a static HTML file, we show a well-formatted placeholder
-    // that can be populated by the ops console or a local API
-    const today = new Date().toISOString().split('T')[0];
-    const reportPath = '../reports/email-triage-' + today + '.md';
-
-    fetch(reportPath)
-      .then(function(response) {
-        if (!response.ok) throw new Error('Not found');
-        return response.text();
+    fetch(API_BASE + '/api/email-triage')
+      .then(function(r) {
+        if (!r.ok) throw new Error('Not found');
+        return r.json();
       })
-      .then(function(text) {
-        // Parse markdown into simple HTML
-        const lines = text.split('\n').filter(function(l) { return l.trim().length > 0; });
-        let html = '';
-        lines.forEach(function(line) {
-          line = line.trim();
-          if (line.startsWith('# ')) {
-            // skip title
-          } else if (line.startsWith('## ')) {
-            html += '<div style="color:var(--cyan);font-size:12px;text-transform:uppercase;letter-spacing:1px;margin:14px 0 8px;border-bottom:1px solid var(--bg3);padding-bottom:4px;">' + line.replace('## ', '') + '</div>';
-          } else if (line.startsWith('- ') || line.startsWith('* ')) {
-            const content = line.replace(/^[-*]\s+/, '');
-            // Color-code by priority keywords
-            let colored = content;
-            if (/urgent|critical|fail/i.test(content)) {
-              colored = '<span style="color:var(--red)">' + content + '</span>';
-            } else if (/action|warning|expir/i.test(content)) {
-              colored = '<span style="color:var(--yellow)">' + content + '</span>';
-            } else if (/sent|done|complete|success/i.test(content)) {
-              colored = '<span style="color:var(--green)">' + content + '</span>';
-            }
-            html += '<div style="padding:3px 0;font-size:13px;">&bull; ' + colored + '</div>';
-          } else if (line.startsWith('**') || line.startsWith('###')) {
-            html += '<div style="color:var(--white);font-weight:600;margin-top:10px;font-size:13px;">' + line.replace(/[#*]+/g, '').trim() + '</div>';
-          } else {
-            html += '<div style="font-size:13px;padding:2px 0;">' + line + '</div>';
-          }
-        });
+      .then(function(data) {
+        const html = markdownToHtml(data.content);
         container.innerHTML = html || '<div class="email-placeholder"><span class="email-placeholder-icon">&#9993;</span>Email triage report is empty.</div>';
       })
       .catch(function() {
+        const today = new Date().toISOString().split('T')[0];
         container.innerHTML =
           '<div class="email-placeholder">' +
           '<span class="email-placeholder-icon">&#9993;</span>' +
-          'No email triage report for today.<br>' +
+          'No email triage report available.<br>' +
           '<span style="font-size:11px;color:var(--dim);">Triage runs every 4h. Report expected at: reports/email-triage-' + today + '.md</span>' +
           '</div>';
       });
   }
-  loadEmailTriage();
+
+  // ---- Fetch CTO briefing ----
+  function loadBriefing() {
+    fetch(API_BASE + '/api/briefing')
+      .then(function(r) {
+        if (!r.ok) throw new Error('Not found');
+        return r.json();
+      })
+      .then(function(data) {
+        const container = document.querySelector('#card-briefing .briefing-content');
+        if (!container) return;
+        const html = markdownToHtml(data.content);
+        if (html) container.innerHTML = html;
+        // Update card header with filename date
+        const header = document.querySelector('#card-briefing .card-header h2');
+        if (header && data.filename) {
+          const dateMatch = data.filename.match(/(\d{4}-\d{2}-\d{2})/);
+          if (dateMatch) header.textContent = 'CTO Briefing \u2014 ' + dateMatch[1];
+        }
+      })
+      .catch(function() { /* keep static fallback */ });
+  }
+
+  // ---- Fetch health for uptime ----
+  function loadHealth() {
+    fetch(API_BASE + '/api/health')
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        if (!data.uptime) return;
+        const secs = Math.floor(data.uptime);
+        const h = Math.floor(secs / 3600);
+        const m = Math.floor((secs % 3600) / 60);
+        const s = secs % 60;
+        const el = document.getElementById('uptime-display');
+        if (el) el.textContent = 'API Uptime: ' + h + 'h ' + m + 'm ' + s + 's';
+      })
+      .catch(function() { /* keep static fallback */ });
+  }
+
+  // ---- Load all data ----
+  function loadAllData() {
+    loadStatus();
+    loadCron();
+    loadEmailTriage();
+    loadBriefing();
+    loadHealth();
+    updateTimestamp();
+  }
+  loadAllData();
+
+  // ---- Auto-refresh via API (replace meta refresh) ----
+  setInterval(loadAllData, 60000);
 </script>
 
 </body>

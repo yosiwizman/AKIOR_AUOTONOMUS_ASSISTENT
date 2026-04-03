@@ -48,6 +48,22 @@
       "related_bugs": [],
       "occurrences": 2,
       "last_seen": "2026-04-03T06:21:34.799Z"
+    },
+    {
+      "id": "bug-004",
+      "timestamp": "2026-04-03T11:21:23.078Z",
+      "error_message": "Significant refactor of ",
+      "file": "dashboard/index.html",
+      "root_cause": "13 lines replaced/restructured",
+      "fix": "Rewrote 54→144 lines (13 removed)",
+      "tags": [
+        "auto-detected",
+        "refactor",
+        "html"
+      ],
+      "related_bugs": [],
+      "occurrences": 1,
+      "last_seen": "2026-04-03T11:21:23.078Z"
     }
   ]
 }
