@@ -2,14 +2,14 @@
   "version": 1,
   "created_at": "2026-04-02T23:25:31.532Z",
   "lifetime": {
-    "total_tokens_estimated": 145814,
-    "total_reads": 84,
-    "total_writes": 293,
+    "total_tokens_estimated": 159863,
+    "total_reads": 93,
+    "total_writes": 306,
     "total_sessions": 7,
-    "anatomy_hits": 38,
-    "anatomy_misses": 46,
-    "repeated_reads_blocked": 38,
-    "estimated_savings_vs_bare_cli": 62947
+    "anatomy_hits": 43,
+    "anatomy_misses": 50,
+    "repeated_reads_blocked": 41,
+    "estimated_savings_vs_bare_cli": 68696
   },
   "sessions": [
     {
@@ -2134,6 +2134,142 @@
       "id": "session-2026-04-03-0108",
       "started": "2026-04-03T05:08:36.211Z",
       "ended": "2026-04-03T05:19:56.648Z",
+      "reads": [
+        {
+          "file": "/Users/yosiwizman/akior/reports/v2-agent1-voice-comms.md",
+          "tokens_estimated": 1443,
+          "was_repeated": true,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/docs/ssot/AKIOR-SYSTEM-STATUS.md",
+          "tokens_estimated": 1653,
+          "was_repeated": true,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/reports/cto-briefing-2026-04-03.md",
+          "tokens_estimated": 682,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/src/lib/tts-voices.ts",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/src/components/jarvis-voice.tsx",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/src/components/voice-console.tsx",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/.claude/projects/-Users-yosiwizman-akior/memory/MEMORY.md",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/reports/lp-product-scrape-2026-04-03.md",
+          "tokens_estimated": 904,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/reports/competitor-research-2026-04-03.md",
+          "tokens_estimated": 1931,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        }
+      ],
+      "writes": [
+        {
+          "file": "/Users/yosiwizman/akior/reports/competitor-research-2026-04-03.md",
+          "tokens_estimated": 2207,
+          "action": "create"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/reports/lp-product-scrape-2026-04-03.md",
+          "tokens_estimated": 1033,
+          "action": "create"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/dashboard/index.html",
+          "tokens_estimated": 2984,
+          "action": "create"
+        },
+        {
+          "file": "/Users/yosiwizman/Library/LaunchAgents/com.akior.dashboard.plist",
+          "tokens_estimated": 243,
+          "action": "create"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/skills/clawring/SKILL.md",
+          "tokens_estimated": 459,
+          "action": "create"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/skills/clawring/clawr.ing-memory.md",
+          "tokens_estimated": 35,
+          "action": "create"
+        },
+        {
+          "file": "/Users/yosiwizman/.claude/projects/-Users-yosiwizman-akior/memory/feedback_phone_calls.md",
+          "tokens_estimated": 192,
+          "action": "create"
+        },
+        {
+          "file": "/Users/yosiwizman/.claude/projects/-Users-yosiwizman-akior/memory/MEMORY.md",
+          "tokens_estimated": 34,
+          "action": "create"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/docs/ssot/AKIOR-SYSTEM-STATUS.md",
+          "tokens_estimated": 21,
+          "action": "edit"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/docs/ssot/AKIOR-SYSTEM-STATUS.md",
+          "tokens_estimated": 118,
+          "action": "edit"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/docs/ssot/AKIOR-SYSTEM-STATUS.md",
+          "tokens_estimated": 23,
+          "action": "edit"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/docs/ssot/AKIOR-SYSTEM-STATUS.md",
+          "tokens_estimated": 46,
+          "action": "edit"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/docs/ssot/AKIOR-SYSTEM-STATUS.md",
+          "tokens_estimated": 41,
+          "action": "edit"
+        }
+      ],
+      "totals": {
+        "input_tokens_estimated": 6613,
+        "output_tokens_estimated": 7436,
+        "reads_count": 9,
+        "writes_count": 13,
+        "repeated_reads_blocked": 3,
+        "anatomy_lookups": 5
+      }
+    },
+    {
+      "id": "session-2026-04-03-0108",
+      "started": "2026-04-03T05:08:36.211Z",
+      "ended": "2026-04-03T05:30:02.786Z",
       "reads": [
         {
           "file": "/Users/yosiwizman/akior/reports/v2-agent1-voice-comms.md",
