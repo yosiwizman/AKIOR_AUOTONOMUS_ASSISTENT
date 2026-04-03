@@ -1,7 +1,7 @@
 # anatomy.md
 
-> Auto-maintained by OpenWolf. Last scanned: 2026-04-03T12:52:14.641Z
-> Files: 584 tracked | Anatomy hits: 0 | Misses: 0
+> Auto-maintained by OpenWolf. Last scanned: 2026-04-03T12:52:42.240Z
+> Files: 585 tracked | Anatomy hits: 0 | Misses: 0
 
 ## ../.claude/projects/-Users-yosiwizman-akior/memory/
 
@@ -11,6 +11,10 @@
 ## ../.config/himalaya/
 
 - `config.toml` — Himalaya Email Client Configuration for AKIOR (~185 tok)
+
+## ../.openclaw/
+
+- `openclaw.json` (~1031 tok)
 
 ## ../.openclaw/workspace-dev/skills/cron-manager/
 
@@ -995,7 +999,7 @@
 
 ## forge/jarvis-v5-os/apps/server/src/
 
-- `index.ts` — API routes: GET, POST (5 endpoints) (~42380 tok)
+- `index.ts` — API routes: GET, POST (5 endpoints) (~42645 tok)
 
 ## forge/jarvis-v5-os/apps/server/src/clients/
 
