@@ -1,6 +1,6 @@
 # anatomy.md
 
-> Auto-maintained by OpenWolf. Last scanned: 2026-04-03T21:05:22.850Z
+> Auto-maintained by OpenWolf. Last scanned: 2026-04-03T21:05:41.844Z
 > Files: 637 tracked | Anatomy hits: 0 | Misses: 0
 
 ## ../.claude/projects/-Users-yosiwizman-akior/memory/
@@ -1126,7 +1126,7 @@
 ## forge/jarvis-v5-os/apps/web/src/components/
 
 - `AkiorLogo.tsx` — AkiorLogo — Sacred geometry SVG logo based on the owner's daughter's design. (~3362 tok)
-- `BrandMark.tsx` — Dynamic AKIOR brand mark component — sacred geometry logo (~468 tok)
+- `BrandMark.tsx` — Dynamic AKIOR brand mark component — production orb renderer (~297 tok)
 - `FileUpload.tsx` — FileUpload (~2059 tok)
 - `HudWidget.tsx` — getWeatherEmoji (~3752 tok)
 - `JarvisAssistant.tsx` — FFT_BARS (~12590 tok)
