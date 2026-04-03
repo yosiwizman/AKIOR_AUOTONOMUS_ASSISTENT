@@ -1,6 +1,6 @@
 # anatomy.md
 
-> Auto-maintained by OpenWolf. Last scanned: 2026-04-03T11:55:37.119Z
+> Auto-maintained by OpenWolf. Last scanned: 2026-04-03T11:59:43.804Z
 > Files: 565 tracked | Anatomy hits: 0 | Misses: 0
 
 ## ../.claude/projects/-Users-yosiwizman-akior/memory/
@@ -10,7 +10,7 @@
 
 ## ../.config/himalaya/
 
-- `config.toml` — Himalaya Email Client Configuration for AKIOR (~187 tok)
+- `config.toml` — Himalaya Email Client Configuration for AKIOR (~185 tok)
 
 ## ../.openclaw/workspace-dev/skills/cron-manager/
 
