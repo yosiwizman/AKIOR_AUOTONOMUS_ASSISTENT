@@ -724,6 +724,22 @@
       "related_bugs": [],
       "occurrences": 1,
       "last_seen": "2026-04-03T19:15:35.822Z"
+    },
+    {
+      "id": "bug-046",
+      "timestamp": "2026-04-03T20:02:18.040Z",
+      "error_message": "CSS fix: animation",
+      "file": "forge/jarvis-v5-os/apps/web/app/globals.css",
+      "root_cause": "animation: slide-in-right 0.3s ease-out → akior-star-pulse-intense 1.5s ease-in-out infinite",
+      "fix": "Changed animation: slide-in-right 0.3s ease-out → akior-star-pulse-intense 1.5s ease-in-out infinite",
+      "tags": [
+        "auto-detected",
+        "style-fix",
+        "css"
+      ],
+      "related_bugs": [],
+      "occurrences": 1,
+      "last_seen": "2026-04-03T20:02:18.040Z"
     }
   ]
 }

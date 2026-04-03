@@ -1,7 +1,7 @@
 # anatomy.md
 
-> Auto-maintained by OpenWolf. Last scanned: 2026-04-03T20:02:04.294Z
-> Files: 629 tracked | Anatomy hits: 0 | Misses: 0
+> Auto-maintained by OpenWolf. Last scanned: 2026-04-03T20:02:22.302Z
+> Files: 631 tracked | Anatomy hits: 0 | Misses: 0
 
 ## ../.claude/projects/-Users-yosiwizman-akior/memory/
 
@@ -1069,7 +1069,7 @@
 
 ## forge/jarvis-v5-os/apps/web/app/
 
-- `globals.css` — Styles: 20 rules, 105 vars (~2210 tok)
+- `globals.css` — Styles: 40 rules, 105 vars (~2960 tok)
 - `layout.tsx` — RootLayout (~3339 tok)
 
 ## forge/jarvis-v5-os/apps/web/app/api/health/
@@ -1096,13 +1096,17 @@
 
 - `page.tsx` — FunctionsPage (~4506 tok)
 
+## forge/jarvis-v5-os/apps/web/app/login/
+
+- `page.tsx` — LoginContent — renders form (~3226 tok)
+
 ## forge/jarvis-v5-os/apps/web/app/settings/
 
 - `page.tsx` — SettingsPage (~43715 tok)
 
 ## forge/jarvis-v5-os/apps/web/app/setup/
 
-- `page.tsx` — SETUP_STEPS (~11827 tok)
+- `page.tsx` — SETUP_STEPS (~12794 tok)
 
 ## forge/jarvis-v5-os/apps/web/app/tasks/
 
@@ -1173,6 +1177,7 @@
 - `jarvis-ui-live-audit-2026-04-03.md` — AKIOR Console (Jarvis V5) -- Live UI Audit (~2858 tok)
 - `lp-inbox-2026-04-03.md` — Live Pilates USA Inbox Sweep — 2026-04-03 (~247 tok)
 - `lp-product-scrape-2026-04-03.md` — Live Pilates USA -- Product Catalog Scrape (~904 tok)
+- `session-summary-2026-04-03.md` — AKIOR Session Summary -- 2026-04-03 (~1902 tok)
 - `system-health-2026-04-03.md` — System Health — 2026-04-03 (~437 tok)
 - `v2-agent1-voice-comms.md` — V2 Agent 1 -- Voice & Communications Setup Report (~1443 tok)
 - `v2-agent2-browser-gui.md` — V2 Agent 2 — Browser & GUI Capabilities Report (~1365 tok)
