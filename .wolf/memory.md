@@ -12,6 +12,16 @@
 | 21:58 | Edited docs/ssot/AKIOR-SYSTEM-STATUS.md | 1→2 lines | ~47 |
 | 21:59 | Edited docs/ssot/PROJECT_LOG.md | 1→2 lines | ~279 |
 | 21:59 | Edited docs/ssot/PROJECT_LOG.md | inline fix | ~26 |
+
+## Session: 2026-04-02 (v2-agent1 voice-comms)
+
+| Time | Action | File(s) | Outcome | ~Tokens |
+|------|--------|---------|---------|--------|
+| -- | ClawHub search "clawr" + "voice call" | -- | Found clawring, voice-call, phone-voice, vapi-calls, etc. | ~200 |
+| -- | Enabled 5 OpenClaw plugins: voice-call, elevenlabs, deepgram, bluebubbles, imessage | ~/.openclaw/openclaw.json | All loaded successfully, gateway restart needed | ~300 |
+| -- | Checked BlueBubbles SKILL.md | ~/.openclaw/workspace-dev/skills/bluebubbles/ | Not found | ~10 |
+| -- | Checked WhatsApp voice transcription config schema | openclaw config schema | Only media.preserveFilenames + ttlHours; no voice transcription fields | ~100 |
+| -- | Wrote voice-comms report | ~/akior/reports/v2-agent1-voice-comms.md | Full report with installed/needs-keys/blocked summary | ~400 |
 | 21:59 | Phase 5 MCP live verification — playwright/ddg-search/context7 confirmed LIVE, memory MCP bootstrap failing, canaries 4/4 PASS, status docs updated | docs/ssot/AKIOR-SYSTEM-STATUS.md, docs/ssot/PROJECT_LOG.md, evidence/screenshots/playwright-test-01.png | COMPLETE | ~8000 |
 | 21:59 | Session end: 5 writes across 2 files (AKIOR-SYSTEM-STATUS.md, PROJECT_LOG.md) | 2 reads | ~2971 tok |
 | 22:10 | Created .gitignore | — | ~29 |
@@ -53,3 +63,5 @@
 | 00:48 | Created reports/v2-agent2-browser-gui.md | — | ~1456 |
 | 2026-04-02 | Browser/GUI capability audit: checked MCP list, registered Firecrawl MCP, searched ClawHub for GUI/desktop/browser/scrape skills, wrote report | reports/v2-agent2-browser-gui.md | Complete — Playwright connected, Firecrawl added, no macOS GUI automation installed yet | ~3000 |
 | 00:49 | Session end: 31 writes across 12 files (AKIOR-SYSTEM-STATUS.md, PROJECT_LOG.md, .gitignore, SOUL.md, email-triage-2026-04-03.md) | 7 reads | ~12941 tok |
+| 00:49 | Created reports/v2-agent1-voice-comms.md | — | ~1539 |
+| 00:49 | Session end: 32 writes across 13 files (AKIOR-SYSTEM-STATUS.md, PROJECT_LOG.md, .gitignore, SOUL.md, email-triage-2026-04-03.md) | 7 reads | ~14590 tok |
