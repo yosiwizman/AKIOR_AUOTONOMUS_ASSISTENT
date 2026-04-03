@@ -2,14 +2,14 @@
   "version": 1,
   "created_at": "2026-04-02T23:25:31.532Z",
   "lifetime": {
-    "total_tokens_estimated": 1377382,
-    "total_reads": 727,
-    "total_writes": 1583,
+    "total_tokens_estimated": 1437274,
+    "total_reads": 774,
+    "total_writes": 1654,
     "total_sessions": 8,
-    "anatomy_hits": 236,
-    "anatomy_misses": 491,
-    "repeated_reads_blocked": 412,
-    "estimated_savings_vs_bare_cli": 817396
+    "anatomy_hits": 241,
+    "anatomy_misses": 533,
+    "repeated_reads_blocked": 472,
+    "estimated_savings_vs_bare_cli": 906516
   },
   "sessions": [
     {
@@ -13284,6 +13284,660 @@
         "reads_count": 47,
         "writes_count": 71,
         "repeated_reads_blocked": 59,
+        "anatomy_lookups": 5
+      }
+    },
+    {
+      "id": "session-2026-04-03-0208",
+      "started": "2026-04-03T06:08:00.519Z",
+      "ended": "2026-04-03T12:42:32.349Z",
+      "reads": [
+        {
+          "file": "/Users/yosiwizman/akior/dashboard/index.html",
+          "tokens_estimated": 5222,
+          "was_repeated": true,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/SOUL.md",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/.openclaw/openclaw.json",
+          "tokens_estimated": 0,
+          "was_repeated": true,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/openclaw/SOUL.md",
+          "tokens_estimated": 1368,
+          "was_repeated": true,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/PROJECT_LOG.md",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/AKIOR-SYSTEM-STATUS.md",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/docs/ssot/PROJECT_LOG.md",
+          "tokens_estimated": 5232,
+          "was_repeated": true,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/docs/ssot/AKIOR-SYSTEM-STATUS.md",
+          "tokens_estimated": 2194,
+          "was_repeated": true,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/reports/jarvis-ui-audit-2026-04-03.md",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/.openclaw/workspace-dev/skills/imap-smtp-email/SKILL.md",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/dashboard/api.js",
+          "tokens_estimated": 1897,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/Library/LaunchAgents/com.akior.dashboard.plist",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/.github/workflows/ci.yml",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/.github/workflows/deploy-preview.yml",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/.github/workflows/deploy-production.yml",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/package.json",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/.openclaw/workspace-dev/skills/cron-manager/SKILL.md",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/.config/himalaya/config.toml",
+          "tokens_estimated": 0,
+          "was_repeated": true,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/.config/imap-smtp-email/.env",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/.claude/hooks/firewall.sh",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/README.md",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/LICENSE",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/forge/jarvis-v5-os/apps/server/.env.example",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/forge/jarvis-v5-os/apps/server/src/index.ts",
+          "tokens_estimated": 0,
+          "was_repeated": true,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/forge/jarvis-v5-os/apps/server/src/routes/llm.routes.ts",
+          "tokens_estimated": 0,
+          "was_repeated": true,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/forge/jarvis-v5-os/apps/server/src/storage/llmConfigStore.ts",
+          "tokens_estimated": 1900,
+          "was_repeated": true,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/forge/jarvis-v5-os/apps/web/app/settings/page.tsx",
+          "tokens_estimated": 0,
+          "was_repeated": true,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/forge/jarvis-v5-os/apps/web/app/functions/page.tsx",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/forge/jarvis-v5-os/apps/web/app/settings/error.tsx",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/forge/jarvis-v5-os/apps/web/app/diagnostics/page.tsx",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/forge/jarvis-v5-os/apps/web/src/components/navigation-bridge.tsx",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/forge/jarvis-v5-os/apps/server/src/clients/localLlmClient.ts",
+          "tokens_estimated": 0,
+          "was_repeated": true,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/forge/jarvis-v5-os/apps/web/app/layout.tsx",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/forge/jarvis-v5-os/apps/web/app/api/system/route.ts",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/forge/jarvis-v5-os/apps/web/app/api/health/route.ts",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/forge/jarvis-v5-os/LOCAL_LLM_INTEGRATION.md",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/forge/jarvis-v5-os/apps/server/data/settings.json",
+          "tokens_estimated": 0,
+          "was_repeated": true,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/forge/jarvis-v5-os/apps/server/src/storage/conversationStore.ts",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/forge/jarvis-v5-os/apps/web/src/components/holomat/SettingsApp.tsx",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/forge/jarvis-v5-os/apps/web/src/hooks/useFunctionSettings.ts",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/forge/jarvis-v5-os/apps/web/src/hooks/useSystemStatus.ts",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/forge/jarvis-v5-os/.playwright-mcp/console-2026-04-03T12-40-48-714Z.log",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/forge/jarvis-v5-os/apps/web/src/components/JarvisAssistant.tsx",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/forge/jarvis-v5-os/apps/web/app/chat/page.tsx",
+          "tokens_estimated": 0,
+          "was_repeated": true,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/forge/jarvis-v5-os/packages/shared/src/settings.ts",
+          "tokens_estimated": 4529,
+          "was_repeated": true,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/forge/jarvis-v5-os/packages/shared/src/integrations.ts",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/private/tmp/claude-501/-Users-yosiwizman-akior/1c331f48-6227-40cd-9303-632bbf0b402b/tasks/ade7ce352b43e44f3.output",
+          "tokens_estimated": 0,
+          "was_repeated": true,
+          "anatomy_had_description": false
+        }
+      ],
+      "writes": [
+        {
+          "file": "/Users/yosiwizman/akior/reports/email-triage-2026-04-03-v2.md",
+          "tokens_estimated": 692,
+          "action": "create"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/reports/calendar-2026-04-03-v2.md",
+          "tokens_estimated": 84,
+          "action": "create"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/skills/facetime/SKILL.md",
+          "tokens_estimated": 749,
+          "action": "create"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/reports/cto-briefing-2026-04-03-v2.md",
+          "tokens_estimated": 679,
+          "action": "create"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/openclaw/SOUL.md",
+          "tokens_estimated": 61,
+          "action": "edit"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/openclaw/SOUL.md",
+          "tokens_estimated": 72,
+          "action": "edit"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/scripts/whisper-transcribe.sh",
+          "tokens_estimated": 295,
+          "action": "create"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/openclaw/SOUL.md",
+          "tokens_estimated": 465,
+          "action": "edit"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/dashboard/index.html",
+          "tokens_estimated": 5595,
+          "action": "create"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/docs/ssot/PROJECT_LOG.md",
+          "tokens_estimated": 44,
+          "action": "edit"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/docs/ssot/PROJECT_LOG.md",
+          "tokens_estimated": 591,
+          "action": "edit"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/docs/ssot/AKIOR-SYSTEM-STATUS.md",
+          "tokens_estimated": 41,
+          "action": "edit"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/docs/ssot/AKIOR-SYSTEM-STATUS.md",
+          "tokens_estimated": 45,
+          "action": "edit"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/docs/ssot/AKIOR-SYSTEM-STATUS.md",
+          "tokens_estimated": 180,
+          "action": "edit"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/docs/ssot/AKIOR-SYSTEM-STATUS.md",
+          "tokens_estimated": 140,
+          "action": "edit"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/docs/ssot/AKIOR-SYSTEM-STATUS.md",
+          "tokens_estimated": 42,
+          "action": "edit"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/config/yahoo-email-config.yaml",
+          "tokens_estimated": 317,
+          "action": "create"
+        },
+        {
+          "file": "/Users/yosiwizman/.config/himalaya/config.toml",
+          "tokens_estimated": 268,
+          "action": "create"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/dashboard/api.js",
+          "tokens_estimated": 1897,
+          "action": "create"
+        },
+        {
+          "file": "/Users/yosiwizman/.openclaw/workspace-dev/skills/cron-manager/SKILL.md",
+          "tokens_estimated": 2589,
+          "action": "create"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/reports/jarvis-to-akior-ui-plan.md",
+          "tokens_estimated": 2603,
+          "action": "create"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/dashboard/index.html",
+          "tokens_estimated": 1697,
+          "action": "edit"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/dashboard/index.html",
+          "tokens_estimated": 14,
+          "action": "edit"
+        },
+        {
+          "file": "/Users/yosiwizman/Library/LaunchAgents/com.akior.dashboard-api.plist",
+          "tokens_estimated": 243,
+          "action": "create"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/docs/ssot/PROJECT_LOG.md",
+          "tokens_estimated": 41,
+          "action": "edit"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/docs/ssot/PROJECT_LOG.md",
+          "tokens_estimated": 538,
+          "action": "edit"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/docs/ssot/AKIOR-SYSTEM-STATUS.md",
+          "tokens_estimated": 71,
+          "action": "edit"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/docs/ssot/AKIOR-SYSTEM-STATUS.md",
+          "tokens_estimated": 81,
+          "action": "edit"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/docs/ssot/AKIOR-SYSTEM-STATUS.md",
+          "tokens_estimated": 29,
+          "action": "edit"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/docs/ssot/AKIOR-SYSTEM-STATUS.md",
+          "tokens_estimated": 123,
+          "action": "edit"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/docs/ssot/AKIOR-SYSTEM-STATUS.md",
+          "tokens_estimated": 76,
+          "action": "edit"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/docs/ssot/AKIOR-SYSTEM-STATUS.md",
+          "tokens_estimated": 58,
+          "action": "edit"
+        },
+        {
+          "file": "/Users/yosiwizman/.config/himalaya/config.toml",
+          "tokens_estimated": 8,
+          "action": "edit"
+        },
+        {
+          "file": "/Users/yosiwizman/.config/himalaya/config.toml",
+          "tokens_estimated": 263,
+          "action": "create"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/.github/workflows/akior-health.yml",
+          "tokens_estimated": 230,
+          "action": "create"
+        },
+        {
+          "file": "/Users/yosiwizman/.openclaw/workspace-dev/skills/yahoo-mail/SKILL.md",
+          "tokens_estimated": 463,
+          "action": "create"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/openclaw/SOUL.md",
+          "tokens_estimated": 1843,
+          "action": "create"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/docs/ssot/PROJECT_LOG.md",
+          "tokens_estimated": 44,
+          "action": "edit"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/docs/ssot/PROJECT_LOG.md",
+          "tokens_estimated": 522,
+          "action": "edit"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/docs/ssot/AKIOR-SYSTEM-STATUS.md",
+          "tokens_estimated": 42,
+          "action": "edit"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/docs/ssot/AKIOR-SYSTEM-STATUS.md",
+          "tokens_estimated": 114,
+          "action": "edit"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/docs/ssot/AKIOR-SYSTEM-STATUS.md",
+          "tokens_estimated": 45,
+          "action": "edit"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/docs/ssot/AKIOR-SYSTEM-STATUS.md",
+          "tokens_estimated": 54,
+          "action": "edit"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/docs/ssot/AKIOR-SYSTEM-STATUS.md",
+          "tokens_estimated": 38,
+          "action": "edit"
+        },
+        {
+          "file": "/Users/yosiwizman/.config/himalaya/config.toml",
+          "tokens_estimated": 6,
+          "action": "edit"
+        },
+        {
+          "file": "/Users/yosiwizman/.config/himalaya/config.toml",
+          "tokens_estimated": 6,
+          "action": "edit"
+        },
+        {
+          "file": "/Users/yosiwizman/.config/himalaya/config.toml",
+          "tokens_estimated": 200,
+          "action": "create"
+        },
+        {
+          "file": "/Users/yosiwizman/.config/himalaya/config.toml",
+          "tokens_estimated": 5,
+          "action": "edit"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/reports/cto-briefing-2026-04-03-v3.md",
+          "tokens_estimated": 914,
+          "action": "create"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/README.md",
+          "tokens_estimated": 2019,
+          "action": "create"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/LICENSE",
+          "tokens_estimated": 306,
+          "action": "create"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/reports/avatar-video-setup-guide.md",
+          "tokens_estimated": 2373,
+          "action": "create"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/docs/ssot/PROJECT_LOG.md",
+          "tokens_estimated": 38,
+          "action": "edit"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/docs/ssot/PROJECT_LOG.md",
+          "tokens_estimated": 478,
+          "action": "edit"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/docs/ssot/AKIOR-SYSTEM-STATUS.md",
+          "tokens_estimated": 37,
+          "action": "edit"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/docs/ssot/AKIOR-SYSTEM-STATUS.md",
+          "tokens_estimated": 106,
+          "action": "edit"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/docs/ssot/AKIOR-SYSTEM-STATUS.md",
+          "tokens_estimated": 70,
+          "action": "edit"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/docs/ssot/AKIOR-SYSTEM-STATUS.md",
+          "tokens_estimated": 26,
+          "action": "edit"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/docs/ssot/AKIOR-SYSTEM-STATUS.md",
+          "tokens_estimated": 57,
+          "action": "edit"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/docs/ssot/AKIOR-SYSTEM-STATUS.md",
+          "tokens_estimated": 31,
+          "action": "edit"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/forge/jarvis-v5-os/apps/web/app/tasks/page.tsx",
+          "tokens_estimated": 3028,
+          "action": "create"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/forge/jarvis-v5-os/apps/web/app/api/tasks/route.ts",
+          "tokens_estimated": 1369,
+          "action": "create"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/forge/jarvis-v5-os/apps/web/app/layout.tsx",
+          "tokens_estimated": 248,
+          "action": "edit"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/forge/jarvis-v5-os/apps/server/src/clients/anthropicClient.ts",
+          "tokens_estimated": 1579,
+          "action": "create"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/forge/jarvis-v5-os/apps/server/src/storage/llmConfigStore.ts",
+          "tokens_estimated": 24,
+          "action": "edit"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/forge/jarvis-v5-os/apps/server/src/storage/llmConfigStore.ts",
+          "tokens_estimated": 75,
+          "action": "edit"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/forge/jarvis-v5-os/packages/shared/src/settings.ts",
+          "tokens_estimated": 240,
+          "action": "edit"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/forge/jarvis-v5-os/packages/shared/src/settings.ts",
+          "tokens_estimated": 54,
+          "action": "edit"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/forge/jarvis-v5-os/apps/server/data/settings.json",
+          "tokens_estimated": 16,
+          "action": "edit"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/forge/jarvis-v5-os/apps/server/data/settings.json",
+          "tokens_estimated": 65,
+          "action": "edit"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/forge/jarvis-v5-os/packages/shared/src/settings.ts",
+          "tokens_estimated": 94,
+          "action": "edit"
+        }
+      ],
+      "totals": {
+        "input_tokens_estimated": 22342,
+        "output_tokens_estimated": 37550,
+        "reads_count": 47,
+        "writes_count": 71,
+        "repeated_reads_blocked": 60,
         "anatomy_lookups": 5
       }
     }

@@ -223,8 +223,8 @@
       "first_read": "2026-04-03T12:41:06.980Z"
     },
     "/Users/yosiwizman/akior/forge/jarvis-v5-os/packages/shared/src/settings.ts": {
-      "count": 10,
-      "tokens": 4509,
+      "count": 11,
+      "tokens": 4529,
       "first_read": "2026-04-03T12:41:26.435Z"
     },
     "/Users/yosiwizman/akior/forge/jarvis-v5-os/packages/shared/src/integrations.ts": {
@@ -698,7 +698,7 @@
   },
   "anatomy_hits": 5,
   "anatomy_misses": 42,
-  "repeated_reads_warned": 59,
+  "repeated_reads_warned": 60,
   "cerebrum_warnings": 0,
-  "stop_count": 34
+  "stop_count": 35
 }
