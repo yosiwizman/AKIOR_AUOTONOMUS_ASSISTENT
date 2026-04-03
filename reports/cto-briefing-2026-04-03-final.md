@@ -1,125 +1,124 @@
-# CTO Briefing — 2026-04-03 FINAL
+# CTO Final Briefing — 2026-04-03
 
-**Generated:** 2026-04-03T12:50Z
-**Author:** AKIOR Autonomous Ops Cycle (Opus 4.6)
-
----
-
-## 1. Gmail Triage (last 12 hours — 9 unread)
-
-| # | From | Subject | Classification |
-|---|------|---------|---------------|
-| 1 | Medium | Stats for your stories: Mar 27--Apr 3 | FYI -- 9 views, 4 reads on Live Pilates articles |
-| 2 | Walmart | Apple, VIZIO & more | SPAM/PROMO -- retail newsletter |
-| 3 | Gaia | What your manifestations are missing | SPAM/PROMO -- streaming upsell |
-| 4 | The Futurist | Static electricity news | FYI -- tech newsletter |
-| 5 | Yahoo | App password used to sign in | ACTION -- security alert: app password used at 4:59 AM PDT (this was AKIOR configuring Himalaya) |
-| 6 | Yahoo | App password generated for Yahoo | ACTION -- security alert: app password generated (AKIOR Himalaya setup) |
-| 7 | Yahoo | Password change notification | ACTION -- security alert: Yahoo password changed at 11:41 UTC |
-| 8 | Yahoo | Sign in notification | ACTION -- Google account used to sign into Yahoo |
-| 9 | Medium Daily Digest | Claude Code article by Reza Rezvani | FYI -- relevant AI/dev content |
-
-**Summary:** No URGENT items. 4 ACTION items are Yahoo security alerts from today's Himalaya email client configuration -- all expected and legitimate (AKIOR-initiated). 3 FYI newsletters. 2 SPAM/PROMO.
+**Generated:** 2026-04-03 ~19:20 EDT
+**Operator:** AKIOR Autonomous OS (Opus 4.6, 1M context)
+**Classification:** End-of-day operational summary
 
 ---
 
-## 2. Yahoo Email (last 5 envelopes)
+## 1. System Status Overview
 
-All 5 messages are spam/promotional:
-- Hair/health supplement spam
-- Loan pre-qualification spam
-- GHomeSmart deals promo
-- M&M's chocolate newsletter
-- All Glam clickbait
+| Component | Status | Detail |
+|-----------|--------|--------|
+| OpenClaw Gateway | RUNNING | ws://127.0.0.1:18789, pid 83460, active |
+| WhatsApp Channel | ONLINE | Linked +13054098490, auth OK |
+| iMessage Channel | ONLINE | Configured |
+| AKIOR Dashboard (3001) | RUNNING | HTTP 307 (redirect OK) |
+| Service on 8421 | RUNNING | HTTP 200 |
+| Service on 8422 | RUNNING | HTTP 200 |
+| Docker | RUNNING | 14 containers active |
+| Ollama | RUNNING | 4 models: qwen2.5-coder:7b, qwen3:14b, llama3.1, tinyllama:1.1b |
+| Canary Checks | PASSED | 4/4 daily canaries green |
+| Git Remote | SYNCED | Pushed 2 commits to akior-os/main |
 
-**Verdict:** No action required. Yahoo inbox is 100% spam.
+### OpenClaw Sessions
+- 30 active sessions, default model claude-sonnet-4-20250514 (200k ctx)
+- Main agent session: 77k/200k tokens (39%), 100% cached
+- iMessage session: 152k/200k (76%) -- approaching context limit
+- 10 active tasks, 3 with issues, audit shows 10 errors + 11 warnings
+
+### Security Warnings (from openclaw)
+- Credentials dir readable by others (chmod 700 recommended)
+- Reverse proxy headers not trusted (non-critical for local-only)
+- Model tier warning (Sonnet 4 below Claude 4.5 recommendation)
 
 ---
 
-## 3. Google Calendar
+## 2. V2 Phase Progress
+
+**V2 Phase 9: COMPLETE** (as of latest commit b0d7777)
+- Pronunciation system, group skills, UI audit all done
+
+**V2 Expansion (Phases 10-11 scope):**
+- 3 parallel agents ran: Voice+Comms, Browser+GUI, Tools+Hardening
+- 5 new OpenClaw plugins enabled (voice-call, elevenlabs, deepgram, bluebubbles, imessage)
+- 8 new ClawHub skills installed
+- Firecrawl MCP registered, Playwright healthy (20+ browser tools)
+- GitHub Actions weekly regression cron created
+
+**Blocked Items:**
+- ElevenLabs API key not set
+- Deepgram API key not set
+- BlueBubbles server app not installed
+- WhatsApp voice transcription needs Deepgram pipeline
+
+---
+
+## 3. Email Triage (last 12 hours)
+
+**30 unread emails scanned.** Classification:
+
+### ACTION_NEEDED (2)
+| Email | From | Action |
+|-------|------|--------|
+| LUXURY-MIAMI-DIRECTORY.COM Final Cancellation Notice | GoDaddy Renewals | Domain being canceled. Decide: renew or let expire. |
+| Anthropic receipt #2666-7586-9238 ($199.26) | Anthropic, PBC | Claude subscription charged $199.26 via Cash App. Verify against budget. |
+
+### ROUTINE / Financial Notifications (4)
+| Email | From | Amount |
+|-------|------|--------|
+| AT&T payment | Cash App | $70.00 |
+| Murphy USA gas (updated) | Cash App | $84.19 (was $100 hold) |
+| Claude.ai Subscription | Cash App | $199.26 |
+| Vercel billing change | Vercel | $10/mo base fee removed (savings) |
+
+### INFORMATIONAL (24+)
+- Newsletters: Gemma 4 release (Medium), AI Blueprint, Futurepedia, Feedspot, Click Analytic
+- Promotions: Adobe Firefly 50%, Babbel Lifetime $219, FormWise V2, HomeDesignsAI, Yale Locks, Tractor Supply, ASFA Fitness, StackSocial, CrunchLabs, BrainBeast, True Shot Ammo
+- Service notices: Brizy Cloud maintenance Apr 5 8AM CET, SiteSwan site of the week, Mermaid updates
+
+### Customer Inquiries
+- **None detected.** No Wix/Live Pilates customer messages in Gmail intake.
+
+---
+
+## 4. Calendar Summary
 
 | Date | Events |
 |------|--------|
-| 2026-04-03 (Today) | No events scheduled |
-| 2026-04-04 (Tomorrow) | No events scheduled |
+| Today (Apr 3, 2026) | No events |
+| Tomorrow (Apr 4, 2026) | No events |
 
-**Calendar is clear.**
-
----
-
-## 4. Canary Health
-
-**Result: 4/4 PASS**
-- Filesystem: PASS
-- Ollama: PASS
-- GitHub: PASS
-- Gmail: PASS
+Calendar is clear.
 
 ---
 
-## 5. System Health
+## 5. Financial Snapshot (today's charges)
 
-### Disk
-- Root volume: 460 GB total, 12 GB used, 31 GB available (28% capacity) -- HEALTHY
+| Charge | Amount | Method |
+|--------|--------|--------|
+| Anthropic Claude subscription | $199.26 | Cash App Card |
+| AT&T Store | $70.00 | Cash App Card |
+| Murphy USA gas | $84.19 | Cash App Card |
+| **Total today** | **$353.45** | |
 
-### Docker (14 containers, all healthy)
-| Stack | Containers | Status |
-|-------|-----------|--------|
-| Open WebUI | 1 (port 3000) | Healthy, up 2h |
-| AI Company (Redis + Postgres) | 2 (ports 6379, 5432) | Healthy, up 2h |
-| Supabase (open-cuak-db) | 11 (ports 54321-54327) | All healthy, up 2h |
-
-### Ollama (4 models loaded)
-| Model | Size |
-|-------|------|
-| qwen2.5-coder:7b | 4.7 GB |
-| qwen3:14b | 9.3 GB |
-| llama3.1:latest | 4.9 GB |
-| tinyllama:1.1b | 637 MB |
-
-### LaunchAgent Services
-| Service | PID | Status |
-|---------|-----|--------|
-| com.akior.dashboard-api | 42225 | Running |
-| com.akior.dashboard | 86628 | Running |
-| com.akior.ops-console | - | Exited (code 1) |
-| com.akior.watchdog | - | Loaded (timer-based) |
-| ai.openclaw.gateway | 54135 | Running |
-
-**NOTE:** ops-console has exit code 1 -- not currently running. Non-critical (dashboard + API cover monitoring).
-
-### OpenClaw Gateway
-- **Status:** Running, active, reachable (62ms latency)
-- **Version:** 2026.4.2 (up to date)
-- **WhatsApp:** ON, linked, +13054098490
-- **iMessage:** ON, configured
-- **Sessions:** 16 active, default model claude-sonnet-4-20250514
-- **Tasks:** 6 active, 6 running, 1 issue
-- **Security:** 3 warnings (reverse proxy headers, model tier, credentials dir permissions)
-- **Tailscale:** OFF
-
-### Dashboard API
-- **Health:** OK (uptime: 5333s / ~1.5 hours)
+Note: Anthropic $199.26 counts against the $500 API budget.
 
 ---
 
-## 6. Issues & Recommendations
+## 6. Action Items / Gaps
 
-| Priority | Item | Action |
+| Priority | Item | Status |
 |----------|------|--------|
-| LOW | ops-console exit code 1 | Restart if ops-console logging needed: `launchctl kickstart gui/$(id -u)/com.akior.ops-console` |
-| LOW | OpenClaw credentials dir permissions (755) | Run `chmod 700 ~/.openclaw/credentials` |
-| INFO | OpenClaw 1 task issue | Run `openclaw tasks maintenance --apply` to clear |
-| INFO | Yahoo inbox 100% spam | Consider spam filter rules or ignore |
+| HIGH | Decide on LUXURY-MIAMI-DIRECTORY.COM domain renewal (GoDaddy cancellation notice) | Owner decision needed |
+| HIGH | BLOGGERHUB.BLOG domain expires 4/7 (flagged in earlier triage) | Owner decision needed |
+| MEDIUM | Set ElevenLabs + Deepgram API keys to unblock V2 voice features | Pending keys |
+| MEDIUM | Install BlueBubbles macOS app for iMessage plugin | Pending install |
+| MEDIUM | iMessage session at 76% context -- may need rotation soon | Monitor |
+| LOW | OpenClaw credentials dir permissions (chmod 700) | Quick fix |
+| LOW | Brizy Cloud maintenance window Apr 5 8AM CET | Awareness only |
+| INFO | Vercel removed $10/mo Observability Plus base fee -- net savings | No action |
 
 ---
 
-## 7. Overall System Grade
-
-**A- (Operational)**
-
-All critical services running. Canaries green. No urgent emails. No calendar conflicts. Docker healthy. Ollama responsive. Gateway active with WhatsApp linked. Minor issues: ops-console down (non-critical), one OpenClaw task issue.
-
----
-
-*End of CTO briefing.*
+**End of briefing.**

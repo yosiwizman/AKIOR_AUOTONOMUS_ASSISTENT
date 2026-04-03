@@ -1,7 +1,7 @@
 # anatomy.md
 
-> Auto-maintained by OpenWolf. Last scanned: 2026-04-03T17:12:35.480Z
-> Files: 618 tracked | Anatomy hits: 0 | Misses: 0
+> Auto-maintained by OpenWolf. Last scanned: 2026-04-03T19:12:13.488Z
+> Files: 620 tracked | Anatomy hits: 0 | Misses: 0
 
 ## ../.claude/projects/-Users-yosiwizman-akior/memory/
 
@@ -1034,6 +1034,8 @@
 
 ## forge/jarvis-v5-os/apps/server/data/
 
+- `llm-config.json` (~35 tok)
+- `secrets.json` (~1 tok)
 - `settings.json` (~828 tok)
 
 ## forge/jarvis-v5-os/apps/server/src/
@@ -1139,7 +1141,7 @@
 - `calendar-2026-04-03-v2.md` — Calendar Report — 2026-04-03 (v2 Morning Run) (~73 tok)
 - `calendar-2026-04-03.md` — Calendar — 2026-04-03 (Thu) + 2026-04-04 (Fri) (~73 tok)
 - `competitor-research-2026-04-03.md` — Pilates Equipment Competitor Research Report (~1931 tok)
-- `cto-briefing-2026-04-03-final.md` — CTO Briefing — 2026-04-03 FINAL (~1052 tok)
+- `cto-briefing-2026-04-03-final.md` — CTO Final Briefing — 2026-04-03 (~1149 tok)
 - `cto-briefing-2026-04-03-update.md` — AKIOR CTO Briefing Update — 2026-04-03 (Thursday, Evening) (~1077 tok)
 - `cto-briefing-2026-04-03-v2.md` — CTO Morning Briefing — 2026-04-03 (v2) (~594 tok)
 - `cto-briefing-2026-04-03-v3.md` — CTO Morning Briefing — 2026-04-03 v3 (~800 tok)
