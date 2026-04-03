@@ -13,7 +13,7 @@
 | **Target milestone** | v2 expansion / parallel operations |
 | **Active layer** | V2 EXPANSION — IN PROGRESS |
 | **Distance** | NEAR |
-| **Last verified step** | Task 54 | V2 Phase 6 complete — channel routing fix, Jarvis UI, avatar research, Yahoo live, repo polish |
+| **Last verified step** | Task 59 | V2 Phase 7 complete — UI wiring, cron page, avatars, settings verified |
 | **Last updated** | 2026-04-03 |
 
 > Update this block whenever a new entry is appended. This is the quick-glance state.
@@ -121,6 +121,11 @@
 2026-04-03 | Task 52 | VCam Avatar Setup Research | COMPLETE | V2 | Guide written at ~/akior/reports/avatar-video-setup-guide.md. VCamApp (brew cask) recommended for VRM avatars. FaceTime blocks virtual cameras — Zoom/Meet are reliable targets. OBS + VU-VRM as alternatives. Nothing installed yet. | NEAR | Next: Yahoo email live test | Owner: none
 2026-04-03 | Task 53 | Yahoo Email Live Test + Morning Ops v3 | COMPLETE | V2 | Yahoo confirmed operational via Himalaya. Gmail clear, calendar empty, canaries 4/4 green. Briefing v3 saved and pushed. | NEAR | Next: repo polish | Owner: none
 2026-04-03 | Task 54 | AKIOR Product Polish | COMPLETE | V2 | Professional README with Mermaid diagram, badges, capability tables. MIT license. GitHub description, topics, homepage set. | NEAR | Next: V2 Phase 7 | Owner: none
+2026-04-03 | Task 55 | Wire Jarvis UI to AKIOR LLM | PARTIAL | V2 | Added anthropic-cloud provider type to llmConfigStore.ts, updated settings.json, layout.tsx, shared settings. Agent hit output limit mid-edit. Anthropic wiring in progress. | NEAR | Next: complete Anthropic provider wiring | Owner: none
+2026-04-03 | Task 56 | Wire Cron Jobs into UI | COMPLETE | V2 | Created /tasks page with card grid, status badges, toggle switches, expand-to-detail, natural language "Add Task" input. API endpoint shells out to openclaw cron commands. Added to sidebar nav. Build verified zero errors. | NEAR | Next: avatar selection | Owner: none
+2026-04-03 | Task 57 | Avatar Selection + VCam Install | COMPLETE | V2 | VCam v0.13.3 installed. 3 CC0 VRM avatars downloaded (orion, aurora, devil). Avatar Selection section added to settings page with grid, toggle, preview. TypeScript compiles clean. | NEAR | Next: settings verification | Owner: none
+2026-04-03 | Task 58 | Fix Settings + Function Testing | COMPLETE | V2 | Both /settings and /functions pages fully functional. 15+ settings sections wired. 25 functions with working toggles. Screenshots saved. No fixes needed. | NEAR | Next: Ollama + Memory wiring | Owner: none
+2026-04-03 | Task 59 | Connect Ollama + Memory to UI | PARTIAL | V2 | Modified server index, chat page, settings page, LLM config store across 8 files. Agent hit output limit mid-work. Ollama provider addition in progress. | NEAR | Next: complete Ollama provider wiring in Phase 8 | Owner: none
 ```
 
 > Delete these placeholder entries and begin real logging on your first live session.

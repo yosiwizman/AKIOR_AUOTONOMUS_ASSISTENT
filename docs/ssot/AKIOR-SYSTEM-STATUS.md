@@ -1,6 +1,6 @@
 # AKIOR System Status
 
-**Generated:** 2026-04-03T23:59Z (V2 Phase 6 COMPLETE — channel routing fix, Jarvis UI, avatar research, Yahoo live, repo polish)
+**Generated:** 2026-04-03T23:59Z (V2 Phase 7 COMPLETE — UI wiring, cron page, avatars, settings verified)
 **Purpose:** Canonical "what is AKIOR right now" document
 **Refresh:** Update after each major system change
 
@@ -18,7 +18,7 @@
 | Ollama | Running (4 models) | Homebrew service |
 | AKIOR Dashboard | Running v2.0-phase3 (localhost:8421) | LaunchAgent com.akior.dashboard (KeepAlive) — auto-refresh 60s, email triage, collapsible panels |
 | AKIOR Dashboard API | Running (localhost:8422) | LaunchAgent com.akior.dashboard-api (KeepAlive) — 5 endpoints, live data |
-| Jarvis V5 UI | Running (localhost:3001) | ~/akior/forge/jarvis-v5-os — Next.js 14 frontend, visual inspection only |
+| Jarvis V5 UI | Running (localhost:3001) | ~/akior/forge/jarvis-v5-os — Next.js 14 frontend, /tasks page, avatar selection, settings/functions verified working |
 
 ---
 
@@ -201,8 +201,10 @@
 | ~/akior/ git repo | Active, CI green, professional README, MIT license, GitHub metadata set | Resolved |
 | Old akior-os repo | Deletion blocked by token scope | Owner action |
 | Yahoo email credentials | OPERATIONAL — live-tested with real credentials | Resolved |
-| VCam avatar | Guide ready at ~/akior/reports/avatar-video-setup-guide.md, not yet installed | Next install |
+| VCam avatar | VCam v0.13.3 installed, 3 CC0 VRM avatars ready (orion, aurora, devil), UI selection added | Resolved |
 | FaceTime audio | Skill ready, not yet live-tested | Next test |
+| LLM wiring (Anthropic) | Task 55 PARTIAL — provider type added, wiring incomplete | Next phase |
+| LLM wiring (Ollama) | Task 59 PARTIAL — 8 files modified, provider addition incomplete | Next phase |
 
 ---
 
