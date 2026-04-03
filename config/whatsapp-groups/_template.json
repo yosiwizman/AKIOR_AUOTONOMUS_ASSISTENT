@@ -1,0 +1,15 @@
+{
+  "group_id": "",
+  "group_name": "",
+  "mode": "silent",
+  "allowed_numbers": [],
+  "translation_enabled": true,
+  "translation_post_in_group": false,
+  "task_tracking_enabled": true,
+  "summary_schedule": "on_demand",
+  "language_filter": ["en"],
+  "owner_phone": "",
+  "created_at": "",
+  "updated_at": "",
+  "notes": ""
+}

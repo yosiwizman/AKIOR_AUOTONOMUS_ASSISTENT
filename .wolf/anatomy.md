@@ -1,7 +1,7 @@
 # anatomy.md
 
-> Auto-maintained by OpenWolf. Last scanned: 2026-04-03T13:10:51.557Z
-> Files: 589 tracked | Anatomy hits: 0 | Misses: 0
+> Auto-maintained by OpenWolf. Last scanned: 2026-04-03T13:11:42.879Z
+> Files: 591 tracked | Anatomy hits: 0 | Misses: 0
 
 ## ../.claude/projects/-Users-yosiwizman-akior/memory/
 
@@ -21,6 +21,10 @@
 
 - `SOUL.md` — AKIOR — Autonomous AI Operating System (~1678 tok)
 
+## ../.openclaw/workspace-dev/skills/group-assistant/
+
+- `SKILL.md` — WhatsApp Group Assistant — silent absorber, translation, selective reply, task extraction modes (~2800 tok)
+
 ## ../.openclaw/workspace-dev/skills/clawring/
 
 - `clawr.ing-memory.md` — clawr.ing memory (~167 tok)
@@ -29,6 +33,10 @@
 ## ../.openclaw/workspace-dev/skills/cron-manager/
 
 - `SKILL.md` — Cron Manager (~2266 tok)
+
+## ../.openclaw/workspace-dev/skills/group-assistant/
+
+- `SKILL.md` — Group Assistant (~3388 tok)
 
 ## ../.openclaw/workspace-dev/skills/yahoo-mail/
 
@@ -97,6 +105,10 @@
 - `akior-tmux-watchdog.sh` — AKIOR tmux watchdog — ensures the akior tmux session persists (~125 tok)
 - `checkpoint.sh` (~58 tok)
 - `post-action-ledger.sh` (~51 tok)
+
+## config/whatsapp-groups/
+
+- `_template.json` (~94 tok)
 
 ## dashboard/
 

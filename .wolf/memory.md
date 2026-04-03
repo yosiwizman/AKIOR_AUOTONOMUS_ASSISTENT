@@ -3,6 +3,8 @@
 > Chronological action log. Hooks and AI append to this file automatically.
 > Old sessions are consolidated by the daemon weekly.
 
+| 2026-04-03 | Created group-assistant skill for WhatsApp group management (silent absorber, translation, selective reply, task extraction) | ~/.openclaw/workspace-dev/skills/group-assistant/SKILL.md, ~/akior/config/whatsapp-groups/_template.json | created | ~3000 |
+
 | 06:15 | Morning ops v2: email triage (10 msgs, 4 URGENT), calendar (clear), Neon payment check (FAILING), canary (4/4 pass), CTO briefing written, git pushed | reports/*-v2.md | complete | ~8000 |
 
 | 2026-04-03 | Researched FaceTime automation + AI avatar video call capabilities | reports/voice-video-research-2026-04-03.md | Full report with 5 options, feasibility ratings, and phased recommendations | ~8000 |
@@ -354,3 +356,6 @@
 | 09:11 | Session end: 121 writes across 34 files (email-triage-2026-04-03-v2.md, calendar-2026-04-03-v2.md, SKILL.md, cto-briefing-2026-04-03-v2.md, SOUL.md) | 61 reads | ~178818 tok |
 | 09:11 | Configured OpenClaw group message handling: requireMention=true for all groups (*), mentionPatterns=[AKIOR, @AKIOR, akior, @akior], DM policy unchanged | ~/.openclaw/openclaw.json | success | ~200 |
 | 09:11 | Session end: 121 writes across 34 files (email-triage-2026-04-03-v2.md, calendar-2026-04-03-v2.md, SKILL.md, cto-briefing-2026-04-03-v2.md, SOUL.md) | 61 reads | ~178818 tok |
+| 09:11 | Created ../.openclaw/workspace-dev/skills/group-assistant/SKILL.md | — | ~3614 |
+| 09:11 | Created config/whatsapp-groups/_template.json | — | ~94 |
+| 09:12 | Session end: 123 writes across 35 files (email-triage-2026-04-03-v2.md, calendar-2026-04-03-v2.md, SKILL.md, cto-briefing-2026-04-03-v2.md, SOUL.md) | 61 reads | ~182784 tok |
