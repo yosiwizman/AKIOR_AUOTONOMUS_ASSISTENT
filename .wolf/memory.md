@@ -359,3 +359,5 @@
 | 09:11 | Created ../.openclaw/workspace-dev/skills/group-assistant/SKILL.md | — | ~3614 |
 | 09:11 | Created config/whatsapp-groups/_template.json | — | ~94 |
 | 09:12 | Session end: 123 writes across 35 files (email-triage-2026-04-03-v2.md, calendar-2026-04-03-v2.md, SKILL.md, cto-briefing-2026-04-03-v2.md, SOUL.md) | 61 reads | ~182784 tok |
+| 03:15 | Fixed AKIOR pronunciation (AH-key-or) and owner name (Mr W) in clawr.ing skill, memory, and all 3 SOUL.md files. Restarted gateway. Test call placed (went to voicemail). | SKILL.md, clawr.ing-memory.md, SOUL.md x3 | completed | ~8000 |
+| 09:12 | Session end: 123 writes across 35 files (email-triage-2026-04-03-v2.md, calendar-2026-04-03-v2.md, SKILL.md, cto-briefing-2026-04-03-v2.md, SOUL.md) | 61 reads | ~182784 tok |
