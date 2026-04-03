@@ -2,14 +2,14 @@
   "version": 1,
   "created_at": "2026-04-02T23:25:31.532Z",
   "lifetime": {
-    "total_tokens_estimated": 287050,
-    "total_reads": 179,
+    "total_tokens_estimated": 289835,
+    "total_reads": 181,
     "total_writes": 437,
-    "total_sessions": 7,
-    "anatomy_hits": 90,
-    "anatomy_misses": 89,
+    "total_sessions": 8,
+    "anatomy_hits": 91,
+    "anatomy_misses": 90,
     "repeated_reads_blocked": 72,
-    "estimated_savings_vs_bare_cli": 115431
+    "estimated_savings_vs_bare_cli": 115631
   },
   "sessions": [
     {
@@ -3690,6 +3690,34 @@
         "writes_count": 25,
         "repeated_reads_blocked": 5,
         "anatomy_lookups": 8
+      }
+    },
+    {
+      "id": "session-2026-04-03-0208",
+      "started": "2026-04-03T06:08:00.519Z",
+      "ended": "2026-04-03T06:15:36.487Z",
+      "reads": [
+        {
+          "file": "/Users/yosiwizman/akior/dashboard/index.html",
+          "tokens_estimated": 2785,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/SOUL.md",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        }
+      ],
+      "writes": [],
+      "totals": {
+        "input_tokens_estimated": 2785,
+        "output_tokens_estimated": 0,
+        "reads_count": 2,
+        "writes_count": 0,
+        "repeated_reads_blocked": 0,
+        "anatomy_lookups": 1
       }
     }
   ],
