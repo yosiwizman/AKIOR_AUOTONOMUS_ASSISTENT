@@ -61,6 +61,16 @@
       "count": 2,
       "tokens": 0,
       "first_read": "2026-04-03T05:43:20.329Z"
+    },
+    "/Users/yosiwizman/.openclaw/workspace-dev/skills/clawring/clawr.ing-memory.md": {
+      "count": 1,
+      "tokens": 31,
+      "first_read": "2026-04-03T05:47:56.253Z"
+    },
+    "/Users/yosiwizman/akior/skills/clawring/clawr.ing-memory.md": {
+      "count": 1,
+      "tokens": 31,
+      "first_read": "2026-04-03T05:48:26.829Z"
     }
   },
   "files_written": [
@@ -171,6 +181,36 @@
       "action": "create",
       "tokens": 340,
       "at": "2026-04-03T05:46:50.748Z"
+    },
+    {
+      "file": "/Users/yosiwizman/akior/skills/clawring/clawr.ing-memory.md",
+      "action": "edit",
+      "tokens": 119,
+      "at": "2026-04-03T05:48:32.311Z"
+    },
+    {
+      "file": "/Users/yosiwizman/akior/docs/ssot/AKIOR-SYSTEM-STATUS.md",
+      "action": "edit",
+      "tokens": 22,
+      "at": "2026-04-03T05:48:58.211Z"
+    },
+    {
+      "file": "/Users/yosiwizman/akior/docs/ssot/AKIOR-SYSTEM-STATUS.md",
+      "action": "edit",
+      "tokens": 20,
+      "at": "2026-04-03T05:49:02.412Z"
+    },
+    {
+      "file": "/Users/yosiwizman/akior/docs/ssot/AKIOR-SYSTEM-STATUS.md",
+      "action": "edit",
+      "tokens": 32,
+      "at": "2026-04-03T05:49:06.422Z"
+    },
+    {
+      "file": "/Users/yosiwizman/akior/docs/ssot/AKIOR-SYSTEM-STATUS.md",
+      "action": "edit",
+      "tokens": 38,
+      "at": "2026-04-03T05:49:11.992Z"
     }
   ],
   "edit_counts": {
@@ -179,18 +219,18 @@
     "dashboard/index.html": 1,
     "../Library/LaunchAgents/com.akior.dashboard.plist": 1,
     "skills/clawring/SKILL.md": 1,
-    "skills/clawring/clawr.ing-memory.md": 1,
+    "skills/clawring/clawr.ing-memory.md": 2,
     "../.claude/projects/-Users-yosiwizman-akior/memory/feedback_phone_calls.md": 1,
     "../.claude/projects/-Users-yosiwizman-akior/memory/MEMORY.md": 1,
-    "docs/ssot/AKIOR-SYSTEM-STATUS.md": 5,
+    "docs/ssot/AKIOR-SYSTEM-STATUS.md": 9,
     "reports/cto-briefing-2026-04-03-update.md": 1,
     "reports/voice-video-research-2026-04-03.md": 1,
     "../Library/LaunchAgents/ai.openclaw.gateway.plist": 2,
     "checkpoints/voice-transcription-setup.md": 1
   },
-  "anatomy_hits": 6,
+  "anatomy_hits": 8,
   "anatomy_misses": 6,
   "repeated_reads_warned": 5,
   "cerebrum_warnings": 0,
-  "stop_count": 12
+  "stop_count": 13
 }

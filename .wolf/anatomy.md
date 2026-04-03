@@ -1,6 +1,6 @@
 # anatomy.md
 
-> Auto-maintained by OpenWolf. Last scanned: 2026-04-03T05:46:50.742Z
+> Auto-maintained by OpenWolf. Last scanned: 2026-04-03T05:49:11.985Z
 > Files: 550 tracked | Anatomy hits: 0 | Misses: 0
 
 ## ../.claude/projects/-Users-yosiwizman-akior/memory/
@@ -73,7 +73,7 @@
 - `AKIOR-OS-SSOT-v1.0-EXPERIMENT-LOCK.md` — AKIOR OS — Single Source of Truth (~14616 tok)
 - `AKIOR-OWNER-INTERACTION-MODEL.md` — AKIOR OS — Owner Interaction Model (~771 tok)
 - `AKIOR-SSOT-LOCK-MEMO.md` — SSOT Lock Memo — Experiment Mode (~610 tok)
-- `AKIOR-SYSTEM-STATUS.md` — AKIOR System Status (~1759 tok)
+- `AKIOR-SYSTEM-STATUS.md` — AKIOR System Status (~1797 tok)
 - `AKIOR-TOOL-ADOPTION-DECISIONS-01.md` — AKIOR — External Tool Adoption Decisions (~1247 tok)
 - `BOOTSTRAP-COMPLETION-REPORT.md` — AKIOR Bootstrap Completion Report (~1613 tok)
 - `bootstrap-report.md` — AKIOR Bootstrap Completion Report — Formal (~1991 tok)
@@ -985,5 +985,5 @@
 
 ## skills/clawring/
 
-- `clawr.ing-memory.md` — clawr.ing memory (~31 tok)
+- `clawr.ing-memory.md` — clawr.ing memory (~105 tok)
 - `SKILL.md` — clawr.ing (~401 tok)
