@@ -1,7 +1,7 @@
 # anatomy.md
 
-> Auto-maintained by OpenWolf. Last scanned: 2026-04-03T20:00:49.466Z
-> Files: 626 tracked | Anatomy hits: 0 | Misses: 0
+> Auto-maintained by OpenWolf. Last scanned: 2026-04-03T20:02:04.294Z
+> Files: 629 tracked | Anatomy hits: 0 | Misses: 0
 
 ## ../.claude/projects/-Users-yosiwizman-akior/memory/
 
@@ -1100,6 +1100,10 @@
 
 - `page.tsx` — SettingsPage (~43715 tok)
 
+## forge/jarvis-v5-os/apps/web/app/setup/
+
+- `page.tsx` — SETUP_STEPS (~11827 tok)
+
 ## forge/jarvis-v5-os/apps/web/app/tasks/
 
 - `page.tsx` — StatusBadge (~3028 tok)
@@ -1110,6 +1114,7 @@
 
 ## forge/jarvis-v5-os/apps/web/src/components/
 
+- `AkiorLogo.tsx` — AkiorLogo — Sacred geometry SVG logo based on the owner's daughter's design. (~3362 tok)
 - `FileUpload.tsx` — FileUpload (~2059 tok)
 - `HudWidget.tsx` — getWeatherEmoji (~3752 tok)
 - `SetupRequiredBanner.tsx` — SetupRequiredBanner (~1094 tok)
@@ -1157,6 +1162,7 @@
 - `calendar-2026-04-03.md` — Calendar — 2026-04-03 (Thu) + 2026-04-04 (Fri) (~73 tok)
 - `competitor-research-2026-04-03.md` — Pilates Equipment Competitor Research Report (~1931 tok)
 - `cto-briefing-2026-04-03-final.md` — CTO Final Briefing — 2026-04-03 (~1149 tok)
+- `cto-briefing-2026-04-03-phase12.md` — CTO Briefing — Phase 12 Ops Cycle (~1017 tok)
 - `cto-briefing-2026-04-03-update.md` — AKIOR CTO Briefing Update — 2026-04-03 (Thursday, Evening) (~1077 tok)
 - `cto-briefing-2026-04-03-v2.md` — CTO Morning Briefing — 2026-04-03 (v2) (~594 tok)
 - `cto-briefing-2026-04-03-v3.md` — CTO Morning Briefing — 2026-04-03 v3 (~800 tok)
