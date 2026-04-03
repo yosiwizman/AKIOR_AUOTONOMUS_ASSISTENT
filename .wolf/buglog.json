@@ -932,6 +932,70 @@
       "related_bugs": [],
       "occurrences": 1,
       "last_seen": "2026-04-03T21:05:41.852Z"
+    },
+    {
+      "id": "bug-059",
+      "timestamp": "2026-04-03T21:23:58.169Z",
+      "error_message": "Missing error handling in unknown",
+      "file": "forge/jarvis-v5-os/apps/web/app/jarvis/page.tsx",
+      "root_cause": "Code path had no error handling — exceptions would propagate uncaught",
+      "fix": "Added try/catch block",
+      "tags": [
+        "auto-detected",
+        "error-handling",
+        "tsx"
+      ],
+      "related_bugs": [],
+      "occurrences": 1,
+      "last_seen": "2026-04-03T21:23:58.169Z"
+    },
+    {
+      "id": "bug-060",
+      "timestamp": "2026-04-03T21:24:47.709Z",
+      "error_message": "CSS fix: hover, http",
+      "file": "forge/jarvis-v5-os/apps/web/app/jarvis/page.tsx",
+      "root_cause": "hover: bg-cyan-500/20 border border-cyan-500/30 rounded-xl text-cyan-400 transition-all duration-200 hover:shadow-[0_0_20px_rgba(34,211,238,0.3)]\" → bg-white/10 border border-white/10 rounded-lg text-white/50 hover:text-white/70 transition-all duration-200\"; http: //www.w3.org/2000/svg\" → //www.w3.org/2000/svg\" className=\"w-5 h-5 text-cyan-400/70\" fill=\"none\" viewBox=\"0 0 24 24\" stroke=\"currentColor\">",
+      "fix": "Changed hover: bg-cyan-500/20 border border-cyan-500/30 rounded-xl text-cyan-400 transition-all duration-200 hover:shadow-[0_0_20px_rgba(34,211,238,0.3)]\" → bg-white/10 border border-white/10 rounded-lg text-white/50 hover:text-white/70 transition-all duration-200\"; http: //www.w3.org/2000/svg\" → //www.w3.org/2000/svg\" className=\"w-5 h-5 text-cyan-400/70\" fill=\"none\" viewBox=\"0 0 24 24\" stroke=\"currentColor\">",
+      "tags": [
+        "auto-detected",
+        "style-fix",
+        "tsx"
+      ],
+      "related_bugs": [],
+      "occurrences": 1,
+      "last_seen": "2026-04-03T21:24:47.709Z"
+    },
+    {
+      "id": "bug-061",
+      "timestamp": "2026-04-03T21:25:29.463Z",
+      "error_message": "Wrong reference: 200 should be 220",
+      "file": "forge/jarvis-v5-os/apps/web/app/login/page.tsx",
+      "root_cause": "Used \"200\" instead of \"220\"",
+      "fix": "Changed 200 → 220",
+      "tags": [
+        "auto-detected",
+        "wrong-reference",
+        "tsx"
+      ],
+      "related_bugs": [],
+      "occurrences": 1,
+      "last_seen": "2026-04-03T21:25:29.463Z"
+    },
+    {
+      "id": "bug-062",
+      "timestamp": "2026-04-03T21:25:43.704Z",
+      "error_message": "CSS fix: hover",
+      "file": "forge/jarvis-v5-os/apps/web/src/components/JarvisAssistant.tsx",
+      "root_cause": "hover: scale-110 transition-transform duration-200 opacity-60 hover:opacity-100\" → scale-110 transition-transform duration-200 opacity-50 hover:opacity-90\"",
+      "fix": "Changed hover: scale-110 transition-transform duration-200 opacity-60 hover:opacity-100\" → scale-110 transition-transform duration-200 opacity-50 hover:opacity-90\"",
+      "tags": [
+        "auto-detected",
+        "style-fix",
+        "tsx"
+      ],
+      "related_bugs": [],
+      "occurrences": 1,
+      "last_seen": "2026-04-03T21:25:43.704Z"
     }
   ]
 }
