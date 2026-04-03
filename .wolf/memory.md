@@ -352,3 +352,5 @@
 | 09:10 | Edited ../.openclaw/SOUL.md | 3→4 lines | ~92 |
 | 09:10 | Edited ../.openclaw/workspace-dev/SOUL.md | 3→4 lines | ~92 |
 | 09:11 | Session end: 121 writes across 34 files (email-triage-2026-04-03-v2.md, calendar-2026-04-03-v2.md, SKILL.md, cto-briefing-2026-04-03-v2.md, SOUL.md) | 61 reads | ~178818 tok |
+| 09:11 | Configured OpenClaw group message handling: requireMention=true for all groups (*), mentionPatterns=[AKIOR, @AKIOR, akior, @akior], DM policy unchanged | ~/.openclaw/openclaw.json | success | ~200 |
+| 09:11 | Session end: 121 writes across 34 files (email-triage-2026-04-03-v2.md, calendar-2026-04-03-v2.md, SKILL.md, cto-briefing-2026-04-03-v2.md, SOUL.md) | 61 reads | ~178818 tok |
