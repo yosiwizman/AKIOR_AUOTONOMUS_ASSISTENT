@@ -1,7 +1,7 @@
 # anatomy.md
 
-> Auto-maintained by OpenWolf. Last scanned: 2026-04-03T13:11:42.879Z
-> Files: 591 tracked | Anatomy hits: 0 | Misses: 0
+> Auto-maintained by OpenWolf. Last scanned: 2026-04-03T13:15:28.900Z
+> Files: 593 tracked | Anatomy hits: 0 | Misses: 0
 
 ## ../.claude/projects/-Users-yosiwizman-akior/memory/
 
@@ -21,10 +21,6 @@
 
 - `SOUL.md` — AKIOR — Autonomous AI Operating System (~1678 tok)
 
-## ../.openclaw/workspace-dev/skills/group-assistant/
-
-- `SKILL.md` — WhatsApp Group Assistant — silent absorber, translation, selective reply, task extraction modes (~2800 tok)
-
 ## ../.openclaw/workspace-dev/skills/clawring/
 
 - `clawr.ing-memory.md` — clawr.ing memory (~167 tok)
@@ -36,6 +32,7 @@
 
 ## ../.openclaw/workspace-dev/skills/group-assistant/
 
+- `SKILL.md` — WhatsApp Group Assistant — silent absorber, translation, selective reply, task extraction modes (~2800 tok)
 - `SKILL.md` — Group Assistant (~3388 tok)
 
 ## ../.openclaw/workspace-dev/skills/yahoo-mail/
@@ -1083,6 +1080,7 @@
 - `email-triage-2026-04-03-v2.md` — Email Triage Report — 2026-04-03 (v2 Morning Run) (~605 tok)
 - `email-triage-2026-04-03.md` — Email Triage — 2026-04-03 (~364 tok)
 - `jarvis-to-akior-ui-plan.md` — Jarvis V5 to AKIOR UI Migration Plan (~2278 tok)
+- `jarvis-ui-live-audit-2026-04-03.md` — AKIOR Console (Jarvis V5) -- Live UI Audit (~2858 tok)
 - `lp-inbox-2026-04-03.md` — Live Pilates USA Inbox Sweep — 2026-04-03 (~247 tok)
 - `lp-product-scrape-2026-04-03.md` — Live Pilates USA -- Product Catalog Scrape (~904 tok)
 - `system-health-2026-04-03.md` — System Health — 2026-04-03 (~437 tok)
