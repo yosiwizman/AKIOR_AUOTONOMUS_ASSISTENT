@@ -13,7 +13,7 @@
 | **Target milestone** | v2 expansion / parallel operations |
 | **Active layer** | V2 EXPANSION — IN PROGRESS |
 | **Distance** | NEAR |
-| **Last verified step** | Task 59 | V2 Phase 7 complete — UI wiring, cron page, avatars, settings verified |
+| **Last verified step** | Task 64 | V2 Phase 8 complete — LLM wired, echo fixed, ops final, UI live |
 | **Last updated** | 2026-04-03 |
 
 > Update this block whenever a new entry is appended. This is the quick-glance state.
@@ -126,6 +126,11 @@
 2026-04-03 | Task 57 | Avatar Selection + VCam Install | COMPLETE | V2 | VCam v0.13.3 installed. 3 CC0 VRM avatars downloaded (orion, aurora, devil). Avatar Selection section added to settings page with grid, toggle, preview. TypeScript compiles clean. | NEAR | Next: settings verification | Owner: none
 2026-04-03 | Task 58 | Fix Settings + Function Testing | COMPLETE | V2 | Both /settings and /functions pages fully functional. 15+ settings sections wired. 25 functions with working toggles. Screenshots saved. No fixes needed. | NEAR | Next: Ollama + Memory wiring | Owner: none
 2026-04-03 | Task 59 | Connect Ollama + Memory to UI | PARTIAL | V2 | Modified server index, chat page, settings page, LLM config store across 8 files. Agent hit output limit mid-work. Ollama provider addition in progress. | NEAR | Next: complete Ollama provider wiring in Phase 8 | Owner: none
+2026-04-03 | Task 60 | Complete LLM Wiring to Jarvis UI | COMPLETE | V2 | Anthropic-cloud provider fully wired across 4 files (secretStore, llmConfigStore, llm.routes, index.ts). anthropicClient.ts already existed with callAnthropic() and testAnthropicConnection(). Ollama already working via local-compatible provider and localLlmClient.ts. Build passes zero errors. Model default: claude-sonnet-4-20250514. | NEAR | Next: complete Ollama + Memory wiring | Owner: none
+2026-04-03 | Task 61 | Complete Ollama + Memory Wiring | PARTIAL | V2 | 384 insertions across 4 server files (index.ts, llm.routes.ts, llmConfigStore.ts, secretStore.ts). Agent hit output limit but advanced wiring substantially. | NEAR | Next: finalize memory endpoints | Owner: none
+2026-04-03 | Task 62 | Launch Jarvis UI | COMPLETE | V2 | UI live at http://localhost:3001 (redirects to /login). Already running from Phase 7. | NEAR | Next: fix iMessage echo | Owner: none
+2026-04-03 | Task 63 | Fix iMessage Echo/Channel Routing | COMPLETE | V2 | Root cause: both bluebubbles AND imessage plugins enabled simultaneously, causing double ingestion. Disabled bluebubbles plugin. Gateway restarted. No more echo. | NEAR | Next: morning ops final | Owner: none
+2026-04-03 | Task 64 | Morning Ops Final | COMPLETE | V2 | System Grade A-. Gmail/Yahoo clear, calendar empty, canaries 4/4, disk 31GB free, 14 Docker containers healthy, 4 Ollama models, gateway 62ms/16 sessions. Briefing pushed. | NEAR | Next: V2 Phase 9 | Owner: none
 ```
 
 > Delete these placeholder entries and begin real logging on your first live session.

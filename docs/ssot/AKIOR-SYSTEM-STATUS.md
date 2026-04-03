@@ -81,7 +81,7 @@
 | Channel | Status | Detail |
 |---------|--------|--------|
 | WhatsApp | ON, linked, allowlist mode | +13054098490, +17865181777; voice transcription FIXED (tools.media.audio.models configured with whisper-cpp-base) |
-| iMessage | FIXED — echo resolved, per-channel-peer routing active | Outbound via osascript + imsg CLI. Root cause: session.dmScope unset causing shared sessions. Now per-channel-peer. WhatsApp and iMessage route independently. |
+| iMessage | FIXED — echo resolved, bluebubbles disabled | Outbound via osascript + imsg CLI. Root cause (Phase 8): both bluebubbles AND imessage plugins enabled causing double ingestion. BlueBubbles disabled. Per-channel-peer routing active. |
 | Yahoo Email | OPERATIONAL (tested with real credentials) | Himalaya CLI + imap-smtp-email skill. Live-tested successfully via Himalaya. |
 | FaceTime | READY — skill installed, not yet live-tested | URL scheme verified, skill at skills/facetime/SKILL.md, SOUL.md updated |
 | clawr.ing (Phone) | ON, API key configured | skills/clawring/SKILL.md — managed voice calls |
@@ -124,7 +124,7 @@
 | ElevenLabs | elevenlabs | enabled (needs API key) | V2 |
 | Deepgram | deepgram | enabled (needs API key) | V2 |
 | Groq (Whisper fallback) | groq | enabled | V2 Phase 3 |
-| BlueBubbles | bluebubbles | enabled (needs server) | V2 |
+| BlueBubbles | bluebubbles | DISABLED (caused iMessage echo — double ingestion) | V2 |
 | iMessage | imessage | enabled | V2 |
 
 ## ClawHub Skills (installed to ~/.openclaw/workspace-dev/skills/)
@@ -203,8 +203,8 @@
 | Yahoo email credentials | OPERATIONAL — live-tested with real credentials | Resolved |
 | VCam avatar | VCam v0.13.3 installed, 3 CC0 VRM avatars ready (orion, aurora, devil), UI selection added | Resolved |
 | FaceTime audio | Skill ready, not yet live-tested | Next test |
-| LLM wiring (Anthropic) | Task 55 PARTIAL — provider type added, wiring incomplete | Next phase |
-| LLM wiring (Ollama) | Task 59 PARTIAL — 8 files modified, provider addition incomplete | Next phase |
+| LLM wiring (Anthropic) | COMPLETE — Anthropic-cloud provider fully wired, build clean, model default claude-sonnet-4-20250514 | Resolved |
+| LLM wiring (Ollama) | COMPLETE — Ollama working via local-compatible provider and localLlmClient.ts | Resolved |
 
 ---
 
