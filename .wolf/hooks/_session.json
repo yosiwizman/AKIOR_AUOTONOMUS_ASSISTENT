@@ -53,7 +53,7 @@
       "first_read": "2026-04-03T17:04:25.007Z"
     },
     "/Users/yosiwizman/akior/config/whatsapp-groups/test-group.json": {
-      "count": 1,
+      "count": 2,
       "tokens": 133,
       "first_read": "2026-04-03T17:04:27.456Z"
     },
@@ -271,6 +271,11 @@
       "count": 2,
       "tokens": 0,
       "first_read": "2026-04-03T17:12:11.067Z"
+    },
+    "/Users/yosiwizman/akior/forge/jarvis-v5-os/apps/server/src/index.ts": {
+      "count": 1,
+      "tokens": 43536,
+      "first_read": "2026-04-03T19:10:28.213Z"
     }
   },
   "files_written": [
@@ -535,9 +540,9 @@
     "forge/jarvis-v5-os/apps/server/fly.toml": 1,
     "ledgers/action.md": 1
   },
-  "anatomy_hits": 13,
+  "anatomy_hits": 14,
   "anatomy_misses": 41,
-  "repeated_reads_warned": 31,
+  "repeated_reads_warned": 32,
   "cerebrum_warnings": 0,
-  "stop_count": 7
+  "stop_count": 8
 }
