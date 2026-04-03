@@ -1,7 +1,7 @@
 # anatomy.md
 
-> Auto-maintained by OpenWolf. Last scanned: 2026-04-03T12:44:38.974Z
-> Files: 580 tracked | Anatomy hits: 0 | Misses: 0
+> Auto-maintained by OpenWolf. Last scanned: 2026-04-03T12:45:08.143Z
+> Files: 581 tracked | Anatomy hits: 0 | Misses: 0
 
 ## ../.claude/projects/-Users-yosiwizman-akior/memory/
 
@@ -1039,6 +1039,7 @@
 
 ## reports/
 
+- `avatar-setup-complete.md` — Avatar Selection Setup Report (~636 tok)
 - `avatar-video-setup-guide.md` — AI Avatar Video Calls on macOS — Setup Guide (~2076 tok)
 - `calendar-2026-04-03-v2.md` — Calendar Report — 2026-04-03 (v2 Morning Run) (~73 tok)
 - `calendar-2026-04-03.md` — Calendar — 2026-04-03 (Thu) + 2026-04-04 (Fri) (~73 tok)
