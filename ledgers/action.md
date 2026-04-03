@@ -59,3 +59,8 @@
 | 2026-04-03T04:23:53Z | TMUX_WATCHDOG | session created |
 | 2026-04-03T04:25:00Z | ALEXANDRA EMAIL SENT | Playwright→Gmail web UI: navigated to drafts, opened V12 draft, clicked Send. Drafts 4342→4341. Toast 'Message sent' confirmed. Screenshot: evidence/screenshots/alexandra-send-confirmed-01.png |
 | 2026-04-03T04:30:00Z | V1 BOOTSTRAP COMPLETE | SOUL.md SEND doctrine added+synced. GT-6 6/6 PASS. LaunchAgent 4/4 RunAtLoad. BOOTSTRAP-COMPLETION-REPORT.md created. Task 31 logged. Distance: ARRIVED. |
+| 2026-04-03T04:28:53Z | TMUX_WATCHDOG | session created |
+| 2026-04-03T04:33:53Z | TMUX_WATCHDOG | session created |
+| 2026-04-03T04:38:53Z | TMUX_WATCHDOG | session created |
+| 2026-04-03T04:43:53Z | TMUX_WATCHDOG | session created |
+gogcli OAuth setup needs owner action: download credentials JSON from https://console.cloud.google.com/auth/clients/453821789208-rfb4or1gnggpr37kfb80fe3m1bdcbe50.apps.googleusercontent.com?project=mi12-491111 → save to ~/Library/Application Support/gogcli/credentials.json → then run: gog auth add yosiwizman5638@gmail.com --services gmail,calendar,drive,contacts
