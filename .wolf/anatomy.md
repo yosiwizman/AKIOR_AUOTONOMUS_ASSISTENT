@@ -1,6 +1,6 @@
 # anatomy.md
 
-> Auto-maintained by OpenWolf. Last scanned: 2026-04-03T12:53:04.636Z
+> Auto-maintained by OpenWolf. Last scanned: 2026-04-03T12:54:03.239Z
 > Files: 585 tracked | Anatomy hits: 0 | Misses: 0
 
 ## ../.claude/projects/-Users-yosiwizman-akior/memory/
@@ -1011,7 +1011,7 @@
 
 ## forge/jarvis-v5-os/apps/server/src/storage/
 
-- `llmConfigStore.ts` — LLM Configuration Store (~2176 tok)
+- `llmConfigStore.ts` — LLM Configuration Store (~2168 tok)
 - `secretStore.ts` — Exports Secrets, readSecrets, writeSecrets, upsertSecret, deleteSecret (~278 tok)
 
 ## forge/jarvis-v5-os/apps/server/src/utils/

@@ -33,13 +33,13 @@
       "first_read": "2026-04-03T06:20:12.351Z"
     },
     "/Users/yosiwizman/akior/docs/ssot/PROJECT_LOG.md": {
-      "count": 7,
-      "tokens": 5563,
+      "count": 9,
+      "tokens": 5935,
       "first_read": "2026-04-03T06:20:27.237Z"
     },
     "/Users/yosiwizman/akior/docs/ssot/AKIOR-SYSTEM-STATUS.md": {
-      "count": 8,
-      "tokens": 2312,
+      "count": 9,
+      "tokens": 2487,
       "first_read": "2026-04-03T06:20:44.478Z"
     },
     "/Users/yosiwizman/akior/reports/jarvis-ui-audit-2026-04-03.md": {
@@ -128,8 +128,8 @@
       "first_read": "2026-04-03T12:39:23.590Z"
     },
     "/Users/yosiwizman/akior/forge/jarvis-v5-os/apps/server/src/storage/llmConfigStore.ts": {
-      "count": 5,
-      "tokens": 1939,
+      "count": 6,
+      "tokens": 2168,
       "first_read": "2026-04-03T12:39:29.683Z"
     },
     "/Users/yosiwizman/akior/forge/jarvis-v5-os/apps/web/app/settings/page.tsx": {
@@ -948,6 +948,12 @@
       "action": "edit",
       "tokens": 979,
       "at": "2026-04-03T12:53:04.642Z"
+    },
+    {
+      "file": "/Users/yosiwizman/akior/forge/jarvis-v5-os/apps/server/src/storage/llmConfigStore.ts",
+      "action": "edit",
+      "tokens": 5,
+      "at": "2026-04-03T12:54:03.246Z"
     }
   ],
   "edit_counts": {
@@ -976,7 +982,7 @@
     "forge/jarvis-v5-os/apps/web/app/api/tasks/route.ts": 1,
     "forge/jarvis-v5-os/apps/web/app/layout.tsx": 1,
     "forge/jarvis-v5-os/apps/server/src/clients/anthropicClient.ts": 1,
-    "forge/jarvis-v5-os/apps/server/src/storage/llmConfigStore.ts": 8,
+    "forge/jarvis-v5-os/apps/server/src/storage/llmConfigStore.ts": 9,
     "forge/jarvis-v5-os/packages/shared/src/settings.ts": 4,
     "forge/jarvis-v5-os/apps/server/data/settings.json": 2,
     "forge/jarvis-v5-os/apps/server/src/index.ts": 7,
@@ -991,7 +997,7 @@
   },
   "anatomy_hits": 6,
   "anatomy_misses": 51,
-  "repeated_reads_warned": 125,
+  "repeated_reads_warned": 129,
   "cerebrum_warnings": 0,
-  "stop_count": 44
+  "stop_count": 45
 }
