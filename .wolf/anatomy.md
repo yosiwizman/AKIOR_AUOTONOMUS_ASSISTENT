@@ -1,7 +1,7 @@
 # anatomy.md
 
-> Auto-maintained by OpenWolf. Last scanned: 2026-04-03T05:17:56.017Z
-> Files: 546 tracked | Anatomy hits: 0 | Misses: 0
+> Auto-maintained by OpenWolf. Last scanned: 2026-04-03T05:40:20.040Z
+> Files: 547 tracked | Anatomy hits: 0 | Misses: 0
 
 ## ../.claude/projects/-Users-yosiwizman-akior/memory/
 
@@ -969,6 +969,7 @@
 
 - `calendar-2026-04-03.md` — Calendar — 2026-04-03 (Thu) + 2026-04-04 (Fri) (~73 tok)
 - `competitor-research-2026-04-03.md` — Pilates Equipment Competitor Research Report (~1931 tok)
+- `cto-briefing-2026-04-03-update.md` — AKIOR CTO Briefing Update — 2026-04-03 (Thursday, Evening) (~1077 tok)
 - `cto-briefing-2026-04-03.md` — AKIOR CTO Morning Briefing — 2026-04-03 (Thursday) (~682 tok)
 - `email-triage-2026-04-03.md` — Email Triage — 2026-04-03 (~364 tok)
 - `lp-inbox-2026-04-03.md` — Live Pilates USA Inbox Sweep — 2026-04-03 (~247 tok)

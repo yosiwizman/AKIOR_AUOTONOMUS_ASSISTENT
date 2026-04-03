@@ -13,7 +13,7 @@
       "first_read": "2026-04-03T05:10:58.757Z"
     },
     "/Users/yosiwizman/akior/reports/cto-briefing-2026-04-03.md": {
-      "count": 1,
+      "count": 2,
       "tokens": 682,
       "first_read": "2026-04-03T05:10:59.216Z"
     },
@@ -51,6 +51,11 @@
       "count": 1,
       "tokens": 0,
       "first_read": "2026-04-03T05:39:00.043Z"
+    },
+    "/Users/yosiwizman/akior/reports/v2-expansion-report-2026-04-03.md": {
+      "count": 1,
+      "tokens": 867,
+      "first_read": "2026-04-03T05:39:48.250Z"
     }
   },
   "files_written": [
@@ -131,6 +136,12 @@
       "action": "edit",
       "tokens": 41,
       "at": "2026-04-03T05:17:56.025Z"
+    },
+    {
+      "file": "/Users/yosiwizman/akior/reports/cto-briefing-2026-04-03-update.md",
+      "action": "create",
+      "tokens": 1231,
+      "at": "2026-04-03T05:40:20.049Z"
     }
   ],
   "edit_counts": {
@@ -142,11 +153,12 @@
     "skills/clawring/clawr.ing-memory.md": 1,
     "../.claude/projects/-Users-yosiwizman-akior/memory/feedback_phone_calls.md": 1,
     "../.claude/projects/-Users-yosiwizman-akior/memory/MEMORY.md": 1,
-    "docs/ssot/AKIOR-SYSTEM-STATUS.md": 5
+    "docs/ssot/AKIOR-SYSTEM-STATUS.md": 5,
+    "reports/cto-briefing-2026-04-03-update.md": 1
   },
-  "anatomy_hits": 5,
+  "anatomy_hits": 6,
   "anatomy_misses": 5,
-  "repeated_reads_warned": 3,
+  "repeated_reads_warned": 4,
   "cerebrum_warnings": 0,
-  "stop_count": 9
+  "stop_count": 10
 }
