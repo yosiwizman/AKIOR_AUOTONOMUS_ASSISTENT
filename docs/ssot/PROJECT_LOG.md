@@ -13,7 +13,7 @@
 | **Target milestone** | v2 expansion / parallel operations |
 | **Active layer** | V2 EXPANSION — IN PROGRESS |
 | **Distance** | NEAR |
-| **Last verified step** | Task 49 | V2 Phase 5 complete — CI fixed, voice transcription fixed, Yahoo configured, cron tested, SOUL.md + repo cleanup |
+| **Last verified step** | Task 54 | V2 Phase 6 complete — channel routing fix, Jarvis UI, avatar research, Yahoo live, repo polish |
 | **Last updated** | 2026-04-03 |
 
 > Update this block whenever a new entry is appended. This is the quick-glance state.
@@ -116,6 +116,11 @@
 2026-04-03 | Task 47 | Configure Yahoo Email | COMPLETE | V2 | Himalaya config + ClawHub .env updated with Yahoo IMAP/SMTP settings. Yahoo-mail skill created. Pending owner credentials (app password). | NEAR | Next: cron manager test | Owner: action needed (Yahoo app password)
 2026-04-03 | Task 48 | Cron Manager Live Test | COMPLETE | V2 | morning-call cron job created (daily 8am ET via clawr.ing). WhatsApp notification sent. 7 total cron jobs active. Skill registered in gateway. | NEAR | Next: SOUL.md + repo cleanup | Owner: none
 2026-04-03 | Task 49 | SOUL.md Update + Repo Cleanup | COMPLETE | V2 | Comprehensive SOUL.md with all capabilities, copied to 3 locations. Removed old Next.js dirs (public/, e2e/, training/, supabase/), 14 legacy config files, 14 legacy docs. Gateway restarted. ~160 legacy files removed. | NEAR | Next: V2 Phase 6 | Owner: none
+2026-04-03 | Task 50 | Fix iMessage Echo + Channel Routing | COMPLETE | V2 | Root cause: session.dmScope unset, causing shared sessions across channels. Set to per-channel-peer. WhatsApp and iMessage now route independently. | NEAR | Next: Jarvis V5 UI | Owner: none
+2026-04-03 | Task 51 | Launch Jarvis V5 UI for Inspection | COMPLETE | V2 | Cloned to ~/akior/forge/jarvis-v5-os, running at http://localhost:3001. Next.js 14 frontend only (no backend). For visual inspection. | NEAR | Next: avatar research | Owner: none
+2026-04-03 | Task 52 | VCam Avatar Setup Research | COMPLETE | V2 | Guide written at ~/akior/reports/avatar-video-setup-guide.md. VCamApp (brew cask) recommended for VRM avatars. FaceTime blocks virtual cameras — Zoom/Meet are reliable targets. OBS + VU-VRM as alternatives. Nothing installed yet. | NEAR | Next: Yahoo email live test | Owner: none
+2026-04-03 | Task 53 | Yahoo Email Live Test + Morning Ops v3 | COMPLETE | V2 | Yahoo confirmed operational via Himalaya. Gmail clear, calendar empty, canaries 4/4 green. Briefing v3 saved and pushed. | NEAR | Next: repo polish | Owner: none
+2026-04-03 | Task 54 | AKIOR Product Polish | COMPLETE | V2 | Professional README with Mermaid diagram, badges, capability tables. MIT license. GitHub description, topics, homepage set. | NEAR | Next: V2 Phase 7 | Owner: none
 ```
 
 > Delete these placeholder entries and begin real logging on your first live session.
