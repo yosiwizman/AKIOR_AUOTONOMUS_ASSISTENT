@@ -96,6 +96,22 @@
       "related_bugs": [],
       "occurrences": 1,
       "last_seen": "2026-04-03T11:45:58.153Z"
+    },
+    {
+      "id": "bug-007",
+      "timestamp": "2026-04-03T11:55:12.028Z",
+      "error_message": "Wrong reference: OWNER_YAHOO_EMAIL should be yosiwizman",
+      "file": "../.config/himalaya/config.toml",
+      "root_cause": "Used \"OWNER_YAHOO_EMAIL\" instead of \"yosiwizman\"",
+      "fix": "Changed OWNER_YAHOO_EMAIL → yosiwizman",
+      "tags": [
+        "auto-detected",
+        "wrong-reference",
+        "toml"
+      ],
+      "related_bugs": [],
+      "occurrences": 2,
+      "last_seen": "2026-04-03T11:55:15.348Z"
     }
   ]
 }
