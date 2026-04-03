@@ -46,6 +46,11 @@
       "count": 1,
       "tokens": 1931,
       "first_read": "2026-04-03T05:17:27.471Z"
+    },
+    "/Users/yosiwizman/akior/.openclaw/openclaw.json": {
+      "count": 1,
+      "tokens": 0,
+      "first_read": "2026-04-03T05:39:00.043Z"
     }
   },
   "files_written": [
@@ -140,8 +145,8 @@
     "docs/ssot/AKIOR-SYSTEM-STATUS.md": 5
   },
   "anatomy_hits": 5,
-  "anatomy_misses": 4,
+  "anatomy_misses": 5,
   "repeated_reads_warned": 3,
   "cerebrum_warnings": 0,
-  "stop_count": 8
+  "stop_count": 9
 }
