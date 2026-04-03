@@ -1,6 +1,6 @@
 # anatomy.md
 
-> Auto-maintained by OpenWolf. Last scanned: 2026-04-03T05:17:14.694Z
+> Auto-maintained by OpenWolf. Last scanned: 2026-04-03T05:17:56.017Z
 > Files: 546 tracked | Anatomy hits: 0 | Misses: 0
 
 ## ../.claude/projects/-Users-yosiwizman-akior/memory/
@@ -71,7 +71,7 @@
 - `AKIOR-OS-SSOT-v1.0-EXPERIMENT-LOCK.md` — AKIOR OS — Single Source of Truth (~14616 tok)
 - `AKIOR-OWNER-INTERACTION-MODEL.md` — AKIOR OS — Owner Interaction Model (~771 tok)
 - `AKIOR-SSOT-LOCK-MEMO.md` — SSOT Lock Memo — Experiment Mode (~610 tok)
-- `AKIOR-SYSTEM-STATUS.md` — AKIOR System Status (~1653 tok)
+- `AKIOR-SYSTEM-STATUS.md` — AKIOR System Status (~1759 tok)
 - `AKIOR-TOOL-ADOPTION-DECISIONS-01.md` — AKIOR — External Tool Adoption Decisions (~1247 tok)
 - `BOOTSTRAP-COMPLETION-REPORT.md` — AKIOR Bootstrap Completion Report (~1613 tok)
 - `bootstrap-report.md` — AKIOR Bootstrap Completion Report — Formal (~1991 tok)

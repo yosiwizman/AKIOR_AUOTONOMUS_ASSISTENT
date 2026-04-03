@@ -1,6 +1,6 @@
 # AKIOR System Status
 
-**Generated:** 2026-04-03T02:20Z (Phase 7 — full autonomy configured)
+**Generated:** 2026-04-03T08:30Z (V2 Phase 2 — parallel agent expansion)
 **Purpose:** Canonical "what is AKIOR right now" document
 **Refresh:** Update after each major system change
 
@@ -16,6 +16,7 @@
 | tmux session "akior" | Active (since Mar 31) | Maintained by watchdog |
 | Docker | Running (14 containers) | Docker Desktop |
 | Ollama | Running (4 models) | Homebrew service |
+| AKIOR Dashboard | Running (localhost:8421) | LaunchAgent com.akior.dashboard (KeepAlive) |
 
 ---
 
@@ -75,6 +76,9 @@
 | Channel | Status | Detail |
 |---------|--------|--------|
 | WhatsApp | ON, linked, allowlist mode | +13054098490, +17865181777; account "AKIOR WhatsApp" |
+| iMessage | ON, native AppleScript | Tested send to +17865181777 — working |
+| clawr.ing (Phone) | ON, API key configured | skills/clawring/SKILL.md — managed voice calls |
+| Dashboard | ON, localhost:8421 | LaunchAgent com.akior.dashboard (KeepAlive) |
 
 ---
 
@@ -171,10 +175,11 @@
 |------|--------|----------|
 | Google Drive connector | No MCP available | Deferred |
 | Brave Search MCP | Needs API key from owner | Owner action |
-| iMessage Channel | Plugin enabled (imessage + bluebubbles) | V2 — needs testing |
+| iMessage Channel | WORKING — native AppleScript send confirmed | V2 Phase 2 |
 | ElevenLabs API key | Needed for speech synthesis | Owner action |
 | Deepgram API key | Needed for voice transcription | Owner action |
-| gogcli OAuth credentials | JSON download from Google Cloud Console | Owner action |
+| gogcli | NOT A REAL TOOL — Gmail MCP is the primary interface | Resolved |
+| clawr.ing voice calls | CONFIGURED — API key set, skill installed | V2 Phase 2 |
 | GUI automation | No macOS-native solution, osascript available | R&D |
 | Ollama sustained-load test | Not yet run | Deferred |
 | App Packs (Instagram, Canva, QuickBooks) | Not yet configured | Deferred |
