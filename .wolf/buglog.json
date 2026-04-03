@@ -756,6 +756,38 @@
       "related_bugs": [],
       "occurrences": 1,
       "last_seen": "2026-04-03T20:02:43.321Z"
+    },
+    {
+      "id": "bug-048",
+      "timestamp": "2026-04-03T20:03:33.463Z",
+      "error_message": "Significant refactor of ",
+      "file": "forge/jarvis-v5-os/apps/web/src/components/JarvisAssistant.tsx",
+      "root_cause": "69 lines replaced/restructured",
+      "fix": "Rewrote 94→18 lines (69 removed)",
+      "tags": [
+        "auto-detected",
+        "refactor",
+        "tsx"
+      ],
+      "related_bugs": [],
+      "occurrences": 1,
+      "last_seen": "2026-04-03T20:03:33.463Z"
+    },
+    {
+      "id": "bug-049",
+      "timestamp": "2026-04-03T20:03:52.927Z",
+      "error_message": "Significant refactor of ",
+      "file": "forge/jarvis-v5-os/apps/server/src/routes/llm.routes.ts",
+      "root_cause": "2 lines replaced/restructured",
+      "fix": "Rewrote 6→7 lines (2 removed)",
+      "tags": [
+        "auto-detected",
+        "refactor",
+        "ts"
+      ],
+      "related_bugs": [],
+      "occurrences": 1,
+      "last_seen": "2026-04-03T20:03:52.927Z"
     }
   ]
 }

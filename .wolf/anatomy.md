@@ -1,7 +1,7 @@
 # anatomy.md
 
-> Auto-maintained by OpenWolf. Last scanned: 2026-04-03T20:02:43.312Z
-> Files: 633 tracked | Anatomy hits: 0 | Misses: 0
+> Auto-maintained by OpenWolf. Last scanned: 2026-04-03T20:04:45.306Z
+> Files: 636 tracked | Anatomy hits: 0 | Misses: 0
 
 ## ../.claude/projects/-Users-yosiwizman-akior/memory/
 
@@ -1037,9 +1037,9 @@
 
 ## forge/jarvis-v5-os/apps/server/data/
 
-- `llm-config.json` (~35 tok)
-- `secrets.json` (~1 tok)
-- `settings.json` (~828 tok)
+- `llm-config.json` (~23 tok)
+- `secrets.json` (~38 tok)
+- `settings.json` (~833 tok)
 
 ## forge/jarvis-v5-os/apps/server/src/
 
@@ -1052,8 +1052,9 @@
 ## forge/jarvis-v5-os/apps/server/src/routes/
 
 - `auth.routes.ts` — Auth Routes (~2084 tok)
-- `https.routes.ts` — HTTPS Routes (~1959 tok)
-- `llm.routes.ts` — LLM Configuration Routes (~3075 tok)
+- `https.routes.ts` — HTTPS Routes (~1978 tok)
+- `llm.routes.ts` — LLM Configuration Routes (~3216 tok)
+- `remote-access.routes.ts` — Remote Access Routes (~3338 tok)
 
 ## forge/jarvis-v5-os/apps/server/src/storage/
 
@@ -1121,8 +1122,10 @@
 ## forge/jarvis-v5-os/apps/web/src/components/
 
 - `AkiorLogo.tsx` — AkiorLogo — Sacred geometry SVG logo based on the owner's daughter's design. (~3362 tok)
+- `BrandMark.tsx` — Dynamic AKIOR brand mark component — sacred geometry logo (~468 tok)
 - `FileUpload.tsx` — FileUpload (~2059 tok)
 - `HudWidget.tsx` — getWeatherEmoji (~3752 tok)
+- `JarvisAssistant.tsx` — FFT_BARS (~12606 tok)
 - `SetupRequiredBanner.tsx` — SetupRequiredBanner (~1094 tok)
 
 ## forge/jarvis-v5-os/apps/web/src/hooks/
