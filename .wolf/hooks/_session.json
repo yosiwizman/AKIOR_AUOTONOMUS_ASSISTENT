@@ -33,13 +33,13 @@
       "first_read": "2026-04-03T06:20:12.351Z"
     },
     "/Users/yosiwizman/akior/docs/ssot/PROJECT_LOG.md": {
-      "count": 4,
-      "tokens": 4860,
+      "count": 5,
+      "tokens": 5232,
       "first_read": "2026-04-03T06:20:27.237Z"
     },
     "/Users/yosiwizman/akior/docs/ssot/AKIOR-SYSTEM-STATUS.md": {
-      "count": 4,
-      "tokens": 2152,
+      "count": 5,
+      "tokens": 2194,
       "first_read": "2026-04-03T06:20:44.478Z"
     },
     "/Users/yosiwizman/akior/reports/jarvis-ui-audit-2026-04-03.md": {
@@ -419,6 +419,12 @@
       "action": "create",
       "tokens": 306,
       "at": "2026-04-03T12:17:04.970Z"
+    },
+    {
+      "file": "/Users/yosiwizman/akior/reports/avatar-video-setup-guide.md",
+      "action": "create",
+      "tokens": 2373,
+      "at": "2026-04-03T12:17:52.320Z"
     }
   ],
   "edit_counts": {
@@ -441,11 +447,12 @@
     "../.openclaw/workspace-dev/skills/yahoo-mail/SKILL.md": 1,
     "reports/cto-briefing-2026-04-03-v3.md": 1,
     "README.md": 1,
-    "LICENSE": 1
+    "LICENSE": 1,
+    "reports/avatar-video-setup-guide.md": 1
   },
   "anatomy_hits": 5,
   "anatomy_misses": 17,
-  "repeated_reads_warned": 14,
+  "repeated_reads_warned": 16,
   "cerebrum_warnings": 0,
-  "stop_count": 30
+  "stop_count": 31
 }

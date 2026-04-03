@@ -1,7 +1,7 @@
 # anatomy.md
 
-> Auto-maintained by OpenWolf. Last scanned: 2026-04-03T12:17:04.963Z
-> Files: 568 tracked | Anatomy hits: 0 | Misses: 0
+> Auto-maintained by OpenWolf. Last scanned: 2026-04-03T12:17:52.314Z
+> Files: 569 tracked | Anatomy hits: 0 | Misses: 0
 
 ## ../.claude/projects/-Users-yosiwizman-akior/memory/
 
@@ -995,6 +995,7 @@
 
 ## reports/
 
+- `avatar-video-setup-guide.md` — AI Avatar Video Calls on macOS — Setup Guide (~2076 tok)
 - `calendar-2026-04-03-v2.md` — Calendar Report — 2026-04-03 (v2 Morning Run) (~73 tok)
 - `calendar-2026-04-03.md` — Calendar — 2026-04-03 (Thu) + 2026-04-04 (Fri) (~73 tok)
 - `competitor-research-2026-04-03.md` — Pilates Equipment Competitor Research Report (~1931 tok)
