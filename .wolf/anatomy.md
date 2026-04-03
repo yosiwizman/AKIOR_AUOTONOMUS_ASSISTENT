@@ -1,7 +1,7 @@
 # anatomy.md
 
-> Auto-maintained by OpenWolf. Last scanned: 2026-04-03T17:09:07.280Z
-> Files: 615 tracked | Anatomy hits: 0 | Misses: 0
+> Auto-maintained by OpenWolf. Last scanned: 2026-04-03T17:12:35.480Z
+> Files: 618 tracked | Anatomy hits: 0 | Misses: 0
 
 ## ../.claude/projects/-Users-yosiwizman-akior/memory/
 
@@ -1028,6 +1028,10 @@
 
 - `jarvis-ci.yml` — CI: AKIOR CI (~1470 tok)
 
+## forge/jarvis-v5-os/apps/server/
+
+- `fly.toml` — Fly.io configuration for AKIOR Server (~325 tok)
+
 ## forge/jarvis-v5-os/apps/server/data/
 
 - `settings.json` (~828 tok)
@@ -1061,7 +1065,7 @@
 ## forge/jarvis-v5-os/apps/web/app/
 
 - `globals.css` — Styles: 20 rules, 105 vars (~2210 tok)
-- `layout.tsx` — RootLayout (~2746 tok)
+- `layout.tsx` — RootLayout (~3339 tok)
 
 ## forge/jarvis-v5-os/apps/web/app/api/tasks/
 
@@ -1070,6 +1074,10 @@
 ## forge/jarvis-v5-os/apps/web/app/chat/
 
 - `page.tsx` — createId (~13248 tok)
+
+## forge/jarvis-v5-os/apps/web/app/functions/
+
+- `page.tsx` — FunctionsPage (~4506 tok)
 
 ## forge/jarvis-v5-os/apps/web/app/settings/
 
@@ -1086,7 +1094,7 @@
 ## forge/jarvis-v5-os/apps/web/src/components/
 
 - `FileUpload.tsx` — FileUpload (~2059 tok)
-- `HudWidget.tsx` — getWeatherEmoji (~3620 tok)
+- `HudWidget.tsx` — getWeatherEmoji (~3752 tok)
 - `SetupRequiredBanner.tsx` — SetupRequiredBanner (~1094 tok)
 
 ## forge/jarvis-v5-os/apps/web/src/hooks/
@@ -1115,6 +1123,10 @@
 ## forge/jarvis-v5-os/scripts/
 
 - `smoke.ts` — AKIOR V5 Smoke Test Script (~1748 tok)
+
+## ledgers/
+
+- `action.md` — AKIOR Action Ledger (~836 tok)
 
 ## openclaw/
 

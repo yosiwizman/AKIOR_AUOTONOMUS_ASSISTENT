@@ -616,7 +616,13 @@
       "file": "forge/jarvis-v5-os/apps/web/src/hooks/useSystemStatus.ts",
       "root_cause": "Initial state level was 'loading' which displayed LOADING text for up to 10s until first fetch resolved; useSystemMetrics had no fallback metrics on error leaving UI in degraded state",
       "fix": "Changed initial status level from 'loading' to 'standalone' (displays 'OK'); added fallback metrics in useSystemMetrics catch block so CPU/Memory show 0 instead of dashes when backend is down",
-      "tags": ["hud", "status", "loading", "graceful-degradation", "ui"],
+      "tags": [
+        "hud",
+        "status",
+        "loading",
+        "graceful-degradation",
+        "ui"
+      ],
       "related_bugs": [],
       "occurrences": 1,
       "last_seen": "2026-04-03T18:00:00.000Z"
@@ -628,10 +634,64 @@
       "file": "forge/jarvis-v5-os/apps/web/app/globals.css",
       "root_cause": "No global safety net for SVG sizing; decorative icons in FileUpload and SetupRequiredBanner were 48px (w-12) which was at the upper limit",
       "fix": "Added global CSS rule for SVG max-width/max-height/flex-shrink-0; reduced FileUpload and SetupRequiredBanner hero icons from w-12 h-12 to w-10 h-10 (40px)",
-      "tags": ["svg", "icons", "sizing", "css", "ui"],
+      "tags": [
+        "svg",
+        "icons",
+        "sizing",
+        "css",
+        "ui"
+      ],
       "related_bugs": [],
       "occurrences": 1,
       "last_seen": "2026-04-03T18:00:00.000Z"
+    },
+    {
+      "id": "bug-041",
+      "timestamp": "2026-04-03T17:10:34.858Z",
+      "error_message": "Wrong reference: jarvis should be voice",
+      "file": "forge/jarvis-v5-os/apps/web/app/functions/page.tsx",
+      "root_cause": "Used \"jarvis\" instead of \"voice\"",
+      "fix": "Changed jarvis → voice",
+      "tags": [
+        "auto-detected",
+        "wrong-reference",
+        "tsx"
+      ],
+      "related_bugs": [],
+      "occurrences": 1,
+      "last_seen": "2026-04-03T17:10:34.858Z"
+    },
+    {
+      "id": "bug-042",
+      "timestamp": "2026-04-03T17:10:46.652Z",
+      "error_message": "Wrong reference: jarvis should be akior",
+      "file": "forge/jarvis-v5-os/apps/web/src/components/HudWidget.tsx",
+      "root_cause": "Used \"jarvis\" instead of \"akior\"",
+      "fix": "Changed jarvis → akior",
+      "tags": [
+        "auto-detected",
+        "wrong-reference",
+        "tsx"
+      ],
+      "related_bugs": [],
+      "occurrences": 1,
+      "last_seen": "2026-04-03T17:10:46.652Z"
+    },
+    {
+      "id": "bug-043",
+      "timestamp": "2026-04-03T17:11:17.033Z",
+      "error_message": "Wrong reference: Jarvis should be AKIOR",
+      "file": "forge/jarvis-v5-os/apps/server/fly.toml",
+      "root_cause": "Used \"Jarvis\" instead of \"AKIOR\"",
+      "fix": "Changed Jarvis → AKIOR",
+      "tags": [
+        "auto-detected",
+        "wrong-reference",
+        "toml"
+      ],
+      "related_bugs": [],
+      "occurrences": 1,
+      "last_seen": "2026-04-03T17:11:17.033Z"
     }
   ]
 }
