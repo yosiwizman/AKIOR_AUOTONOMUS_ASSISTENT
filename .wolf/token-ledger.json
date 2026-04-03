@@ -2,14 +2,14 @@
   "version": 1,
   "created_at": "2026-04-02T23:25:31.532Z",
   "lifetime": {
-    "total_tokens_estimated": 38873,
-    "total_reads": 25,
-    "total_writes": 107,
+    "total_tokens_estimated": 50254,
+    "total_reads": 30,
+    "total_writes": 137,
     "total_sessions": 1,
-    "anatomy_hits": 11,
-    "anatomy_misses": 14,
-    "repeated_reads_blocked": 11,
-    "estimated_savings_vs_bare_cli": 17794
+    "anatomy_hits": 13,
+    "anatomy_misses": 17,
+    "repeated_reads_blocked": 14,
+    "estimated_savings_vs_bare_cli": 21608
   },
   "sessions": [
     {
@@ -606,6 +606,203 @@
       "id": "session-2026-04-03-2130",
       "started": "2026-04-03T01:30:05.559Z",
       "ended": "2026-04-03T04:27:42.773Z",
+      "reads": [
+        {
+          "file": "/Users/yosiwizman/akior/docs/ssot/AKIOR-SYSTEM-STATUS.md",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/docs/ssot/PROJECT_LOG.md",
+          "tokens_estimated": 2436,
+          "was_repeated": true,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/communications/alexandra-sarbu-draft-reply-02.md",
+          "tokens_estimated": 318,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/.claude/projects/-Users-yosiwizman-akior/de9d89ff-6047-4063-819c-1bfbfca22e81/tool-results/bg4bhpf4l.txt",
+          "tokens_estimated": 0,
+          "was_repeated": true,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/openclaw/SOUL.md",
+          "tokens_estimated": 978,
+          "was_repeated": true,
+          "anatomy_had_description": false
+        }
+      ],
+      "writes": [
+        {
+          "file": "/Users/yosiwizman/akior/docs/ssot/AKIOR-SYSTEM-STATUS.md",
+          "tokens_estimated": 16,
+          "action": "edit"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/docs/ssot/AKIOR-SYSTEM-STATUS.md",
+          "tokens_estimated": 142,
+          "action": "edit"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/docs/ssot/AKIOR-SYSTEM-STATUS.md",
+          "tokens_estimated": 50,
+          "action": "edit"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/docs/ssot/PROJECT_LOG.md",
+          "tokens_estimated": 299,
+          "action": "edit"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/docs/ssot/PROJECT_LOG.md",
+          "tokens_estimated": 28,
+          "action": "edit"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/.gitignore",
+          "tokens_estimated": 31,
+          "action": "create"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/docs/ssot/PROJECT_LOG.md",
+          "tokens_estimated": 356,
+          "action": "edit"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/docs/ssot/PROJECT_LOG.md",
+          "tokens_estimated": 42,
+          "action": "edit"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/openclaw/SOUL.md",
+          "tokens_estimated": 355,
+          "action": "edit"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/docs/ssot/AKIOR-SYSTEM-STATUS.md",
+          "tokens_estimated": 20,
+          "action": "edit"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/docs/ssot/AKIOR-SYSTEM-STATUS.md",
+          "tokens_estimated": 94,
+          "action": "edit"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/docs/ssot/AKIOR-SYSTEM-STATUS.md",
+          "tokens_estimated": 258,
+          "action": "edit"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/docs/ssot/AKIOR-SYSTEM-STATUS.md",
+          "tokens_estimated": 81,
+          "action": "edit"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/docs/ssot/PROJECT_LOG.md",
+          "tokens_estimated": 396,
+          "action": "edit"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/docs/ssot/PROJECT_LOG.md",
+          "tokens_estimated": 51,
+          "action": "edit"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/docs/ssot/PROJECT_LOG.md",
+          "tokens_estimated": 18,
+          "action": "edit"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/reports/email-triage-2026-04-03.md",
+          "tokens_estimated": 416,
+          "action": "create"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/reports/calendar-2026-04-03.md",
+          "tokens_estimated": 83,
+          "action": "create"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/reports/lp-inbox-2026-04-03.md",
+          "tokens_estimated": 283,
+          "action": "create"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/reports/system-health-2026-04-03.md",
+          "tokens_estimated": 500,
+          "action": "create"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/evidence/terminal/alexandra-gmail-send.md",
+          "tokens_estimated": 256,
+          "action": "create"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/reports/cto-briefing-2026-04-03.md",
+          "tokens_estimated": 779,
+          "action": "create"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/docs/ssot/PROJECT_LOG.md",
+          "tokens_estimated": 539,
+          "action": "edit"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/docs/ssot/PROJECT_LOG.md",
+          "tokens_estimated": 59,
+          "action": "edit"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/openclaw/SOUL.md",
+          "tokens_estimated": 223,
+          "action": "edit"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/docs/ssot/BOOTSTRAP-COMPLETION-REPORT.md",
+          "tokens_estimated": 1843,
+          "action": "create"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/evidence/terminal/alexandra-gmail-send.md",
+          "tokens_estimated": 18,
+          "action": "edit"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/evidence/terminal/alexandra-gmail-send.md",
+          "tokens_estimated": 112,
+          "action": "edit"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/docs/ssot/PROJECT_LOG.md",
+          "tokens_estimated": 242,
+          "action": "edit"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/docs/ssot/PROJECT_LOG.md",
+          "tokens_estimated": 59,
+          "action": "edit"
+        }
+      ],
+      "totals": {
+        "input_tokens_estimated": 3732,
+        "output_tokens_estimated": 7649,
+        "reads_count": 5,
+        "writes_count": 30,
+        "repeated_reads_blocked": 3,
+        "anatomy_lookups": 2
+      }
+    },
+    {
+      "id": "session-2026-04-03-2130",
+      "started": "2026-04-03T01:30:05.559Z",
+      "ended": "2026-04-03T04:27:47.900Z",
       "reads": [
         {
           "file": "/Users/yosiwizman/akior/docs/ssot/AKIOR-SYSTEM-STATUS.md",
