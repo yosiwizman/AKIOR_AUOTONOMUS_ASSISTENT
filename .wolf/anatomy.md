@@ -1,7 +1,7 @@
 # anatomy.md
 
-> Auto-maintained by OpenWolf. Last scanned: 2026-04-03T19:12:13.488Z
-> Files: 620 tracked | Anatomy hits: 0 | Misses: 0
+> Auto-maintained by OpenWolf. Last scanned: 2026-04-03T19:15:35.814Z
+> Files: 624 tracked | Anatomy hits: 0 | Misses: 0
 
 ## ../.claude/projects/-Users-yosiwizman-akior/memory/
 
@@ -1062,12 +1062,25 @@
 
 ## forge/jarvis-v5-os/apps/web/
 
+- `next.config.mjs` — Get git SHA at build time (~1406 tok)
 - `tailwind.config.ts` — /*.{ts,tsx}', (~204 tok)
 
 ## forge/jarvis-v5-os/apps/web/app/
 
 - `globals.css` — Styles: 20 rules, 105 vars (~2210 tok)
 - `layout.tsx` — RootLayout (~3339 tok)
+
+## forge/jarvis-v5-os/apps/web/app/api/health/
+
+- `route.ts` — GET /api/health (~402 tok)
+
+## forge/jarvis-v5-os/apps/web/app/api/health/build/
+
+- `route.ts` — GET /api/health/build (~411 tok)
+
+## forge/jarvis-v5-os/apps/web/app/api/system/metrics/
+
+- `route.ts` — GET /api/system/metrics (~336 tok)
 
 ## forge/jarvis-v5-os/apps/web/app/api/tasks/
 
