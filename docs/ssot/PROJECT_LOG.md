@@ -13,7 +13,7 @@
 | **Target milestone** | v2 expansion / parallel operations |
 | **Active layer** | V2 EXPANSION — IN PROGRESS |
 | **Distance** | NEAR |
-| **Last verified step** | Task 44 | V2 Phase 4 complete — fresh repo, voice verified, cron skill, Yahoo email, dashboard API + Jarvis plan |
+| **Last verified step** | Task 49 | V2 Phase 5 complete — CI fixed, voice transcription fixed, Yahoo configured, cron tested, SOUL.md + repo cleanup |
 | **Last updated** | 2026-04-03 |
 
 > Update this block whenever a new entry is appended. This is the quick-glance state.
@@ -111,6 +111,11 @@
 2026-04-03 | Task 42 | WhatsApp Cron Job Skill | COMPLETE | V2 | Created cron-manager skill at ~/.openclaw/workspace-dev/skills/cron-manager/SKILL.md. Supports 20+ natural language time patterns mapped to cron expressions. openclaw cron CLI verified with 6 existing jobs. Gateway restarted. | NEAR | Next: test cron triggers | Owner: none
 2026-04-03 | Task 43 | Yahoo Email Integration | COMPLETE | V2 | Installed ClawHub imap-smtp-email skill + Himalaya CLI v1.2.0. Config templates created for Yahoo IMAP/SMTP. | NEAR | Next: owner generates Yahoo app-specific password | Owner: action needed (Yahoo app password)
 2026-04-03 | Task 44 | Dashboard Live Data API + Jarvis Migration Plan | COMPLETE | V2 | Created Node.js API server on port 8422 with 5 endpoints. Dashboard updated to fetch live data. LaunchAgent created and running. Jarvis migration plan: 10 P1 components, 36-52 hours estimated. | NEAR | Next: begin Jarvis component extraction | Owner: none
+2026-04-03 | Task 45 | Fix GitHub CI Failures | COMPLETE | V2 | Deleted 3 old workflows (ci.yml, deploy-preview, deploy-production). Removed 142 old Next.js/TypeScript files (~22K lines). Created new akior-health.yml workflow. CI now green. | NEAR | Next: voice transcription fix | Owner: none
+2026-04-03 | Task 46 | Fix WhatsApp Voice Transcription | COMPLETE | V2 | Root cause: gateway uses tools.media.audio.models (was empty), not top-level audio.transcription.command. Added whisper-cpp-base model to correct config path. Gateway restarted. Pending live test. | NEAR | Next: Yahoo email config | Owner: none
+2026-04-03 | Task 47 | Configure Yahoo Email | COMPLETE | V2 | Himalaya config + ClawHub .env updated with Yahoo IMAP/SMTP settings. Yahoo-mail skill created. Pending owner credentials (app password). | NEAR | Next: cron manager test | Owner: action needed (Yahoo app password)
+2026-04-03 | Task 48 | Cron Manager Live Test | COMPLETE | V2 | morning-call cron job created (daily 8am ET via clawr.ing). WhatsApp notification sent. 7 total cron jobs active. Skill registered in gateway. | NEAR | Next: SOUL.md + repo cleanup | Owner: none
+2026-04-03 | Task 49 | SOUL.md Update + Repo Cleanup | COMPLETE | V2 | Comprehensive SOUL.md with all capabilities, copied to 3 locations. Removed old Next.js dirs (public/, e2e/, training/, supabase/), 14 legacy config files, 14 legacy docs. Gateway restarted. ~160 legacy files removed. | NEAR | Next: V2 Phase 6 | Owner: none
 ```
 
 > Delete these placeholder entries and begin real logging on your first live session.

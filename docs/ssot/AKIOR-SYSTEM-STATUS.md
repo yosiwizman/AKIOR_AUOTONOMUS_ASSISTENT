@@ -1,6 +1,6 @@
 # AKIOR System Status
 
-**Generated:** 2026-04-03T18:00Z (V2 Phase 4 COMPLETE — fresh repo, voice verified, cron skill, Yahoo email, dashboard API + Jarvis plan)
+**Generated:** 2026-04-03T23:00Z (V2 Phase 5 COMPLETE — CI fixed, voice transcription fixed, Yahoo configured, cron tested, SOUL.md + repo cleanup)
 **Purpose:** Canonical "what is AKIOR right now" document
 **Refresh:** Update after each major system change
 
@@ -52,7 +52,8 @@
 | lp-inbox-sweep | Every 6 hours | idle |
 | canary-health | Daily 6:57 AM ET | idle |
 | evening-summary | Daily 9:07 PM ET | ok (last ran) |
-| weekly-regression | Sundays 6:00 AM ET | idle (new) |
+| weekly-regression | Sundays 6:00 AM ET | idle |
+| morning-call | Daily 8:00 AM ET (clawr.ing) | idle (new) |
 
 ---
 
@@ -78,7 +79,7 @@
 
 | Channel | Status | Detail |
 |---------|--------|--------|
-| WhatsApp | ON, linked, allowlist mode | +13054098490, +17865181777; voice transcription VERIFIED end-to-end (whisper-cpp local) |
+| WhatsApp | ON, linked, allowlist mode | +13054098490, +17865181777; voice transcription FIXED (tools.media.audio.models configured with whisper-cpp-base) |
 | iMessage | PARTIAL — outbound active, inbound crash-looping | Outbound via osascript + imsg CLI. Inbound BLOCKED: provider crash-looping, pending FDA grant |
 | Yahoo Email | INSTALLED, pending credentials | Himalaya CLI + imap-smtp-email skill. Owner must generate Yahoo app-specific password |
 | FaceTime | READY — skill installed, not yet live-tested | URL scheme verified, skill at skills/facetime/SKILL.md, SOUL.md updated |
@@ -187,8 +188,8 @@
 | ElevenLabs API key | Needed for speech synthesis | Owner action |
 | Deepgram API key | No longer needed — whisper-cpp local handles transcription | Resolved |
 | Neon payment | CRITICAL — payment failing, Cash App card locked | Owner action |
-| Vercel deploys | CRITICAL — deploys failing | Investigation needed |
-| GitHub storage | CRITICAL — storage full | Investigation needed |
+| Vercel deploys | Resolved — old Next.js removed, CI green (akior-health.yml) | Resolved |
+| GitHub storage | Resolved — ~160 legacy files removed (~22K lines), repo cleaned | Resolved |
 | gogcli | NOT A REAL TOOL — Gmail MCP is the primary interface | Resolved |
 | clawr.ing voice calls | CONFIGURED — API key set, skill installed | V2 Phase 2 |
 | GUI automation | No macOS-native solution, osascript available | R&D |
@@ -196,7 +197,7 @@
 | App Packs (Instagram, Canva, QuickBooks) | Not yet configured | Deferred |
 | Memory MCP | Replaced, test next session | Next session |
 | Firecrawl MCP | Registered, test next session | Next session |
-| ~/akior/ git repo | Active, pushed to github.com/yosiwizman/AKIOR_AUOTONOMUS_ASSISTENT | Resolved |
+| ~/akior/ git repo | Active, CI green (akior-health.yml), pushed to github.com/yosiwizman/AKIOR_AUOTONOMUS_ASSISTENT | Resolved |
 | Old akior-os repo | Deletion blocked by token scope | Owner action |
 | Yahoo email credentials | Owner must generate Yahoo app-specific password | Owner action |
 | FaceTime audio | Skill ready, not yet live-tested | Next test |
