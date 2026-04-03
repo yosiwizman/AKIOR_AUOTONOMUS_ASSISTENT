@@ -1,7 +1,7 @@
 # anatomy.md
 
-> Auto-maintained by OpenWolf. Last scanned: 2026-04-03T12:47:32.034Z
-> Files: 581 tracked | Anatomy hits: 0 | Misses: 0
+> Auto-maintained by OpenWolf. Last scanned: 2026-04-03T12:52:14.641Z
+> Files: 584 tracked | Anatomy hits: 0 | Misses: 0
 
 ## ../.claude/projects/-Users-yosiwizman-akior/memory/
 
@@ -99,7 +99,7 @@
 - `AKIOR-OS-SSOT-v1.0-EXPERIMENT-LOCK.md` — AKIOR OS — Single Source of Truth (~14616 tok)
 - `AKIOR-OWNER-INTERACTION-MODEL.md` — AKIOR OS — Owner Interaction Model (~771 tok)
 - `AKIOR-SSOT-LOCK-MEMO.md` — SSOT Lock Memo — Experiment Mode (~610 tok)
-- `AKIOR-SYSTEM-STATUS.md` — AKIOR System Status (~2312 tok)
+- `AKIOR-SYSTEM-STATUS.md` — AKIOR System Status (~2487 tok)
 - `AKIOR-TOOL-ADOPTION-DECISIONS-01.md` — AKIOR — External Tool Adoption Decisions (~1247 tok)
 - `BOOTSTRAP-COMPLETION-REPORT.md` — AKIOR Bootstrap Completion Report (~1613 tok)
 - `bootstrap-report.md` — AKIOR Bootstrap Completion Report — Formal (~1991 tok)
@@ -995,15 +995,20 @@
 
 ## forge/jarvis-v5-os/apps/server/src/
 
-- `index.ts` — API routes: GET, POST (5 endpoints) (~38844 tok)
+- `index.ts` — API routes: GET, POST (5 endpoints) (~42380 tok)
 
 ## forge/jarvis-v5-os/apps/server/src/clients/
 
 - `anthropicClient.ts` — Anthropic Claude Client (~1579 tok)
 
+## forge/jarvis-v5-os/apps/server/src/routes/
+
+- `llm.routes.ts` — LLM Configuration Routes (~3075 tok)
+
 ## forge/jarvis-v5-os/apps/server/src/storage/
 
-- `llmConfigStore.ts` — LLM Configuration Store (~1939 tok)
+- `llmConfigStore.ts` — LLM Configuration Store (~2176 tok)
+- `secretStore.ts` — Exports Secrets, readSecrets, writeSecrets, upsertSecret, deleteSecret (~278 tok)
 
 ## forge/jarvis-v5-os/apps/server/src/utils/
 
@@ -1044,6 +1049,7 @@
 - `calendar-2026-04-03-v2.md` — Calendar Report — 2026-04-03 (v2 Morning Run) (~73 tok)
 - `calendar-2026-04-03.md` — Calendar — 2026-04-03 (Thu) + 2026-04-04 (Fri) (~73 tok)
 - `competitor-research-2026-04-03.md` — Pilates Equipment Competitor Research Report (~1931 tok)
+- `cto-briefing-2026-04-03-final.md` — CTO Briefing — 2026-04-03 FINAL (~1052 tok)
 - `cto-briefing-2026-04-03-update.md` — AKIOR CTO Briefing Update — 2026-04-03 (Thursday, Evening) (~1077 tok)
 - `cto-briefing-2026-04-03-v2.md` — CTO Morning Briefing — 2026-04-03 (v2) (~594 tok)
 - `cto-briefing-2026-04-03-v3.md` — CTO Morning Briefing — 2026-04-03 v3 (~800 tok)
