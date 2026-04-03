@@ -313,9 +313,14 @@
       "first_read": "2026-04-03T19:11:58.627Z"
     },
     "/Users/yosiwizman/akior/forge/jarvis-v5-os/apps/web/next.config.mjs": {
-      "count": 1,
+      "count": 2,
       "tokens": 0,
       "first_read": "2026-04-03T19:13:09.217Z"
+    },
+    "/Users/yosiwizman/akior/forge/jarvis-v5-os/apps/web/.env.local": {
+      "count": 1,
+      "tokens": 0,
+      "first_read": "2026-04-03T19:13:17.616Z"
     }
   },
   "files_written": [
@@ -602,8 +607,8 @@
     "reports/cto-briefing-2026-04-03-final.md": 1
   },
   "anatomy_hits": 20,
-  "anatomy_misses": 43,
-  "repeated_reads_warned": 35,
+  "anatomy_misses": 44,
+  "repeated_reads_warned": 36,
   "cerebrum_warnings": 0,
-  "stop_count": 10
+  "stop_count": 11
 }

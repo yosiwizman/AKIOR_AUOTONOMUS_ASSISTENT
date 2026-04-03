@@ -449,3 +449,5 @@
 | 15:12 | Created reports/cto-briefing-2026-04-03-final.md | — | ~1226 |
 | 15:12 | Session end: 42 writes across 27 files (jarvis-ci.yml, brand.ts, akior-logo.svg, test-backend.js, index.html) | 62 reads | ~140674 tok |
 | 15:13 | Session end: 42 writes across 27 files (jarvis-ci.yml, brand.ts, akior-logo.svg, test-backend.js, index.html) | 63 reads | ~140674 tok |
+| 19:12 | Fixed openclaw WhatsApp group config: copied auth-profiles to main agent dir, set session.scope=per-sender, added test-group-001 requireMention:false, restarted gateway. WhatsApp needs QR re-scan (401). | ~/.openclaw/openclaw.json, ~/.openclaw/agents/main/agent/auth-profiles.json | partial — awaiting QR scan | ~8000 |
+| 15:14 | Session end: 42 writes across 27 files (jarvis-ci.yml, brand.ts, akior-logo.svg, test-backend.js, index.html) | 64 reads | ~140674 tok |
