@@ -11,9 +11,9 @@
 | Field | Value |
 |-------|-------|
 | **Target milestone** | v1 bootstrap / operational readiness |
-| **Active layer** | L6 — COMPLETE |
+| **Active layer** | L7 — COMPLETE |
 | **Distance** | NEAR |
-| **Last verified step** | Task 28 | Phase 6 — WhatsApp multi-number, Wix send blocked (owner login needed), Memory MCP replaced, git baseline |
+| **Last verified step** | Task 29 | Phase 7 — full autonomous tool access configured, exec approvals wildcard, 4 plugins + 3 skills added |
 | **Last updated** | 2026-04-03 |
 
 > Update this block whenever a new entry is appended. This is the quick-glance state.
@@ -94,6 +94,7 @@
 2026-04-03 | Task 26 | Phase 5 close L6 + system status snapshot | COMPLETE | L6 | Canaries 4/4 PASS after all installations; MCP packages verified (playwright, context7, ddg-search, memory all resolve); AKIOR-SYSTEM-STATUS.md created as canonical system snapshot; MCP tools test deferred to next session start (MCPs load at init); L6 capability layer COMPLETE | NEAR | Next: restart session to activate MCPs; test playwright for Wix automation | Owner: none
 2026-04-03 | Task 27 | Phase 5 MCP live verification (first autonomous execution test) | COMPLETE | L6 | Playwright: navigated livepilatesusa.com + screenshot saved to evidence/screenshots/playwright-test-01.png; DDG Search: "Live Pilates USA V12" returned 3 results; Context7: available in tool list; Memory MCP: bootstrap fails (lobe not resolving — config exists at memory-config.json but server can't resolve); Canaries: 4/4 PASS; SYSTEM-STATUS.md updated with verified results | NEAR | Next: debug Memory MCP bootstrap; use Playwright for Task 19 (Alexandra Wix send) | Owner: none
 2026-04-03 | Task 28 | Phase 6 WhatsApp multi-number + Task 19 attempt + Memory MCP fix + git baseline | COMPLETE | L6 | WhatsApp: allowFrom set to [+13054098490, +17865181777], gateway reinstalled (PID 58194); Task 19 (Alexandra Wix send): BLOCKED — Wix requires login, no stored session/credentials, OWNER ACTION NEEDED; Memory MCP: @exaudeus/memory-mcp bootstrap broken, replaced with @modelcontextprotocol/server-memory (active next session); Git: .gitignore created, baseline commit created; Canaries: 4/4 PASS | NEAR | Next: owner logs into Wix via Playwright to unblock Task 19; test new Memory MCP on next session | Owner: action needed (Wix login)
+2026-04-03 | Task 29 | Phase 7 full autonomous tool access + one-time authorization | COMPLETE | L7 | OpenClaw: dmPolicy=allowlist with [+13054098490,+17865181777]; exec approvals wildcard (*/*) set; 4 plugins enabled (duckduckgo, diffs, llm-task, lobster); 3 ClawHub skills installed (macos-calendar, notification, reminder); 2 skills skipped (VirusTotal flagged); SOUL.md updated with autonomous execution rules + tool access manifest; synced to 3 locations; gateway reinstalled PID 61272; Google integration: Gmail+Calendar already connected via Claude Code MCP (no OpenClaw OAuth needed); SYSTEM-STATUS.md updated | NEAR | Next: test WhatsApp→AKIOR end-to-end; owner Wix login for Task 19 | Owner: action needed (Wix login)
 ```
 
 > Delete these placeholder entries and begin real logging on your first live session.

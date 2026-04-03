@@ -1,6 +1,6 @@
 # AKIOR System Status
 
-**Generated:** 2026-04-03T01:35Z (Phase 5 re-verified)
+**Generated:** 2026-04-03T02:20Z (Phase 7 — full autonomy configured)
 **Purpose:** Canonical "what is AKIOR right now" document
 **Refresh:** Update after each major system change
 
@@ -62,11 +62,17 @@
 
 ---
 
+## OpenClaw Exec Approvals
+
+| Scope | Agent | Pattern | Policy |
+|-------|-------|---------|--------|
+| tools.exec | * | * | security=full, ask=off |
+
 ## OpenClaw Channels
 
 | Channel | Status | Detail |
 |---------|--------|--------|
-| WhatsApp | ON, linked | +13054098490, account "AKIOR WhatsApp" |
+| WhatsApp | ON, linked, allowlist mode | +13054098490, +17865181777; account "AKIOR WhatsApp" |
 
 ---
 
@@ -92,6 +98,16 @@
 
 ---
 
+## OpenClaw Plugins (newly enabled in Phase 7)
+
+| Plugin | ID | Status |
+|--------|-----|--------|
+| DuckDuckGo | duckduckgo | enabled |
+| Diffs | diffs | enabled |
+| LLM Task | llm-task | enabled |
+| Lobster | lobster | enabled |
+| Browser | browser | loaded (was already on) |
+
 ## ClawHub Skills (installed to ~/.openclaw/workspace-dev/skills/)
 
 | Skill | Version | Purpose |
@@ -101,6 +117,9 @@
 | automation-workflows | 0.1.0 | Workflow automation patterns |
 | agentic-workflow-automation | 0.1.0 | Agent workflow orchestration |
 | productivity-automation-kit | 1.0.0 | Productivity tool automation |
+| macos-calendar | latest | macOS Calendar integration |
+| notification | latest | Terminal notifications |
+| reminder | latest | Natural-language reminders |
 
 ---
 
@@ -143,7 +162,9 @@
 | Memory persistence test (write-read-back) | Not yet run | v1 sign-off gap |
 | Scheduled Tasks (Claude Desktop) survive Mac restart | Not tested | v1 sign-off gap |
 | MCP tools (playwright, ddg-search, context7) | VERIFIED LIVE | Tested 2026-04-03 |
-| Memory MCP bootstrap | Fails — lobe "akior" not resolving despite config | Needs debug |
+| Memory MCP | Replaced with @modelcontextprotocol/server-memory | Test next session |
+| Task 19 (Alexandra Wix send) | Wix login required | Owner action needed |
+| GitHub ClawHub skills | Flagged by VirusTotal (openclaw-github-assistant, github-cli) | Skipped per security posture |
 | Alexandra Sarbu Wix send (Task 19) | Draft ready, not sent | Needs Wix browser session |
 | ~/akior/ git repo | Initialized but no commits | Housekeeping |
 

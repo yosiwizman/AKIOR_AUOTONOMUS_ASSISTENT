@@ -1,7 +1,7 @@
 # anatomy.md
 
-> Auto-maintained by OpenWolf. Last scanned: 2026-04-03T02:11:23.025Z
-> Files: 526 tracked | Anatomy hits: 0 | Misses: 0
+> Auto-maintained by OpenWolf. Last scanned: 2026-04-03T02:30:48.567Z
+> Files: 527 tracked | Anatomy hits: 0 | Misses: 0
 
 ## ./
 
@@ -58,11 +58,11 @@
 - `AKIOR-OS-SSOT-v1.0-EXPERIMENT-LOCK.md` — AKIOR OS — Single Source of Truth (~14616 tok)
 - `AKIOR-OWNER-INTERACTION-MODEL.md` — AKIOR OS — Owner Interaction Model (~771 tok)
 - `AKIOR-SSOT-LOCK-MEMO.md` — SSOT Lock Memo — Experiment Mode (~610 tok)
-- `AKIOR-SYSTEM-STATUS.md` — AKIOR System Status (~1292 tok)
+- `AKIOR-SYSTEM-STATUS.md` — AKIOR System Status (~1499 tok)
 - `AKIOR-TOOL-ADOPTION-DECISIONS-01.md` — AKIOR — External Tool Adoption Decisions (~1247 tok)
 - `bootstrap-report.md` — AKIOR Bootstrap Completion Report — Formal (~1991 tok)
 - `CLAUDE_EXECUTION_TEMPLATE.md` — AKIOR CLAUDE EXECUTION TEMPLATE (~1120 tok)
-- `PROJECT_LOG.md` — AKIOR PROJECT LOG (~3121 tok)
+- `PROJECT_LOG.md` — AKIOR PROJECT LOG (~3302 tok)
 - `RUNTIME-REFERENCE.md` — AKIOR Runtime Reference (~1747 tok)
 - `SESSION_HANDOFF_TEMPLATE.md` — AKIOR SESSION HANDOFF TEMPLATE (~1108 tok)
 - `SSOT-REGISTER.md` — SSOT Register (~478 tok)
@@ -945,3 +945,7 @@
 - `context-budget.md` — Context Budget Optimizer (Legacy Shim) (~176 tok)
 - `cpp-build.md` — C++ Build and Fix (~1004 tok)
 - `cpp-review.md` — C++ Code Review (~863 tok)
+
+## openclaw/
+
+- `SOUL.md` — AKIOR — Autonomous AI Operating System (~978 tok)
