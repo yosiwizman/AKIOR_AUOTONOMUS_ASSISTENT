@@ -1,7 +1,7 @@
 # anatomy.md
 
-> Auto-maintained by OpenWolf. Last scanned: 2026-04-03T05:40:20.040Z
-> Files: 547 tracked | Anatomy hits: 0 | Misses: 0
+> Auto-maintained by OpenWolf. Last scanned: 2026-04-03T05:41:02.501Z
+> Files: 548 tracked | Anatomy hits: 0 | Misses: 0
 
 ## ../.claude/projects/-Users-yosiwizman-akior/memory/
 
@@ -979,6 +979,7 @@
 - `v2-agent2-browser-gui.md` — V2 Agent 2 — Browser & GUI Capabilities Report (~1365 tok)
 - `v2-agent3-tools-hardening.md` — V2 Agent 3 — Tools Expansion & System Hardening Report (~1027 tok)
 - `v2-expansion-report-2026-04-03.md` — AKIOR V2 Expansion Report — 2026-04-03 (~867 tok)
+- `voice-video-research-2026-04-03.md` — Voice & Video Call Research Report (~2210 tok)
 
 ## skills/clawring/
 

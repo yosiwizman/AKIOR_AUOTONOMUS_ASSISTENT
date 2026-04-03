@@ -3,6 +3,8 @@
 > Chronological action log. Hooks and AI append to this file automatically.
 > Old sessions are consolidated by the daemon weekly.
 
+| 2026-04-03 | Researched FaceTime automation + AI avatar video call capabilities | reports/voice-video-research-2026-04-03.md | Full report with 5 options, feasibility ratings, and phased recommendations | ~8000 |
+
 ## Session: 2026-04-03 21:30
 
 | Time | Action | File(s) | Outcome | ~Tokens |
@@ -129,3 +131,5 @@
 | 01:39 | Session end: 13 writes across 9 files (competitor-research-2026-04-03.md, lp-product-scrape-2026-04-03.md, index.html, com.akior.dashboard.plist, SKILL.md) | 10 reads | ~14049 tok |
 | 01:40 | Created reports/cto-briefing-2026-04-03-update.md | — | ~1149 |
 | 01:40 | Session end: 14 writes across 10 files (competitor-research-2026-04-03.md, lp-product-scrape-2026-04-03.md, index.html, com.akior.dashboard.plist, SKILL.md) | 11 reads | ~16147 tok |
+| 01:41 | Created reports/voice-video-research-2026-04-03.md | — | ~2357 |
+| 01:41 | Session end: 15 writes across 11 files (competitor-research-2026-04-03.md, lp-product-scrape-2026-04-03.md, index.html, com.akior.dashboard.plist, SKILL.md) | 11 reads | ~18672 tok |
