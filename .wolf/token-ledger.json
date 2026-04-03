@@ -2,14 +2,14 @@
   "version": 1,
   "created_at": "2026-04-02T23:25:31.532Z",
   "lifetime": {
-    "total_tokens_estimated": 110358,
-    "total_reads": 57,
+    "total_tokens_estimated": 111801,
+    "total_reads": 58,
     "total_writes": 272,
     "total_sessions": 7,
-    "anatomy_hits": 22,
+    "anatomy_hits": 23,
     "anatomy_misses": 35,
     "repeated_reads_blocked": 31,
-    "estimated_savings_vs_bare_cli": 49016
+    "estimated_savings_vs_bare_cli": 49216
   },
   "sessions": [
     {
@@ -1899,6 +1899,28 @@
         "writes_count": 42,
         "repeated_reads_blocked": 8,
         "anatomy_lookups": 3
+      }
+    },
+    {
+      "id": "session-2026-04-03-0108",
+      "started": "2026-04-03T05:08:36.211Z",
+      "ended": "2026-04-03T05:10:52.804Z",
+      "reads": [
+        {
+          "file": "/Users/yosiwizman/akior/reports/v2-agent1-voice-comms.md",
+          "tokens_estimated": 1443,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        }
+      ],
+      "writes": [],
+      "totals": {
+        "input_tokens_estimated": 1443,
+        "output_tokens_estimated": 0,
+        "reads_count": 1,
+        "writes_count": 0,
+        "repeated_reads_blocked": 0,
+        "anatomy_lookups": 1
       }
     }
   ],
