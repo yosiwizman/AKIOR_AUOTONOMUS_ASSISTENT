@@ -33,7 +33,7 @@
       "first_read": "2026-04-03T17:04:22.013Z"
     },
     "/Users/yosiwizman/akior/forge/jarvis-v5-os/apps/web/app/layout.tsx": {
-      "count": 6,
+      "count": 7,
       "tokens": 3339,
       "first_read": "2026-04-03T17:04:23.791Z"
     },
@@ -48,7 +48,7 @@
       "first_read": "2026-04-03T17:04:24.349Z"
     },
     "/Users/yosiwizman/akior/forge/jarvis-v5-os/apps/web/app/login/page.tsx": {
-      "count": 4,
+      "count": 5,
       "tokens": 3283,
       "first_read": "2026-04-03T17:04:25.007Z"
     },
@@ -68,12 +68,12 @@
       "first_read": "2026-04-03T17:04:29.160Z"
     },
     "/Users/yosiwizman/akior/forge/jarvis-v5-os/apps/web/app/jarvis/page.tsx": {
-      "count": 22,
-      "tokens": 12378,
+      "count": 25,
+      "tokens": 12188,
       "first_read": "2026-04-03T17:04:29.246Z"
     },
     "/Users/yosiwizman/akior/forge/jarvis-v5-os/apps/web/app/globals.css": {
-      "count": 6,
+      "count": 7,
       "tokens": 2960,
       "first_read": "2026-04-03T17:04:29.570Z"
     },
@@ -103,8 +103,8 @@
       "first_read": "2026-04-03T17:04:38.502Z"
     },
     "/Users/yosiwizman/akior/forge/jarvis-v5-os/apps/web/src/components/JarvisAssistant.tsx": {
-      "count": 14,
-      "tokens": 12606,
+      "count": 17,
+      "tokens": 12607,
       "first_read": "2026-04-03T17:04:46.016Z"
     },
     "/Users/yosiwizman/akior/forge/jarvis-v5-os/apps/web/src/components/JarvisModelViewer.tsx": {
@@ -133,8 +133,8 @@
       "first_read": "2026-04-03T17:05:04.395Z"
     },
     "/Users/yosiwizman/akior/forge/jarvis-v5-os/apps/web/src/components/BrandMark.tsx": {
-      "count": 2,
-      "tokens": 0,
+      "count": 3,
+      "tokens": 468,
       "first_read": "2026-04-03T17:05:06.647Z"
     },
     "/Users/yosiwizman/akior/forge/jarvis-v5-os/scripts/smoke.ts": {
@@ -413,7 +413,7 @@
       "first_read": "2026-04-03T20:04:45.706Z"
     },
     "/Users/yosiwizman/akior/forge/jarvis-v5-os/apps/web/src/components/AkiorLogo.tsx": {
-      "count": 1,
+      "count": 2,
       "tokens": 3362,
       "first_read": "2026-04-03T20:05:09.648Z"
     },
@@ -968,6 +968,18 @@
       "action": "edit",
       "tokens": 13,
       "at": "2026-04-03T20:25:44.383Z"
+    },
+    {
+      "file": "/Users/yosiwizman/akior/forge/jarvis-v5-os/apps/web/app/layout.tsx",
+      "action": "edit",
+      "tokens": 33,
+      "at": "2026-04-03T21:04:42.266Z"
+    },
+    {
+      "file": "/Users/yosiwizman/akior/forge/jarvis-v5-os/apps/web/app/login/page.tsx",
+      "action": "edit",
+      "tokens": 16,
+      "at": "2026-04-03T21:04:43.651Z"
     }
   ],
   "edit_counts": {
@@ -991,7 +1003,7 @@
     "forge/jarvis-v5-os/apps/web/src/components/FileUpload.tsx": 1,
     "forge/jarvis-v5-os/e2e/branding.smoke.spec.ts": 1,
     "forge/jarvis-v5-os/apps/web/app/functions/page.tsx": 1,
-    "forge/jarvis-v5-os/apps/web/app/layout.tsx": 1,
+    "forge/jarvis-v5-os/apps/web/app/layout.tsx": 2,
     "forge/jarvis-v5-os/apps/web/src/components/HudWidget.tsx": 1,
     "forge/jarvis-v5-os/apps/server/fly.toml": 1,
     "ledgers/action.md": 2,
@@ -1008,7 +1020,7 @@
     "forge/jarvis-v5-os/apps/web/src/components/AkiorLogo.tsx": 1,
     "reports/cto-briefing-2026-04-03-phase12.md": 1,
     "reports/session-summary-2026-04-03.md": 1,
-    "forge/jarvis-v5-os/apps/web/app/login/page.tsx": 2,
+    "forge/jarvis-v5-os/apps/web/app/login/page.tsx": 3,
     "docs/AKIOR-SYSTEM-STATUS.md": 1,
     "forge/jarvis-v5-os/apps/server/src/routes/auth.routes.ts": 1,
     "forge/jarvis-v5-os/apps/web/src/components/BrandMark.tsx": 1,
@@ -1020,7 +1032,7 @@
   },
   "anatomy_hits": 24,
   "anatomy_misses": 73,
-  "repeated_reads_warned": 118,
+  "repeated_reads_warned": 129,
   "cerebrum_warnings": 0,
   "stop_count": 23
 }

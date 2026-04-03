@@ -836,6 +836,38 @@
       "related_bugs": [],
       "occurrences": 1,
       "last_seen": "2026-04-03T20:25:44.384Z"
+    },
+    {
+      "id": "bug-053",
+      "timestamp": "2026-04-03T21:04:42.267Z",
+      "error_message": "Missing import: @/styles/akior.css, @/styles/phase5-akior-css-addon.css",
+      "file": "forge/jarvis-v5-os/apps/web/app/layout.tsx",
+      "root_cause": "Module(s) not imported: @/styles/akior.css, @/styles/phase5-akior-css-addon.css",
+      "fix": "Added import(s) for @/styles/akior.css, @/styles/phase5-akior-css-addon.css",
+      "tags": [
+        "auto-detected",
+        "missing-import",
+        "tsx"
+      ],
+      "related_bugs": [],
+      "occurrences": 1,
+      "last_seen": "2026-04-03T21:04:42.267Z"
+    },
+    {
+      "id": "bug-054",
+      "timestamp": "2026-04-03T21:04:43.652Z",
+      "error_message": "Incorrect value in code",
+      "file": "forge/jarvis-v5-os/apps/web/app/login/page.tsx",
+      "root_cause": "Had \"@/components/AkiorLogo\"",
+      "fix": "Changed to \"@/components/akior/AkiorCore\"",
+      "tags": [
+        "auto-detected",
+        "wrong-value",
+        "tsx"
+      ],
+      "related_bugs": [],
+      "occurrences": 1,
+      "last_seen": "2026-04-03T21:04:43.652Z"
     }
   ]
 }

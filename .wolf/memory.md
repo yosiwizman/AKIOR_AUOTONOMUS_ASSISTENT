@@ -505,3 +505,5 @@
 | 16:25 | Edited forge/jarvis-v5-os/apps/web/app/jarvis/page.tsx | "scale(${ring1Scale})" → "scale(${logoScale})" | ~13 |
 | 16:26 | Session end: 80 writes across 41 files (jarvis-ci.yml, brand.ts, akior-logo.svg, test-backend.js, index.html) | 88 reads | ~206792 tok |
 | 17:04 | Session end: 80 writes across 41 files (jarvis-ci.yml, brand.ts, akior-logo.svg, test-backend.js, index.html) | 97 reads | ~206792 tok |
+| 17:04 | Edited forge/jarvis-v5-os/apps/web/app/layout.tsx | added 2 import(s) | ~33 |
+| 17:04 | Edited forge/jarvis-v5-os/apps/web/app/login/page.tsx | "@/components/AkiorLogo" → "@/components/akior/AkiorC" | ~16 |

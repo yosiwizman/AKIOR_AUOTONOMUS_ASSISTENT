@@ -1,6 +1,6 @@
 # anatomy.md
 
-> Auto-maintained by OpenWolf. Last scanned: 2026-04-03T20:25:44.376Z
+> Auto-maintained by OpenWolf. Last scanned: 2026-04-03T21:04:43.644Z
 > Files: 637 tracked | Anatomy hits: 0 | Misses: 0
 
 ## ../.claude/projects/-Users-yosiwizman-akior/memory/
@@ -1073,7 +1073,7 @@
 ## forge/jarvis-v5-os/apps/web/app/
 
 - `globals.css` — Styles: 40 rules, 105 vars (~2960 tok)
-- `layout.tsx` — RootLayout (~3339 tok)
+- `layout.tsx` — RootLayout (~3360 tok)
 
 ## forge/jarvis-v5-os/apps/web/app/api/health/
 
@@ -1105,7 +1105,7 @@
 
 ## forge/jarvis-v5-os/apps/web/app/login/
 
-- `page.tsx` — LoginContent — renders form (~3283 tok)
+- `page.tsx` — LoginContent — renders form (~3299 tok)
 
 ## forge/jarvis-v5-os/apps/web/app/settings/
 
