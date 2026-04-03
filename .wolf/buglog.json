@@ -160,6 +160,86 @@
       "related_bugs": [],
       "occurrences": 1,
       "last_seen": "2026-04-03T12:42:19.982Z"
+    },
+    {
+      "id": "bug-011",
+      "timestamp": "2026-04-03T12:42:39.889Z",
+      "error_message": "Type error",
+      "file": "forge/jarvis-v5-os/packages/shared/src/settings.ts",
+      "root_cause": "Missing or incorrect type annotation",
+      "fix": "Added type assertion/annotation",
+      "tags": [
+        "auto-detected",
+        "type-fix",
+        "ts"
+      ],
+      "related_bugs": [],
+      "occurrences": 1,
+      "last_seen": "2026-04-03T12:42:39.889Z"
+    },
+    {
+      "id": "bug-012",
+      "timestamp": "2026-04-03T12:42:45.474Z",
+      "error_message": "Missing error handling in unknown",
+      "file": "forge/jarvis-v5-os/apps/server/src/index.ts",
+      "root_cause": "Code path had no error handling — exceptions would propagate uncaught",
+      "fix": "Added try/catch block",
+      "tags": [
+        "auto-detected",
+        "error-handling",
+        "ts"
+      ],
+      "related_bugs": [],
+      "occurrences": 1,
+      "last_seen": "2026-04-03T12:42:45.474Z"
+    },
+    {
+      "id": "bug-013",
+      "timestamp": "2026-04-03T12:43:01.000Z",
+      "error_message": "Type error",
+      "file": "forge/jarvis-v5-os/apps/web/app/settings/page.tsx",
+      "root_cause": "Missing or incorrect type annotation",
+      "fix": "Added type assertion/annotation",
+      "tags": [
+        "auto-detected",
+        "type-fix",
+        "tsx"
+      ],
+      "related_bugs": [],
+      "occurrences": 1,
+      "last_seen": "2026-04-03T12:43:01.000Z"
+    },
+    {
+      "id": "bug-014",
+      "timestamp": "2026-04-03T12:43:17.333Z",
+      "error_message": "Missing error handling in unknown",
+      "file": "forge/jarvis-v5-os/apps/web/app/settings/page.tsx",
+      "root_cause": "Code path had no error handling — exceptions would propagate uncaught",
+      "fix": "Added try/catch block",
+      "tags": [
+        "auto-detected",
+        "error-handling",
+        "tsx"
+      ],
+      "related_bugs": [],
+      "occurrences": 1,
+      "last_seen": "2026-04-03T12:43:17.333Z"
+    },
+    {
+      "id": "bug-015",
+      "timestamp": "2026-04-03T12:44:17.476Z",
+      "error_message": "Null/undefined access in ",
+      "file": "forge/jarvis-v5-os/apps/web/app/settings/page.tsx",
+      "root_cause": "Property access on potentially null/undefined value",
+      "fix": "Added null safety (optional chaining or null check) | Also: source: payload?.source ?? null,",
+      "tags": [
+        "auto-detected",
+        "null-safety",
+        "tsx"
+      ],
+      "related_bugs": [],
+      "occurrences": 2,
+      "last_seen": "2026-04-03T12:44:17.576Z"
     }
   ]
 }

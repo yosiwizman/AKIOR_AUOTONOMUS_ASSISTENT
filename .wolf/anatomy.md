@@ -1,7 +1,7 @@
 # anatomy.md
 
-> Auto-maintained by OpenWolf. Last scanned: 2026-04-03T12:42:23.365Z
-> Files: 576 tracked | Anatomy hits: 0 | Misses: 0
+> Auto-maintained by OpenWolf. Last scanned: 2026-04-03T12:44:17.567Z
+> Files: 579 tracked | Anatomy hits: 0 | Misses: 0
 
 ## ../.claude/projects/-Users-yosiwizman-akior/memory/
 
@@ -993,6 +993,10 @@
 
 - `settings.json` (~828 tok)
 
+## forge/jarvis-v5-os/apps/server/src/
+
+- `index.ts` — API routes: GET, POST (5 endpoints) (~38844 tok)
+
 ## forge/jarvis-v5-os/apps/server/src/clients/
 
 - `anthropicClient.ts` — Anthropic Claude Client (~1579 tok)
@@ -1009,13 +1013,21 @@
 
 - `route.ts` — GET /api/tasks (~1369 tok)
 
+## forge/jarvis-v5-os/apps/web/app/chat/
+
+- `page.tsx` — createId (~13248 tok)
+
+## forge/jarvis-v5-os/apps/web/app/settings/
+
+- `page.tsx` — SettingsPage (~43715 tok)
+
 ## forge/jarvis-v5-os/apps/web/app/tasks/
 
 - `page.tsx` — StatusBadge (~3028 tok)
 
 ## forge/jarvis-v5-os/packages/shared/src/
 
-- `settings.ts` — Deep-merge integration settings to ensure every integration has all required fields. (~4529 tok)
+- `settings.ts` — Deep-merge integration settings to ensure every integration has all required fields. (~4582 tok)
 
 ## openclaw/
 
