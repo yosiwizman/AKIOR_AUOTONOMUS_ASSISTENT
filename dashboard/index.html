@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="refresh" content="60">
 <title>AKIOR — Operations Dashboard</title>
 <style>
   :root {
@@ -34,6 +35,7 @@
     padding-bottom: 16px;
     margin-bottom: 24px;
   }
+  .header-left { display: flex; align-items: baseline; gap: 16px; }
   h1 {
     font-size: 28px;
     color: var(--cyan);
@@ -41,7 +43,23 @@
     text-transform: uppercase;
   }
   h1 span { color: var(--dim); font-size: 14px; letter-spacing: 1px; }
+  .header-right { text-align: right; }
   .timestamp { color: var(--dim); font-size: 12px; }
+  .uptime-display { color: var(--green); font-size: 12px; margin-top: 4px; }
+  .refresh-indicator {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 6px var(--green);
+    margin-right: 6px;
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
   .grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
@@ -51,16 +69,44 @@
     background: var(--bg2);
     border: 1px solid var(--bg3);
     border-radius: 8px;
-    padding: 20px;
+    overflow: hidden;
   }
-  .card h2 {
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    cursor: pointer;
+    user-select: none;
+    border-bottom: 1px solid var(--bg3);
+    transition: background 0.2s;
+  }
+  .card-header:hover { background: var(--bg3); }
+  .card-header h2 {
     font-size: 13px;
     text-transform: uppercase;
     letter-spacing: 2px;
     color: var(--cyan);
-    margin-bottom: 14px;
-    padding-bottom: 8px;
-    border-bottom: 1px solid var(--bg3);
+    margin: 0;
+  }
+  .collapse-icon {
+    color: var(--dim);
+    font-size: 14px;
+    transition: transform 0.3s;
+  }
+  .card.collapsed .collapse-icon { transform: rotate(-90deg); }
+  .card-body {
+    padding: 16px 20px;
+    max-height: 1000px;
+    overflow: hidden;
+    transition: max-height 0.4s ease, padding 0.3s ease, opacity 0.3s ease;
+    opacity: 1;
+  }
+  .card.collapsed .card-body {
+    max-height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    opacity: 0;
   }
   table { width: 100%; border-collapse: collapse; }
   th { text-align: left; color: var(--dim); font-size: 11px; text-transform: uppercase; letter-spacing: 1px; padding: 6px 8px; }
@@ -106,114 +152,307 @@
   .briefing-content { font-size: 13px; line-height: 1.7; max-height: 220px; overflow-y: auto; }
   .briefing-content::-webkit-scrollbar { width: 4px; }
   .briefing-content::-webkit-scrollbar-thumb { background: var(--bg3); border-radius: 2px; }
+  .email-triage-content { font-size: 13px; line-height: 1.7; max-height: 280px; overflow-y: auto; }
+  .email-triage-content::-webkit-scrollbar { width: 4px; }
+  .email-triage-content::-webkit-scrollbar-thumb { background: var(--bg3); border-radius: 2px; }
+  .email-item {
+    background: var(--bg3);
+    border-radius: 6px;
+    padding: 10px 14px;
+    margin-bottom: 8px;
+  }
+  .email-item-from { color: var(--cyan); font-size: 12px; font-weight: 600; }
+  .email-item-subject { color: var(--white); font-size: 13px; margin-top: 2px; }
+  .email-item-preview { color: var(--dim); font-size: 11px; margin-top: 4px; }
+  .email-placeholder {
+    text-align: center;
+    padding: 30px 20px;
+    color: var(--dim);
+    font-size: 13px;
+  }
+  .email-placeholder-icon { font-size: 28px; margin-bottom: 8px; display: block; }
+  .countdown { color: var(--dim); font-size: 11px; margin-left: 8px; }
+  footer {
+    text-align: center;
+    color: var(--dim);
+    font-size: 11px;
+    margin-top: 32px;
+    padding-top: 16px;
+    border-top: 1px solid var(--bg3);
+  }
+  footer .version { color: var(--cyan); font-weight: 600; }
 </style>
 </head>
 <body>
 
 <header>
-  <h1>AKIOR <span>Operations Dashboard</span></h1>
-  <div class="timestamp">Last updated: 2026-04-03 · Phase 7 — Full Autonomy</div>
+  <div class="header-left">
+    <h1>AKIOR <span>Operations Dashboard</span></h1>
+  </div>
+  <div class="header-right">
+    <div class="timestamp">
+      <span class="refresh-indicator"></span>
+      <span id="last-updated">Loading...</span> · Auto-refresh 60s
+      <span class="countdown" id="countdown">(60s)</span>
+    </div>
+    <div class="uptime-display" id="uptime-display">Uptime: calculating...</div>
+  </div>
 </header>
 
 <div class="grid">
 
   <!-- SYSTEM STATUS -->
-  <div class="card">
-    <h2>System Status</h2>
-    <table>
-      <tr><th>Service</th><th>Status</th></tr>
-      <tr><td>OpenClaw Gateway</td><td><span class="status status-ok">Running</span></td></tr>
-      <tr><td>AKIOR Ops Console</td><td><span class="status status-ok">:8420</span></td></tr>
-      <tr><td>tmux watchdog</td><td><span class="status status-ok">Active</span></td></tr>
-      <tr><td>Docker (14 containers)</td><td><span class="status status-ok">Running</span></td></tr>
-      <tr><td>Ollama (4 models)</td><td><span class="status status-ok">Running</span></td></tr>
-      <tr><td>OpenWolf v1.0.4</td><td><span class="status status-ok">524 files</span></td></tr>
-    </table>
+  <div class="card" id="card-system">
+    <div class="card-header" onclick="toggleCard('card-system')">
+      <h2>System Status</h2>
+      <span class="collapse-icon">&#9660;</span>
+    </div>
+    <div class="card-body">
+      <table>
+        <tr><th>Service</th><th>Status</th></tr>
+        <tr><td>OpenClaw Gateway</td><td><span class="status status-ok">Running</span></td></tr>
+        <tr><td>AKIOR Ops Console</td><td><span class="status status-ok">:8420</span></td></tr>
+        <tr><td>tmux watchdog</td><td><span class="status status-ok">Active</span></td></tr>
+        <tr><td>Docker (14 containers)</td><td><span class="status status-ok">Running</span></td></tr>
+        <tr><td>Ollama (4 models)</td><td><span class="status status-ok">Running</span></td></tr>
+        <tr><td>OpenWolf v1.0.4</td><td><span class="status status-ok">524 files</span></td></tr>
+      </table>
+    </div>
   </div>
 
   <!-- CANARY HEALTH -->
-  <div class="card">
-    <h2>Canary Health — 4/4 Pass</h2>
-    <div class="canary-grid">
-      <div class="canary-item"><span class="canary-label">Filesystem</span><span class="dot dot-green"></span></div>
-      <div class="canary-item"><span class="canary-label">Ollama</span><span class="dot dot-green"></span></div>
-      <div class="canary-item"><span class="canary-label">GitHub</span><span class="dot dot-green"></span></div>
-      <div class="canary-item"><span class="canary-label">Gmail</span><span class="dot dot-green"></span></div>
+  <div class="card" id="card-canary">
+    <div class="card-header" onclick="toggleCard('card-canary')">
+      <h2>Canary Health &mdash; 4/4 Pass</h2>
+      <span class="collapse-icon">&#9660;</span>
     </div>
-    <br>
-    <h2 style="border:0;margin:0;padding:0;">Alerts</h2>
-    <div style="margin-top:10px;">
-      <div class="alert">Vercel deploys failing — deployer not in "software 4 all" team</div>
-      <div class="alert">GitHub Actions storage at 100% — CI/CD blocked</div>
-      <div class="alert alert-warn">GitHub PAT "GitRepoDigestAI" expires in 6 days</div>
+    <div class="card-body">
+      <div class="canary-grid">
+        <div class="canary-item"><span class="canary-label">Filesystem</span><span class="dot dot-green"></span></div>
+        <div class="canary-item"><span class="canary-label">Ollama</span><span class="dot dot-green"></span></div>
+        <div class="canary-item"><span class="canary-label">GitHub</span><span class="dot dot-green"></span></div>
+        <div class="canary-item"><span class="canary-label">Gmail</span><span class="dot dot-green"></span></div>
+      </div>
+      <div style="margin-top:14px;">
+        <div class="alert">Vercel deploys failing — deployer not in "software 4 all" team</div>
+        <div class="alert">GitHub Actions storage at 100% — CI/CD blocked</div>
+        <div class="alert alert-warn">GitHub PAT "GitRepoDigestAI" expires in 6 days</div>
+      </div>
     </div>
   </div>
 
   <!-- CHANNELS -->
-  <div class="card">
-    <h2>Active Channels</h2>
-    <div class="channel-row"><span class="channel-name">Gmail (MCP)</span><span class="status status-ok">Read/Draft</span></div>
-    <div class="channel-row"><span class="channel-name">Google Calendar (MCP)</span><span class="status status-ok">Full Access</span></div>
-    <div class="channel-row"><span class="channel-name">WhatsApp (OpenClaw)</span><span class="status status-ok">Linked</span></div>
-    <div class="channel-row"><span class="channel-name">iMessage</span><span class="status status-warn">Plugin only</span></div>
-    <div class="channel-row"><span class="channel-name">Voice Calls</span><span class="status status-off">Needs API Key</span></div>
-    <div class="channel-row"><span class="channel-name">Playwright Browser</span><span class="status status-ok">Live</span></div>
-    <div class="channel-row"><span class="channel-name">DDG Search (MCP)</span><span class="status status-ok">Live</span></div>
-    <div class="channel-row"><span class="channel-name">Supabase (MCP)</span><span class="status status-ok">Live</span></div>
+  <div class="card" id="card-channels">
+    <div class="card-header" onclick="toggleCard('card-channels')">
+      <h2>Active Channels</h2>
+      <span class="collapse-icon">&#9660;</span>
+    </div>
+    <div class="card-body">
+      <div class="channel-row"><span class="channel-name">Gmail (MCP)</span><span class="status status-ok">Read/Draft</span></div>
+      <div class="channel-row"><span class="channel-name">Google Calendar (MCP)</span><span class="status status-ok">Full Access</span></div>
+      <div class="channel-row"><span class="channel-name">WhatsApp (OpenClaw)</span><span class="status status-ok">Linked</span></div>
+      <div class="channel-row"><span class="channel-name">iMessage</span><span class="status status-warn">Plugin only</span></div>
+      <div class="channel-row"><span class="channel-name">Voice Calls</span><span class="status status-off">Needs API Key</span></div>
+      <div class="channel-row"><span class="channel-name">Playwright Browser</span><span class="status status-ok">Live</span></div>
+      <div class="channel-row"><span class="channel-name">DDG Search (MCP)</span><span class="status status-ok">Live</span></div>
+      <div class="channel-row"><span class="channel-name">Supabase (MCP)</span><span class="status status-ok">Live</span></div>
+    </div>
   </div>
 
   <!-- CRON JOBS -->
-  <div class="card">
-    <h2>Cron Jobs</h2>
-    <div class="cron-row"><span>Morning Briefing</span><span class="cron-sched">Daily 8:03 AM ET</span><span class="status status-ok">idle</span></div>
-    <div class="cron-row"><span>Email Triage</span><span class="cron-sched">Every 4h</span><span class="status status-ok">idle</span></div>
-    <div class="cron-row"><span>LP Inbox Sweep</span><span class="cron-sched">Every 6h</span><span class="status status-ok">idle</span></div>
-    <div class="cron-row"><span>Canary Health</span><span class="cron-sched">Daily 6:57 AM ET</span><span class="status status-ok">idle</span></div>
-    <div class="cron-row"><span>Evening Summary</span><span class="cron-sched">Daily 9:07 PM ET</span><span class="status status-ok">last ran</span></div>
-    <div class="cron-row"><span>Weekly Regression</span><span class="cron-sched">Sundays 6 AM ET</span><span class="status status-off">new</span></div>
+  <div class="card" id="card-cron">
+    <div class="card-header" onclick="toggleCard('card-cron')">
+      <h2>Cron Jobs</h2>
+      <span class="collapse-icon">&#9660;</span>
+    </div>
+    <div class="card-body">
+      <div class="cron-row"><span>Morning Briefing</span><span class="cron-sched">Daily 8:03 AM ET</span><span class="status status-ok">idle</span></div>
+      <div class="cron-row"><span>Email Triage</span><span class="cron-sched">Every 4h</span><span class="status status-ok">idle</span></div>
+      <div class="cron-row"><span>LP Inbox Sweep</span><span class="cron-sched">Every 6h</span><span class="status status-ok">idle</span></div>
+      <div class="cron-row"><span>Canary Health</span><span class="cron-sched">Daily 6:57 AM ET</span><span class="status status-ok">idle</span></div>
+      <div class="cron-row"><span>Evening Summary</span><span class="cron-sched">Daily 9:07 PM ET</span><span class="status status-ok">last ran</span></div>
+      <div class="cron-row"><span>Weekly Regression</span><span class="cron-sched">Sundays 6 AM ET</span><span class="status status-off">new</span></div>
+    </div>
+  </div>
+
+  <!-- EMAIL TRIAGE -->
+  <div class="card full-width" id="card-email-triage">
+    <div class="card-header" onclick="toggleCard('card-email-triage')">
+      <h2>Email Triage</h2>
+      <span class="collapse-icon">&#9660;</span>
+    </div>
+    <div class="card-body">
+      <div class="email-triage-content" id="email-triage-content">
+        <div class="email-placeholder">
+          <span class="email-placeholder-icon">&#9993;</span>
+          Loading email triage data...
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- BRIEFING -->
-  <div class="card full-width">
-    <h2>CTO Briefing — 2026-04-03</h2>
-    <div class="briefing-content">
-      <strong>Gmail (last 24h — 20 messages):</strong><br>
-      &bull; <span style="color:var(--red)">URGENT:</span> 2 Vercel deploy failures (akior production on "software 4 all" team)<br>
-      &bull; <span style="color:var(--red)">URGENT:</span> GitHub Actions storage at 100% — CI/CD blocked<br>
-      &bull; <span style="color:var(--yellow)">ACTION:</span> GitHub PAT "GitRepoDigestAI" expires in 6 days<br>
-      &bull; <span style="color:var(--green)">SENT:</span> Alexandra Sarbu reply (V12 Pilates pricing) delivered<br>
-      &bull; INFO: Brave Search API account created<br>
-      &bull; FYI: Newsletters — Core Collab, Bubble, Medium, NVIDIA, Devpost, WPBakery<br><br>
-      <strong>Calendar:</strong> No events scheduled today.<br><br>
-      <strong>System:</strong> All 6 services running. 4/4 canaries passing. 6 cron jobs configured.<br><br>
-      <strong>V2 Phase 2 Progress:</strong><br>
-      &bull; Email autonomy: Gmail MCP operational (search/read/draft) — no direct send yet<br>
-      &bull; Voice: Plugins loaded, need API keys (clawr.ing or Twilio path)<br>
-      &bull; iMessage: Testing in progress<br>
-      &bull; Web scraping: DDG + Playwright operational, Firecrawl pending<br>
-      &bull; Dashboard: Live at localhost:8421
+  <div class="card full-width" id="card-briefing">
+    <div class="card-header" onclick="toggleCard('card-briefing')">
+      <h2>CTO Briefing &mdash; 2026-04-03</h2>
+      <span class="collapse-icon">&#9660;</span>
+    </div>
+    <div class="card-body">
+      <div class="briefing-content">
+        <strong>Gmail (last 24h — 20 messages):</strong><br>
+        &bull; <span style="color:var(--red)">URGENT:</span> 2 Vercel deploy failures (akior production on "software 4 all" team)<br>
+        &bull; <span style="color:var(--red)">URGENT:</span> GitHub Actions storage at 100% — CI/CD blocked<br>
+        &bull; <span style="color:var(--yellow)">ACTION:</span> GitHub PAT "GitRepoDigestAI" expires in 6 days<br>
+        &bull; <span style="color:var(--green)">SENT:</span> Alexandra Sarbu reply (V12 Pilates pricing) delivered<br>
+        &bull; INFO: Brave Search API account created<br>
+        &bull; FYI: Newsletters — Core Collab, Bubble, Medium, NVIDIA, Devpost, WPBakery<br><br>
+        <strong>Calendar:</strong> No events scheduled today.<br><br>
+        <strong>System:</strong> All 6 services running. 4/4 canaries passing. 6 cron jobs configured.<br><br>
+        <strong>V2 Phase 2 Progress:</strong><br>
+        &bull; Email autonomy: Gmail MCP operational (search/read/draft) — no direct send yet<br>
+        &bull; Voice: Plugins loaded, need API keys (clawr.ing or Twilio path)<br>
+        &bull; iMessage: Testing in progress<br>
+        &bull; Web scraping: DDG + Playwright operational, Firecrawl pending<br>
+        &bull; Dashboard: Live at localhost:8421
+      </div>
     </div>
   </div>
 
   <!-- QUICK ACTIONS -->
-  <div class="card full-width">
-    <h2>Quick Actions</h2>
-    <div class="actions">
-      <button class="btn" onclick="alert('Run: openclaw cron trigger morning-briefing')">Run Morning Briefing</button>
-      <button class="btn" onclick="alert('Run: openclaw cron trigger email-triage')">Triage Email</button>
-      <button class="btn" onclick="alert('Run: openclaw cron trigger canary-health')">Run Canaries</button>
-      <button class="btn" onclick="alert('Run: openclaw cron trigger lp-inbox-sweep')">LP Inbox Sweep</button>
-      <button class="btn" onclick="alert('Navigate to http://localhost:8420')">Ops Console</button>
-      <button class="btn" onclick="alert('Run: gog gmail search is:unread --max 10 --json')">Unread Emails</button>
-      <button class="btn" onclick="location.reload()">Refresh Dashboard</button>
+  <div class="card full-width" id="card-actions">
+    <div class="card-header" onclick="toggleCard('card-actions')">
+      <h2>Quick Actions</h2>
+      <span class="collapse-icon">&#9660;</span>
+    </div>
+    <div class="card-body">
+      <div class="actions">
+        <button class="btn" onclick="alert('Run: openclaw cron trigger morning-briefing')">Run Morning Briefing</button>
+        <button class="btn" onclick="alert('Run: openclaw cron trigger email-triage')">Triage Email</button>
+        <button class="btn" onclick="alert('Run: openclaw cron trigger canary-health')">Run Canaries</button>
+        <button class="btn" onclick="alert('Run: openclaw cron trigger lp-inbox-sweep')">LP Inbox Sweep</button>
+        <button class="btn" onclick="alert('Navigate to http://localhost:8420')">Ops Console</button>
+        <button class="btn" onclick="alert('Run: gog gmail search is:unread --max 10 --json')">Unread Emails</button>
+        <button class="btn" onclick="location.reload()">Refresh Dashboard</button>
+      </div>
     </div>
   </div>
 
 </div>
 
-<footer style="text-align:center; color:var(--dim); font-size:11px; margin-top:32px; padding-top:16px; border-top:1px solid var(--bg3);">
-  AKIOR Autonomous Operating System &middot; Phase 7 &middot; Full Autonomy &middot; Mac Mini
+<footer>
+  AKIOR Autonomous Operating System &middot; <span class="version">v2.0-phase3</span> &middot; Full Autonomy &middot; Mac Mini
 </footer>
+
+<script>
+  // ---- Auto-refresh countdown ----
+  const REFRESH_INTERVAL = 60;
+  let countdown = REFRESH_INTERVAL;
+  const countdownEl = document.getElementById('countdown');
+
+  setInterval(() => {
+    countdown--;
+    if (countdown <= 0) countdown = REFRESH_INTERVAL;
+    countdownEl.textContent = '(' + countdown + 's)';
+  }, 1000);
+
+  // ---- Timestamp ----
+  function updateTimestamp() {
+    const now = new Date();
+    const opts = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
+    document.getElementById('last-updated').textContent = now.toLocaleString('en-CA', opts).replace(',', ' ·');
+  }
+  updateTimestamp();
+
+  // ---- System uptime ----
+  function updateUptime() {
+    const boot = new Date('2026-04-01T06:00:00');
+    const now = new Date();
+    const diff = now - boot;
+    const days = Math.floor(diff / 86400000);
+    const hours = Math.floor((diff % 86400000) / 3600000);
+    const mins = Math.floor((diff % 3600000) / 60000);
+    document.getElementById('uptime-display').textContent = 'Uptime: ' + days + 'd ' + hours + 'h ' + mins + 'm';
+  }
+  updateUptime();
+  setInterval(updateUptime, 60000);
+
+  // ---- Collapsible panels ----
+  // Restore collapsed state from localStorage
+  function toggleCard(id) {
+    const card = document.getElementById(id);
+    card.classList.toggle('collapsed');
+    // Persist state
+    const collapsed = JSON.parse(localStorage.getItem('akior-collapsed') || '{}');
+    collapsed[id] = card.classList.contains('collapsed');
+    localStorage.setItem('akior-collapsed', JSON.stringify(collapsed));
+  }
+
+  function restoreCollapsedState() {
+    const collapsed = JSON.parse(localStorage.getItem('akior-collapsed') || '{}');
+    for (const [id, isCollapsed] of Object.entries(collapsed)) {
+      if (isCollapsed) {
+        const card = document.getElementById(id);
+        if (card) card.classList.add('collapsed');
+      }
+    }
+  }
+  restoreCollapsedState();
+
+  // ---- Email triage loader ----
+  function loadEmailTriage() {
+    const container = document.getElementById('email-triage-content');
+    // Try to fetch the email triage report via local file server
+    // Since this is a static HTML file, we show a well-formatted placeholder
+    // that can be populated by the ops console or a local API
+    const today = new Date().toISOString().split('T')[0];
+    const reportPath = '../reports/email-triage-' + today + '.md';
+
+    fetch(reportPath)
+      .then(function(response) {
+        if (!response.ok) throw new Error('Not found');
+        return response.text();
+      })
+      .then(function(text) {
+        // Parse markdown into simple HTML
+        const lines = text.split('\n').filter(function(l) { return l.trim().length > 0; });
+        let html = '';
+        lines.forEach(function(line) {
+          line = line.trim();
+          if (line.startsWith('# ')) {
+            // skip title
+          } else if (line.startsWith('## ')) {
+            html += '<div style="color:var(--cyan);font-size:12px;text-transform:uppercase;letter-spacing:1px;margin:14px 0 8px;border-bottom:1px solid var(--bg3);padding-bottom:4px;">' + line.replace('## ', '') + '</div>';
+          } else if (line.startsWith('- ') || line.startsWith('* ')) {
+            const content = line.replace(/^[-*]\s+/, '');
+            // Color-code by priority keywords
+            let colored = content;
+            if (/urgent|critical|fail/i.test(content)) {
+              colored = '<span style="color:var(--red)">' + content + '</span>';
+            } else if (/action|warning|expir/i.test(content)) {
+              colored = '<span style="color:var(--yellow)">' + content + '</span>';
+            } else if (/sent|done|complete|success/i.test(content)) {
+              colored = '<span style="color:var(--green)">' + content + '</span>';
+            }
+            html += '<div style="padding:3px 0;font-size:13px;">&bull; ' + colored + '</div>';
+          } else if (line.startsWith('**') || line.startsWith('###')) {
+            html += '<div style="color:var(--white);font-weight:600;margin-top:10px;font-size:13px;">' + line.replace(/[#*]+/g, '').trim() + '</div>';
+          } else {
+            html += '<div style="font-size:13px;padding:2px 0;">' + line + '</div>';
+          }
+        });
+        container.innerHTML = html || '<div class="email-placeholder"><span class="email-placeholder-icon">&#9993;</span>Email triage report is empty.</div>';
+      })
+      .catch(function() {
+        container.innerHTML =
+          '<div class="email-placeholder">' +
+          '<span class="email-placeholder-icon">&#9993;</span>' +
+          'No email triage report for today.<br>' +
+          '<span style="font-size:11px;color:var(--dim);">Triage runs every 4h. Report expected at: reports/email-triage-' + today + '.md</span>' +
+          '</div>';
+      });
+  }
+  loadEmailTriage();
+</script>
 
 </body>
 </html>

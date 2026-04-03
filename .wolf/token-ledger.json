@@ -2,14 +2,14 @@
   "version": 1,
   "created_at": "2026-04-02T23:25:31.532Z",
   "lifetime": {
-    "total_tokens_estimated": 309296,
-    "total_reads": 193,
-    "total_writes": 458,
+    "total_tokens_estimated": 321881,
+    "total_reads": 197,
+    "total_writes": 467,
     "total_sessions": 8,
-    "anatomy_hits": 97,
-    "anatomy_misses": 96,
-    "repeated_reads_blocked": 79,
-    "estimated_savings_vs_bare_cli": 121149
+    "anatomy_hits": 99,
+    "anatomy_misses": 98,
+    "repeated_reads_blocked": 82,
+    "estimated_savings_vs_bare_cli": 123765
   },
   "sessions": [
     {
@@ -3944,6 +3944,92 @@
         "output_tokens_estimated": 2632,
         "reads_count": 4,
         "writes_count": 7,
+        "repeated_reads_blocked": 3,
+        "anatomy_lookups": 2
+      }
+    },
+    {
+      "id": "session-2026-04-03-0208",
+      "started": "2026-04-03T06:08:00.519Z",
+      "ended": "2026-04-03T06:19:44.690Z",
+      "reads": [
+        {
+          "file": "/Users/yosiwizman/akior/dashboard/index.html",
+          "tokens_estimated": 2785,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/SOUL.md",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/.openclaw/openclaw.json",
+          "tokens_estimated": 0,
+          "was_repeated": true,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/openclaw/SOUL.md",
+          "tokens_estimated": 1108,
+          "was_repeated": true,
+          "anatomy_had_description": false
+        }
+      ],
+      "writes": [
+        {
+          "file": "/Users/yosiwizman/akior/reports/email-triage-2026-04-03-v2.md",
+          "tokens_estimated": 692,
+          "action": "create"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/reports/calendar-2026-04-03-v2.md",
+          "tokens_estimated": 84,
+          "action": "create"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/skills/facetime/SKILL.md",
+          "tokens_estimated": 749,
+          "action": "create"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/reports/cto-briefing-2026-04-03-v2.md",
+          "tokens_estimated": 679,
+          "action": "create"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/openclaw/SOUL.md",
+          "tokens_estimated": 61,
+          "action": "edit"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/openclaw/SOUL.md",
+          "tokens_estimated": 72,
+          "action": "edit"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/scripts/whisper-transcribe.sh",
+          "tokens_estimated": 295,
+          "action": "create"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/openclaw/SOUL.md",
+          "tokens_estimated": 465,
+          "action": "edit"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/dashboard/index.html",
+          "tokens_estimated": 5595,
+          "action": "create"
+        }
+      ],
+      "totals": {
+        "input_tokens_estimated": 3893,
+        "output_tokens_estimated": 8692,
+        "reads_count": 4,
+        "writes_count": 9,
         "repeated_reads_blocked": 3,
         "anatomy_lookups": 2
       }

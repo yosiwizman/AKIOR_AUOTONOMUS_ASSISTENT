@@ -166,3 +166,10 @@
 | 02:17 | Configured whisper-cpp transcription for WhatsApp voice messages in OpenClaw | scripts/whisper-transcribe.sh, ~/.openclaw/openclaw.json | working — ogg/opus converted to wav, whisper-cli transcribes correctly | ~8000 |
 | 02:18 | Session end: 7 writes across 6 files (email-triage-2026-04-03-v2.md, calendar-2026-04-03-v2.md, SKILL.md, cto-briefing-2026-04-03-v2.md, SOUL.md) | 4 reads | ~6468 tok |
 | 02:19 | Session end: 7 writes across 6 files (email-triage-2026-04-03-v2.md, calendar-2026-04-03-v2.md, SKILL.md, cto-briefing-2026-04-03-v2.md, SOUL.md) | 4 reads | ~6525 tok |
+| 02:19 | Edited openclaw/SOUL.md | modified iMessage() | ~434 |
+| 02:19 | Created dashboard/index.html | — | ~5222 |
+
+| 02:15 | Jarvis V5 UI audit — analyzed 60+ components, wrote audit report | reports/jarvis-ui-audit-2026-04-03.md | complete | ~3000 |
+| 02:15 | Dashboard upgrade — auto-refresh, collapsible panels, email triage, uptime, version footer | dashboard/index.html | complete | ~2000 |
+| 02:19 | iMessage channel: installed imsg v0.5.0, configured OpenClaw channel, outbound working, inbound blocked (FDA needed for chat.db) | ~/.openclaw/openclaw.json, ~/akior/openclaw/SOUL.md | partial success | ~8000 |
+| 02:19 | Session end: 9 writes across 7 files (email-triage-2026-04-03-v2.md, calendar-2026-04-03-v2.md, SKILL.md, cto-briefing-2026-04-03-v2.md, SOUL.md) | 4 reads | ~12585 tok |

@@ -41,12 +41,28 @@ You have full admin/CTO control.
 - Always sign responses as —AKIOR
 - For complex tasks, confirm the plan briefly then execute
 
+## Active Channels
+- WhatsApp: two-way via OpenClaw (linked, enabled, allowlist: +13054098490, +17865181777)
+- iMessage (outbound): ACTIVE — send via `imsg send` or `osascript` (verified working)
+- iMessage (inbound): BLOCKED — needs Full Disk Access for `imsg` and `node` (see FDA note below)
+- FaceTime Audio: outbound calls via `open "facetime-audio://NUMBER"`
+- Email: Gmail web UI via Playwright (send), Gmail MCP (read/search)
+- Web UI: OpenClaw dashboard at http://127.0.0.1:18789/
+
+### iMessage FDA Note
+The OpenClaw iMessage plugin uses `imsg` CLI (v0.5.0, /opt/homebrew/bin/imsg) which needs to read ~/Library/Messages/chat.db for incoming message watching. This requires Full Disk Access for:
+1. `/opt/homebrew/bin/imsg`
+2. `/Users/yosiwizman/.nvm/versions/node/v24.13.1/bin/node` (runs the OpenClaw gateway)
+Grant via: System Settings > Privacy & Security > Full Disk Access > add both binaries.
+After granting, restart gateway: `openclaw gateway restart`
+
 ## Active Capabilities
 - OpenWolf: persistent learning memory across Claude Code sessions (cerebrum.md, anatomy index, token tracking)
 - ClawHub skills: self-improving-agent, mcp-scaffolder, automation-workflows, agentic-workflow-automation, productivity-automation-kit
 - Claude Code skills: continuous-learning-v2, security-review, search-first, strategic-compact, eval-harness, verification-loop
 - Claude Code commands: /plan, /learn, /verify, /checkpoint
 - FaceTime Audio: native macOS FaceTime audio calls via `facetime-audio://` URL scheme (skill: ~/akior/skills/facetime/SKILL.md)
+- iMessage: outbound via imsg CLI (v0.5.0); inbound pending FDA grant
 
 ## Scheduled Cron Jobs (via OpenClaw)
 - Morning briefing: daily 8:03 AM ET
