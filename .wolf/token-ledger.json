@@ -2,14 +2,14 @@
   "version": 1,
   "created_at": "2026-04-02T23:25:31.532Z",
   "lifetime": {
-    "total_tokens_estimated": 4559779,
-    "total_reads": 1856,
-    "total_writes": 3701,
+    "total_tokens_estimated": 4579233,
+    "total_reads": 1890,
+    "total_writes": 3715,
     "total_sessions": 9,
-    "anatomy_hits": 373,
-    "anatomy_misses": 1483,
-    "repeated_reads_blocked": 2697,
-    "estimated_savings_vs_bare_cli": 49268382
+    "anatomy_hits": 383,
+    "anatomy_misses": 1507,
+    "repeated_reads_blocked": 2702,
+    "estimated_savings_vs_bare_cli": 49273128
   },
   "sessions": [
     {
@@ -31005,6 +31005,297 @@
         "writes_count": 0,
         "repeated_reads_blocked": 0,
         "anatomy_lookups": 1
+      }
+    },
+    {
+      "id": "session-2026-04-03-0927",
+      "started": "2026-04-03T13:27:18.172Z",
+      "ended": "2026-04-03T17:05:48.871Z",
+      "reads": [
+        {
+          "file": "/Users/yosiwizman/akior/forge/jarvis-v5-os/package.json",
+          "tokens_estimated": 0,
+          "was_repeated": true,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/forge/jarvis-v5-os/apps/web/package.json",
+          "tokens_estimated": 0,
+          "was_repeated": true,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/config/whatsapp-groups/_template.json",
+          "tokens_estimated": 94,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/.openclaw/workspace-dev/skills/group-assistant/SKILL.md",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/dashboard/index.html",
+          "tokens_estimated": 6070,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/dashboard/akior-logo.svg",
+          "tokens_estimated": 315,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/forge/jarvis-v5-os/apps/web/app/layout.tsx",
+          "tokens_estimated": 2746,
+          "was_repeated": true,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/forge/jarvis-v5-os/apps/web/src/components/HudWidget.tsx",
+          "tokens_estimated": 3620,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/forge/jarvis-v5-os/apps/web/src/hooks/useSystemStatus.ts",
+          "tokens_estimated": 1000,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/forge/jarvis-v5-os/apps/web/app/login/page.tsx",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/config/whatsapp-groups/test-group.json",
+          "tokens_estimated": 133,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/forge/jarvis-v5-os/apps/web/src/lib/brand.ts",
+          "tokens_estimated": 472,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/forge/jarvis-v5-os/apps/web/tailwind.config.ts",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/forge/jarvis-v5-os/apps/web/app/jarvis/page.tsx",
+          "tokens_estimated": 0,
+          "was_repeated": true,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/forge/jarvis-v5-os/apps/web/app/globals.css",
+          "tokens_estimated": 2170,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/forge/jarvis-v5-os/.github/workflows/jarvis-ci.yml",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/docs/AKIOR-BRAND-GUIDE.md",
+          "tokens_estimated": 1315,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/forge/jarvis-v5-os/apps/web/.env.example",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/forge/jarvis-v5-os/apps/web/src/hooks/useSystemMetrics.ts",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/forge/jarvis-v5-os/apps/web/app/files/page.tsx",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/forge/jarvis-v5-os/apps/web/src/components/JarvisAssistant.tsx",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/forge/jarvis-v5-os/apps/web/src/components/JarvisModelViewer.tsx",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/forge/jarvis-v5-os/test-backend.js",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/forge/jarvis-v5-os/apps/web/app/menu/page.tsx",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/forge/jarvis-v5-os/test-backend-full.js",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/forge/jarvis-v5-os/test-backend-complete.js",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/forge/jarvis-v5-os/apps/web/src/components/BrandMark.tsx",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/forge/jarvis-v5-os/scripts/smoke.ts",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/forge/jarvis-v5-os/apps/server/.env.example",
+          "tokens_estimated": 0,
+          "was_repeated": true,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/forge/jarvis-v5-os/deploy/jarvis.env.example",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/forge/jarvis-v5-os/apps/web/app/icon.svg",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/forge/jarvis-v5-os/apps/web/src/lib/api.ts",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/forge/jarvis-v5-os/deploy/compose.jarvis.yml",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/forge/jarvis-v5-os/apps/web/src/lib/jarvis-function-executor.ts",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        }
+      ],
+      "writes": [
+        {
+          "file": "/Users/yosiwizman/akior/forge/jarvis-v5-os/.github/workflows/jarvis-ci.yml",
+          "tokens_estimated": 4,
+          "action": "edit"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/forge/jarvis-v5-os/apps/web/src/lib/brand.ts",
+          "tokens_estimated": 22,
+          "action": "edit"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/forge/jarvis-v5-os/apps/web/src/lib/brand.ts",
+          "tokens_estimated": 24,
+          "action": "edit"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/dashboard/akior-logo.svg",
+          "tokens_estimated": 538,
+          "action": "create"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/forge/jarvis-v5-os/test-backend.js",
+          "tokens_estimated": 15,
+          "action": "edit"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/dashboard/index.html",
+          "tokens_estimated": 82,
+          "action": "edit"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/dashboard/index.html",
+          "tokens_estimated": 106,
+          "action": "edit"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/forge/jarvis-v5-os/test-backend-full.js",
+          "tokens_estimated": 17,
+          "action": "edit"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/forge/jarvis-v5-os/test-backend-complete.js",
+          "tokens_estimated": 17,
+          "action": "edit"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/dashboard/index.html",
+          "tokens_estimated": 194,
+          "action": "edit"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/forge/jarvis-v5-os/apps/web/tailwind.config.ts",
+          "tokens_estimated": 136,
+          "action": "edit"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/forge/jarvis-v5-os/scripts/smoke.ts",
+          "tokens_estimated": 30,
+          "action": "edit"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/forge/jarvis-v5-os/deploy/jarvis.env.example",
+          "tokens_estimated": 18,
+          "action": "edit"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/forge/jarvis-v5-os/apps/web/app/globals.css",
+          "tokens_estimated": 316,
+          "action": "edit"
+        }
+      ],
+      "totals": {
+        "input_tokens_estimated": 17935,
+        "output_tokens_estimated": 1519,
+        "reads_count": 34,
+        "writes_count": 14,
+        "repeated_reads_blocked": 5,
+        "anatomy_lookups": 10
       }
     }
   ],

@@ -1,7 +1,7 @@
 # anatomy.md
 
-> Auto-maintained by OpenWolf. Last scanned: 2026-04-03T13:23:01.944Z
-> Files: 601 tracked | Anatomy hits: 0 | Misses: 0
+> Auto-maintained by OpenWolf. Last scanned: 2026-04-03T17:05:32.959Z
+> Files: 608 tracked | Anatomy hits: 0 | Misses: 0
 
 ## ../.claude/projects/-Users-yosiwizman-akior/memory/
 
@@ -110,9 +110,9 @@
 
 ## dashboard/
 
-- `akior-logo.svg` (~315 tok)
+- `akior-logo.svg` (~502 tok)
 - `api.js` — AKIOR Dashboard API Server (~1897 tok)
-- `index.html` — AKIOR — Operations Dashboard (~6070 tok)
+- `index.html` — AKIOR — Operations Dashboard (~6284 tok)
 
 ## docs/
 
@@ -1018,6 +1018,16 @@
 - `cpp-build.md` — C++ Build and Fix (~1004 tok)
 - `cpp-review.md` — C++ Code Review (~863 tok)
 
+## forge/jarvis-v5-os/
+
+- `test-backend-complete.js` — https: makeRequest, runTests (~3133 tok)
+- `test-backend-full.js` — https: makeRequest, runTests (~2455 tok)
+- `test-backend.js` — https: testEndpoint, runTests (~678 tok)
+
+## forge/jarvis-v5-os/.github/workflows/
+
+- `jarvis-ci.yml` — CI: AKIOR CI (~1470 tok)
+
 ## forge/jarvis-v5-os/apps/server/data/
 
 - `settings.json` (~828 tok)
@@ -1043,9 +1053,13 @@
 
 - `settingsContract.ts` — Settings Contract Validation (~4466 tok)
 
+## forge/jarvis-v5-os/apps/web/
+
+- `tailwind.config.ts` — /*.{ts,tsx}', (~204 tok)
+
 ## forge/jarvis-v5-os/apps/web/app/
 
-- `globals.css` — Styles: 20 rules, 105 vars (~2170 tok)
+- `globals.css` — Styles: 20 rules, 105 vars (~2151 tok)
 - `layout.tsx` — RootLayout (~2746 tok)
 
 ## forge/jarvis-v5-os/apps/web/app/api/tasks/
@@ -1080,9 +1094,17 @@
 
 - `brand.ts` — Centralized brand constants for AKIOR (~472 tok)
 
+## forge/jarvis-v5-os/deploy/
+
+- `jarvis.env.example` — AKIOR Server Environment Variables for Local Host Deployment (~179 tok)
+
 ## forge/jarvis-v5-os/packages/shared/src/
 
 - `settings.ts` — Deep-merge integration settings to ensure every integration has all required fields. (~4582 tok)
+
+## forge/jarvis-v5-os/scripts/
+
+- `smoke.ts` — AKIOR V5 Smoke Test Script (~1731 tok)
 
 ## openclaw/
 

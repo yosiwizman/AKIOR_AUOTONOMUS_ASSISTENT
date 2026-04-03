@@ -36,6 +36,10 @@
     border-bottom: 1px solid var(--bg3);
     padding-bottom: 16px;
     margin-bottom: 24px;
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.03) 0%, transparent 60%);
+    border-radius: 8px 8px 0 0;
+    padding: 20px 24px 16px;
+    margin: -24px -24px 24px -24px;
   }
   .header-left { display: flex; align-items: baseline; gap: 16px; }
   h1 {
@@ -72,6 +76,11 @@
     border: 1px solid var(--bg3);
     border-radius: 8px;
     overflow: hidden;
+    transition: border-color 0.3s, box-shadow 0.3s;
+  }
+  .card:hover {
+    border-color: rgba(0, 212, 255, 0.15);
+    box-shadow: 0 0 24px rgba(0, 212, 255, 0.06);
   }
   .card-header {
     display: flex;
@@ -183,6 +192,14 @@
     border-top: 1px solid var(--bg3);
   }
   footer .version { color: var(--cyan); font-weight: 600; }
+  /* Accent bar for first card in each row */
+  .card:nth-child(odd) { border-top: 2px solid rgba(0, 212, 255, 0.2); }
+  .card:nth-child(even) { border-top: 2px solid rgba(255, 107, 53, 0.15); }
+  /* Scrollbar styling */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--bg3); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--dim); }
 </style>
 </head>
 <body>

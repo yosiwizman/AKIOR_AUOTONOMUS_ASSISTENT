@@ -2,22 +2,37 @@
   <defs>
     <linearGradient id="akior-grad" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#00D4FF"/>
-      <stop offset="100%" stop-color="#0090B0"/>
+      <stop offset="70%" stop-color="#0090B0"/>
     </linearGradient>
+    <linearGradient id="crossbar-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#00D4FF" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#00D4FF" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#00D4FF" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
   </defs>
   <!-- Outer hexagonal frame -->
-  <polygon points="60,6 108,30 108,90 60,114 12,90 12,30"
-           fill="none" stroke="#00D4FF" stroke-width="2" opacity="0.3"/>
-  <!-- Inner geometric 'A' -->
-  <path d="M60 20 L92 96 L80 96 L72 76 L48 76 L40 96 L28 96 Z M60 40 L50 72 L70 72 Z"
+  <polygon points="60,5 109,29 109,91 60,115 11,91 11,29"
+           fill="none" stroke="url(#akior-grad)" stroke-width="2" opacity="0.35"/>
+  <!-- Inner subtle hexagon -->
+  <polygon points="60,18 98,38 98,82 60,102 22,82 22,38"
+           fill="none" stroke="#00D4FF" stroke-width="0.5" opacity="0.12"/>
+  <!-- Geometric 'A' letterform -->
+  <path d="M60 22 L90 94 L79 94 L71 76 L49 76 L41 94 L30 94 Z M60 42 L51 72 L69 72 Z"
         fill="url(#akior-grad)" fill-rule="evenodd"/>
-  <!-- Accent crossbar glow -->
-  <line x1="46" y1="76" x2="74" y2="76" stroke="#00D4FF" stroke-width="1.5" opacity="0.6"/>
-  <!-- Corner accent dots -->
-  <circle cx="60" cy="6" r="2.5" fill="#00D4FF" opacity="0.7"/>
-  <circle cx="108" cy="30" r="2" fill="#00D4FF" opacity="0.4"/>
-  <circle cx="108" cy="90" r="2" fill="#00D4FF" opacity="0.4"/>
-  <circle cx="60" cy="114" r="2.5" fill="#00D4FF" opacity="0.7"/>
-  <circle cx="12" cy="90" r="2" fill="#00D4FF" opacity="0.4"/>
-  <circle cx="12" cy="30" r="2" fill="#00D4FF" opacity="0.4"/>
+  <!-- Accent crossbar with glow -->
+  <line x1="44" y1="76" x2="76" y2="76" stroke="url(#crossbar-grad)" stroke-width="2" filter="url(#glow)"/>
+  <!-- Corner accent nodes -->
+  <circle cx="60" cy="5" r="2.5" fill="#00D4FF" opacity="0.8"/>
+  <circle cx="109" cy="29" r="1.8" fill="#00D4FF" opacity="0.4"/>
+  <circle cx="109" cy="91" r="1.8" fill="#00D4FF" opacity="0.4"/>
+  <circle cx="60" cy="115" r="2.5" fill="#00D4FF" opacity="0.8"/>
+  <circle cx="11" cy="91" r="1.8" fill="#00D4FF" opacity="0.4"/>
+  <circle cx="11" cy="29" r="1.8" fill="#00D4FF" opacity="0.4"/>
 </svg>

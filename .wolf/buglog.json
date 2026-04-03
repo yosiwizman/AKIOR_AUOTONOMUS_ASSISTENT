@@ -400,6 +400,86 @@
       "related_bugs": [],
       "occurrences": 1,
       "last_seen": "2026-04-03T13:22:35.052Z"
+    },
+    {
+      "id": "bug-026",
+      "timestamp": "2026-04-03T17:04:39.516Z",
+      "error_message": "Incorrect value in code",
+      "file": "forge/jarvis-v5-os/apps/web/src/lib/brand.ts",
+      "root_cause": "Had \"jarvis.local\"",
+      "fix": "Changed to \"akior.lan\"",
+      "tags": [
+        "auto-detected",
+        "wrong-value",
+        "ts"
+      ],
+      "related_bugs": [],
+      "occurrences": 1,
+      "last_seen": "2026-04-03T17:04:39.516Z"
+    },
+    {
+      "id": "bug-027",
+      "timestamp": "2026-04-03T17:04:51.408Z",
+      "error_message": "Incorrect value in code",
+      "file": "forge/jarvis-v5-os/test-backend.js",
+      "root_cause": "Had '🔍 Testing Jarvis Backend APIs...\\n'",
+      "fix": "Changed to '🔍 Testing AKIOR Backend APIs...\\n'",
+      "tags": [
+        "auto-detected",
+        "wrong-value",
+        "js"
+      ],
+      "related_bugs": [],
+      "occurrences": 1,
+      "last_seen": "2026-04-03T17:04:51.408Z"
+    },
+    {
+      "id": "bug-028",
+      "timestamp": "2026-04-03T17:05:07.739Z",
+      "error_message": "Incorrect value in code",
+      "file": "forge/jarvis-v5-os/test-backend-full.js",
+      "root_cause": "Had '🔍 JARVIS BACKEND COMPREHENSIVE TEST SUITE\\n'",
+      "fix": "Changed to '🔍 AKIOR BACKEND COMPREHENSIVE TEST SUITE\\n'",
+      "tags": [
+        "auto-detected",
+        "wrong-value",
+        "js"
+      ],
+      "related_bugs": [],
+      "occurrences": 1,
+      "last_seen": "2026-04-03T17:05:07.739Z"
+    },
+    {
+      "id": "bug-029",
+      "timestamp": "2026-04-03T17:05:09.071Z",
+      "error_message": "Incorrect value in code",
+      "file": "forge/jarvis-v5-os/test-backend-complete.js",
+      "root_cause": "Had '🔍 JARVIS BACKEND COMPREHENSIVE TEST SUITE\\n'",
+      "fix": "Changed to '🔍 AKIOR BACKEND COMPREHENSIVE TEST SUITE\\n'",
+      "tags": [
+        "auto-detected",
+        "wrong-value",
+        "js"
+      ],
+      "related_bugs": [],
+      "occurrences": 1,
+      "last_seen": "2026-04-03T17:05:09.071Z"
+    },
+    {
+      "id": "bug-030",
+      "timestamp": "2026-04-03T17:05:21.036Z",
+      "error_message": "Wrong reference: JARVIS should be AKIOR",
+      "file": "forge/jarvis-v5-os/deploy/jarvis.env.example",
+      "root_cause": "Used \"JARVIS\" instead of \"AKIOR\"",
+      "fix": "Changed JARVIS → AKIOR",
+      "tags": [
+        "auto-detected",
+        "wrong-reference",
+        "example"
+      ],
+      "related_bugs": [],
+      "occurrences": 1,
+      "last_seen": "2026-04-03T17:05:21.036Z"
     }
   ]
 }
