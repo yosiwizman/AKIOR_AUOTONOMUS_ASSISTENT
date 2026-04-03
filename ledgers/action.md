@@ -11,3 +11,9 @@
 | 2026-04-03T11:08:56Z | TMUX_WATCHDOG | session created |
 | 2026-04-03T11:13:56Z | TMUX_WATCHDOG | session created |
 | 2026-04-03T11:18:56Z | TMUX_WATCHDOG | session created |
+
+## 2026-04-03 — Yahoo Email Setup
+- Installed ClawHub `imap-smtp-email` skill
+- Installed `himalaya` CLI email client (v1.2.0)
+- Created config templates with Yahoo IMAP/SMTP settings
+- Status: PENDING owner credentials (app-specific password)

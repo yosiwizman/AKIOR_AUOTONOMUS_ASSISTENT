@@ -1,0 +1,11 @@
+# Yahoo Email Setup Checkpoint
+- Date: 2026-04-03
+- ClawHub imap-smtp-email skill: INSTALLED at ~/.openclaw/workspace-dev/skills/imap-smtp-email/
+- Himalaya CLI: INSTALLED via brew (v1.2.0)
+- Config templates created:
+  - ~/akior/config/yahoo-email-config.yaml (master reference)
+  - ~/.config/imap-smtp-email/.env (ClawHub skill config - placeholder credentials)
+  - ~/.config/himalaya/config.toml (himalaya config - placeholder credentials)
+- OWNER ACTION NEEDED: Yahoo app password required before email access works
+- Yahoo IMAP: imap.mail.yahoo.com:993 (SSL)
+- Yahoo SMTP: smtp.mail.yahoo.com:465 (SSL)
