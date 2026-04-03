@@ -1,7 +1,7 @@
 # anatomy.md
 
-> Auto-maintained by OpenWolf. Last scanned: 2026-04-03T17:05:32.959Z
-> Files: 608 tracked | Anatomy hits: 0 | Misses: 0
+> Auto-maintained by OpenWolf. Last scanned: 2026-04-03T17:05:58.373Z
+> Files: 609 tracked | Anatomy hits: 0 | Misses: 0
 
 ## ../.claude/projects/-Users-yosiwizman-akior/memory/
 
@@ -1096,6 +1096,7 @@
 
 ## forge/jarvis-v5-os/deploy/
 
+- `compose.jarvis.yml` — AKIOR V6 Local Host Deployment (~1272 tok)
 - `jarvis.env.example` — AKIOR Server Environment Variables for Local Host Deployment (~179 tok)
 
 ## forge/jarvis-v5-os/packages/shared/src/
