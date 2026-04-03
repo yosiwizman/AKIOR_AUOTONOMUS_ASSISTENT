@@ -1,7 +1,7 @@
 # anatomy.md
 
-> Auto-maintained by OpenWolf. Last scanned: 2026-04-03T06:16:58.762Z
-> Files: 556 tracked | Anatomy hits: 0 | Misses: 0
+> Auto-maintained by OpenWolf. Last scanned: 2026-04-03T06:17:15.368Z
+> Files: 557 tracked | Anatomy hits: 0 | Misses: 0
 
 ## ../.claude/projects/-Users-yosiwizman-akior/memory/
 
@@ -990,6 +990,10 @@
 - `v2-agent3-tools-hardening.md` — V2 Agent 3 — Tools Expansion & System Hardening Report (~1027 tok)
 - `v2-expansion-report-2026-04-03.md` — AKIOR V2 Expansion Report — 2026-04-03 (~867 tok)
 - `voice-video-research-2026-04-03.md` — Voice & Video Call Research Report (~2210 tok)
+
+## scripts/
+
+- `whisper-transcribe.sh` — whisper-transcribe.sh — Transcribe audio files via whisper-cpp (~276 tok)
 
 ## skills/clawring/
 
