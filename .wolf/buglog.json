@@ -740,6 +740,22 @@
       "related_bugs": [],
       "occurrences": 1,
       "last_seen": "2026-04-03T20:02:18.040Z"
+    },
+    {
+      "id": "bug-047",
+      "timestamp": "2026-04-03T20:02:43.321Z",
+      "error_message": "Significant refactor of ",
+      "file": "forge/jarvis-v5-os/apps/web/app/login/page.tsx",
+      "root_cause": "22 lines replaced/restructured",
+      "fix": "Rewrote 29→4 lines (22 removed)",
+      "tags": [
+        "auto-detected",
+        "refactor",
+        "tsx"
+      ],
+      "related_bugs": [],
+      "occurrences": 1,
+      "last_seen": "2026-04-03T20:02:43.321Z"
     }
   ]
 }

@@ -1,7 +1,7 @@
 # anatomy.md
 
-> Auto-maintained by OpenWolf. Last scanned: 2026-04-03T20:02:22.302Z
-> Files: 631 tracked | Anatomy hits: 0 | Misses: 0
+> Auto-maintained by OpenWolf. Last scanned: 2026-04-03T20:02:43.312Z
+> Files: 633 tracked | Anatomy hits: 0 | Misses: 0
 
 ## ../.claude/projects/-Users-yosiwizman-akior/memory/
 
@@ -119,6 +119,7 @@
 ## docs/
 
 - `AKIOR-BRAND-GUIDE.md` — AKIOR Brand Guide (~1315 tok)
+- `AKIOR-SYSTEM-STATUS.md` — AKIOR System Status (~890 tok)
 
 ## docs/ssot/
 
@@ -1050,6 +1051,7 @@
 
 ## forge/jarvis-v5-os/apps/server/src/routes/
 
+- `auth.routes.ts` — Auth Routes (~2084 tok)
 - `https.routes.ts` — HTTPS Routes (~1959 tok)
 - `llm.routes.ts` — LLM Configuration Routes (~3075 tok)
 
@@ -1098,7 +1100,7 @@
 
 ## forge/jarvis-v5-os/apps/web/app/login/
 
-- `page.tsx` — LoginContent — renders form (~3226 tok)
+- `page.tsx` — LoginContent — renders form (~3283 tok)
 
 ## forge/jarvis-v5-os/apps/web/app/settings/
 
@@ -1152,7 +1154,7 @@
 
 ## ledgers/
 
-- `action.md` — AKIOR Action Ledger (~836 tok)
+- `action.md` — Action Ledger - AKIOR Operations Log (~726 tok)
 
 ## openclaw/
 
