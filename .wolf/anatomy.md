@@ -1,7 +1,7 @@
 # anatomy.md
 
-> Auto-maintained by OpenWolf. Last scanned: 2026-04-03T17:05:58.373Z
-> Files: 609 tracked | Anatomy hits: 0 | Misses: 0
+> Auto-maintained by OpenWolf. Last scanned: 2026-04-03T17:06:19.976Z
+> Files: 611 tracked | Anatomy hits: 0 | Misses: 0
 
 ## ../.claude/projects/-Users-yosiwizman-akior/memory/
 
@@ -1042,6 +1042,7 @@
 
 ## forge/jarvis-v5-os/apps/server/src/routes/
 
+- `https.routes.ts` — HTTPS Routes (~1959 tok)
 - `llm.routes.ts` — LLM Configuration Routes (~3075 tok)
 
 ## forge/jarvis-v5-os/apps/server/src/storage/
@@ -1093,10 +1094,11 @@
 ## forge/jarvis-v5-os/apps/web/src/lib/
 
 - `brand.ts` — Centralized brand constants for AKIOR (~472 tok)
+- `jarvis-function-executor.ts` — Central function executor - ALL AKIOR function implementations in ONE place (~9300 tok)
 
 ## forge/jarvis-v5-os/deploy/
 
-- `compose.jarvis.yml` — AKIOR V6 Local Host Deployment (~1272 tok)
+- `compose.jarvis.yml` — AKIOR V6 Local Host Deployment (~1271 tok)
 - `jarvis.env.example` — AKIOR Server Environment Variables for Local Host Deployment (~179 tok)
 
 ## forge/jarvis-v5-os/packages/shared/src/
