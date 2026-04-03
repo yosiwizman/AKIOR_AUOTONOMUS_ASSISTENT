@@ -1,0 +1,36 @@
+name: AKIOR Health Check
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  health:
+    name: Health Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verify key files exist
+        run: |
+          echo "AKIOR health check — verifying key files..."
+          files=(
+            "CLAUDE.md"
+            "scripts/whisper-transcribe.sh"
+            "dashboard/index.html"
+          )
+          failed=0
+          for f in "${files[@]}"; do
+            if [ -f "$f" ]; then
+              echo "  OK: $f"
+            else
+              echo "  MISSING: $f"
+              failed=1
+            fi
+          done
+          if [ $failed -eq 1 ]; then
+            echo "Some key files are missing."
+            exit 1
+          fi
+          echo "AKIOR health check passed."
