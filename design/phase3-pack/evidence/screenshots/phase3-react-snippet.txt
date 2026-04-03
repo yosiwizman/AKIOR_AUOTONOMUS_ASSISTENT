@@ -1,0 +1,10 @@
+Example stack:
+<div className={`akior akior--${state}`}>
+  <img src="/akior/state-idle.svg" className="akior__base" />
+</div>
+
+Better production setup:
+- mount each SVG layer separately
+- animate with CSS transforms
+- drive speaking waveform from Web Audio API amplitude
+- use reduced-motion fallback

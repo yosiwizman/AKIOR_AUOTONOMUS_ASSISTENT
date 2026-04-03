@@ -1,0 +1,24 @@
+{
+  "name": "AKIOR Final Production Handoff",
+  "version": "1.0.0",
+  "states": [
+    "idle",
+    "listening",
+    "speaking",
+    "thinking-loading"
+  ],
+  "canonical_paths": {
+    "assets": "public/akior",
+    "component": "src/components/akior/AkiorCore.tsx",
+    "voice_hook": "src/components/akior/useAkiorVoiceState.ts",
+    "state_machine": "src/components/akior/akior-state-machine.ts",
+    "css": "src/styles/akior.css",
+    "demo": "src/demo/AkiorDemo.tsx"
+  },
+  "priority_order": [
+    "speaking",
+    "thinking",
+    "listening",
+    "idle"
+  ]
+}

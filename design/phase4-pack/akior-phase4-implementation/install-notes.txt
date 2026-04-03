@@ -1,0 +1,31 @@
+Implementation checklist
+
+1. Assets
+Copy:
+state-idle.svg
+state-listening.svg
+state-speaking.svg
+state-thinking-loading.svg
+
+2. Component
+Import:
+import AkiorCore from "@/components/AkiorCore";
+
+3. CSS
+Import once:
+import "@/styles/akior.css";
+
+4. Example usage
+<AkiorCore state="idle" size={420} />
+<AkiorCore state="listening" size={420} />
+<AkiorCore state="speaking" size={420} audioLevel={0.6} />
+<AkiorCore state="thinking" size={420} />
+
+5. State machine suggestion
+idle -> listening -> thinking -> speaking -> idle
+
+6. Production guidance
+- Use speaking only during actual TTS playback
+- Use listening only when waiting for user voice input
+- Use thinking for backend/model/tool latency
+- Keep idle calm and always present

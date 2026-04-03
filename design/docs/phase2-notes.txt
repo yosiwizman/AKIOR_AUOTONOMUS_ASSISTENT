@@ -1,0 +1,13 @@
+AKIOR Phase 2 Layer Pack
+Canvas: 1024x1024
+Center: 512,512
+
+Recommended animation stack:
+- outer-ring: slow 360deg rotation (18s to 28s linear)
+- hexagram: static or ultra-slow counter-rotation (80s+)
+- inner-triangles: subtle scale pulse 0.985 to 1.015
+- central-orb: opacity + blur pulse during listening/speaking
+- particles: independent drift/fade
+- waveform: show only when active, scaleY or path morph
+
+These assets are clean reconstruction vectors intended for direct UI embedding.

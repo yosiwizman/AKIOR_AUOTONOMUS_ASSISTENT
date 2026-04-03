@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1536" height="1024" viewBox="0 0 1536 1024">
+<defs>
+  <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+    <feGaussianBlur stdDeviation="4" result="b"/>
+    <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+  </filter>
+  <filter id="softGlow" x="-50%" y="-50%" width="200%" height="200%">
+    <feGaussianBlur stdDeviation="10" result="b"/>
+    <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+  </filter>
+  <radialGradient id="orbGrad" cx="50%" cy="50%" r="50%">
+    <stop offset="0%" stop-color="#ffffff" stop-opacity="1"/>
+    <stop offset="28%" stop-color="#9ffbff" stop-opacity="0.95"/>
+    <stop offset="58%" stop-color="#44e9ff" stop-opacity="0.65"/>
+    <stop offset="100%" stop-color="#00d4ff" stop-opacity="0"/>
+  </radialGradient>
+</defs>
+<circle cx="768" cy="481" r="300" fill="none" stroke="#53f1ff" stroke-opacity="0.42" stroke-width="2" filter="url(#glow)"/>
+<circle cx="768" cy="481" r="266" fill="none" stroke="#53f1ff" stroke-opacity="0.28" stroke-width="2" filter="url(#glow)"/>
+<circle cx="768" cy="481" r="225" fill="none" stroke="#53f1ff" stroke-opacity="0.55" stroke-width="2" filter="url(#glow)"/>
+<circle cx="768" cy="481" r="185" fill="none" stroke="#53f1ff" stroke-opacity="0.22" stroke-width="2" filter="url(#glow)"/>
+<circle cx="768" cy="481" r="150" fill="none" stroke="#53f1ff" stroke-opacity="0.18" stroke-width="1.5" filter="url(#glow)"/>
+<path d="M 513.59 322.02 A 300 300 0 0 1 1010.71 304.66" fill="none" stroke="#53f1ff" stroke-width="4" stroke-opacity="0.9" stroke-linecap="round" filter="url(#glow)"/>
+<path d="M 1037.64 612.51 A 300 300 0 0 1 645.98 755.06" fill="none" stroke="#53f1ff" stroke-width="4" stroke-opacity="0.9" stroke-linecap="round" filter="url(#glow)"/>
+<path d="M 545.19 449.69 A 225 225 0 0 1 728.93 259.42" fill="none" stroke="#53f1ff" stroke-width="4" stroke-opacity="0.9" stroke-linecap="round" filter="url(#glow)"/>
+<path d="M 887.23 290.19 A 225 225 0 0 1 989.58 441.93" fill="none" stroke="#53f1ff" stroke-width="4" stroke-opacity="0.9" stroke-linecap="round" filter="url(#glow)"/>
+<path d="M 783.70 705.45 A 225 225 0 0 1 590.70 619.52" fill="none" stroke="#53f1ff" stroke-width="4" stroke-opacity="0.9" stroke-linecap="round" filter="url(#glow)"/>
+<path d="M 692.75 311.99 A 185 185 0 0 1 876.74 331.33" fill="none" stroke="#53f1ff" stroke-width="4" stroke-opacity="0.9" stroke-linecap="round" filter="url(#glow)"/>
+<path d="M 931.35 394.15 A 185 185 0 0 1 943.95 538.17" fill="none" stroke="#53f1ff" stroke-width="4" stroke-opacity="0.9" stroke-linecap="round" filter="url(#glow)"/>
+<path d="M 659.26 630.67 A 185 185 0 0 1 583.11 487.46" fill="none" stroke="#53f1ff" stroke-width="4" stroke-opacity="0.9" stroke-linecap="round" filter="url(#glow)"/>
+</svg>

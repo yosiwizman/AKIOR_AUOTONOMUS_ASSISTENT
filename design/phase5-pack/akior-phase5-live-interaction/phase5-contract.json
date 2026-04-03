@@ -1,0 +1,24 @@
+{
+  "statePriority": [
+    "speaking",
+    "thinking",
+    "listening",
+    "idle"
+  ],
+  "thresholds": {
+    "listeningThreshold": 0.035,
+    "speakingThreshold": 0.1,
+    "silenceHoldMs": 900,
+    "thinkingDebounceMs": 180,
+    "minActiveMs": 350,
+    "smoothing": 0.82
+  },
+  "events": {
+    "mic_open": "begin monitoring raw amplitude; do not automatically enter listening",
+    "voice_detected": "enter listening when threshold is sustained",
+    "request_start": "enter thinking after debounce unless speaking",
+    "request_end": "clear thinking immediately",
+    "tts_start": "enter speaking immediately",
+    "tts_end": "leave speaking immediately and resolve next state"
+  }
+}

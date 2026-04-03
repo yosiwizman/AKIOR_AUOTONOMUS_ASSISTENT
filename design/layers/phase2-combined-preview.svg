@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+<defs>
+  <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+    <feGaussianBlur stdDeviation="2.8" result="b"/>
+    <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+  </filter>
+  <filter id="softGlow" x="-50%" y="-50%" width="200%" height="200%">
+    <feGaussianBlur stdDeviation="8" result="b"/>
+    <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+  </filter>
+  <radialGradient id="orbGrad" cx="50%" cy="50%" r="50%">
+    <stop offset="0%" stop-color="#ffffff" stop-opacity="1"/>
+    <stop offset="22%" stop-color="#d9ffff" stop-opacity="1"/>
+    <stop offset="52%" stop-color="#6ef4ff" stop-opacity="0.72"/>
+    <stop offset="100%" stop-color="#00d7ff" stop-opacity="0"/>
+  </radialGradient>
+</defs>
+<circle cx="512" cy="512" r="338" fill="none" stroke="#63f3ff" stroke-opacity="0.32" stroke-width="1.6" filter="url(#glow)"/>
+<circle cx="512" cy="512" r="304" fill="none" stroke="#63f3ff" stroke-opacity="0.18" stroke-width="1.4" filter="url(#glow)"/>
+<circle cx="512" cy="512" r="258" fill="none" stroke="#63f3ff" stroke-opacity="0.28" stroke-width="1.5" filter="url(#glow)"/>
+<circle cx="512" cy="512" r="210" fill="none" stroke="#63f3ff" stroke-opacity="0.14" stroke-width="1.2" filter="url(#glow)"/>
+<path d="M 208.21 363.83 A 338.00 338.00 0 0 1 792.21 322.99" fill="none" stroke="#6ef6ff" stroke-opacity="0.88" stroke-width="3.2" stroke-linecap="round" filter="url(#glow)"/>
+<path d="M 820.78 649.48 A 338.00 338.00 0 0 1 374.52 820.78" fill="none" stroke="#6ef6ff" stroke-opacity="0.88" stroke-width="3.2" stroke-linecap="round" filter="url(#glow)"/>
+<path d="M 255.41 485.03 A 258.00 258.00 0 0 1 432.27 266.63" fill="none" stroke="#6ef6ff" stroke-opacity="0.88" stroke-width="3.2" stroke-linecap="round" filter="url(#glow)"/>
+<path d="M 633.12 284.20 A 258.00 258.00 0 0 1 764.36 458.36" fill="none" stroke="#6ef6ff" stroke-opacity="0.88" stroke-width="3.2" stroke-linecap="round" filter="url(#glow)"/>
+<path d="M 591.73 757.37 A 258.00 258.00 0 0 1 320.27 684.64" fill="none" stroke="#6ef6ff" stroke-opacity="0.88" stroke-width="3.2" stroke-linecap="round" filter="url(#glow)"/>
+<path d="M 394.57 337.90 A 210.00 210.00 0 0 1 623.28 333.91" fill="none" stroke="#6ef6ff" stroke-opacity="0.88" stroke-width="3.2" stroke-linecap="round" filter="url(#glow)"/>
+<path d="M 677.48 382.71 A 210.00 210.00 0 0 1 715.76 562.80" fill="none" stroke="#6ef6ff" stroke-opacity="0.88" stroke-width="3.2" stroke-linecap="round" filter="url(#glow)"/>
+<path d="M 413.41 697.42 A 210.00 210.00 0 0 1 303.15 533.95" fill="none" stroke="#6ef6ff" stroke-opacity="0.88" stroke-width="3.2" stroke-linecap="round" filter="url(#glow)"/>
+<line x1="808.00" y1="512.00" x2="820.00" y2="512.00" stroke="#62f4ff" stroke-opacity="0.18" stroke-width="1"/>
+<line x1="797.91" y1="588.61" x2="809.51" y2="591.72" stroke="#62f4ff" stroke-opacity="0.18" stroke-width="1"/>
+<line x1="797.91" y1="435.39" x2="809.51" y2="432.28" stroke="#62f4ff" stroke-opacity="0.18" stroke-width="1"/>
+<g opacity="0.95"><polygon points="512.00,324.00 674.81,606.00 349.19,606.00" fill="none" stroke="#73fbff" stroke-width="2.2" filter="url(#glow)"/><polygon points="512.00,700.00 349.19,418.00 674.81,418.00" fill="none" stroke="#73fbff" stroke-width="2.2" filter="url(#glow)"/></g>
+<g opacity="0.84"><polygon points="512.00,386.00 621.12,575.00 402.88,575.00" fill="none" stroke="#73fbff" stroke-width="1.8" filter="url(#glow)"/><polygon points="512.00,638.00 402.88,449.00 621.12,449.00" fill="none" stroke="#73fbff" stroke-width="1.8" filter="url(#glow)"/><polygon points="426.00,426.00 598.00,426.00 598.00,598.00 426.00,598.00" fill="none" stroke="#73fbff" stroke-width="2.0" filter="url(#glow)"/></g>
+<g opacity="0.6"><polyline points="0,519.33 6,506.24 12,504.34 18,520.07 24,506.84 30,505.74 36,514.53 42,509.38 48,518.72 54,507.29 60,520.23 66,508.70 72,513.89 78,520.27 84,515.63 90,520.53 96,516.30 102,502.42 108,520.32 114,514.01 120,507.62 126,504.62 132,520.58 138,514.09 144,523.41 150,519.36 156,524.78 162,513.90 168,517.85 174,515.42 180,504.42 186,526.78 192,505.74 198,521.68 204,528.14 210,517.52 216,498.50 222,524.65 228,518.71 234,498.99 240,492.82 246,513.39 252,490.89 258,531.75 264,512.30 270,512.85 276,507.42 282,520.38 288,534.30 294,501.39 300,504.86 306,516.80 312,499.90 318,517.86 324,514.71 330,507.70 336,523.49 342,513.92 348,483.26 354,547.53 360,501.41 366,506.87 372,504.51 378,545.90 384,548.55 390,512.99 396,503.58 402,477.01 408,547.10 414,482.16 420,516.33 426,497.67 432,495.33 438,497.83 444,480.68 450,464.01 456,515.75 462,544.00 468,528.24 474,478.35 480,534.28 486,459.40 492,501.30 498,552.11 504,564.50 510,506.99 516,555.78 522,511.82 528,514.91 534,522.06 540,569.31 546,539.85 552,508.98 558,536.92 564,527.38 570,496.63 576,541.24 582,544.20 588,522.68 594,554.67 600,466.58 606,512.00 612,524.13 618,497.96 624,483.72 630,528.15 636,506.61 642,493.47 648,476.13 654,547.70 660,500.98 666,484.22 672,491.87 678,495.04 684,536.70 690,491.01 696,497.67 702,486.87 708,510.17 714,494.71 720,503.02 726,525.17 732,535.18 738,529.72 744,488.18 750,505.87 756,529.01 762,489.88 768,498.34 774,511.55 780,506.90 786,522.54 792,520.92 798,510.59 804,502.34 810,501.94 816,503.53 822,496.72 828,517.65 834,500.70 840,524.47 846,516.53 852,498.66 858,511.96 864,514.93 870,499.45 876,511.65 882,499.87 888,518.66 894,499.96 900,515.11 906,523.11 912,519.70 918,506.23 924,512.73 930,504.63 936,508.85 942,519.08 948,518.03 954,502.89 960,509.82 966,514.49 972,506.34 978,517.19 984,518.64 990,512.86 996,509.73 1002,517.67 1008,512.21 1014,506.99 1020,508.44" fill="none" stroke="#8bffff" stroke-width="2.2" filter="url(#glow)"/></g>
+<g><circle cx="512" cy="512" r="86" fill="url(#orbGrad)" filter="url(#softGlow)"/><circle cx="512" cy="512" r="18" fill="#ffffff" fill-opacity="0.98" filter="url(#softGlow)"/><circle cx="512" cy="512" r="44" fill="none" stroke="#bbffff" stroke-opacity="0.56" stroke-width="1.8" filter="url(#glow)"/></g></svg>

@@ -1,0 +1,42 @@
+AKIOR Phase 5 Live Interaction Guide
+
+Goal
+Wire AKIOR to real microphone input, backend latency, and TTS playback so the UI behaves like a living voice presence.
+
+Canonical state mapping
+- idle: default standby
+- listening: user voice activity detected from live mic
+- thinking: request/model/tool pipeline active
+- speaking: TTS playback active
+
+Priority order
+speaking > thinking > listening > idle
+
+Recommended thresholds
+- listeningThreshold: 0.035
+- speakingThreshold: 0.10
+- silenceHoldMs: 900 to 1100
+- minActiveMs: 250 to 400
+- smoothing: 0.80 to 0.88
+
+Behavior rules
+1. Opening the mic alone should NOT force listening.
+2. Listening should appear only when real voice amplitude crosses threshold.
+3. Backend requests should switch to thinking after a short debounce.
+4. TTS playback should switch to speaking immediately.
+5. When speaking ends, fall back to idle unless another request is active.
+6. Do not leave AKIOR stuck in thinking after a failed request; always clear it in finally blocks.
+
+Performance notes
+- Use requestAnimationFrame for amplitude updates.
+- Prefer FFT size 128 or 256 for responsiveness.
+- Respect prefers-reduced-motion.
+- On mobile, cap orb size and reduce bloom.
+
+Suggested app hooks
+- mic on: getUserMedia
+- STT active: use live mic amplitude
+- request start: setThinking(true)
+- request end: setThinking(false)
+- TTS start: setSpeaking(true)
+- TTS end: setSpeaking(false)

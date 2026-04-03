@@ -1,0 +1,32 @@
+You are integrating the AKIOR voice orb into the UI.
+
+Use this canonical structure exactly:
+
+- `/public/akior/state-idle.svg`
+- `/public/akior/state-listening.svg`
+- `/public/akior/state-speaking.svg`
+- `/public/akior/state-thinking-loading.svg`
+- component: `src/components/akior/AkiorCore.tsx`
+- hook: `src/components/akior/useAkiorVoiceState.ts`
+- state resolver: `src/components/akior/akior-state-machine.ts`
+- css: `src/styles/akior.css`
+
+Implementation requirements:
+1. Import `src/styles/akior.css` once at app level.
+2. Render `AkiorCore` where the voice orb should appear.
+3. Bind state to the real voice pipeline:
+   - idle = standby
+   - listening = live mic voice detected
+   - thinking = request/model/tools pending
+   - speaking = TTS playback active
+4. Use `audioLevel` to drive the pulse intensity during listening and speaking.
+5. Respect reduced motion.
+6. Validate all 4 states before merge.
+
+Acceptance criteria:
+- The orb is calm in idle.
+- The orb brightens and lightly reacts in listening.
+- The orb becomes more energetic in speaking.
+- The orb shows scan / processing behavior in thinking.
+- No stuck states after request failure or canceled TTS.
+- No layout shift when states change.

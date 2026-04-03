@@ -1,0 +1,29 @@
+AUDIENCE: CLAUDE CODE — EXECUTE NOW
+
+Project: Integrate AKIOR final production voice orb pack into the UI.
+
+Use the attached/canonical files exactly as provided in this pack.
+
+TASK
+1. Copy `/public/akior/*.svg` into the app public assets folder.
+2. Copy:
+   - `src/components/akior/AkiorCore.tsx`
+   - `src/components/akior/useAkiorVoiceState.ts`
+   - `src/components/akior/akior-state-machine.ts`
+3. Copy `src/styles/akior.css` and import it once globally.
+4. Add a validation/demo route or temporary page using `src/demo/AkiorDemo.tsx`.
+5. Wire the real voice pipeline so AKIOR resolves states using:
+   - speaking > thinking > listening > idle
+6. Ensure no stuck state after:
+   - failed backend request
+   - canceled mic session
+   - stopped TTS
+7. Respect reduced motion and avoid layout shift.
+
+VERIFY
+- idle renders and stays calm
+- listening activates only on actual voice activity
+- thinking appears during request latency
+- speaking appears only during TTS playback
+- audioLevel affects pulse intensity
+- all transitions are smooth

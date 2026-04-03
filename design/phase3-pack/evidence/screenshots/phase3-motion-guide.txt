@@ -1,0 +1,51 @@
+AKIOR Phase 3 Production Pack
+
+States:
+1. idle
+2. listening
+3. speaking
+4. thinking/loading
+
+Recommended runtime behavior:
+
+IDLE
+- outer ring rotate slowly: 24s linear infinite
+- hexagram static
+- inner triangles pulse scale 0.995 -> 1.005 over 4.2s ease-in-out infinite
+- central orb opacity 0.88 -> 1.0 over 3.5s ease-in-out infinite
+- no waveform
+
+LISTENING
+- outer ring rotate 16s linear infinite
+- second ring counter-rotate 28s linear infinite
+- central orb glow pulse 1.0 -> 1.18 over 1.2s ease-in-out infinite
+- waveform visible with low amplitude
+- particles drift slowly upward
+
+SPEAKING
+- outer ring rotate 10s linear infinite
+- second ring counter-rotate 18s linear infinite
+- central orb scale pulse 1.0 -> 1.22 over 0.7s ease-in-out infinite
+- waveform high amplitude and reactive to audio data
+- optional bloom increase +6% to +10%
+
+THINKING / LOADING
+- keep geometry quieter
+- replace waveform with dotted/scan circles
+- outer ring rotate 20s linear infinite
+- one inner dashed ring rotate reverse 9s linear infinite
+- central orb brightness pulse 0.92 -> 1.08 over 1.6s ease-in-out infinite
+
+Suggested layer stack order:
+particles
+outer rings
+hexagram
+inner triangles
+waveform / thinking scan
+central orb
+
+Naming for code:
+state-idle.svg
+state-listening.svg
+state-speaking.svg
+state-thinking-loading.svg
