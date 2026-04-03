@@ -61,6 +61,36 @@
       "count": 1,
       "tokens": 0,
       "first_read": "2026-04-03T11:21:29.130Z"
+    },
+    "/Users/yosiwizman/akior/.github/workflows/ci.yml": {
+      "count": 1,
+      "tokens": 0,
+      "first_read": "2026-04-03T11:45:30.908Z"
+    },
+    "/Users/yosiwizman/akior/.github/workflows/deploy-preview.yml": {
+      "count": 1,
+      "tokens": 0,
+      "first_read": "2026-04-03T11:45:31.217Z"
+    },
+    "/Users/yosiwizman/akior/.github/workflows/deploy-production.yml": {
+      "count": 1,
+      "tokens": 0,
+      "first_read": "2026-04-03T11:45:31.735Z"
+    },
+    "/Users/yosiwizman/akior/package.json": {
+      "count": 1,
+      "tokens": 0,
+      "first_read": "2026-04-03T11:45:31.837Z"
+    },
+    "/Users/yosiwizman/.openclaw/workspace-dev/skills/cron-manager/SKILL.md": {
+      "count": 1,
+      "tokens": 0,
+      "first_read": "2026-04-03T11:45:46.192Z"
+    },
+    "/Users/yosiwizman/.config/himalaya/config.toml": {
+      "count": 1,
+      "tokens": 0,
+      "first_read": "2026-04-03T11:45:52.717Z"
     }
   },
   "files_written": [
@@ -255,6 +285,12 @@
       "action": "edit",
       "tokens": 58,
       "at": "2026-04-03T11:23:56.591Z"
+    },
+    {
+      "file": "/Users/yosiwizman/.config/himalaya/config.toml",
+      "action": "edit",
+      "tokens": 8,
+      "at": "2026-04-03T11:45:58.153Z"
     }
   ],
   "edit_counts": {
@@ -268,15 +304,15 @@
     "docs/ssot/PROJECT_LOG.md": 4,
     "docs/ssot/AKIOR-SYSTEM-STATUS.md": 11,
     "config/yahoo-email-config.yaml": 1,
-    "../.config/himalaya/config.toml": 1,
+    "../.config/himalaya/config.toml": 2,
     "dashboard/api.js": 1,
     "../.openclaw/workspace-dev/skills/cron-manager/SKILL.md": 1,
     "reports/jarvis-to-akior-ui-plan.md": 1,
     "../Library/LaunchAgents/com.akior.dashboard-api.plist": 1
   },
   "anatomy_hits": 5,
-  "anatomy_misses": 7,
+  "anatomy_misses": 13,
   "repeated_reads_warned": 6,
   "cerebrum_warnings": 0,
-  "stop_count": 14
+  "stop_count": 15
 }

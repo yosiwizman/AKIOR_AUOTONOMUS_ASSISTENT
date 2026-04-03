@@ -80,6 +80,22 @@
       "related_bugs": [],
       "occurrences": 1,
       "last_seen": "2026-04-03T11:23:52.124Z"
+    },
+    {
+      "id": "bug-006",
+      "timestamp": "2026-04-03T11:45:58.153Z",
+      "error_message": "Incorrect value in code",
+      "file": "../.config/himalaya/config.toml",
+      "root_cause": "Had \"OWNER_YAHOO_EMAIL@yahoo.com\"",
+      "fix": "Changed to \"OWNER_YAHOO_EMAIL\"",
+      "tags": [
+        "auto-detected",
+        "wrong-value",
+        "toml"
+      ],
+      "related_bugs": [],
+      "occurrences": 1,
+      "last_seen": "2026-04-03T11:45:58.153Z"
     }
   ]
 }
