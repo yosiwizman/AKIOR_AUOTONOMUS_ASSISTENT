@@ -1,0 +1,76 @@
+{
+  "version": 1,
+  "created_at": "2026-04-02T23:25:31.532Z",
+  "lifetime": {
+    "total_tokens_estimated": 2971,
+    "total_reads": 2,
+    "total_writes": 5,
+    "total_sessions": 1,
+    "anatomy_hits": 1,
+    "anatomy_misses": 1,
+    "repeated_reads_blocked": 1,
+    "estimated_savings_vs_bare_cli": 2636
+  },
+  "sessions": [
+    {
+      "id": "session-2026-04-03-2130",
+      "started": "2026-04-03T01:30:05.559Z",
+      "ended": "2026-04-03T01:59:32.136Z",
+      "reads": [
+        {
+          "file": "/Users/yosiwizman/akior/docs/ssot/AKIOR-SYSTEM-STATUS.md",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/docs/ssot/PROJECT_LOG.md",
+          "tokens_estimated": 2436,
+          "was_repeated": true,
+          "anatomy_had_description": false
+        }
+      ],
+      "writes": [
+        {
+          "file": "/Users/yosiwizman/akior/docs/ssot/AKIOR-SYSTEM-STATUS.md",
+          "tokens_estimated": 16,
+          "action": "edit"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/docs/ssot/AKIOR-SYSTEM-STATUS.md",
+          "tokens_estimated": 142,
+          "action": "edit"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/docs/ssot/AKIOR-SYSTEM-STATUS.md",
+          "tokens_estimated": 50,
+          "action": "edit"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/docs/ssot/PROJECT_LOG.md",
+          "tokens_estimated": 299,
+          "action": "edit"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/docs/ssot/PROJECT_LOG.md",
+          "tokens_estimated": 28,
+          "action": "edit"
+        }
+      ],
+      "totals": {
+        "input_tokens_estimated": 2436,
+        "output_tokens_estimated": 535,
+        "reads_count": 2,
+        "writes_count": 5,
+        "repeated_reads_blocked": 1,
+        "anatomy_lookups": 1
+      }
+    }
+  ],
+  "daemon_usage": [],
+  "waste_flags": [],
+  "optimization_report": {
+    "last_generated": null,
+    "patterns": []
+  }
+}

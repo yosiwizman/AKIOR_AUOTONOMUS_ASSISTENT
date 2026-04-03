@@ -1,0 +1,57 @@
+{
+  "session_id": "session-2026-04-03-2130",
+  "started": "2026-04-03T01:30:05.559Z",
+  "files_read": {
+    "/Users/yosiwizman/akior/docs/ssot/AKIOR-SYSTEM-STATUS.md": {
+      "count": 1,
+      "tokens": 0,
+      "first_read": "2026-04-03T01:57:17.180Z"
+    },
+    "/Users/yosiwizman/akior/docs/ssot/PROJECT_LOG.md": {
+      "count": 2,
+      "tokens": 2436,
+      "first_read": "2026-04-03T01:58:23.908Z"
+    }
+  },
+  "files_written": [
+    {
+      "file": "/Users/yosiwizman/akior/docs/ssot/AKIOR-SYSTEM-STATUS.md",
+      "action": "edit",
+      "tokens": 16,
+      "at": "2026-04-03T01:58:36.479Z"
+    },
+    {
+      "file": "/Users/yosiwizman/akior/docs/ssot/AKIOR-SYSTEM-STATUS.md",
+      "action": "edit",
+      "tokens": 142,
+      "at": "2026-04-03T01:58:44.913Z"
+    },
+    {
+      "file": "/Users/yosiwizman/akior/docs/ssot/AKIOR-SYSTEM-STATUS.md",
+      "action": "edit",
+      "tokens": 50,
+      "at": "2026-04-03T01:58:49.966Z"
+    },
+    {
+      "file": "/Users/yosiwizman/akior/docs/ssot/PROJECT_LOG.md",
+      "action": "edit",
+      "tokens": 299,
+      "at": "2026-04-03T01:59:02.501Z"
+    },
+    {
+      "file": "/Users/yosiwizman/akior/docs/ssot/PROJECT_LOG.md",
+      "action": "edit",
+      "tokens": 28,
+      "at": "2026-04-03T01:59:06.770Z"
+    }
+  ],
+  "edit_counts": {
+    "docs/ssot/AKIOR-SYSTEM-STATUS.md": 3,
+    "docs/ssot/PROJECT_LOG.md": 2
+  },
+  "anatomy_hits": 1,
+  "anatomy_misses": 1,
+  "repeated_reads_warned": 1,
+  "cerebrum_warnings": 0,
+  "stop_count": 1
+}
