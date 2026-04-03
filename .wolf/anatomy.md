@@ -1,7 +1,7 @@
 # anatomy.md
 
-> Auto-maintained by OpenWolf. Last scanned: 2026-04-03T12:44:17.567Z
-> Files: 579 tracked | Anatomy hits: 0 | Misses: 0
+> Auto-maintained by OpenWolf. Last scanned: 2026-04-03T12:44:38.974Z
+> Files: 580 tracked | Anatomy hits: 0 | Misses: 0
 
 ## ../.claude/projects/-Users-yosiwizman-akior/memory/
 
@@ -1004,6 +1004,10 @@
 ## forge/jarvis-v5-os/apps/server/src/storage/
 
 - `llmConfigStore.ts` — LLM Configuration Store (~1939 tok)
+
+## forge/jarvis-v5-os/apps/server/src/utils/
+
+- `settingsContract.ts` — Settings Contract Validation (~4466 tok)
 
 ## forge/jarvis-v5-os/apps/web/app/
 
