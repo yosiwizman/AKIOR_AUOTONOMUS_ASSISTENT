@@ -1,6 +1,6 @@
 # AKIOR System Status
 
-**Generated:** 2026-04-03T10:00Z (V2 Phase 3 — voice + STT + avatar research)
+**Generated:** 2026-04-03T12:00Z (V2 Phase 3 COMPLETE — voice transcription, morning ops, Jarvis audit, dashboard upgrade, iMessage + FaceTime)
 **Purpose:** Canonical "what is AKIOR right now" document
 **Refresh:** Update after each major system change
 
@@ -16,7 +16,7 @@
 | tmux session "akior" | Active (since Mar 31) | Maintained by watchdog |
 | Docker | Running (14 containers) | Docker Desktop |
 | Ollama | Running (4 models) | Homebrew service |
-| AKIOR Dashboard | Running (localhost:8421) | LaunchAgent com.akior.dashboard (KeepAlive) |
+| AKIOR Dashboard | Running v2.0-phase3 (localhost:8421) | LaunchAgent com.akior.dashboard (KeepAlive) — auto-refresh 60s, email triage, collapsible panels |
 
 ---
 
@@ -76,10 +76,11 @@
 
 | Channel | Status | Detail |
 |---------|--------|--------|
-| WhatsApp | ON, linked, allowlist mode | +13054098490, +17865181777; account "AKIOR WhatsApp" |
-| iMessage | ON, native AppleScript | Tested send to +17865181777 — working |
+| WhatsApp | ON, linked, allowlist mode | +13054098490, +17865181777; voice transcription working (whisper-cpp local) |
+| iMessage | PARTIAL — outbound active, inbound pending FDA | Outbound via osascript + imsg CLI. Inbound BLOCKED: macOS Full Disk Access needed for imsg + node |
+| FaceTime | READY — skill installed, not yet live-tested | URL scheme verified, skill at skills/facetime/SKILL.md, SOUL.md updated |
 | clawr.ing (Phone) | ON, API key configured | skills/clawring/SKILL.md — managed voice calls |
-| Dashboard | ON, localhost:8421 | LaunchAgent com.akior.dashboard (KeepAlive) |
+| Dashboard | ON v2.0-phase3, localhost:8421 | Auto-refresh 60s, email triage, collapsible panels, uptime display |
 
 ---
 
@@ -177,9 +178,12 @@
 |------|--------|----------|
 | Google Drive connector | No MCP available | Deferred |
 | Brave Search MCP | Needs API key from owner | Owner action |
-| iMessage Channel | WORKING — native AppleScript send confirmed | V2 Phase 2 |
+| iMessage Channel | PARTIAL — outbound working, inbound pending FDA grant for imsg + node | Owner action |
 | ElevenLabs API key | Needed for speech synthesis | Owner action |
-| Deepgram API key | Needed for voice transcription | Owner action |
+| Deepgram API key | No longer needed — whisper-cpp local handles transcription | Resolved |
+| Neon payment | CRITICAL — payment failing, Cash App card locked | Owner action |
+| Vercel deploys | CRITICAL — deploys failing | Investigation needed |
+| GitHub storage | CRITICAL — storage full | Investigation needed |
 | gogcli | NOT A REAL TOOL — Gmail MCP is the primary interface | Resolved |
 | clawr.ing voice calls | CONFIGURED — API key set, skill installed | V2 Phase 2 |
 | GUI automation | No macOS-native solution, osascript available | R&D |
@@ -187,7 +191,8 @@
 | App Packs (Instagram, Canva, QuickBooks) | Not yet configured | Deferred |
 | Memory MCP | Replaced, test next session | Next session |
 | Firecrawl MCP | Registered, test next session | Next session |
-| ~/akior/ git repo | Initialized but no commits | Housekeeping |
+| ~/akior/ git repo | Active, pushed to github.com/yosiwizman/akior | Resolved |
+| FaceTime audio | Skill ready, not yet live-tested | Next test |
 
 ---
 

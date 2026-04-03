@@ -21,6 +21,26 @@
       "count": 3,
       "tokens": 1108,
       "first_read": "2026-04-03T06:15:47.332Z"
+    },
+    "/Users/yosiwizman/akior/PROJECT_LOG.md": {
+      "count": 1,
+      "tokens": 0,
+      "first_read": "2026-04-03T06:20:11.878Z"
+    },
+    "/Users/yosiwizman/akior/AKIOR-SYSTEM-STATUS.md": {
+      "count": 1,
+      "tokens": 0,
+      "first_read": "2026-04-03T06:20:12.351Z"
+    },
+    "/Users/yosiwizman/akior/docs/ssot/PROJECT_LOG.md": {
+      "count": 1,
+      "tokens": 4071,
+      "first_read": "2026-04-03T06:20:27.237Z"
+    },
+    "/Users/yosiwizman/akior/docs/ssot/AKIOR-SYSTEM-STATUS.md": {
+      "count": 1,
+      "tokens": 1797,
+      "first_read": "2026-04-03T06:20:44.478Z"
     }
   },
   "files_written": [
@@ -77,6 +97,48 @@
       "action": "create",
       "tokens": 5595,
       "at": "2026-04-03T06:19:19.445Z"
+    },
+    {
+      "file": "/Users/yosiwizman/akior/docs/ssot/PROJECT_LOG.md",
+      "action": "edit",
+      "tokens": 44,
+      "at": "2026-04-03T06:20:51.108Z"
+    },
+    {
+      "file": "/Users/yosiwizman/akior/docs/ssot/PROJECT_LOG.md",
+      "action": "edit",
+      "tokens": 591,
+      "at": "2026-04-03T06:21:12.192Z"
+    },
+    {
+      "file": "/Users/yosiwizman/akior/docs/ssot/AKIOR-SYSTEM-STATUS.md",
+      "action": "edit",
+      "tokens": 41,
+      "at": "2026-04-03T06:21:17.257Z"
+    },
+    {
+      "file": "/Users/yosiwizman/akior/docs/ssot/AKIOR-SYSTEM-STATUS.md",
+      "action": "edit",
+      "tokens": 45,
+      "at": "2026-04-03T06:21:21.487Z"
+    },
+    {
+      "file": "/Users/yosiwizman/akior/docs/ssot/AKIOR-SYSTEM-STATUS.md",
+      "action": "edit",
+      "tokens": 180,
+      "at": "2026-04-03T06:21:28.693Z"
+    },
+    {
+      "file": "/Users/yosiwizman/akior/docs/ssot/AKIOR-SYSTEM-STATUS.md",
+      "action": "edit",
+      "tokens": 140,
+      "at": "2026-04-03T06:21:34.798Z"
+    },
+    {
+      "file": "/Users/yosiwizman/akior/docs/ssot/AKIOR-SYSTEM-STATUS.md",
+      "action": "edit",
+      "tokens": 42,
+      "at": "2026-04-03T06:21:40.224Z"
     }
   ],
   "edit_counts": {
@@ -86,10 +148,12 @@
     "reports/cto-briefing-2026-04-03-v2.md": 1,
     "openclaw/SOUL.md": 3,
     "scripts/whisper-transcribe.sh": 1,
-    "dashboard/index.html": 1
+    "dashboard/index.html": 1,
+    "docs/ssot/PROJECT_LOG.md": 2,
+    "docs/ssot/AKIOR-SYSTEM-STATUS.md": 5
   },
-  "anatomy_hits": 2,
-  "anatomy_misses": 2,
+  "anatomy_hits": 4,
+  "anatomy_misses": 4,
   "repeated_reads_warned": 3,
   "cerebrum_warnings": 0,
   "stop_count": 6

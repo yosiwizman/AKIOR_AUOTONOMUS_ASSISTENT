@@ -13,7 +13,7 @@
 | **Target milestone** | v2 expansion / parallel operations |
 | **Active layer** | V2 EXPANSION — IN PROGRESS |
 | **Distance** | NEAR |
-| **Last verified step** | Task 34 | V2 parallel agents complete — voice plugins, browser tools, GitHub push, weekly cron, 8 new skills |
+| **Last verified step** | Task 39 | V2 Phase 3 complete — voice transcription, morning ops, Jarvis audit, dashboard upgrade, iMessage + FaceTime setup |
 | **Last updated** | 2026-04-03 |
 
 > Update this block whenever a new entry is appended. This is the quick-glance state.
@@ -101,6 +101,11 @@
 2026-04-03 | Task 32 | V2 Agent 1: Voice + Communications | COMPLETE | V2 | 5 OpenClaw plugins enabled (voice-call, elevenlabs, deepgram, bluebubbles, imessage). ClawHub voice skills found but not installed (VT unverified). WhatsApp voice transcription needs Deepgram API key. iMessage available via native plugin (AppleScript) or BlueBubbles (needs server app). | NEAR | Next: owner provides ElevenLabs + Deepgram API keys | Owner: API keys needed
 2026-04-03 | Task 33 | V2 Agent 2: Browser + GUI Automation | COMPLETE | V2 | Firecrawl MCP registered (local scraping mode, no API key needed). Playwright confirmed healthy. ShowUI-Aloha classified R&D-only (GPU-dependent). GUI automation gap: osascript/AppleScript available natively, cliclick available via brew. No ClawHub GUI skills verified for macOS. | NEAR | Next: test Firecrawl on next session | Owner: none
 2026-04-03 | Task 34 | V2 Agent 3: Tools + Hardening | COMPLETE | V2 | 8 new ClawHub skills installed (web-scraper-jina, smart-web-scraper, scrapling-web-scraper, smart-file-manager, system-resource-monitor, system-info, data-analyst-pro, data-anomaly-detector). 8 skills skipped (VT flagged). GitHub push: ~/akior/ pushed to github.com/yosiwizman/akior (private). Weekly regression cron: created (Sundays 6am ET). Khoj: not available, classified R&D-only. Total workspace skills: 26. | NEAR | Next: verify weekly cron first run | Owner: none
+2026-04-03 | Task 35 | WhatsApp Voice Transcription Fix | COMPLETE | V2 | Created ffmpeg→whisper-cpp pipeline in scripts/whisper-transcribe.sh. Configured OpenClaw audio.transcription. 2 pending messages transcribed. Zero API cost. | NEAR | Next: monitor incoming voice messages | Owner: none
+2026-04-03 | Task 36 | Morning Ops (Email/Calendar/Canary/Git) | COMPLETE | V2 | 10 emails triaged (4 urgent: Neon payment failing, Vercel deploys failing, GitHub storage full). Calendar clear. 4/4 canaries green. Reports saved. Git pushed. | NEAR | Next: resolve Neon payment + Vercel deploys | Owner: action needed (Neon payment, Vercel)
+2026-04-03 | Task 37 | Jarvis V5 UI Audit + Dashboard Upgrade | COMPLETE | V2 | Identified 32 reusable components, 7 hooks from Jarvis. Dashboard upgraded: auto-refresh 60s, email triage section, collapsible panels, uptime display, v2.0-phase3 footer. | NEAR | Next: evaluate Jarvis component extraction | Owner: none
+2026-04-03 | Task 38 | iMessage Channel Setup | PARTIAL | V2 | Outbound fully working via osascript + imsg CLI. OpenClaw iMessage plugin configured. Inbound BLOCKED by macOS Full Disk Access — requires manual FDA grant for imsg and node. | NEAR | Next: owner grants FDA for imsg + node | Owner: action needed (FDA grant)
+2026-04-03 | Task 39 | FaceTime Audio Call Setup | COMPLETE | V2 | URL scheme verified, skill created at skills/facetime/SKILL.md, copied to OpenClaw workspace, SOUL.md updated. No calls placed. | NEAR | Next: live-test FaceTime call | Owner: none
 ```
 
 > Delete these placeholder entries and begin real logging on your first live session.
