@@ -112,6 +112,54 @@
       "related_bugs": [],
       "occurrences": 3,
       "last_seen": "2026-04-03T11:59:43.812Z"
+    },
+    {
+      "id": "bug-008",
+      "timestamp": "2026-04-03T12:41:36.347Z",
+      "error_message": "Incorrect value in code",
+      "file": "forge/jarvis-v5-os/apps/server/src/storage/llmConfigStore.ts",
+      "root_cause": "Had 'local-compatible'",
+      "fix": "Changed to 'anthropic-cloud'",
+      "tags": [
+        "auto-detected",
+        "wrong-value",
+        "ts"
+      ],
+      "related_bugs": [],
+      "occurrences": 1,
+      "last_seen": "2026-04-03T12:41:36.347Z"
+    },
+    {
+      "id": "bug-009",
+      "timestamp": "2026-04-03T12:41:46.448Z",
+      "error_message": "Type error",
+      "file": "forge/jarvis-v5-os/apps/server/src/storage/llmConfigStore.ts",
+      "root_cause": "Missing or incorrect type annotation",
+      "fix": "Added type assertion/annotation",
+      "tags": [
+        "auto-detected",
+        "type-fix",
+        "ts"
+      ],
+      "related_bugs": [],
+      "occurrences": 1,
+      "last_seen": "2026-04-03T12:41:46.448Z"
+    },
+    {
+      "id": "bug-010",
+      "timestamp": "2026-04-03T12:42:19.982Z",
+      "error_message": "Significant refactor of ",
+      "file": "forge/jarvis-v5-os/apps/server/data/settings.json",
+      "root_cause": "3 lines replaced/restructured",
+      "fix": "Rewrote 5→9 lines (3 removed)",
+      "tags": [
+        "auto-detected",
+        "refactor",
+        "json"
+      ],
+      "related_bugs": [],
+      "occurrences": 1,
+      "last_seen": "2026-04-03T12:42:19.982Z"
     }
   ]
 }

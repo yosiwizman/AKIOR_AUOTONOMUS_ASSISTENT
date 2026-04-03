@@ -1,7 +1,7 @@
 # anatomy.md
 
-> Auto-maintained by OpenWolf. Last scanned: 2026-04-03T12:19:22.888Z
-> Files: 569 tracked | Anatomy hits: 0 | Misses: 0
+> Auto-maintained by OpenWolf. Last scanned: 2026-04-03T12:42:23.365Z
+> Files: 576 tracked | Anatomy hits: 0 | Misses: 0
 
 ## ../.claude/projects/-Users-yosiwizman-akior/memory/
 
@@ -988,6 +988,34 @@
 - `context-budget.md` — Context Budget Optimizer (Legacy Shim) (~176 tok)
 - `cpp-build.md` — C++ Build and Fix (~1004 tok)
 - `cpp-review.md` — C++ Code Review (~863 tok)
+
+## forge/jarvis-v5-os/apps/server/data/
+
+- `settings.json` (~828 tok)
+
+## forge/jarvis-v5-os/apps/server/src/clients/
+
+- `anthropicClient.ts` — Anthropic Claude Client (~1579 tok)
+
+## forge/jarvis-v5-os/apps/server/src/storage/
+
+- `llmConfigStore.ts` — LLM Configuration Store (~1939 tok)
+
+## forge/jarvis-v5-os/apps/web/app/
+
+- `layout.tsx` — RootLayout (~2746 tok)
+
+## forge/jarvis-v5-os/apps/web/app/api/tasks/
+
+- `route.ts` — GET /api/tasks (~1369 tok)
+
+## forge/jarvis-v5-os/apps/web/app/tasks/
+
+- `page.tsx` — StatusBadge (~3028 tok)
+
+## forge/jarvis-v5-os/packages/shared/src/
+
+- `settings.ts` — Deep-merge integration settings to ensure every integration has all required fields. (~4529 tok)
 
 ## openclaw/
 
