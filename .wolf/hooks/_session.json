@@ -56,6 +56,11 @@
       "count": 1,
       "tokens": 867,
       "first_read": "2026-04-03T05:39:48.250Z"
+    },
+    "/Users/yosiwizman/Library/LaunchAgents/ai.openclaw.gateway.plist": {
+      "count": 2,
+      "tokens": 0,
+      "first_read": "2026-04-03T05:43:20.329Z"
     }
   },
   "files_written": [
@@ -148,6 +153,24 @@
       "action": "create",
       "tokens": 2525,
       "at": "2026-04-03T05:41:02.508Z"
+    },
+    {
+      "file": "/Users/yosiwizman/Library/LaunchAgents/ai.openclaw.gateway.plist",
+      "action": "edit",
+      "tokens": 40,
+      "at": "2026-04-03T05:43:28.688Z"
+    },
+    {
+      "file": "/Users/yosiwizman/Library/LaunchAgents/ai.openclaw.gateway.plist",
+      "action": "edit",
+      "tokens": 30,
+      "at": "2026-04-03T05:43:47.298Z"
+    },
+    {
+      "file": "/Users/yosiwizman/akior/checkpoints/voice-transcription-setup.md",
+      "action": "create",
+      "tokens": 340,
+      "at": "2026-04-03T05:46:50.748Z"
     }
   ],
   "edit_counts": {
@@ -161,11 +184,13 @@
     "../.claude/projects/-Users-yosiwizman-akior/memory/MEMORY.md": 1,
     "docs/ssot/AKIOR-SYSTEM-STATUS.md": 5,
     "reports/cto-briefing-2026-04-03-update.md": 1,
-    "reports/voice-video-research-2026-04-03.md": 1
+    "reports/voice-video-research-2026-04-03.md": 1,
+    "../Library/LaunchAgents/ai.openclaw.gateway.plist": 2,
+    "checkpoints/voice-transcription-setup.md": 1
   },
   "anatomy_hits": 6,
-  "anatomy_misses": 5,
-  "repeated_reads_warned": 4,
+  "anatomy_misses": 6,
+  "repeated_reads_warned": 5,
   "cerebrum_warnings": 0,
-  "stop_count": 11
+  "stop_count": 12
 }

@@ -1,7 +1,7 @@
 # anatomy.md
 
-> Auto-maintained by OpenWolf. Last scanned: 2026-04-03T05:41:02.501Z
-> Files: 548 tracked | Anatomy hits: 0 | Misses: 0
+> Auto-maintained by OpenWolf. Last scanned: 2026-04-03T05:46:50.742Z
+> Files: 550 tracked | Anatomy hits: 0 | Misses: 0
 
 ## ../.claude/projects/-Users-yosiwizman-akior/memory/
 
@@ -10,6 +10,7 @@
 
 ## ../Library/LaunchAgents/
 
+- `ai.openclaw.gateway.plist` (~672 tok)
 - `com.akior.dashboard.plist` (~227 tok)
 
 ## ./
@@ -31,6 +32,7 @@
 - `bootstrap-complete.json` (~189 tok)
 - `phase3-execution-plan.md` — Phase 3 Deferred Execution Plan (~578 tok)
 - `resume-queue.md` — Resume Queue (~4 tok)
+- `voice-transcription-setup.md` — Voice Transcription Setup Checkpoint (~298 tok)
 
 ## communications/
 
