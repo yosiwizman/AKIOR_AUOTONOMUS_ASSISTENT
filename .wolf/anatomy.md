@@ -1,7 +1,7 @@
 # anatomy.md
 
-> Auto-maintained by OpenWolf. Last scanned: 2026-04-03T19:15:35.814Z
-> Files: 624 tracked | Anatomy hits: 0 | Misses: 0
+> Auto-maintained by OpenWolf. Last scanned: 2026-04-03T20:00:49.466Z
+> Files: 626 tracked | Anatomy hits: 0 | Misses: 0
 
 ## ../.claude/projects/-Users-yosiwizman-akior/memory/
 
@@ -44,6 +44,8 @@
 - `ai.openclaw.gateway.plist` (~672 tok)
 - `com.akior.dashboard-api.plist` (~227 tok)
 - `com.akior.dashboard.plist` (~227 tok)
+- `com.akior.ui-backend.plist` (~331 tok)
+- `com.akior.ui-frontend.plist` (~322 tok)
 
 ## ../akior-os-clean/
 
