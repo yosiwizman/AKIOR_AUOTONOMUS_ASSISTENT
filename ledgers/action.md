@@ -64,3 +64,4 @@
 | 2026-04-03T04:38:53Z | TMUX_WATCHDOG | session created |
 | 2026-04-03T04:43:53Z | TMUX_WATCHDOG | session created |
 gogcli OAuth setup needs owner action: download credentials JSON from https://console.cloud.google.com/auth/clients/453821789208-rfb4or1gnggpr37kfb80fe3m1bdcbe50.apps.googleusercontent.com?project=mi12-491111 → save to ~/Library/Application Support/gogcli/credentials.json → then run: gog auth add yosiwizman5638@gmail.com --services gmail,calendar,drive,contacts
+| 2026-04-03T04:48:53Z | TMUX_WATCHDOG | session created |

@@ -1,7 +1,7 @@
 # anatomy.md
 
-> Auto-maintained by OpenWolf. Last scanned: 2026-04-03T04:27:15.787Z
-> Files: 534 tracked | Anatomy hits: 0 | Misses: 0
+> Auto-maintained by OpenWolf. Last scanned: 2026-04-03T04:48:39.404Z
+> Files: 535 tracked | Anatomy hits: 0 | Misses: 0
 
 ## ./
 
@@ -959,3 +959,4 @@
 - `email-triage-2026-04-03.md` — Email Triage — 2026-04-03 (~364 tok)
 - `lp-inbox-2026-04-03.md` — Live Pilates USA Inbox Sweep — 2026-04-03 (~247 tok)
 - `system-health-2026-04-03.md` — System Health — 2026-04-03 (~437 tok)
+- `v2-agent2-browser-gui.md` — V2 Agent 2 — Browser & GUI Capabilities Report (~1365 tok)

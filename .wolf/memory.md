@@ -50,3 +50,6 @@
 | 00:27 | Session end: 30 writes across 11 files (AKIOR-SYSTEM-STATUS.md, PROJECT_LOG.md, .gitignore, SOUL.md, email-triage-2026-04-03.md) | 5 reads | ~11381 tok |
 | 00:27 | Session end: 30 writes across 11 files (AKIOR-SYSTEM-STATUS.md, PROJECT_LOG.md, .gitignore, SOUL.md, email-triage-2026-04-03.md) | 5 reads | ~11381 tok |
 | 00:47 | Session end: 30 writes across 11 files (AKIOR-SYSTEM-STATUS.md, PROJECT_LOG.md, .gitignore, SOUL.md, email-triage-2026-04-03.md) | 5 reads | ~11381 tok |
+| 00:48 | Created reports/v2-agent2-browser-gui.md | — | ~1456 |
+| 2026-04-02 | Browser/GUI capability audit: checked MCP list, registered Firecrawl MCP, searched ClawHub for GUI/desktop/browser/scrape skills, wrote report | reports/v2-agent2-browser-gui.md | Complete — Playwright connected, Firecrawl added, no macOS GUI automation installed yet | ~3000 |
+| 00:49 | Session end: 31 writes across 12 files (AKIOR-SYSTEM-STATUS.md, PROJECT_LOG.md, .gitignore, SOUL.md, email-triage-2026-04-03.md) | 7 reads | ~12941 tok |
