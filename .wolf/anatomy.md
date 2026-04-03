@@ -1,7 +1,7 @@
 # anatomy.md
 
-> Auto-maintained by OpenWolf. Last scanned: 2026-04-03T12:55:53.721Z
-> Files: 585 tracked | Anatomy hits: 0 | Misses: 0
+> Auto-maintained by OpenWolf. Last scanned: 2026-04-03T13:10:51.557Z
+> Files: 589 tracked | Anatomy hits: 0 | Misses: 0
 
 ## ../.claude/projects/-Users-yosiwizman-akior/memory/
 
@@ -15,6 +15,16 @@
 ## ../.openclaw/
 
 - `openclaw.json` (~1031 tok)
+- `SOUL.md` — AKIOR — Autonomous AI Operating System (~1678 tok)
+
+## ../.openclaw/workspace-dev/
+
+- `SOUL.md` — AKIOR — Autonomous AI Operating System (~1678 tok)
+
+## ../.openclaw/workspace-dev/skills/clawring/
+
+- `clawr.ing-memory.md` — clawr.ing memory (~167 tok)
+- `SKILL.md` — clawr.ing (~518 tok)
 
 ## ../.openclaw/workspace-dev/skills/cron-manager/
 
@@ -1044,7 +1054,7 @@
 
 ## openclaw/
 
-- `SOUL.md` — AKIOR — Autonomous AI Operating System (~1613 tok)
+- `SOUL.md` — AKIOR — Autonomous AI Operating System (~1678 tok)
 
 ## reports/
 
