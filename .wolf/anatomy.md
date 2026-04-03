@@ -1,11 +1,12 @@
 # anatomy.md
 
-> Auto-maintained by OpenWolf. Last scanned: 2026-04-03T01:59:06.763Z
-> Files: 525 tracked | Anatomy hits: 0 | Misses: 0
+> Auto-maintained by OpenWolf. Last scanned: 2026-04-03T02:11:23.025Z
+> Files: 526 tracked | Anatomy hits: 0 | Misses: 0
 
 ## ./
 
 - `.DS_Store` (~2184 tok)
+- `.gitignore` — Git ignore rules (~29 tok)
 - `CLAUDE.md` — OpenWolf (~848 tok)
 
 ## .claude/
@@ -61,7 +62,7 @@
 - `AKIOR-TOOL-ADOPTION-DECISIONS-01.md` — AKIOR — External Tool Adoption Decisions (~1247 tok)
 - `bootstrap-report.md` — AKIOR Bootstrap Completion Report — Formal (~1991 tok)
 - `CLAUDE_EXECUTION_TEMPLATE.md` — AKIOR CLAUDE EXECUTION TEMPLATE (~1120 tok)
-- `PROJECT_LOG.md` — AKIOR PROJECT LOG (~2945 tok)
+- `PROJECT_LOG.md` — AKIOR PROJECT LOG (~3121 tok)
 - `RUNTIME-REFERENCE.md` — AKIOR Runtime Reference (~1747 tok)
 - `SESSION_HANDOFF_TEMPLATE.md` — AKIOR SESSION HANDOFF TEMPLATE (~1108 tok)
 - `SSOT-REGISTER.md` — SSOT Register (~478 tok)

@@ -1,0 +1,7 @@
+node_modules/
+.wolf/token-ledger.json
+.wolf/memory.md
+*.log
+.DS_Store
+.playwright-mcp/
+memory-config.json

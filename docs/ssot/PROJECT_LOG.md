@@ -13,7 +13,7 @@
 | **Target milestone** | v1 bootstrap / operational readiness |
 | **Active layer** | L6 — COMPLETE |
 | **Distance** | NEAR |
-| **Last verified step** | Task 27 | Phase 5 MCP live verification — 3/4 MCPs confirmed working |
+| **Last verified step** | Task 28 | Phase 6 — WhatsApp multi-number, Wix send blocked (owner login needed), Memory MCP replaced, git baseline |
 | **Last updated** | 2026-04-03 |
 
 > Update this block whenever a new entry is appended. This is the quick-glance state.
@@ -93,6 +93,7 @@
 2026-04-02 | Task 25 | Phase 4 MCP tool expansion for autonomous execution | COMPLETE | L6 | 4 MCPs registered: playwright (@playwright/mcp), context7 (@upstash/context7-mcp), ddg-search (ddg-mcp-search), memory (@exaudeus/memory-mcp); 3 broken @anthropic/* packages caught and replaced with verified packages; Brave Search deferred (needs API key) | NEAR | Next: test MCPs on session restart | Owner: provide Brave API key (optional)
 2026-04-03 | Task 26 | Phase 5 close L6 + system status snapshot | COMPLETE | L6 | Canaries 4/4 PASS after all installations; MCP packages verified (playwright, context7, ddg-search, memory all resolve); AKIOR-SYSTEM-STATUS.md created as canonical system snapshot; MCP tools test deferred to next session start (MCPs load at init); L6 capability layer COMPLETE | NEAR | Next: restart session to activate MCPs; test playwright for Wix automation | Owner: none
 2026-04-03 | Task 27 | Phase 5 MCP live verification (first autonomous execution test) | COMPLETE | L6 | Playwright: navigated livepilatesusa.com + screenshot saved to evidence/screenshots/playwright-test-01.png; DDG Search: "Live Pilates USA V12" returned 3 results; Context7: available in tool list; Memory MCP: bootstrap fails (lobe not resolving — config exists at memory-config.json but server can't resolve); Canaries: 4/4 PASS; SYSTEM-STATUS.md updated with verified results | NEAR | Next: debug Memory MCP bootstrap; use Playwright for Task 19 (Alexandra Wix send) | Owner: none
+2026-04-03 | Task 28 | Phase 6 WhatsApp multi-number + Task 19 attempt + Memory MCP fix + git baseline | COMPLETE | L6 | WhatsApp: allowFrom set to [+13054098490, +17865181777], gateway reinstalled (PID 58194); Task 19 (Alexandra Wix send): BLOCKED — Wix requires login, no stored session/credentials, OWNER ACTION NEEDED; Memory MCP: @exaudeus/memory-mcp bootstrap broken, replaced with @modelcontextprotocol/server-memory (active next session); Git: .gitignore created, baseline commit created; Canaries: 4/4 PASS | NEAR | Next: owner logs into Wix via Playwright to unblock Task 19; test new Memory MCP on next session | Owner: action needed (Wix login)
 ```
 
 > Delete these placeholder entries and begin real logging on your first live session.
