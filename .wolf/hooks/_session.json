@@ -18,8 +18,8 @@
       "first_read": "2026-04-03T06:15:42.290Z"
     },
     "/Users/yosiwizman/akior/openclaw/SOUL.md": {
-      "count": 2,
-      "tokens": 1051,
+      "count": 3,
+      "tokens": 1108,
       "first_read": "2026-04-03T06:15:47.332Z"
     }
   },
@@ -77,7 +77,7 @@
   },
   "anatomy_hits": 2,
   "anatomy_misses": 2,
-  "repeated_reads_warned": 2,
+  "repeated_reads_warned": 3,
   "cerebrum_warnings": 0,
-  "stop_count": 3
+  "stop_count": 4
 }
