@@ -2,14 +2,14 @@
   "version": 1,
   "created_at": "2026-04-02T23:25:31.532Z",
   "lifetime": {
-    "total_tokens_estimated": 4559685,
-    "total_reads": 1853,
+    "total_tokens_estimated": 4559779,
+    "total_reads": 1856,
     "total_writes": 3701,
-    "total_sessions": 8,
-    "anatomy_hits": 372,
-    "anatomy_misses": 1481,
+    "total_sessions": 9,
+    "anatomy_hits": 373,
+    "anatomy_misses": 1483,
     "repeated_reads_blocked": 2697,
-    "estimated_savings_vs_bare_cli": 49268182
+    "estimated_savings_vs_bare_cli": 49268382
   },
   "sessions": [
     {
@@ -30971,6 +30971,40 @@
         "writes_count": 130,
         "repeated_reads_blocked": 143,
         "anatomy_lookups": 9
+      }
+    },
+    {
+      "id": "session-2026-04-03-0927",
+      "started": "2026-04-03T13:27:18.172Z",
+      "ended": "2026-04-03T17:04:19.774Z",
+      "reads": [
+        {
+          "file": "/Users/yosiwizman/akior/forge/jarvis-v5-os/package.json",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/forge/jarvis-v5-os/apps/web/package.json",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/config/whatsapp-groups/_template.json",
+          "tokens_estimated": 94,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        }
+      ],
+      "writes": [],
+      "totals": {
+        "input_tokens_estimated": 94,
+        "output_tokens_estimated": 0,
+        "reads_count": 3,
+        "writes_count": 0,
+        "repeated_reads_blocked": 0,
+        "anatomy_lookups": 1
       }
     }
   ],

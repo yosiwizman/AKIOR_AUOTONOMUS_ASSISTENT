@@ -7,22 +7,24 @@
 <title>AKIOR — Operations Dashboard</title>
 <style>
   :root {
-    --bg: #0a0a0f;
-    --bg2: #12121a;
-    --bg3: #1a1a28;
-    --cyan: #00e5ff;
-    --green: #00ff88;
-    --red: #ff3860;
-    --yellow: #ffd700;
+    --bg: #0A0A0F;
+    --bg2: #12121A;
+    --bg3: #1A1A28;
+    --cyan: #00D4FF;
+    --secondary: #1A1A2E;
+    --accent: #FF6B35;
+    --green: #00FF88;
+    --red: #FF3366;
+    --yellow: #FFB800;
     --dim: #555570;
-    --text: #c8c8e0;
-    --white: #eeeef6;
+    --text: #E0E0E0;
+    --white: #EEEEF6;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
     background: var(--bg);
     color: var(--text);
-    font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+    font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
     font-size: 14px;
     line-height: 1.6;
     padding: 24px;
@@ -112,9 +114,9 @@
   th { text-align: left; color: var(--dim); font-size: 11px; text-transform: uppercase; letter-spacing: 1px; padding: 6px 8px; }
   td { padding: 6px 8px; font-size: 13px; border-top: 1px solid #ffffff08; }
   .status { display: inline-block; padding: 2px 10px; border-radius: 12px; font-size: 11px; font-weight: 600; }
-  .status-ok { background: #00ff8818; color: var(--green); }
-  .status-warn { background: #ffd70018; color: var(--yellow); }
-  .status-err { background: #ff386018; color: var(--red); }
+  .status-ok { background: #00FF8818; color: var(--green); }
+  .status-warn { background: #FFB80018; color: var(--yellow); }
+  .status-err { background: #FF336618; color: var(--red); }
   .status-off { background: #55557018; color: var(--dim); }
   .canary-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
   .canary-item {
@@ -144,8 +146,8 @@
     transition: all 0.2s;
   }
   .btn:hover { background: var(--cyan); color: var(--bg); }
-  .alert { background: #ff386012; border-left: 3px solid var(--red); padding: 10px 14px; border-radius: 0 6px 6px 0; margin-bottom: 8px; font-size: 13px; }
-  .alert-warn { background: #ffd70012; border-left-color: var(--yellow); }
+  .alert { background: #FF336612; border-left: 3px solid var(--red); padding: 10px 14px; border-radius: 0 6px 6px 0; margin-bottom: 8px; font-size: 13px; }
+  .alert-warn { background: #FFB80012; border-left-color: var(--yellow); }
   .cron-row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #ffffff06; font-size: 13px; }
   .cron-sched { color: var(--dim); font-size: 11px; }
   .full-width { grid-column: 1 / -1; }
@@ -187,6 +189,7 @@
 
 <header>
   <div class="header-left">
+    <img src="akior-logo.svg" alt="AKIOR" width="40" height="40" style="margin-right:12px;">
     <h1>AKIOR <span>Operations Dashboard</span></h1>
   </div>
   <div class="header-right">

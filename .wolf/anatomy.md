@@ -1,7 +1,7 @@
 # anatomy.md
 
-> Auto-maintained by OpenWolf. Last scanned: 2026-04-03T13:16:53.792Z
-> Files: 593 tracked | Anatomy hits: 0 | Misses: 0
+> Auto-maintained by OpenWolf. Last scanned: 2026-04-03T13:23:01.944Z
+> Files: 601 tracked | Anatomy hits: 0 | Misses: 0
 
 ## ../.claude/projects/-Users-yosiwizman-akior/memory/
 
@@ -106,11 +106,17 @@
 ## config/whatsapp-groups/
 
 - `_template.json` (~94 tok)
+- `test-group.json` (~133 tok)
 
 ## dashboard/
 
+- `akior-logo.svg` (~315 tok)
 - `api.js` — AKIOR Dashboard API Server (~1897 tok)
-- `index.html` — AKIOR — Operations Dashboard (~6031 tok)
+- `index.html` — AKIOR — Operations Dashboard (~6070 tok)
+
+## docs/
+
+- `AKIOR-BRAND-GUIDE.md` — AKIOR Brand Guide (~1315 tok)
 
 ## docs/ssot/
 
@@ -1039,6 +1045,7 @@
 
 ## forge/jarvis-v5-os/apps/web/app/
 
+- `globals.css` — Styles: 20 rules, 105 vars (~2170 tok)
 - `layout.tsx` — RootLayout (~2746 tok)
 
 ## forge/jarvis-v5-os/apps/web/app/api/tasks/
@@ -1056,6 +1063,22 @@
 ## forge/jarvis-v5-os/apps/web/app/tasks/
 
 - `page.tsx` — StatusBadge (~3028 tok)
+
+## forge/jarvis-v5-os/apps/web/scripts/
+
+- `mkcert-dev.mjs` — Declares getPrimaryIp (~368 tok)
+
+## forge/jarvis-v5-os/apps/web/src/components/
+
+- `HudWidget.tsx` — getWeatherEmoji (~3620 tok)
+
+## forge/jarvis-v5-os/apps/web/src/hooks/
+
+- `useSystemStatus.ts` — Get the display text for a status level (~1000 tok)
+
+## forge/jarvis-v5-os/apps/web/src/lib/
+
+- `brand.ts` — Centralized brand constants for AKIOR (~472 tok)
 
 ## forge/jarvis-v5-os/packages/shared/src/
 

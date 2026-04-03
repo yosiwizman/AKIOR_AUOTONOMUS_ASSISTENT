@@ -1,0 +1,15 @@
+{
+  "group_id": "test-group-001",
+  "group_name": "Test Group",
+  "mode": "silent",
+  "allowed_numbers": ["+13054098490"],
+  "translation_enabled": true,
+  "translation_post_in_group": false,
+  "task_tracking_enabled": true,
+  "summary_schedule": "on_demand",
+  "language_filter": ["en", "es", "he"],
+  "owner_phone": "+13054098490",
+  "created_at": "2026-04-03T00:00:00Z",
+  "updated_at": "2026-04-03T00:00:00Z",
+  "notes": "Test group for skill verification"
+}
