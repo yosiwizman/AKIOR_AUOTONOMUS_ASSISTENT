@@ -1,7 +1,16 @@
 # anatomy.md
 
-> Auto-maintained by OpenWolf. Last scanned: 2026-04-03T04:56:15.577Z
-> Files: 538 tracked | Anatomy hits: 0 | Misses: 0
+> Auto-maintained by OpenWolf. Last scanned: 2026-04-03T05:17:14.694Z
+> Files: 546 tracked | Anatomy hits: 0 | Misses: 0
+
+## ../.claude/projects/-Users-yosiwizman-akior/memory/
+
+- `feedback_phone_calls.md` (~168 tok)
+- `MEMORY.md` (~30 tok)
+
+## ../Library/LaunchAgents/
+
+- `com.akior.dashboard.plist` (~227 tok)
 
 ## ./
 
@@ -47,6 +56,10 @@
 - `akior-tmux-watchdog.sh` — AKIOR tmux watchdog — ensures the akior tmux session persists (~125 tok)
 - `checkpoint.sh` (~58 tok)
 - `post-action-ledger.sh` (~51 tok)
+
+## dashboard/
+
+- `index.html` — AKIOR — Operations Dashboard (~2785 tok)
 
 ## docs/ssot/
 
@@ -955,11 +968,18 @@
 ## reports/
 
 - `calendar-2026-04-03.md` — Calendar — 2026-04-03 (Thu) + 2026-04-04 (Fri) (~73 tok)
+- `competitor-research-2026-04-03.md` — Pilates Equipment Competitor Research Report (~1931 tok)
 - `cto-briefing-2026-04-03.md` — AKIOR CTO Morning Briefing — 2026-04-03 (Thursday) (~682 tok)
 - `email-triage-2026-04-03.md` — Email Triage — 2026-04-03 (~364 tok)
 - `lp-inbox-2026-04-03.md` — Live Pilates USA Inbox Sweep — 2026-04-03 (~247 tok)
+- `lp-product-scrape-2026-04-03.md` — Live Pilates USA -- Product Catalog Scrape (~904 tok)
 - `system-health-2026-04-03.md` — System Health — 2026-04-03 (~437 tok)
 - `v2-agent1-voice-comms.md` — V2 Agent 1 -- Voice & Communications Setup Report (~1443 tok)
 - `v2-agent2-browser-gui.md` — V2 Agent 2 — Browser & GUI Capabilities Report (~1365 tok)
 - `v2-agent3-tools-hardening.md` — V2 Agent 3 — Tools Expansion & System Hardening Report (~1027 tok)
 - `v2-expansion-report-2026-04-03.md` — AKIOR V2 Expansion Report — 2026-04-03 (~867 tok)
+
+## skills/clawring/
+
+- `clawr.ing-memory.md` — clawr.ing memory (~31 tok)
+- `SKILL.md` — clawr.ing (~401 tok)

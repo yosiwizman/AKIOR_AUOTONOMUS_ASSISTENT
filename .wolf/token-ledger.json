@@ -2,14 +2,14 @@
   "version": 1,
   "created_at": "2026-04-02T23:25:31.532Z",
   "lifetime": {
-    "total_tokens_estimated": 120800,
-    "total_reads": 68,
-    "total_writes": 272,
+    "total_tokens_estimated": 131765,
+    "total_reads": 75,
+    "total_writes": 280,
     "total_sessions": 7,
-    "anatomy_hits": 30,
-    "anatomy_misses": 38,
-    "repeated_reads_blocked": 33,
-    "estimated_savings_vs_bare_cli": 53502
+    "anatomy_hits": 33,
+    "anatomy_misses": 42,
+    "repeated_reads_blocked": 35,
+    "estimated_savings_vs_bare_cli": 57198
   },
   "sessions": [
     {
@@ -2028,6 +2028,105 @@
         "reads_count": 6,
         "writes_count": 0,
         "repeated_reads_blocked": 1,
+        "anatomy_lookups": 3
+      }
+    },
+    {
+      "id": "session-2026-04-03-0108",
+      "started": "2026-04-03T05:08:36.211Z",
+      "ended": "2026-04-03T05:17:23.080Z",
+      "reads": [
+        {
+          "file": "/Users/yosiwizman/akior/reports/v2-agent1-voice-comms.md",
+          "tokens_estimated": 1443,
+          "was_repeated": true,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/docs/ssot/AKIOR-SYSTEM-STATUS.md",
+          "tokens_estimated": 1653,
+          "was_repeated": true,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/reports/cto-briefing-2026-04-03.md",
+          "tokens_estimated": 682,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/src/lib/tts-voices.ts",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/src/components/jarvis-voice.tsx",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/src/components/voice-console.tsx",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/.claude/projects/-Users-yosiwizman-akior/memory/MEMORY.md",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        }
+      ],
+      "writes": [
+        {
+          "file": "/Users/yosiwizman/akior/reports/competitor-research-2026-04-03.md",
+          "tokens_estimated": 2207,
+          "action": "create"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/reports/lp-product-scrape-2026-04-03.md",
+          "tokens_estimated": 1033,
+          "action": "create"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/dashboard/index.html",
+          "tokens_estimated": 2984,
+          "action": "create"
+        },
+        {
+          "file": "/Users/yosiwizman/Library/LaunchAgents/com.akior.dashboard.plist",
+          "tokens_estimated": 243,
+          "action": "create"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/skills/clawring/SKILL.md",
+          "tokens_estimated": 459,
+          "action": "create"
+        },
+        {
+          "file": "/Users/yosiwizman/akior/skills/clawring/clawr.ing-memory.md",
+          "tokens_estimated": 35,
+          "action": "create"
+        },
+        {
+          "file": "/Users/yosiwizman/.claude/projects/-Users-yosiwizman-akior/memory/feedback_phone_calls.md",
+          "tokens_estimated": 192,
+          "action": "create"
+        },
+        {
+          "file": "/Users/yosiwizman/.claude/projects/-Users-yosiwizman-akior/memory/MEMORY.md",
+          "tokens_estimated": 34,
+          "action": "create"
+        }
+      ],
+      "totals": {
+        "input_tokens_estimated": 3778,
+        "output_tokens_estimated": 7187,
+        "reads_count": 7,
+        "writes_count": 8,
+        "repeated_reads_blocked": 2,
         "anatomy_lookups": 3
       }
     }
