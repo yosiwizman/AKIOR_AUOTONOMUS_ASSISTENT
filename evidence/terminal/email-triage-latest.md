@@ -1,125 +1,81 @@
 # Email Triage Report
-**Date**: Friday, April 3rd, 2026 — 6:55 PM (America/New_York)  
-**Total Unread**: 52 messages in Inbox  
-**Source**: Gmail via OpenClaw browser automation  
-**Triage Completed**: 6:55 PM ET
+**Date:** Saturday, April 4th, 2026 - 6:55 AM ET  
+**Method:** Gmail web interface via browser automation  
+**Total Unread:** 4 primary inbox + 216 Purchases + 3 Travel + 68 Synced Messages + 2 other categories
+
+## Primary Inbox (4 Unread Messages)
+
+### 1. Rick Hightower - ROUTINE
+**Subject:** Langfuse vs LangSmith: Two competing AI observability platforms compared  
+**Date:** April 4, 2026, 1:00 AM  
+**From:** Rick Hightower  
+**Classification:** ROUTINE  
+**Preview:** Two approaches to agent observability: open-source flexibility vs managed ecosystem depth  
+**Notes:** Technical newsletter/content, no action required
+
+### 2. Smart1 - ROUTINE 
+**Subject:** scrape for mca ucc  
+**Date:** May 25, 2024, 5:18 PM  
+**From:** Smart1  
+**Classification:** ROUTINE  
+**Preview:** https://floridaucc.com/  
+**Notes:** Starred but old message, likely reference material
+
+### 3. InterNACHI - ROUTINE
+**Subject:** Welcome to InterNACHI!  
+**Date:** February 1, 2024, 8:46 PM  
+**From:** InterNACHI  
+**Classification:** ROUTINE  
+**Preview:** Hello Yosi, Welcome to InterNACHI! We're very glad you decided to join us. You signed up for a guest membership...  
+**Notes:** Starred welcome message, likely for reference
+
+### 4. Yosi Wizman - INFORMATIONAL
+**Subject:** A story from Sjoerd Tiemensma on Medium  
+**Date:** February 1, 2024, 7:57 AM  
+**From:** Yosi Wizman (self-sent)  
+**Classification:** INFORMATIONAL  
+**Preview:** Automate Anything on your PC for free, using Local LLM's and open-source no-code tools  
+**Notes:** Self-forwarded Medium article, has attachment (Image-1.jpg)
+
+## Secondary/Categorized Unread Messages
+
+### Purchases Category: 216 Unread
+- High volume of purchase-related emails
+- Requires separate review for any urgent shipping/delivery issues
+
+### Travel Category: 3 Unread  
+- Recent travel-related emails
+- May require attention for upcoming trips
+
+### Synced Messages: 68 Unread
+- Large volume of synced messages
+- Needs bulk review and organization
+
+### Wix Label Activity
+**Status:** No new Wix notifications detected in primary inbox  
+**Live Pilates Activity:** None flagged in current unread batch
+
+## Recent Important Messages (Already Read)
+
+### URGENT Items from Recent Days:
+1. **GoDaddy Renewals** - "Urgent: Your domains cancel in 5 days" (April 3)
+2. **GitHub Security** - "Possible valid secrets detected" in AKIOR_AUTONOMOUS_ASSISTANT repo (April 3)  
+3. **GitHub Token** - "Personal access token GitRepoDigestAI about to expire" (April 2)
+4. **Yahoo Verification** - Login attempt verification code (April 3)
+
+## Summary & Recommendations
+
+- **No immediate urgent action** required from primary inbox unread messages
+- **Routine maintenance needed:** Review GitHub security alerts and token expiration
+- **Domain renewal attention:** GoDaddy domains expiring in 5 days needs action
+- **Bulk cleanup recommended:** Large volumes in Purchases and Synced Messages categories
+- **Wix monitoring:** Continue monitoring for Live Pilates customer activity
+
+## Next Actions
+1. Address GitHub security alerts (URGENT)
+2. Renew expiring domains (URGENT)  
+3. Bulk process categorized emails
+4. Continue automated monitoring for Wix/Live Pilates activity
 
 ---
-
-## URGENT (Immediate Action Required)
-
-### 1. Siteboon AI B.V. - Payment Failed (5:37 PM)
-- **Subject**: €7.00 payment to Siteboon AI B.V. was unsuccessful
-- **Issue**: Credit card charge failure for service
-- **Action Needed**: Update payment method to maintain service
-
-### 2. Cash App - Payment Declined (5:37 PM)
-- **Subject**: Your $8.12 payment at Cloudcli was declined
-- **Issue**: Card locked, payment declined
-- **Action Needed**: Enable Cash App Card and retry payment
-
----
-
-## ACTION NEEDED (Attention Required)
-
-### 3. Upstart Support - Loan Update (6:01 PM)
-- **Subject**: Here's a quick update on what comes next
-- **Category**: Financial services update
-- **Action**: Review loan status/next steps
-
-### 4. GoDaddy Renewals - Domain Cancellation (2:58 PM)
-- **Subject**: LUXURY-MIAMI-DIRECTORY.COM Final Cancellation Notice
-- **Category**: Domain management
-- **Action**: Confirm if domain cancellation is intended
-
----
-
-## ROUTINE (Regular Business Communications)
-
-### 5. Runpod Team - Product Update (6:30 PM)
-- **Subject**: Check out the new runpodctl
-- **Category**: Developer tools newsletter
-- **Content**: New CLI tool, Claude Code research, SemiAnalysis mention
-
-### 6. Joe Njenga - Tech News (4:55 PM & 3:10 PM)
-- **Subjects**: "Cursor 3 Has Arrived — And Just Went Agent-First" & "Gemma 4: Google Just Released an Open Source AI Model"
-- **Category**: Tech industry updates
-
-### 7. News from Google (4:07 PM)
-- **Subject**: You can now change your Google Account username
-- **Category**: Platform updates
-
-### 8. Vercel - Pricing Update (1:14 PM)
-- **Subject**: No more base fee for Observability Plus
-- **Category**: Service billing update
-
-### 9. Cash App - Transaction Notifications (1:37 PM, 1:27 PM, 1:17 PM)
-- **Subjects**: Various transaction confirmations (AT&T $70, Murphy USA gas stations)
-- **Category**: Financial transaction receipts
-
----
-
-## INFORMATIONAL (FYI/Marketing)
-
-### 10. Videoz AI - Marketing (6:00 PM)
-- **Subject**: 🚨 Someone just claimed slot #20 — yours is next to go
-- **Category**: AI product promotion
-
-### 11. Vijay Support - Marketing (4:45 PM)
-- **Subject**: ❓❓Yosi Wizman did you see what this just unlocked?
-- **Category**: AI service promotion
-
-### 12. TAAFT Newsletter (4:28 PM)
-- **Subject**: 🦾 AIs Lie to Protect Each Other
-- **Category**: AI industry newsletter
-
-### 13. Retail/Shopping (4:06 PM - 12:03 PM)
-- Walmart: Easter promotions
-- StackSocial: Microsoft apps sale
-- ASFA Fitness: Easter sale
-- Adobe Firefly: 50% off promotion
-- Babbel: Lifetime subscription offer
-
-### 14. Educational/Entertainment (1:33 PM & 1:15 PM)
-- Javi: FormWise V2 image generation
-- CrunchLabs: Easter coloring pages
-
-### 15. AI/Tech Services Marketing
-- BrainBeast[Vijay]: Multi-AI platform promotion (12:14 PM)
-- AI Blueprint: Investment newsletter (11:34 AM)
-- SiteSwan: Website showcase (11:33 AM)
-
----
-
-## WIX NOTIFICATIONS - LIVE PILATES ACTIVITY
-
-⚠️ **FLAGGED**: Found "wix" label in Gmail indicating Wix-related emails  
-📍 **Live Pilates Business**: Wix Inbox is the canonical customer service platform  
-🔍 **Status**: Label shows unread messages - requires separate investigation  
-📝 **Note**: As per SOUL.md, Wix Inbox notifications should be flagged as Live Pilates customer activity
-
----
-
-## ADDITIONAL LABELS WITH UNREAD COUNTS
-
-- **AI character**: 1 unread
-- **AI Clip**: 1 unread  
-- **Purchases**: 220 unread (likely mostly promotional)
-- **Travel**: 3 unread
-- **Synced Messages**: 68 unread
-
----
-
-## SUMMARY
-
-- **Critical Issues**: 2 payment failures requiring immediate attention
-- **Business Actions**: 2 items needing review/decision  
-- **Routine Updates**: 8 legitimate service/product updates
-- **Marketing/Promotional**: 15+ promotional emails (can be batch-processed)
-- **Live Pilates**: Potential customer activity in Wix label (requires investigation)
-
-**Next Steps**: 
-1. Address payment failures immediately
-2. Review Wix label for Live Pilates customer messages
-3. Check domain cancellation intent
-4. Archive promotional emails in bulk
+*Automated triage completed at 6:55 AM ET*
