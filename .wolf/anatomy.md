@@ -1,7 +1,7 @@
 # anatomy.md
 
-> Auto-maintained by OpenWolf. Last scanned: 2026-04-03T21:25:43.696Z
-> Files: 637 tracked | Anatomy hits: 0 | Misses: 0
+> Auto-maintained by OpenWolf. Last scanned: 2026-04-04T12:55:26.214Z
+> Files: 638 tracked | Anatomy hits: 0 | Misses: 0
 
 ## ../.claude/projects/-Users-yosiwizman-akior/memory/
 
@@ -1101,7 +1101,7 @@
 
 ## forge/jarvis-v5-os/apps/web/app/jarvis/
 
-- `page.tsx` — Dedicated Full-Screen AKIOR Page (~11763 tok)
+- `page.tsx` — Dedicated Full-Screen AKIOR Page (~12042 tok)
 
 ## forge/jarvis-v5-os/apps/web/app/login/
 
@@ -1141,6 +1141,10 @@
 
 - `brand.ts` — Centralized brand constants for AKIOR (~472 tok)
 - `jarvis-function-executor.ts` — Central function executor - ALL AKIOR function implementations in ONE place (~9300 tok)
+
+## forge/jarvis-v5-os/apps/web/src/styles/
+
+- `akior.v3.css` — Styles: 36 rules, 4 vars (~952 tok)
 
 ## forge/jarvis-v5-os/deploy/
 

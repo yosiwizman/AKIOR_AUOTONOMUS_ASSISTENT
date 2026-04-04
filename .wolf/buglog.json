@@ -996,6 +996,54 @@
       "related_bugs": [],
       "occurrences": 1,
       "last_seen": "2026-04-03T21:25:43.704Z"
+    },
+    {
+      "id": "bug-063",
+      "timestamp": "2026-04-04T12:54:06.992Z",
+      "error_message": "CSS fix: transform, opacity",
+      "file": "forge/jarvis-v5-os/apps/web/src/styles/akior.v3.css",
+      "root_cause": "transform: scale(1.03) → scale(1.08); opacity: 0.82 → 0.88",
+      "fix": "Changed transform: scale(1.03) → scale(1.08); opacity: 0.82 → 0.88",
+      "tags": [
+        "auto-detected",
+        "style-fix",
+        "css"
+      ],
+      "related_bugs": [],
+      "occurrences": 2,
+      "last_seen": "2026-04-04T12:54:16.413Z"
+    },
+    {
+      "id": "bug-064",
+      "timestamp": "2026-04-04T12:54:12.362Z",
+      "error_message": "Wrong reference: 18s should be 24s",
+      "file": "forge/jarvis-v5-os/apps/web/src/styles/akior.v3.css",
+      "root_cause": "Used \"18s\" instead of \"24s\"",
+      "fix": "Changed 18s → 24s",
+      "tags": [
+        "auto-detected",
+        "wrong-reference",
+        "css"
+      ],
+      "related_bugs": [],
+      "occurrences": 1,
+      "last_seen": "2026-04-04T12:54:12.362Z"
+    },
+    {
+      "id": "bug-065",
+      "timestamp": "2026-04-04T12:54:21.504Z",
+      "error_message": "Incorrect value in code",
+      "file": "forge/jarvis-v5-os/apps/web/app/jarvis/page.tsx",
+      "root_cause": "Had \"relative w-full min-h-[70vh] overflow-visible\"",
+      "fix": "Changed to \"relative w-screen h-screen overflow-hidden\"",
+      "tags": [
+        "auto-detected",
+        "wrong-value",
+        "tsx"
+      ],
+      "related_bugs": [],
+      "occurrences": 1,
+      "last_seen": "2026-04-04T12:54:21.504Z"
     }
   ]
 }
