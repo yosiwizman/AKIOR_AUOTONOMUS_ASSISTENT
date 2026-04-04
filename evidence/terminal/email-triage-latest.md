@@ -1,70 +1,125 @@
-# Email Triage Report - April 3rd, 2026 (2:55 PM)
-
-## Summary
-- **Total unread messages:** 42 in main inbox
-- **Urgent:** 1
-- **Action needed:** 5
-- **Routine:** 15
-- **Informational:** 21
-- **Wix notifications:** 0 (none detected)
-
-## URGENT (1)
-1. **GoDaddy Renewals** - "Urgent: Your domains cancel in 5 days" (2:52 PM)
-   - Domain: BLOGGERHUB.BLOG expires 4/7/2026
-   - Cost: $39.99/year
-   - **Action required:** Immediate domain renewal to prevent loss
-
-## ACTION_NEEDED (5)
-1. **Cash App** - AT&T payment $70.00 (1:37 PM)
-   - Transaction receipt, confirm if legitimate business expense
-   
-2. **Cash App** - Murphy USA gas station transaction updates (1:27 PM, 1:17 PM)
-   - Updated from $100.00 to $84.19
-   - Transaction completion confirmation needed
-   
-3. **Vercel** - Billing change notification (1:14 PM)
-   - $10/month base fee removal for Observability Plus
-   - Review billing impact
-   
-4. **Brizy** - Scheduled maintenance April 5th, 8 AM CET (11:15 AM)
-   - Brief downtime for Brizy Cloud and Brizy AI
-   - Plan around service interruption if using
-
-## ROUTINE (15)
-Marketing/promotional emails with time-sensitive offers:
-- **Videoz AI** - Cynema AI limited slots (2:04 PM)
-- **ASFA Fitness** - 15% Easter sale until 4/5 (12:39 PM)
-- **Adobe Firefly** - 50% off Pro Plus plan (12:06 PM)
-- **Babbel** - Lifetime offer $219 (12:03 PM)
-- **BrainBeast** - AI tools promotion (12:14 PM)
-- **Liam Evans** - 9 client spots for April (11:00 AM)
-- **Tractor Supply** - Spring essentials deals (10:06 AM)
-- **StackSocial** - AI prompting course with PROMPT20 code (10:01 AM)
-- **Javi** - FormWise V2 image generation feature (1:33 PM)
-- **CrunchLabs** - Easter coloring pages (1:15 PM)
-- **PosterMyWall** - April features and tools (11:04 AM)
-- **Mindvalley Daily** - 2-week program offer (11:08 AM)
-- **Mermaid** - March product updates (10:30 AM)
-- **Paul Boulet** - AI content and platform updates (10:43 AM)
-- **Futurepedia** - Claude Code improvements (11:33 AM)
-
-## INFORMATIONAL (21)
-Newsletters, updates, and non-actionable content:
-- **AI Blueprint** - $1.7 Trillion IPO news (11:34 AM)
-- **SiteSwan** - Site of the Week: Sol Modus (11:33 AM)
-- Various AI/tech newsletters and product updates
-- Company announcements and feature releases
-- Educational content and industry news
-
-## Live Pilates Activity
-**No Wix notifications detected** in current unread messages. No customer service inquiries requiring immediate attention.
-
-## Recommendations
-1. **Immediate:** Renew GoDaddy domain BLOGGERHUB.BLOG before 4/7/2026 expiration
-2. **Today:** Review Cash App transactions for expense categorization
-3. **This week:** Monitor Brizy maintenance window on April 5th
-4. **Ongoing:** Consider setting up auto-renewal for critical domains to prevent future urgent situations
+# Email Triage Report
+**Date**: Friday, April 3rd, 2026 — 6:55 PM (America/New_York)  
+**Total Unread**: 52 messages in Inbox  
+**Source**: Gmail via OpenClaw browser automation  
+**Triage Completed**: 6:55 PM ET
 
 ---
-*Generated on: April 3rd, 2026 at 2:55 PM ET*
-*Next triage scheduled: 6:55 PM ET*
+
+## URGENT (Immediate Action Required)
+
+### 1. Siteboon AI B.V. - Payment Failed (5:37 PM)
+- **Subject**: €7.00 payment to Siteboon AI B.V. was unsuccessful
+- **Issue**: Credit card charge failure for service
+- **Action Needed**: Update payment method to maintain service
+
+### 2. Cash App - Payment Declined (5:37 PM)
+- **Subject**: Your $8.12 payment at Cloudcli was declined
+- **Issue**: Card locked, payment declined
+- **Action Needed**: Enable Cash App Card and retry payment
+
+---
+
+## ACTION NEEDED (Attention Required)
+
+### 3. Upstart Support - Loan Update (6:01 PM)
+- **Subject**: Here's a quick update on what comes next
+- **Category**: Financial services update
+- **Action**: Review loan status/next steps
+
+### 4. GoDaddy Renewals - Domain Cancellation (2:58 PM)
+- **Subject**: LUXURY-MIAMI-DIRECTORY.COM Final Cancellation Notice
+- **Category**: Domain management
+- **Action**: Confirm if domain cancellation is intended
+
+---
+
+## ROUTINE (Regular Business Communications)
+
+### 5. Runpod Team - Product Update (6:30 PM)
+- **Subject**: Check out the new runpodctl
+- **Category**: Developer tools newsletter
+- **Content**: New CLI tool, Claude Code research, SemiAnalysis mention
+
+### 6. Joe Njenga - Tech News (4:55 PM & 3:10 PM)
+- **Subjects**: "Cursor 3 Has Arrived — And Just Went Agent-First" & "Gemma 4: Google Just Released an Open Source AI Model"
+- **Category**: Tech industry updates
+
+### 7. News from Google (4:07 PM)
+- **Subject**: You can now change your Google Account username
+- **Category**: Platform updates
+
+### 8. Vercel - Pricing Update (1:14 PM)
+- **Subject**: No more base fee for Observability Plus
+- **Category**: Service billing update
+
+### 9. Cash App - Transaction Notifications (1:37 PM, 1:27 PM, 1:17 PM)
+- **Subjects**: Various transaction confirmations (AT&T $70, Murphy USA gas stations)
+- **Category**: Financial transaction receipts
+
+---
+
+## INFORMATIONAL (FYI/Marketing)
+
+### 10. Videoz AI - Marketing (6:00 PM)
+- **Subject**: 🚨 Someone just claimed slot #20 — yours is next to go
+- **Category**: AI product promotion
+
+### 11. Vijay Support - Marketing (4:45 PM)
+- **Subject**: ❓❓Yosi Wizman did you see what this just unlocked?
+- **Category**: AI service promotion
+
+### 12. TAAFT Newsletter (4:28 PM)
+- **Subject**: 🦾 AIs Lie to Protect Each Other
+- **Category**: AI industry newsletter
+
+### 13. Retail/Shopping (4:06 PM - 12:03 PM)
+- Walmart: Easter promotions
+- StackSocial: Microsoft apps sale
+- ASFA Fitness: Easter sale
+- Adobe Firefly: 50% off promotion
+- Babbel: Lifetime subscription offer
+
+### 14. Educational/Entertainment (1:33 PM & 1:15 PM)
+- Javi: FormWise V2 image generation
+- CrunchLabs: Easter coloring pages
+
+### 15. AI/Tech Services Marketing
+- BrainBeast[Vijay]: Multi-AI platform promotion (12:14 PM)
+- AI Blueprint: Investment newsletter (11:34 AM)
+- SiteSwan: Website showcase (11:33 AM)
+
+---
+
+## WIX NOTIFICATIONS - LIVE PILATES ACTIVITY
+
+⚠️ **FLAGGED**: Found "wix" label in Gmail indicating Wix-related emails  
+📍 **Live Pilates Business**: Wix Inbox is the canonical customer service platform  
+🔍 **Status**: Label shows unread messages - requires separate investigation  
+📝 **Note**: As per SOUL.md, Wix Inbox notifications should be flagged as Live Pilates customer activity
+
+---
+
+## ADDITIONAL LABELS WITH UNREAD COUNTS
+
+- **AI character**: 1 unread
+- **AI Clip**: 1 unread  
+- **Purchases**: 220 unread (likely mostly promotional)
+- **Travel**: 3 unread
+- **Synced Messages**: 68 unread
+
+---
+
+## SUMMARY
+
+- **Critical Issues**: 2 payment failures requiring immediate attention
+- **Business Actions**: 2 items needing review/decision  
+- **Routine Updates**: 8 legitimate service/product updates
+- **Marketing/Promotional**: 15+ promotional emails (can be batch-processed)
+- **Live Pilates**: Potential customer activity in Wix label (requires investigation)
+
+**Next Steps**: 
+1. Address payment failures immediately
+2. Review Wix label for Live Pilates customer messages
+3. Check domain cancellation intent
+4. Archive promotional emails in bulk
