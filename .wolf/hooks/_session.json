@@ -596,6 +596,16 @@
       "count": 1,
       "tokens": 0,
       "first_read": "2026-04-04T13:28:24.269Z"
+    },
+    "/Users/yosiwizman/akior/forge/jarvis-v5-os/apps/web/public/akior/layers/akior-geometry-v4.svg": {
+      "count": 2,
+      "tokens": 0,
+      "first_read": "2026-04-04T14:53:36.424Z"
+    },
+    "/tmp/akior-geo-final/jarvis.png": {
+      "count": 1,
+      "tokens": 0,
+      "first_read": "2026-04-04T14:55:01.336Z"
     }
   },
   "files_written": [
@@ -1268,8 +1278,8 @@
     "forge/jarvis-v5-os/apps/web/src/styles/akior.v3.css": 3
   },
   "anatomy_hits": 25,
-  "anatomy_misses": 93,
-  "repeated_reads_warned": 175,
+  "anatomy_misses": 95,
+  "repeated_reads_warned": 176,
   "cerebrum_warnings": 0,
-  "stop_count": 34
+  "stop_count": 35
 }
