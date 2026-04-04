@@ -2,6 +2,10 @@
 
 | Timestamp | Decision | Rationale |
 |-----------|----------|-----------|
+| 2026-04-04T13:10Z | ESCALATE — Karen Berg phone call (Apr 4 deadline) | Per post-send monitor, owner phone call to Karen Berg (2025501706) was due by Apr 4. No reply received. AKIOR cannot place calls. Owner must execute immediately. |
+| 2026-04-04T13:10Z | ESCALATE — Danielle Luttje follow-up (email opened) | Danielle Luttje opened our Apr 1 outreach email (Seen via Email status). 72h+ no reply. No specific playbook. High engagement signal — owner should send direct follow-up or approve text for AKIOR. |
+| 2026-04-04T13:10Z | ESCALATE — Alexandra Sarbu engagement decision | Romania contact (contact@alexandrasarbu.ro) awaiting response since Apr 3. Asked about 3–4 installment payment options. Off-playbook (financial commitment). Owner must decide: engage or not, and what terms if any. |
+| 2026-04-04T13:10Z | ESCALATE — Nora Gallardo follow-up (72h+ no reply) | Nora Gallardo has not replied 72h+ after Apr 1 outreach. No specific follow-up playbook. Owner must approve follow-up text or send directly. |
 | 2026-04-01T00:43Z | Post-bootstrap permission hardening applied | Dropped brew/chmod/touch broad patterns. Added deny rules for destructive system commands (rm -rf /, sudo, shutdown, reboot). Added explicit allow for hook/canary scripts. |
 | 2026-04-01T01:02Z | Installed launchd watchdog for tmux persistence | com.akior.watchdog runs every 300s, ensures tmux session "akior" stays alive across reboots. Plist at ~/Library/LaunchAgents/. Script at ~/akior/config/hooks/akior-tmux-watchdog.sh. |
 | 2026-04-01T03:15Z | SSOT import and runtime alignment completed | 7 canonical SSOT files verified and read. Created RUNTIME-REFERENCE.md (daily execution guide) and SSOT-REGISTER.md (document index). Updated CLAUDE.md with Canonical SSOT Reference section. No contradictions found between runtime constitution and canonical SSOT. Three additional ledger types (Pattern Library, Playbook Library, Training Manuals) noted as v2+ items. All advanced doctrine now accessible via RUNTIME-REFERENCE.md. |
