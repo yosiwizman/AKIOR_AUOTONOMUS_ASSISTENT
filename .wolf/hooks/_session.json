@@ -606,6 +606,11 @@
       "count": 1,
       "tokens": 0,
       "first_read": "2026-04-04T14:55:01.336Z"
+    },
+    "/tmp/akior-geo-final/jarvis-hard-refresh.png": {
+      "count": 1,
+      "tokens": 0,
+      "first_read": "2026-04-04T15:06:59.044Z"
     }
   },
   "files_written": [
@@ -1278,8 +1283,8 @@
     "forge/jarvis-v5-os/apps/web/src/styles/akior.v3.css": 3
   },
   "anatomy_hits": 25,
-  "anatomy_misses": 95,
+  "anatomy_misses": 96,
   "repeated_reads_warned": 176,
   "cerebrum_warnings": 0,
-  "stop_count": 35
+  "stop_count": 36
 }

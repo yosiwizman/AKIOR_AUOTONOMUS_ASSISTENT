@@ -1,81 +1,133 @@
-# Email Triage Report
-**Date:** Saturday, April 4th, 2026 - 6:55 AM ET  
-**Method:** Gmail web interface via browser automation  
-**Total Unread:** 4 primary inbox + 216 Purchases + 3 Travel + 68 Synced Messages + 2 other categories
+# Email Triage Report - April 4, 2026 10:55 AM
 
-## Primary Inbox (4 Unread Messages)
+## Unread Email Count: 14
 
-### 1. Rick Hightower - ROUTINE
-**Subject:** Langfuse vs LangSmith: Two competing AI observability platforms compared  
-**Date:** April 4, 2026, 1:00 AM  
-**From:** Rick Hightower  
-**Classification:** ROUTINE  
-**Preview:** Two approaches to agent observability: open-source flexibility vs managed ecosystem depth  
-**Notes:** Technical newsletter/content, no action required
+### Email Classifications:
 
-### 2. Smart1 - ROUTINE 
-**Subject:** scrape for mca ucc  
-**Date:** May 25, 2024, 5:18 PM  
-**From:** Smart1  
-**Classification:** ROUTINE  
-**Preview:** https://floridaucc.com/  
-**Notes:** Starred but old message, likely reference material
+#### 1. Syed Balkhi - WPBeginner (10:43 AM)
+- **Subject:** SEO tools I use + why I don't blindly trust keyword difficulty score
+- **Preview:** Hey Yosi, Want to grow your blog traffic with SEO, but don't have the budget for Semrush?...
+- **Classification:** INFORMATIONAL
+- **Category:** Marketing newsletter
+- **Notes:** WordPress/SEO educational content
 
-### 3. InterNACHI - ROUTINE
-**Subject:** Welcome to InterNACHI!  
-**Date:** February 1, 2024, 8:46 PM  
-**From:** InterNACHI  
-**Classification:** ROUTINE  
-**Preview:** Hello Yosi, Welcome to InterNACHI! We're very glad you decided to join us. You signed up for a guest membership...  
-**Notes:** Starred welcome message, likely for reference
+#### 2. StackSocial (10:03 AM)  
+- **Subject:** $43 Visual Studio Pro 2026 Codes (91% OFF!)
+- **Preview:** Unlock faster speeds, smarter tools, and better AI integration...
+- **Classification:** INFORMATIONAL
+- **Category:** Software deal newsletter
+- **Notes:** Promotional deal email
 
-### 4. Yosi Wizman - INFORMATIONAL
-**Subject:** A story from Sjoerd Tiemensma on Medium  
-**Date:** February 1, 2024, 7:57 AM  
-**From:** Yosi Wizman (self-sent)  
-**Classification:** INFORMATIONAL  
-**Preview:** Automate Anything on your PC for free, using Local LLM's and open-source no-code tools  
-**Notes:** Self-forwarded Medium article, has attachment (Image-1.jpg)
+#### 3. Base44 (10:01 AM)
+- **Subject:** 44% Off Select Yearly Plans — Today Only
+- **Preview:** It's 4.4 — get 44% off annual plans today only Base44 Day...
+- **Classification:** INFORMATIONAL  
+- **Category:** Software promotion
+- **Notes:** Limited time offer
 
-## Secondary/Categorized Unread Messages
+#### 4. Feedspot Today (9:34 AM)
+- **Subject:** Manchester City vs Liverpool LIVE updates, watch live, score, analysis...
+- **Preview:** Submit Website View in browser Switch to weekly Feedspot...
+- **Classification:** INFORMATIONAL
+- **Category:** Newsletter digest
+- **Notes:** Sports/news aggregation
 
-### Purchases Category: 216 Unread
-- High volume of purchase-related emails
-- Requires separate review for any urgent shipping/delivery issues
+#### 5. True Shot Ammo (9:31 AM)
+- **Subject:** Fiocchi 223 REM Back in Stock! Free Shipping!
+- **Preview:** Fiocchi 223 REM Back in Stock! Free Shipping!...
+- **Classification:** INFORMATIONAL
+- **Category:** Product restock alert
+- **Notes:** Firearms/ammo retailer
 
-### Travel Category: 3 Unread  
-- Recent travel-related emails
-- May require attention for upcoming trips
+#### 6. Shop (9:04 AM)
+- **Subject:** LAST DAY: Get up to $40 Shop Cash 🌱
+- **Preview:** Buy more, earn more while you can...
+- **Classification:** INFORMATIONAL
+- **Category:** E-commerce promotion
+- **Notes:** Shopping rewards promotion
 
-### Synced Messages: 68 Unread
-- Large volume of synced messages
-- Needs bulk review and organization
+#### 7. Cristian | HomeDesign (9:02 AM)
+- **Subject:** Still thinking about it? Time's running out
+- **Preview:** We did the math for you...
+- **Classification:** INFORMATIONAL
+- **Category:** Sales follow-up
+- **Notes:** Home design service follow-up
 
-### Wix Label Activity
-**Status:** No new Wix notifications detected in primary inbox  
-**Live Pilates Activity:** None flagged in current unread batch
+#### 8. AI Vidioz 2 (9:00 AM)
+- **Subject:** ✅ Congratulations yosi, ACCESS GRANTED TO CYNEMA AI SUCCESSFULLY
+- **Preview:** Your access to the newly launched CYNEMA AI that allows you access to use Sora 2, Veo 3.1, Kling 2.1...
+- **Classification:** INFORMATIONAL
+- **Category:** AI software access
+- **Notes:** AI video editing platform access notification
 
-## Recent Important Messages (Already Read)
+#### 9. The Futurist (8:01 AM)
+- **Subject:** You're probably sleeping wrong
+- **Preview:** Plus, this garden was built to disturb you. // Hack your Mac...
+- **Classification:** INFORMATIONAL
+- **Category:** Tech newsletter
+- **Notes:** Daily tech/science newsletter
 
-### URGENT Items from Recent Days:
-1. **GoDaddy Renewals** - "Urgent: Your domains cancel in 5 days" (April 3)
-2. **GitHub Security** - "Possible valid secrets detected" in AKIOR_AUTONOMOUS_ASSISTANT repo (April 3)  
-3. **GitHub Token** - "Personal access token GitRepoDigestAI about to expire" (April 2)
-4. **Yahoo Verification** - Login attempt verification code (April 3)
+#### 10. Medium Daily Digest (7:20 AM)
+- **Subject:** Qwen Just Quietly Became the Most Dangerous Open-Source AI Model | Suleiman Tawil
+- **Preview:** Yosiwizman Stories for Yosiwizman @yosiwizman5638·Member Medium daily digest...
+- **Classification:** INFORMATIONAL
+- **Category:** Content digest
+- **Notes:** AI/tech article recommendations
 
-## Summary & Recommendations
+#### 11. Rick Hightower (1:00 AM)
+- **Subject:** Langfuse vs LangSmith: Two competing AI observability platforms compared
+- **Preview:** Two approaches to agent observability: open-source flexibility vs managed ecosystem depth...
+- **Classification:** INFORMATIONAL
+- **Category:** Technical content
+- **Notes:** AI infrastructure comparison article
 
-- **No immediate urgent action** required from primary inbox unread messages
-- **Routine maintenance needed:** Review GitHub security alerts and token expiration
-- **Domain renewal attention:** GoDaddy domains expiring in 5 days needs action
-- **Bulk cleanup recommended:** Large volumes in Purchases and Synced Messages categories
-- **Wix monitoring:** Continue monitoring for Live Pilates customer activity
+#### 12. Smart1 (5/25/24) - OLDER EMAIL
+- **Subject:** scrape for mca ucc
+- **Preview:** https://floridaucc.com/
+- **Classification:** ACTION_NEEDED
+- **Category:** Business request
+- **Notes:** Old starred email, possible business/legal research request
 
-## Next Actions
-1. Address GitHub security alerts (URGENT)
-2. Renew expiring domains (URGENT)  
-3. Bulk process categorized emails
-4. Continue automated monitoring for Wix/Live Pilates activity
+#### 13. InterNACHI (2/1/24) - OLDER EMAIL
+- **Subject:** Welcome to InterNACHI!
+- **Preview:** International Association of Certified Home Inspectors Hello Yosi, Welcome to InterNACHI!...
+- **Classification:** ROUTINE
+- **Category:** Welcome email
+- **Notes:** Professional association welcome email
 
----
-*Automated triage completed at 6:55 AM ET*
+#### 14. Yosi Wizman (2/1/24) - OLDER EMAIL
+- **Subject:** A story from Sjoerd Tiemensma on Medium
+- **Preview:** Automate Anything on your PC for free, using Local LLM's and open-source no-code tools...
+- **Classification:** INFORMATIONAL
+- **Category:** Self-sent content
+- **Notes:** Technical article with attachment
+
+## Summary by Classification:
+
+### URGENT: 0 emails
+- None identified
+
+### ACTION_NEEDED: 1 email
+- Smart1 UCC scraping request (older starred email)
+
+### ROUTINE: 1 email  
+- InterNACHI welcome email
+
+### INFORMATIONAL: 12 emails
+- Various newsletters, promotions, and content digests
+- AI/tech content: 4 emails
+- Marketing/promotions: 4 emails  
+- News/content digests: 2 emails
+- Product notifications: 2 emails
+
+## Wix Notifications: None detected
+- No emails identified from Wix regarding Live Pilates USA business
+
+## Notes:
+- Most unread emails are current day (April 4, 2026)
+- 3 older emails from 2024 that were previously starred/unread
+- No urgent items requiring immediate action
+- One older business request that may need follow-up
+- No Live Pilates customer communications detected
+
+## Timestamp: 2026-04-04 14:55:00 UTC
