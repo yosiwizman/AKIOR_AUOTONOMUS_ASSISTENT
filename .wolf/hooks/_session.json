@@ -48,7 +48,7 @@
       "first_read": "2026-04-03T17:04:24.349Z"
     },
     "/Users/yosiwizman/akior/forge/jarvis-v5-os/apps/web/app/login/page.tsx": {
-      "count": 7,
+      "count": 8,
       "tokens": 3490,
       "first_read": "2026-04-03T17:04:25.007Z"
     },
@@ -463,8 +463,8 @@
       "first_read": "2026-04-03T21:03:56.690Z"
     },
     "/Users/yosiwizman/akior/forge/jarvis-v5-os/apps/web/src/components/akior/AkiorCore.tsx": {
-      "count": 5,
-      "tokens": 1360,
+      "count": 7,
+      "tokens": 2879,
       "first_read": "2026-04-03T21:03:57.107Z"
     },
     "/Users/yosiwizman/akior/forge/jarvis-v5-os/apps/web/src/components/akior/useAkiorVoiceState.ts": {
@@ -621,6 +621,16 @@
       "count": 1,
       "tokens": 0,
       "first_read": "2026-04-05T02:09:31.931Z"
+    },
+    "/tmp/akior-dual-mode/login.png": {
+      "count": 2,
+      "tokens": 0,
+      "first_read": "2026-04-05T02:22:31.708Z"
+    },
+    "/tmp/akior-dual-mode/jarvis.png": {
+      "count": 2,
+      "tokens": 0,
+      "first_read": "2026-04-05T02:22:31.965Z"
     }
   },
   "files_written": [
@@ -1253,6 +1263,24 @@
       "action": "edit",
       "tokens": 1476,
       "at": "2026-04-05T02:08:27.559Z"
+    },
+    {
+      "file": "/Users/yosiwizman/akior/forge/jarvis-v5-os/apps/web/src/components/akior/AkiorCore.tsx",
+      "action": "edit",
+      "tokens": 212,
+      "at": "2026-04-05T02:21:19.968Z"
+    },
+    {
+      "file": "/Users/yosiwizman/akior/forge/jarvis-v5-os/apps/web/src/components/akior/AkiorCore.tsx",
+      "action": "edit",
+      "tokens": 31,
+      "at": "2026-04-05T02:23:05.038Z"
+    },
+    {
+      "file": "/Users/yosiwizman/akior/forge/jarvis-v5-os/apps/web/src/components/akior/AkiorCore.tsx",
+      "action": "edit",
+      "tokens": 104,
+      "at": "2026-04-05T02:23:11.654Z"
     }
   ],
   "edit_counts": {
@@ -1303,11 +1331,11 @@
     "forge/jarvis-v5-os/apps/server/data/settings.json": 1,
     "forge/jarvis-v5-os/apps/web/app/jarvis/page.tsx": 16,
     "forge/jarvis-v5-os/apps/web/src/styles/akior.v3.css": 3,
-    "forge/jarvis-v5-os/apps/web/src/components/akior/AkiorCore.tsx": 2
+    "forge/jarvis-v5-os/apps/web/src/components/akior/AkiorCore.tsx": 5
   },
   "anatomy_hits": 25,
-  "anatomy_misses": 98,
-  "repeated_reads_warned": 179,
+  "anatomy_misses": 100,
+  "repeated_reads_warned": 184,
   "cerebrum_warnings": 0,
-  "stop_count": 38
+  "stop_count": 39
 }

@@ -1060,6 +1060,38 @@
       "related_bugs": [],
       "occurrences": 1,
       "last_seen": "2026-04-05T02:08:27.560Z"
+    },
+    {
+      "id": "bug-067",
+      "timestamp": "2026-04-05T02:21:19.970Z",
+      "error_message": "Null/undefined access in ",
+      "file": "forge/jarvis-v5-os/apps/web/src/components/akior/AkiorCore.tsx",
+      "root_cause": "Property access on potentially null/undefined value",
+      "fix": "Added null safety (optional chaining or null check)",
+      "tags": [
+        "auto-detected",
+        "null-safety",
+        "tsx"
+      ],
+      "related_bugs": [],
+      "occurrences": 1,
+      "last_seen": "2026-04-05T02:21:19.970Z"
+    },
+    {
+      "id": "bug-068",
+      "timestamp": "2026-04-05T02:23:11.656Z",
+      "error_message": "CSS fix: width, height",
+      "file": "forge/jarvis-v5-os/apps/web/src/components/akior/AkiorCore.tsx",
+      "root_cause": "width: isFullscreen ? \"100vw\" : \"100%\", → isFullscreen; height: isFullscreen ? \"100vh\" : \"100%\", → isFullscreen",
+      "fix": "Changed width: isFullscreen ? \"100vw\" : \"100%\", → isFullscreen; height: isFullscreen ? \"100vh\" : \"100%\", → isFullscreen",
+      "tags": [
+        "auto-detected",
+        "style-fix",
+        "tsx"
+      ],
+      "related_bugs": [],
+      "occurrences": 1,
+      "last_seen": "2026-04-05T02:23:11.656Z"
     }
   ]
 }
