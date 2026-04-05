@@ -567,3 +567,8 @@
 | 23:38 | Session end: 119 writes across 45 files (jarvis-ci.yml, brand.ts, akior-logo.svg, test-backend.js, index.html) | 132 reads | ~231386 tok |
 | 00:10 | Created ../../../tmp/akior_composition_audit.md | — | ~5537 |
 | 00:11 | Session end: 120 writes across 46 files (jarvis-ci.yml, brand.ts, akior-logo.svg, test-backend.js, index.html) | 139 reads | ~237318 tok |
+| 00:31 | Created forge/jarvis-v5-os/apps/web/src/components/akior/AkiorCore.tsx | — | ~4809 |
+| 00:31 | Edited forge/jarvis-v5-os/apps/web/app/login/page.tsx | inline fix | ~21 |
+| 00:31 | Edited forge/jarvis-v5-os/apps/web/src/components/JarvisAssistant.tsx | CSS: state, assistantSurface | ~191 |
+| 00:32 | Edited forge/jarvis-v5-os/apps/web/src/components/JarvisAssistant.tsx | 6→6 lines | ~56 |
+| 00:36 | Session end: 124 writes across 46 files (jarvis-ci.yml, brand.ts, akior-logo.svg, test-backend.js, index.html) | 142 reads | ~242782 tok |
