@@ -463,7 +463,7 @@
       "first_read": "2026-04-03T21:03:56.690Z"
     },
     "/Users/yosiwizman/akior/forge/jarvis-v5-os/apps/web/src/components/akior/AkiorCore.tsx": {
-      "count": 3,
+      "count": 4,
       "tokens": 0,
       "first_read": "2026-04-03T21:03:57.107Z"
     },
@@ -563,7 +563,7 @@
       "first_read": "2026-04-04T02:41:20.839Z"
     },
     "/Users/yosiwizman/akior/forge/jarvis-v5-os/apps/web/src/styles/akior.v3.css": {
-      "count": 3,
+      "count": 4,
       "tokens": 952,
       "first_read": "2026-04-04T12:53:34.002Z"
     },
@@ -611,6 +611,11 @@
       "count": 1,
       "tokens": 0,
       "first_read": "2026-04-04T15:06:59.044Z"
+    },
+    "/tmp/akior-layer-pack/jarvis.png": {
+      "count": 1,
+      "tokens": 0,
+      "first_read": "2026-04-05T00:27:10.653Z"
     }
   },
   "files_written": [
@@ -1231,6 +1236,12 @@
       "action": "edit",
       "tokens": 1011,
       "at": "2026-04-04T12:55:26.223Z"
+    },
+    {
+      "file": "/Users/yosiwizman/akior/forge/jarvis-v5-os/apps/web/src/components/akior/AkiorCore.tsx",
+      "action": "create",
+      "tokens": 1360,
+      "at": "2026-04-05T00:25:42.846Z"
     }
   ],
   "edit_counts": {
@@ -1280,11 +1291,12 @@
     "forge/jarvis-v5-os/apps/server/src/routes/llm.routes.ts": 3,
     "forge/jarvis-v5-os/apps/server/data/settings.json": 1,
     "forge/jarvis-v5-os/apps/web/app/jarvis/page.tsx": 16,
-    "forge/jarvis-v5-os/apps/web/src/styles/akior.v3.css": 3
+    "forge/jarvis-v5-os/apps/web/src/styles/akior.v3.css": 3,
+    "forge/jarvis-v5-os/apps/web/src/components/akior/AkiorCore.tsx": 1
   },
   "anatomy_hits": 25,
-  "anatomy_misses": 96,
-  "repeated_reads_warned": 176,
+  "anatomy_misses": 97,
+  "repeated_reads_warned": 178,
   "cerebrum_warnings": 0,
-  "stop_count": 36
+  "stop_count": 37
 }

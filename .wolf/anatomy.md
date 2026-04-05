@@ -1,7 +1,7 @@
 # anatomy.md
 
-> Auto-maintained by OpenWolf. Last scanned: 2026-04-04T12:55:26.214Z
-> Files: 638 tracked | Anatomy hits: 0 | Misses: 0
+> Auto-maintained by OpenWolf. Last scanned: 2026-04-05T00:25:42.838Z
+> Files: 639 tracked | Anatomy hits: 0 | Misses: 0
 
 ## ../.claude/projects/-Users-yosiwizman-akior/memory/
 
@@ -1131,6 +1131,10 @@
 - `HudWidget.tsx` — getWeatherEmoji (~3752 tok)
 - `JarvisAssistant.tsx` — FFT_BARS (~12590 tok)
 - `SetupRequiredBanner.tsx` — SetupRequiredBanner (~1094 tok)
+
+## forge/jarvis-v5-os/apps/web/src/components/akior/
+
+- `AkiorCore.tsx` — AkiorCore (~1360 tok)
 
 ## forge/jarvis-v5-os/apps/web/src/hooks/
 
