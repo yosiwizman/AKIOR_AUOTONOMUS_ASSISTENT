@@ -1,6 +1,6 @@
 # anatomy.md
 
-> Auto-maintained by OpenWolf. Last scanned: 2026-04-05T00:25:42.838Z
+> Auto-maintained by OpenWolf. Last scanned: 2026-04-05T02:08:27.550Z
 > Files: 639 tracked | Anatomy hits: 0 | Misses: 0
 
 ## ../.claude/projects/-Users-yosiwizman-akior/memory/
@@ -1134,7 +1134,7 @@
 
 ## forge/jarvis-v5-os/apps/web/src/components/akior/
 
-- `AkiorCore.tsx` — AkiorCore (~1360 tok)
+- `AkiorCore.tsx` — AkiorCore (~2879 tok)
 
 ## forge/jarvis-v5-os/apps/web/src/hooks/
 

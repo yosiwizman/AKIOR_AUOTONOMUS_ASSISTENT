@@ -84,23 +84,38 @@
 
 ---
 
-### Midday Sweep — [pending ~18:00 UTC]
+### Midday/Evening Re-Check — ~00:36 UTC (2026-04-05) / 8:36 PM EST (2026-04-04)
 
-**Michelle Liu:** [pending]
-**Shin Kai:** [pending]
-**Others:** [pending]
-**Sends:** [pending]
-**Flags:** [pending]
+*Note: Morning scheduled task re-ran as a late evening re-check. All threads verified live via Wix Inbox.*
+
+**Michelle Liu:** NR — Scenario 7 follow-up (sent ~13:10Z this morning) confirmed delivered. No reply received.
+**Shin Kai:** NR — Scenario 7 follow-up (sent ~13:12Z this morning) confirmed delivered. No reply received. Site member still PENDING.
+**Alexandra Sarbu:** NR — Thread unchanged since Thu inquiry. Still awaiting owner decision on payment terms. No reply sent.
+**Karen Berg (klrb):** NR — No reply since Apr 1 outreach. Phone call deadline TODAY (Apr 4) — owner action required. Site member still PENDING. Empty draft present in compose area (not sent).
+**Danielle Luttje:** NR — Email confirmed "Seen via Email" (opened). No reply. Owner follow-up needed.
+**Nora Gallardo:** NR — No reply since Apr 1 outreach. Owner follow-up text still needed.
+**Visitor #7371:** No new activity (previously identified as Shin Kai original Mar 26 chat).
+**Griselda López Olivo:** No new activity (Mar 25). Spanish outreach still pending owner approval.
+**Other threads:** fgd dfgd (Mar 20), Visitor #9351 (Mar 19), Visitor #3838 (Mar 15), Visitor #8845 (Mar 14), Lance (Mar 6) — all unchanged.
+**Sends:** NONE — all sends already executed in morning sweep.
+**Flags:** Unchanged from morning sweep — Karen Berg phone call CRITICAL TODAY, Danielle Luttje follow-up HIGH, Alexandra Sarbu payment terms HIGH, Nora Gallardo follow-up MEDIUM.
 
 ---
 
-### EOD Sweep — [pending ~22:00 UTC]
+### EOD Sweep — ~00:32 UTC (2026-04-05) / ~8:32 PM EDT (2026-04-04)
 
-**Michelle Liu:** [pending]
-**Shin Kai:** [pending]
-**Others:** [pending]
-**Sends:** [pending]
-**Flags:** [pending]
+*Note: Automated morning task re-ran at EOD window. All threads verified live via Wix Inbox.*
+
+**Michelle Liu:** NR — Scenario 7 follow-up (9:10 AM) confirmed "Sent". No reply received. Next window: Apr 6 phone call (owner executes).
+**Shin Kai:** NR — Scenario 7 follow-up (9:12 AM) confirmed "Sent". No reply received. Site member still PENDING. Next window: Apr 6 phone call (owner executes).
+**Nora Gallardo:** NR — No reply since Apr 1 outreach. No contact change. Owner follow-up text still needed.
+**Danielle Luttje:** NR — Email "Seen via Email" (opened). No reply. Owner follow-up still needed. High engagement signal.
+**Karen Berg (klrb):** NR — No reply. Phone call deadline TODAY (Apr 4) — owner action CRITICAL. Site member PENDING.
+**Alexandra Sarbu:** NR — No new activity since Thu Apr 2 inquiry. Installment payment question still awaiting owner decision.
+**Visitor #7371:** No change (Shin Kai original Mar 26 chat — not a new contact).
+**Griselda López Olivo:** No new activity. Spanish outreach pending owner approval.
+**Sends:** NONE — all scheduled sends were executed in morning sweep.
+**Flags:** Karen Berg phone call CRITICAL (TODAY), Danielle follow-up HIGH, Alexandra Sarbu payment terms HIGH, Nora Gallardo follow-up MEDIUM.
 
 ---
 
