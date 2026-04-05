@@ -13,7 +13,7 @@
       "first_read": "2026-04-05T19:35:17.436Z"
     },
     "/Users/yosiwizman/akior/forge/jarvis-v5-os/apps/server/src/clients/localLlmClient.ts": {
-      "count": 1,
+      "count": 4,
       "tokens": 0,
       "first_read": "2026-04-05T19:35:18.196Z"
     },
@@ -23,22 +23,22 @@
       "first_read": "2026-04-05T19:35:23.213Z"
     },
     "/Users/yosiwizman/akior/check-email.js": {
-      "count": 1,
+      "count": 3,
       "tokens": 0,
       "first_read": "2026-04-05T19:49:14.372Z"
     },
     "/Users/yosiwizman/akior/temp-imap.js": {
-      "count": 1,
+      "count": 3,
       "tokens": 0,
       "first_read": "2026-04-05T19:49:14.612Z"
     },
     "/Users/yosiwizman/.openclaw/openclaw.json": {
-      "count": 1,
+      "count": 4,
       "tokens": 0,
       "first_read": "2026-04-05T19:49:39.098Z"
     },
     "/Users/yosiwizman/akior/scripts/email-triage.md": {
-      "count": 1,
+      "count": 2,
       "tokens": 0,
       "first_read": "2026-04-05T19:49:55.718Z"
     },
@@ -48,16 +48,111 @@
       "first_read": "2026-04-05T19:49:58.843Z"
     },
     "/Users/yosiwizman/.openclaw/workspace-dev/skills/akior-email-hub/SKILL.md": {
-      "count": 1,
+      "count": 2,
       "tokens": 0,
       "first_read": "2026-04-05T19:50:15.928Z"
+    },
+    "/Users/yosiwizman/Library/LaunchAgents/ai.openclaw.gateway.plist": {
+      "count": 1,
+      "tokens": 0,
+      "first_read": "2026-04-05T20:08:19.407Z"
+    },
+    "/Users/yosiwizman/.openclaw/logs/gateway.log": {
+      "count": 1,
+      "tokens": 0,
+      "first_read": "2026-04-05T20:08:21.651Z"
+    },
+    "/Users/yosiwizman/.openclaw/logs/gateway.err.log": {
+      "count": 1,
+      "tokens": 0,
+      "first_read": "2026-04-05T20:08:21.994Z"
+    },
+    "/Users/yosiwizman/.openclaw/workspace-dev/skills/email-daily-summary/SKILL.md": {
+      "count": 2,
+      "tokens": 0,
+      "first_read": "2026-04-05T20:08:49.355Z"
+    },
+    "/Users/yosiwizman/.openclaw/workspace-dev/skills/imap-smtp-email/SKILL.md": {
+      "count": 2,
+      "tokens": 0,
+      "first_read": "2026-04-05T20:08:49.818Z"
+    },
+    "/Users/yosiwizman/.openclaw/workspace-dev/skills/akior-email-hub/scripts/unified-triage.js": {
+      "count": 1,
+      "tokens": 0,
+      "first_read": "2026-04-05T20:08:52.627Z"
+    },
+    "/Users/yosiwizman/.openclaw/workspace-dev/skills/gmail/SKILL.md": {
+      "count": 1,
+      "tokens": 0,
+      "first_read": "2026-04-05T20:08:52.880Z"
+    },
+    "/Users/yosiwizman/.openclaw/workspace-dev/skills/group-assistant/SKILL.md": {
+      "count": 1,
+      "tokens": 0,
+      "first_read": "2026-04-05T20:08:53.089Z"
+    },
+    "/Users/yosiwizman/akior/reports/email-triage-2026-04-04.md": {
+      "count": 1,
+      "tokens": 0,
+      "first_read": "2026-04-05T20:08:55.183Z"
+    },
+    "/Users/yosiwizman/akior/reports/email-triage-2026-04-04-afternoon.md": {
+      "count": 1,
+      "tokens": 0,
+      "first_read": "2026-04-05T20:08:55.571Z"
+    },
+    "/Users/yosiwizman/.openclaw/workspace-dev/skills/yahoo-mail/SKILL.md": {
+      "count": 1,
+      "tokens": 0,
+      "first_read": "2026-04-05T20:08:58.232Z"
+    },
+    "/Users/yosiwizman/.openclaw/workspace-dev/skills/gws-gmail-send/SKILL.md": {
+      "count": 1,
+      "tokens": 0,
+      "first_read": "2026-04-05T20:08:58.403Z"
+    },
+    "/Users/yosiwizman/.openclaw/workspace-dev/skills/gws-shared/SKILL.md": {
+      "count": 1,
+      "tokens": 0,
+      "first_read": "2026-04-05T20:08:59.304Z"
+    },
+    "/Users/yosiwizman/.openclaw/workspace-dev/skills/gmail-briefings/SKILL.md": {
+      "count": 1,
+      "tokens": 0,
+      "first_read": "2026-04-05T20:09:01.052Z"
+    },
+    "/Users/yosiwizman/akior/config/yahoo-email-config.yaml": {
+      "count": 1,
+      "tokens": 317,
+      "first_read": "2026-04-05T20:09:01.936Z"
+    },
+    "/Users/yosiwizman/.openclaw/workspace-dev/skills/cron-manager/SKILL.md": {
+      "count": 2,
+      "tokens": 0,
+      "first_read": "2026-04-05T20:09:04.445Z"
+    },
+    "/Users/yosiwizman/.openclaw/workspace-dev/skills/self-improving-agent/SKILL.md": {
+      "count": 1,
+      "tokens": 0,
+      "first_read": "2026-04-05T20:09:53.759Z"
+    },
+    "/Users/yosiwizman/.openclaw/workspace-dev/skills/agentic-workflow-automation/SKILL.md": {
+      "count": 1,
+      "tokens": 0,
+      "first_read": "2026-04-05T20:09:54.089Z"
+    },
+    "/Users/yosiwizman/akior/CLAUDE.md": {
+      "count": 1,
+      "tokens": 848,
+      "first_read": "2026-04-05T20:09:56.855Z"
     }
   },
   "files_written": [],
   "edit_counts": {},
-  "anatomy_hits": 4,
-  "anatomy_misses": 6,
-  "repeated_reads_warned": 0,
+  "anatomy_hits": 6,
+  "anatomy_misses": 23,
+  "repeated_reads_warned": 15,
   "cerebrum_warnings": 0,
-  "stop_count": 2
+  "stop_count": 3
 }

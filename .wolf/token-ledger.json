@@ -2,14 +2,14 @@
   "version": 1,
   "created_at": "2026-04-02T23:25:31.532Z",
   "lifetime": {
-    "total_tokens_estimated": 14138727,
-    "total_reads": 7125,
+    "total_tokens_estimated": 14144089,
+    "total_reads": 7154,
     "total_writes": 8139,
     "total_sessions": 10,
-    "anatomy_hits": 1529,
-    "anatomy_misses": 5576,
-    "repeated_reads_blocked": 9204,
-    "estimated_savings_vs_bare_cli": 96118380
+    "anatomy_hits": 1535,
+    "anatomy_misses": 5599,
+    "repeated_reads_blocked": 9219,
+    "estimated_savings_vs_bare_cli": 96119580
   },
   "sessions": [
     {
@@ -85725,6 +85725,196 @@
         "writes_count": 0,
         "repeated_reads_blocked": 0,
         "anatomy_lookups": 4
+      }
+    },
+    {
+      "id": "session-2026-04-05-1451",
+      "started": "2026-04-05T18:51:29.434Z",
+      "ended": "2026-04-05T20:16:48.863Z",
+      "reads": [
+        {
+          "file": "/Users/yosiwizman/akior/forge/jarvis-v5-os/apps/server/data/settings.json",
+          "tokens_estimated": 833,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/forge/jarvis-v5-os/apps/server/data/llm-config.json",
+          "tokens_estimated": 23,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/forge/jarvis-v5-os/apps/server/src/clients/localLlmClient.ts",
+          "tokens_estimated": 0,
+          "was_repeated": true,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/forge/jarvis-v5-os/apps/server/src/routes/llm.routes.ts",
+          "tokens_estimated": 3216,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/check-email.js",
+          "tokens_estimated": 0,
+          "was_repeated": true,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/temp-imap.js",
+          "tokens_estimated": 0,
+          "was_repeated": true,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/.openclaw/openclaw.json",
+          "tokens_estimated": 0,
+          "was_repeated": true,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/scripts/email-triage.md",
+          "tokens_estimated": 0,
+          "was_repeated": true,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/config/hooks/akior-tmux-watchdog.sh",
+          "tokens_estimated": 125,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/.openclaw/workspace-dev/skills/akior-email-hub/SKILL.md",
+          "tokens_estimated": 0,
+          "was_repeated": true,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/Library/LaunchAgents/ai.openclaw.gateway.plist",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/.openclaw/logs/gateway.log",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/.openclaw/logs/gateway.err.log",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/.openclaw/workspace-dev/skills/email-daily-summary/SKILL.md",
+          "tokens_estimated": 0,
+          "was_repeated": true,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/.openclaw/workspace-dev/skills/imap-smtp-email/SKILL.md",
+          "tokens_estimated": 0,
+          "was_repeated": true,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/.openclaw/workspace-dev/skills/akior-email-hub/scripts/unified-triage.js",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/.openclaw/workspace-dev/skills/gmail/SKILL.md",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/.openclaw/workspace-dev/skills/group-assistant/SKILL.md",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/reports/email-triage-2026-04-04.md",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/reports/email-triage-2026-04-04-afternoon.md",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/.openclaw/workspace-dev/skills/yahoo-mail/SKILL.md",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/.openclaw/workspace-dev/skills/gws-gmail-send/SKILL.md",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/.openclaw/workspace-dev/skills/gws-shared/SKILL.md",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/.openclaw/workspace-dev/skills/gmail-briefings/SKILL.md",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/config/yahoo-email-config.yaml",
+          "tokens_estimated": 317,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/.openclaw/workspace-dev/skills/cron-manager/SKILL.md",
+          "tokens_estimated": 0,
+          "was_repeated": true,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/.openclaw/workspace-dev/skills/self-improving-agent/SKILL.md",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/.openclaw/workspace-dev/skills/agentic-workflow-automation/SKILL.md",
+          "tokens_estimated": 0,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        },
+        {
+          "file": "/Users/yosiwizman/akior/CLAUDE.md",
+          "tokens_estimated": 848,
+          "was_repeated": false,
+          "anatomy_had_description": false
+        }
+      ],
+      "writes": [],
+      "totals": {
+        "input_tokens_estimated": 5362,
+        "output_tokens_estimated": 0,
+        "reads_count": 29,
+        "writes_count": 0,
+        "repeated_reads_blocked": 15,
+        "anatomy_lookups": 6
       }
     }
   ],
