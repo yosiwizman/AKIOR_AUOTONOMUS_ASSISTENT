@@ -103,8 +103,8 @@
       "first_read": "2026-04-03T17:04:38.502Z"
     },
     "/Users/yosiwizman/akior/forge/jarvis-v5-os/apps/web/src/components/JarvisAssistant.tsx": {
-      "count": 20,
-      "tokens": 12590,
+      "count": 21,
+      "tokens": 12535,
       "first_read": "2026-04-03T17:04:46.016Z"
     },
     "/Users/yosiwizman/akior/forge/jarvis-v5-os/apps/web/src/components/JarvisModelViewer.tsx": {
@@ -1351,7 +1351,7 @@
   },
   "anatomy_hits": 25,
   "anatomy_misses": 102,
-  "repeated_reads_warned": 188,
+  "repeated_reads_warned": 189,
   "cerebrum_warnings": 0,
-  "stop_count": 40
+  "stop_count": 41
 }
