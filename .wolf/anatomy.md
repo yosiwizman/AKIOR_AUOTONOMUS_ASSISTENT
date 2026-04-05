@@ -1,7 +1,7 @@
 # anatomy.md
 
-> Auto-maintained by OpenWolf. Last scanned: 2026-04-05T14:27:54.122Z
-> Files: 643 tracked | Anatomy hits: 0 | Misses: 0
+> Auto-maintained by OpenWolf. Last scanned: 2026-04-05T20:49:35.310Z
+> Files: 645 tracked | Anatomy hits: 0 | Misses: 0
 
 ## ../../../tmp/
 
@@ -21,7 +21,7 @@
 
 ## ../.openclaw/
 
-- `openclaw.json` (~1031 tok)
+- `openclaw.json` (~1131 tok)
 - `SOUL.md` — AKIOR — Autonomous AI Operating System (~1678 tok)
 
 ## ../.openclaw/workspace-dev/
@@ -84,6 +84,7 @@
 - `bootstrap-complete.json` (~189 tok)
 - `phase3-execution-plan.md` — Phase 3 Deferred Execution Plan (~578 tok)
 - `resume-queue.md` — Resume Queue (~4 tok)
+- `task-15-local-only-pivot-20260405T2042Z.md` — Checkpoint — Task 15: Local-only pivot patch (~647 tok)
 - `voice-transcription-setup.md` — Voice Transcription Setup Checkpoint (~298 tok)
 
 ## communications/
@@ -1211,6 +1212,7 @@
 
 ## scripts/
 
+- `ollama-local-llm.sh` — ollama-local-llm.sh — local LLM CLI wrapper for AKIOR (~456 tok)
 - `whisper-transcribe.sh` — whisper-transcribe.sh — Transcribe audio files via whisper-cpp (~276 tok)
 
 ## skills/clawring/
