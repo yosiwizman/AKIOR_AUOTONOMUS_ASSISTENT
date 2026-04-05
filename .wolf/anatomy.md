@@ -1,7 +1,7 @@
 # anatomy.md
 
-> Auto-maintained by OpenWolf. Last scanned: 2026-04-05T20:49:35.310Z
-> Files: 645 tracked | Anatomy hits: 0 | Misses: 0
+> Auto-maintained by OpenWolf. Last scanned: 2026-04-05T21:15:23.994Z
+> Files: 647 tracked | Anatomy hits: 0 | Misses: 0
 
 ## ../../../tmp/
 
@@ -27,6 +27,10 @@
 ## ../.openclaw/workspace-dev/
 
 - `SOUL.md` — AKIOR — Autonomous AI Operating System (~1678 tok)
+
+## ../.openclaw/workspace-dev/skills/akior-email-hub/scripts/
+
+- `unified-triage.js` — fs: classifyEmail, localSummarize (~2748 tok)
 
 ## ../.openclaw/workspace-dev/skills/clawring/
 
@@ -85,6 +89,7 @@
 - `phase3-execution-plan.md` — Phase 3 Deferred Execution Plan (~578 tok)
 - `resume-queue.md` — Resume Queue (~4 tok)
 - `task-15-local-only-pivot-20260405T2042Z.md` — Checkpoint — Task 15: Local-only pivot patch (~647 tok)
+- `task-16-local-triage-cutover-20260405T2113Z.md` — Checkpoint — Task 16: Local email-triage cutover (~913 tok)
 - `voice-transcription-setup.md` — Voice Transcription Setup Checkpoint (~298 tok)
 
 ## communications/
