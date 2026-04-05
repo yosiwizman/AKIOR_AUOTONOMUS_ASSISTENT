@@ -118,7 +118,7 @@
       "first_read": "2026-04-03T17:04:47.223Z"
     },
     "/Users/yosiwizman/akior/forge/jarvis-v5-os/apps/web/app/menu/page.tsx": {
-      "count": 1,
+      "count": 2,
       "tokens": 0,
       "first_read": "2026-04-03T17:04:53.304Z"
     },
@@ -228,7 +228,7 @@
       "first_read": "2026-04-03T17:07:36.061Z"
     },
     "/Users/yosiwizman/akior/forge/jarvis-v5-os/apps/web/app/settings/page.tsx": {
-      "count": 4,
+      "count": 6,
       "tokens": 43715,
       "first_read": "2026-04-03T17:07:40.495Z"
     },
@@ -273,7 +273,7 @@
       "first_read": "2026-04-03T17:12:11.067Z"
     },
     "/Users/yosiwizman/akior/forge/jarvis-v5-os/apps/server/src/index.ts": {
-      "count": 4,
+      "count": 6,
       "tokens": 43536,
       "first_read": "2026-04-03T19:10:28.213Z"
     },
@@ -806,6 +806,11 @@
       "count": 1,
       "tokens": 0,
       "first_read": "2026-04-05T14:30:54.727Z"
+    },
+    "/Users/yosiwizman/akior/forge/jarvis-v5-os/apps/server/src/clients/localLlmClient.ts": {
+      "count": 1,
+      "tokens": 0,
+      "first_read": "2026-04-05T15:00:12.565Z"
     }
   },
   "files_written": [
@@ -1831,8 +1836,8 @@
     "../../../tmp/akior_visual_fidelity_forensic.md": 1
   },
   "anatomy_hits": 25,
-  "anatomy_misses": 135,
-  "repeated_reads_warned": 224,
+  "anatomy_misses": 136,
+  "repeated_reads_warned": 229,
   "cerebrum_warnings": 0,
-  "stop_count": 52
+  "stop_count": 53
 }
