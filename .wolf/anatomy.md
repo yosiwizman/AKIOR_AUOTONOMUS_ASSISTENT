@@ -1,7 +1,7 @@
 # anatomy.md
 
-> Auto-maintained by OpenWolf. Last scanned: 2026-04-05T21:15:23.994Z
-> Files: 647 tracked | Anatomy hits: 0 | Misses: 0
+> Auto-maintained by OpenWolf. Last scanned: 2026-04-05T21:28:45.828Z
+> Files: 651 tracked | Anatomy hits: 0 | Misses: 0
 
 ## ../../../tmp/
 
@@ -23,6 +23,10 @@
 
 - `openclaw.json` (~1131 tok)
 - `SOUL.md` — AKIOR — Autonomous AI Operating System (~1678 tok)
+
+## ../.openclaw/cron/
+
+- `jobs.json` (~2496 tok)
 
 ## ../.openclaw/workspace-dev/
 
@@ -55,6 +59,7 @@
 - `ai.openclaw.gateway.plist` (~672 tok)
 - `com.akior.dashboard-api.plist` (~227 tok)
 - `com.akior.dashboard.plist` (~227 tok)
+- `com.akior.email-triage-local.plist` (~509 tok)
 - `com.akior.ui-backend.plist` (~331 tok)
 - `com.akior.ui-frontend.plist` (~322 tok)
 
@@ -90,6 +95,7 @@
 - `resume-queue.md` — Resume Queue (~4 tok)
 - `task-15-local-only-pivot-20260405T2042Z.md` — Checkpoint — Task 15: Local-only pivot patch (~647 tok)
 - `task-16-local-triage-cutover-20260405T2113Z.md` — Checkpoint — Task 16: Local email-triage cutover (~913 tok)
+- `task-17-local-triage-scheduler-20260405T2124Z.md` — Checkpoint — Task 17: Local-only autonomous email-triage scheduler (~964 tok)
 - `voice-transcription-setup.md` — Voice Transcription Setup Checkpoint (~298 tok)
 
 ## communications/
@@ -1218,6 +1224,7 @@
 ## scripts/
 
 - `ollama-local-llm.sh` — ollama-local-llm.sh — local LLM CLI wrapper for AKIOR (~456 tok)
+- `run-local-email-triage.sh` — run-local-email-triage.sh — AKIOR Task 17 (~550 tok)
 - `whisper-transcribe.sh` — whisper-transcribe.sh — Transcribe audio files via whisper-cpp (~276 tok)
 
 ## skills/clawring/

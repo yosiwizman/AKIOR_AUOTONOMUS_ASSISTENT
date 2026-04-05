@@ -1444,6 +1444,22 @@
       "related_bugs": [],
       "occurrences": 2,
       "last_seen": "2026-04-05T21:13:29.344Z"
+    },
+    {
+      "id": "bug-091",
+      "timestamp": "2026-04-05T21:24:16.168Z",
+      "error_message": "Wrong reference: true should be false",
+      "file": "../.openclaw/cron/jobs.json",
+      "root_cause": "Used \"true\" instead of \"false\"",
+      "fix": "Changed true → false",
+      "tags": [
+        "auto-detected",
+        "wrong-reference",
+        "json"
+      ],
+      "related_bugs": [],
+      "occurrences": 1,
+      "last_seen": "2026-04-05T21:24:16.168Z"
     }
   ]
 }

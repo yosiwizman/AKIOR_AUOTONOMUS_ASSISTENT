@@ -146,6 +146,11 @@
       "count": 1,
       "tokens": 848,
       "first_read": "2026-04-05T20:09:56.855Z"
+    },
+    "/Users/yosiwizman/.openclaw/cron/jobs.json": {
+      "count": 1,
+      "tokens": 0,
+      "first_read": "2026-04-05T21:24:12.099Z"
     }
   },
   "files_written": [
@@ -250,6 +255,30 @@
       "action": "create",
       "tokens": 1043,
       "at": "2026-04-05T21:15:24.002Z"
+    },
+    {
+      "file": "/Users/yosiwizman/.openclaw/cron/jobs.json",
+      "action": "edit",
+      "tokens": 30,
+      "at": "2026-04-05T21:24:16.167Z"
+    },
+    {
+      "file": "/Users/yosiwizman/akior/scripts/run-local-email-triage.sh",
+      "action": "create",
+      "tokens": 589,
+      "at": "2026-04-05T21:24:39.170Z"
+    },
+    {
+      "file": "/Users/yosiwizman/Library/LaunchAgents/com.akior.email-triage-local.plist",
+      "action": "create",
+      "tokens": 546,
+      "at": "2026-04-05T21:25:03.235Z"
+    },
+    {
+      "file": "/Users/yosiwizman/akior/checkpoints/task-17-local-triage-scheduler-20260405T2124Z.md",
+      "action": "create",
+      "tokens": 1102,
+      "at": "2026-04-05T21:28:45.835Z"
     }
   ],
   "edit_counts": {
@@ -257,11 +286,15 @@
     "scripts/ollama-local-llm.sh": 1,
     "checkpoints/task-15-local-only-pivot-20260405T2042Z.md": 1,
     "../.openclaw/workspace-dev/skills/akior-email-hub/scripts/unified-triage.js": 5,
-    "checkpoints/task-16-local-triage-cutover-20260405T2113Z.md": 1
+    "checkpoints/task-16-local-triage-cutover-20260405T2113Z.md": 1,
+    "../.openclaw/cron/jobs.json": 1,
+    "scripts/run-local-email-triage.sh": 1,
+    "../Library/LaunchAgents/com.akior.email-triage-local.plist": 1,
+    "checkpoints/task-17-local-triage-scheduler-20260405T2124Z.md": 1
   },
   "anatomy_hits": 6,
-  "anatomy_misses": 23,
+  "anatomy_misses": 24,
   "repeated_reads_warned": 18,
   "cerebrum_warnings": 0,
-  "stop_count": 5
+  "stop_count": 6
 }
