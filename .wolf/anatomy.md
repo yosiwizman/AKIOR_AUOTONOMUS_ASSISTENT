@@ -1,6 +1,6 @@
 # anatomy.md
 
-> Auto-maintained by OpenWolf. Last scanned: 2026-04-05T13:16:35.376Z
+> Auto-maintained by OpenWolf. Last scanned: 2026-04-05T14:27:54.122Z
 > Files: 643 tracked | Anatomy hits: 0 | Misses: 0
 
 ## ../../../tmp/
@@ -1108,7 +1108,7 @@
 
 ## forge/jarvis-v5-os/apps/web/app/jarvis/
 
-- `page.tsx` — Dedicated Full-Screen AKIOR Page (~12042 tok)
+- `page.tsx` — Dedicated Full-Screen AKIOR Page (~12279 tok)
 
 ## forge/jarvis-v5-os/apps/web/app/login/
 
@@ -1136,12 +1136,12 @@
 - `BrandMark.tsx` — Dynamic AKIOR brand mark component — production orb renderer (~297 tok)
 - `FileUpload.tsx` — FileUpload (~2059 tok)
 - `HudWidget.tsx` — getWeatherEmoji (~3752 tok)
-- `JarvisAssistant.tsx` — FFT_BARS (~13224 tok)
+- `JarvisAssistant.tsx` — FFT_BARS (~14562 tok)
 - `SetupRequiredBanner.tsx` — SetupRequiredBanner (~1094 tok)
 
 ## forge/jarvis-v5-os/apps/web/src/components/akior/
 
-- `AkiorCore.tsx` — Surface recipe system. Each surface declares its own layer set + density. (~5355 tok)
+- `AkiorCore.tsx` — Surface recipe system. Each surface declares its own layer set + density. (~5378 tok)
 
 ## forge/jarvis-v5-os/apps/web/src/hooks/
 
@@ -1155,7 +1155,7 @@
 
 ## forge/jarvis-v5-os/apps/web/src/styles/
 
-- `akior.v3.css` — Styles: 36 rules, 4 vars (~952 tok)
+- `akior.v3.css` — Styles: 40 rules, 4 vars (~1176 tok)
 
 ## forge/jarvis-v5-os/deploy/
 
