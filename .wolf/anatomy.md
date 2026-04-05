@@ -1,13 +1,14 @@
 # anatomy.md
 
-> Auto-maintained by OpenWolf. Last scanned: 2026-04-05T04:32:09.788Z
-> Files: 642 tracked | Anatomy hits: 0 | Misses: 0
+> Auto-maintained by OpenWolf. Last scanned: 2026-04-05T04:55:54.525Z
+> Files: 643 tracked | Anatomy hits: 0 | Misses: 0
 
 ## ../../../tmp/
 
 - `akior_asset_verification.md` — AKIOR CANONICAL ASSET VERIFICATION — 2026-04-04 (~3215 tok)
 - `akior_composition_audit.md` — AKIOR VISUAL COMPOSITION AUDIT — 2026-04-05 (~5191 tok)
 - `akior_forensic_audit.md` — AKIOR FORENSIC AUDIT — 2026-04-04 (~5437 tok)
+- `akior_visual_fidelity_forensic.md` — AKIOR VISUAL FIDELITY FORENSIC — 2026-04-05 (~5202 tok)
 
 ## ../.claude/projects/-Users-yosiwizman-akior/memory/
 

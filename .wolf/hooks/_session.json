@@ -711,6 +711,36 @@
       "count": 1,
       "tokens": 0,
       "first_read": "2026-04-05T04:35:07.291Z"
+    },
+    "/tmp/akior-forensic/raw-rings-native.png": {
+      "count": 1,
+      "tokens": 0,
+      "first_read": "2026-04-05T04:50:42.448Z"
+    },
+    "/tmp/akior-forensic/isolate-rings.png": {
+      "count": 1,
+      "tokens": 0,
+      "first_read": "2026-04-05T04:50:49.634Z"
+    },
+    "/tmp/akior-forensic/isolate-beam.png": {
+      "count": 1,
+      "tokens": 0,
+      "first_read": "2026-04-05T04:50:50.191Z"
+    },
+    "/tmp/akior-forensic/isolate-emblem.png": {
+      "count": 1,
+      "tokens": 0,
+      "first_read": "2026-04-05T04:50:50.454Z"
+    },
+    "/tmp/akior-forensic/isolate-bgcanvas.png": {
+      "count": 1,
+      "tokens": 0,
+      "first_read": "2026-04-05T04:50:51.232Z"
+    },
+    "/tmp/akior-forensic/current-menu-open-outlined.png": {
+      "count": 1,
+      "tokens": 0,
+      "first_read": "2026-04-05T04:50:51.740Z"
     }
   },
   "files_written": [
@@ -1457,6 +1487,12 @@
       "action": "edit",
       "tokens": 56,
       "at": "2026-04-05T04:32:09.796Z"
+    },
+    {
+      "file": "/tmp/akior_visual_fidelity_forensic.md",
+      "action": "create",
+      "tokens": 5945,
+      "at": "2026-04-05T04:55:54.533Z"
     }
   ],
   "edit_counts": {
@@ -1510,11 +1546,12 @@
     "forge/jarvis-v5-os/apps/web/src/components/akior/AkiorCore.tsx": 9,
     "../../../tmp/akior_forensic_audit.md": 1,
     "../../../tmp/akior_asset_verification.md": 1,
-    "../../../tmp/akior_composition_audit.md": 1
+    "../../../tmp/akior_composition_audit.md": 1,
+    "../../../tmp/akior_visual_fidelity_forensic.md": 1
   },
   "anatomy_hits": 25,
-  "anatomy_misses": 116,
+  "anatomy_misses": 122,
   "repeated_reads_warned": 195,
   "cerebrum_warnings": 0,
-  "stop_count": 46
+  "stop_count": 47
 }
