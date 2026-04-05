@@ -1108,6 +1108,38 @@
       "related_bugs": [],
       "occurrences": 1,
       "last_seen": "2026-04-05T02:36:41.871Z"
+    },
+    {
+      "id": "bug-070",
+      "timestamp": "2026-04-05T03:33:27.829Z",
+      "error_message": "Missing guard clause",
+      "file": "forge/jarvis-v5-os/apps/web/src/components/akior/AkiorCore.tsx",
+      "root_cause": "No early return/throw for edge case: isCompact",
+      "fix": "Added guard clause: if (isCompact)",
+      "tags": [
+        "auto-detected",
+        "guard-clause",
+        "tsx"
+      ],
+      "related_bugs": [],
+      "occurrences": 1,
+      "last_seen": "2026-04-05T03:33:27.829Z"
+    },
+    {
+      "id": "bug-071",
+      "timestamp": "2026-04-05T03:35:01.570Z",
+      "error_message": "Incorrect value in code",
+      "file": "forge/jarvis-v5-os/apps/web/src/components/JarvisAssistant.tsx",
+      "root_cause": "Had \"absolute bottom-[-120px] left-1/2 -translate-x-1/",
+      "fix": "Changed to \"text-center space-y-4 w-full max-w-md\"",
+      "tags": [
+        "auto-detected",
+        "wrong-value",
+        "tsx"
+      ],
+      "related_bugs": [],
+      "occurrences": 1,
+      "last_seen": "2026-04-05T03:35:01.570Z"
     }
   ]
 }

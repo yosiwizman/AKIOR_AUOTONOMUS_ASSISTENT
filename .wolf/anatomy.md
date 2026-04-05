@@ -1,6 +1,6 @@
 # anatomy.md
 
-> Auto-maintained by OpenWolf. Last scanned: 2026-04-05T03:20:43.080Z
+> Auto-maintained by OpenWolf. Last scanned: 2026-04-05T03:35:17.713Z
 > Files: 641 tracked | Anatomy hits: 0 | Misses: 0
 
 ## ../../../tmp/
@@ -1110,7 +1110,7 @@
 
 ## forge/jarvis-v5-os/apps/web/app/login/
 
-- `page.tsx` — LoginContent — renders form (~3490 tok)
+- `page.tsx` — LoginContent — renders form (~3494 tok)
 
 ## forge/jarvis-v5-os/apps/web/app/settings/
 
@@ -1134,12 +1134,12 @@
 - `BrandMark.tsx` — Dynamic AKIOR brand mark component — production orb renderer (~297 tok)
 - `FileUpload.tsx` — FileUpload (~2059 tok)
 - `HudWidget.tsx` — getWeatherEmoji (~3752 tok)
-- `JarvisAssistant.tsx` — FFT_BARS (~12535 tok)
+- `JarvisAssistant.tsx` — FFT_BARS (~12452 tok)
 - `SetupRequiredBanner.tsx` — SetupRequiredBanner (~1094 tok)
 
 ## forge/jarvis-v5-os/apps/web/src/components/akior/
 
-- `AkiorCore.tsx` — AkiorCore (~2978 tok)
+- `AkiorCore.tsx` — Visual density. (~3358 tok)
 
 ## forge/jarvis-v5-os/apps/web/src/hooks/
 
