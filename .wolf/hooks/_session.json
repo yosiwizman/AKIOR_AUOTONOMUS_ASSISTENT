@@ -21,13 +21,43 @@
       "count": 1,
       "tokens": 3216,
       "first_read": "2026-04-05T19:35:23.213Z"
+    },
+    "/Users/yosiwizman/akior/check-email.js": {
+      "count": 1,
+      "tokens": 0,
+      "first_read": "2026-04-05T19:49:14.372Z"
+    },
+    "/Users/yosiwizman/akior/temp-imap.js": {
+      "count": 1,
+      "tokens": 0,
+      "first_read": "2026-04-05T19:49:14.612Z"
+    },
+    "/Users/yosiwizman/.openclaw/openclaw.json": {
+      "count": 1,
+      "tokens": 0,
+      "first_read": "2026-04-05T19:49:39.098Z"
+    },
+    "/Users/yosiwizman/akior/scripts/email-triage.md": {
+      "count": 1,
+      "tokens": 0,
+      "first_read": "2026-04-05T19:49:55.718Z"
+    },
+    "/Users/yosiwizman/akior/config/hooks/akior-tmux-watchdog.sh": {
+      "count": 1,
+      "tokens": 125,
+      "first_read": "2026-04-05T19:49:58.843Z"
+    },
+    "/Users/yosiwizman/.openclaw/workspace-dev/skills/akior-email-hub/SKILL.md": {
+      "count": 1,
+      "tokens": 0,
+      "first_read": "2026-04-05T19:50:15.928Z"
     }
   },
   "files_written": [],
   "edit_counts": {},
-  "anatomy_hits": 3,
-  "anatomy_misses": 1,
+  "anatomy_hits": 4,
+  "anatomy_misses": 6,
   "repeated_reads_warned": 0,
   "cerebrum_warnings": 0,
-  "stop_count": 1
+  "stop_count": 2
 }
