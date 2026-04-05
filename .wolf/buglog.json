@@ -1156,6 +1156,54 @@
       "related_bugs": [],
       "occurrences": 1,
       "last_seen": "2026-04-05T04:31:36.443Z"
+    },
+    {
+      "id": "bug-073",
+      "timestamp": "2026-04-05T05:17:48.561Z",
+      "error_message": "CSS fix: height",
+      "file": "forge/jarvis-v5-os/apps/web/src/components/akior/AkiorCore.tsx",
+      "root_cause": "height: isFullscreenClass → isFullscreenClass ? \"100vh\" : undefined,",
+      "fix": "Changed height: isFullscreenClass → isFullscreenClass ? \"100vh\" : undefined,",
+      "tags": [
+        "auto-detected",
+        "style-fix",
+        "tsx"
+      ],
+      "related_bugs": [],
+      "occurrences": 1,
+      "last_seen": "2026-04-05T05:17:48.561Z"
+    },
+    {
+      "id": "bug-074",
+      "timestamp": "2026-04-05T05:17:59.561Z",
+      "error_message": "Significant refactor of ",
+      "file": "forge/jarvis-v5-os/apps/web/src/components/akior/AkiorCore.tsx",
+      "root_cause": "2 lines replaced/restructured",
+      "fix": "Rewrote 7→18 lines (2 removed) | Also: const rect = container!.getBoundingClientRect();; width = rect.width;",
+      "tags": [
+        "auto-detected",
+        "refactor",
+        "tsx"
+      ],
+      "related_bugs": [],
+      "occurrences": 2,
+      "last_seen": "2026-04-05T05:22:11.906Z"
+    },
+    {
+      "id": "bug-075",
+      "timestamp": "2026-04-05T05:18:07.222Z",
+      "error_message": "Type error",
+      "file": "forge/jarvis-v5-os/apps/web/src/components/akior/AkiorCore.tsx",
+      "root_cause": "Missing or incorrect type annotation",
+      "fix": "Added type assertion/annotation",
+      "tags": [
+        "auto-detected",
+        "type-fix",
+        "tsx"
+      ],
+      "related_bugs": [],
+      "occurrences": 1,
+      "last_seen": "2026-04-05T05:18:07.222Z"
     }
   ]
 }

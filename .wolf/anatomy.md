@@ -1,6 +1,6 @@
 # anatomy.md
 
-> Auto-maintained by OpenWolf. Last scanned: 2026-04-05T04:55:54.525Z
+> Auto-maintained by OpenWolf. Last scanned: 2026-04-05T05:22:11.897Z
 > Files: 643 tracked | Anatomy hits: 0 | Misses: 0
 
 ## ../../../tmp/
@@ -1141,7 +1141,7 @@
 
 ## forge/jarvis-v5-os/apps/web/src/components/akior/
 
-- `AkiorCore.tsx` — Surface recipe system. Each surface declares its own layer set + density. (~4809 tok)
+- `AkiorCore.tsx` — Surface recipe system. Each surface declares its own layer set + density. (~5302 tok)
 
 ## forge/jarvis-v5-os/apps/web/src/hooks/
 
