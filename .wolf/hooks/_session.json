@@ -426,6 +426,30 @@
       "action": "edit",
       "tokens": 689,
       "at": "2026-04-06T01:51:53.160Z"
+    },
+    {
+      "file": "/Users/yosiwizman/akior/scripts/morning-briefing-local.sh",
+      "action": "create",
+      "tokens": 2087,
+      "at": "2026-04-06T04:13:03.751Z"
+    },
+    {
+      "file": "/Users/yosiwizman/Library/LaunchAgents/com.akior.morning-briefing-local.plist",
+      "action": "create",
+      "tokens": 389,
+      "at": "2026-04-06T04:13:14.521Z"
+    },
+    {
+      "file": "/Users/yosiwizman/akior/scripts/morning-briefing-local.sh",
+      "action": "edit",
+      "tokens": 282,
+      "at": "2026-04-06T04:14:31.923Z"
+    },
+    {
+      "file": "/Users/yosiwizman/akior/checkpoints/task-81-morning-briefing-local-20260406T0415Z.md",
+      "action": "create",
+      "tokens": 868,
+      "at": "2026-04-06T04:15:44.563Z"
     }
   ],
   "edit_counts": {
@@ -445,11 +469,14 @@
     "checkpoints/task-76-canary-regression-local-20260406T0125Z.md": 1,
     "scripts/evening-summary-local.sh": 1,
     "../Library/LaunchAgents/com.akior.evening-summary-local.plist": 1,
-    "checkpoints/task-78-evening-summary-local-20260406T0145Z.md": 1
+    "checkpoints/task-78-evening-summary-local-20260406T0145Z.md": 1,
+    "scripts/morning-briefing-local.sh": 2,
+    "../Library/LaunchAgents/com.akior.morning-briefing-local.plist": 1,
+    "checkpoints/task-81-morning-briefing-local-20260406T0415Z.md": 1
   },
   "anatomy_hits": 9,
   "anatomy_misses": 24,
   "repeated_reads_warned": 22,
   "cerebrum_warnings": 0,
-  "stop_count": 15
+  "stop_count": 16
 }

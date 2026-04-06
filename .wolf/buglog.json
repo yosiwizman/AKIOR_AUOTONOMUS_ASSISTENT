@@ -1508,6 +1508,22 @@
       "related_bugs": [],
       "occurrences": 1,
       "last_seen": "2026-04-06T01:34:09.623Z"
+    },
+    {
+      "id": "bug-095",
+      "timestamp": "2026-04-06T04:14:31.924Z",
+      "error_message": "Significant refactor of ",
+      "file": "scripts/morning-briefing-local.sh",
+      "root_cause": "9 lines replaced/restructured",
+      "fix": "Rewrote 34→43 lines (9 removed)",
+      "tags": [
+        "auto-detected",
+        "refactor",
+        "sh"
+      ],
+      "related_bugs": [],
+      "occurrences": 1,
+      "last_seen": "2026-04-06T04:14:31.924Z"
     }
   ]
 }

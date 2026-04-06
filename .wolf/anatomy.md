@@ -1,7 +1,7 @@
 # anatomy.md
 
-> Auto-maintained by OpenWolf. Last scanned: 2026-04-06T01:51:53.153Z
-> Files: 658 tracked | Anatomy hits: 0 | Misses: 0
+> Auto-maintained by OpenWolf. Last scanned: 2026-04-06T04:15:44.556Z
+> Files: 661 tracked | Anatomy hits: 0 | Misses: 0
 
 ## ../../../tmp/
 
@@ -62,6 +62,7 @@
 - `com.akior.dashboard.plist` (~227 tok)
 - `com.akior.email-triage-local.plist` (~509 tok)
 - `com.akior.evening-summary-local.plist` (~354 tok)
+- `com.akior.morning-briefing-local.plist` (~363 tok)
 - `com.akior.ui-backend.plist` (~331 tok)
 - `com.akior.ui-frontend.plist` (~322 tok)
 - `com.akior.weekly-regression-local.plist` (~388 tok)
@@ -102,6 +103,7 @@
 - `task-74-paid-cron-neutralization-20260406T0041Z.md` — Checkpoint — Task 74: Neutralize remaining paid OpenClaw cron jobs (~550 tok)
 - `task-76-canary-regression-local-20260406T0125Z.md` — Checkpoint — Task 76: Localize canary-health and weekly-regression as local launchd agents (~725 tok)
 - `task-78-evening-summary-local-20260406T0145Z.md` — Checkpoint — Task 78: Localize evening-summary as local Ollama-driven launchd workflow (~717 tok)
+- `task-81-morning-briefing-local-20260406T0415Z.md` — Checkpoint — Task 81: Build and register local-only morning briefing (~759 tok)
 - `voice-transcription-setup.md` — Voice Transcription Setup Checkpoint (~298 tok)
 
 ## communications/
@@ -1230,6 +1232,7 @@
 ## scripts/
 
 - `evening-summary-local.sh` — evening-summary-local.sh — AKIOR Task 78 (~1168 tok)
+- `morning-briefing-local.sh` — morning-briefing-local.sh — AKIOR Task 81 (~2022 tok)
 - `ollama-local-llm.sh` — ollama-local-llm.sh — local LLM CLI wrapper for AKIOR (~456 tok)
 - `run-local-email-triage.sh` — run-local-email-triage.sh — AKIOR Task 17 (~550 tok)
 - `whisper-transcribe.sh` — whisper-transcribe.sh — Transcribe audio files via whisper-cpp (~276 tok)

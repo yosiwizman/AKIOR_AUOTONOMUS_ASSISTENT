@@ -676,3 +676,8 @@
 | 21:52 | Session end: 43 writes across 17 files (openclaw.json, ollama-local-llm.sh, task-15-local-only-pivot-20260405T2042Z.md, unified-triage.js, task-16-local-triage-cutover-20260405T2113Z.md) | 33 reads | ~31463 tok |
 | 22:01 | Session end: 43 writes across 17 files (openclaw.json, ollama-local-llm.sh, task-15-local-only-pivot-20260405T2042Z.md, unified-triage.js, task-16-local-triage-cutover-20260405T2113Z.md) | 33 reads | ~31463 tok |
 | 22:01 | Session end: 43 writes across 17 files (openclaw.json, ollama-local-llm.sh, task-15-local-only-pivot-20260405T2042Z.md, unified-triage.js, task-16-local-triage-cutover-20260405T2113Z.md) | 33 reads | ~31463 tok |
+| 00:13 | Created scripts/morning-briefing-local.sh | — | ~1948 |
+| 00:13 | Created ../Library/LaunchAgents/com.akior.morning-briefing-local.plist | — | ~363 |
+| 00:14 | Edited scripts/morning-briefing-local.sh | expanded (+9 lines) | ~263 |
+| 00:15 | Created checkpoints/task-81-morning-briefing-local-20260406T0415Z.md | — | ~810 |
+| 00:16 | Session end: 47 writes across 20 files (openclaw.json, ollama-local-llm.sh, task-15-local-only-pivot-20260405T2042Z.md, unified-triage.js, task-16-local-triage-cutover-20260405T2113Z.md) | 33 reads | ~35089 tok |
