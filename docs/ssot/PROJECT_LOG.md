@@ -13,11 +13,11 @@
 | **Target milestone** | v1 bootstrap / operational readiness — local-only runtime pivot |
 | **Active layer** | L9 — Bootstrap reconciliation / completion reporting |
 | **Distance** | NEAR |
-| **Last verified step** | Task 75 | Reconcile PROJECT_LOG after paid cron neutralization |
+| **Last verified step** | Task 77 | Reconcile PROJECT_LOG after local canary/regression cutover |
 | **Last updated** | 2026-04-06 |
-| **Runtime mode** | LOCAL-ONLY by default (CEO directive 2026-04-05); Claude/paid API = manual-only |
-| **Autonomous local functions** | email-triage via launchd (com.akior.email-triage-local, every 2h) |
-| **Paid cron status** | ALL 8 OpenClaw agentTurn cron jobs DISABLED (0 enabled). Anthropic credits safe to refill. |
+| **Runtime mode** | LOCAL-ONLY by default (CEO directive 2026-04-05); Claude/paid API = manual-only for complex/explicit work only; no unattended paid execution exists |
+| **Autonomous local functions** | email-triage (launchd, every 2h, Ollama qwen2.5-coder:7b) · canary-health (launchd, daily 06:57 ET, shell only) · weekly-regression (launchd, Sundays 06:00 ET, shell only) · watchdog (launchd, every 300s, shell only) |
+| **Paid cron status** | ALL 8 OpenClaw agentTurn cron jobs DISABLED (0 enabled). Autonomous paid API = zero. |
 
 > Update this block whenever a new entry is appended. This is the quick-glance state.
 
@@ -167,4 +167,13 @@
 2026-04-06 | Task 75 | Reconcile PROJECT_LOG after paid cron neutralization | COMPLETE | L9 | Updated CURRENT STATUS: last verified step → Task 75, latent paid risk → eliminated (0/8 agentTurn jobs enabled). Appended Tasks 74-75. Replaced queued next step: localize canary-health + weekly-regression via launchd (shell scripts already exist, no LLM needed). Claude/paid API remains manual-only. | NEAR | Next: localize canary-health + weekly-regression as local launchd agents | Owner: none
 ```
 
-> **QUEUED NEXT STEP:** Localize the canary-health and weekly-regression functions as autonomous local launchd agents. Both currently have working shell scripts (`~/akior/config/canary/run-daily-canaries.sh`, `~/akior/config/canary/morning-resume-check.sh`) that require no LLM and no paid API — they only need a launchd plist wrapper similar to `com.akior.email-triage-local.plist`. This is the highest-value next localization target because: (1) the scripts already exist and are proven, (2) zero model or API dependency, (3) restores daily health monitoring to unattended operation. Do NOT target lp-inbox-sweep (needs Gmail ingest), competitor-check (needs Claude-grade reasoning), or morning-call (needs cloud voice) in this next step.
+---
+
+## RECONCILED ENTRIES (2026-04-06 — local canary/regression cutover + next LLM localization target)
+
+```
+2026-04-06 | Task 76 | Localize canary-health and weekly-regression as local launchd agents | COMPLETE | L4 | Verified script mapping from ~/.openclaw/cron/jobs.json payloads: canary-health = run-daily-canaries.sh + morning-resume-check.sh (daily 06:57 ET); weekly-regression = run-daily-canaries.sh (Sundays 06:00 ET). All canary scripts confirmed local-only (pure bash + curl to localhost; zero paid-API refs; Ollama refs are health-probes only, not inference). Created com.akior.canary-health-local.plist and com.akior.weekly-regression-local.plist (plutil OK). Both bootstrapped into gui/501; RunAtLoad: 4/4 canaries passed; kickstart dry-run clean; zero network connections to paid-API hosts. OpenClaw agentTurn cron: 0 enabled (untouched). Autonomous local agents now: 4 (email-triage, canary-health, weekly-regression, watchdog). Checkpoint: checkpoints/task-76-canary-regression-local-20260406T0125Z.md. | NEAR | Next: reconcile PROJECT_LOG | Owner: none
+2026-04-06 | Task 77 | Reconcile PROJECT_LOG after local canary/regression cutover | COMPLETE | L9 | Updated CURRENT STATUS: last verified step → Task 77; autonomous local functions expanded to 4 agents (email-triage + canary-health + weekly-regression + watchdog); paid cron remains 0 enabled; paid API remains manual-only with zero unattended paid execution. Appended Tasks 76-77. Queued next step: localize evening-summary as local Ollama-driven workflow. | NEAR | Next: localize evening-summary as local Ollama-driven summary of ledgers/evidence | Owner: none
+```
+
+> **QUEUED NEXT STEP:** Localize the evening-summary function as an autonomous local Ollama-driven workflow. The original OpenClaw cron job reviewed the day's `action.md` ledger entries and `decision.md` and produced an end-of-day summary. This can be replaced by a local script that reads the day's ledger lines, feeds them to `~/akior/scripts/ollama-local-llm.sh` (qwen2.5-coder:7b or llama3.1 for longer context), and writes a structured markdown summary to `~/akior/evidence/terminal/evening-summary-latest.md`. This is the next highest-value localization target because: (1) input data is all local files, (2) output is a local markdown artifact, (3) Ollama can handle short-to-medium ledger summarization, (4) restores daily operational awareness without any paid API. Do NOT target lp-inbox-sweep (blocked on Gmail ingest), competitor-check (needs Claude reasoning), or morning-call (needs cloud voice) in this next step.
