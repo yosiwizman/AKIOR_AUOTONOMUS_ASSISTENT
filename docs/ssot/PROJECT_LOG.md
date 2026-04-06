@@ -13,11 +13,12 @@
 | **Target milestone** | v1 bootstrap / operational readiness — local-only runtime pivot |
 | **Active layer** | L9 — Bootstrap reconciliation / completion reporting |
 | **Distance** | NEAR |
-| **Last verified step** | Task 79 | Reconcile PROJECT_LOG after evening-summary local launchd cutover |
+| **Last verified step** | Task 84 | Reconcile SSOT and PROJECT_LOG after Task 83 completion |
 | **Last updated** | 2026-04-06 |
 | **Runtime mode** | LOCAL-ONLY by default (CEO directive 2026-04-05); Claude/paid API = manual-only for complex/explicit work only; no unattended paid execution exists |
-| **Autonomous local functions** | email-triage (launchd, every 2h, Ollama qwen2.5-coder:7b) · canary-health (launchd, daily 06:57 ET, shell only) · weekly-regression (launchd, Sundays 06:00 ET, shell only) · evening-summary (launchd, daily 20:00, Ollama qwen2.5-coder:7b) · watchdog (launchd, every 300s, shell only) |
+| **Autonomous local functions** | email-triage (launchd, every 2h, Ollama qwen2.5-coder:7b) · canary-health (launchd, daily 06:57 ET, shell only) · weekly-regression (launchd, Sundays 06:00 ET, shell only) · evening-summary (launchd, daily 20:00, Ollama qwen2.5-coder:7b) · morning-briefing (launchd, daily 08:00, Ollama qwen2.5-coder:7b) · watchdog (launchd, every 300s, shell only) |
 | **Paid cron status** | ALL 8 OpenClaw agentTurn cron jobs DISABLED (0 enabled). Autonomous paid API = zero. |
+| **Local LLM routing** | Canonical entrypoint: `ollama-local-llm.sh` with FAST_LOCAL (10s) / DEEP_LOCAL (30s) profiles. All 3 Ollama callers migrated. FALLBACK_RECOMMENDED soft signal for >6000-char prompts. |
 
 > Update this block whenever a new entry is appended. This is the quick-glance state.
 
@@ -185,4 +186,42 @@
 2026-04-06 | Task 79 | Reconcile PROJECT_LOG after evening-summary local launchd cutover | COMPLETE | L9 | Updated CURRENT STATUS: last verified step → Task 79; autonomous local functions expanded to 5 agents (+ evening-summary daily 20:00 via Ollama). Paid cron remains 0 enabled. Paid API remains manual-only with zero unattended paid execution. Appended Tasks 78-79. Queued next step: audit and decompose morning-briefing into localizable vs non-local dependencies. | NEAR | Next: audit morning-briefing dependency decomposition | Owner: none
 ```
 
-> **QUEUED NEXT STEP:** Audit and decompose the morning-briefing function into localizable vs non-local dependencies. The original OpenClaw cron job (daily 08:03 ET) checked Google Calendar for today's events, scanned Gmail for important emails, and reported top 3 priorities. To localize it, we need to determine: (1) whether a local calendar reader exists or can be wired (macOS Calendar via AppleScript/`icalBuddy`?), (2) whether the existing local email-triage output can substitute for the Gmail scan, (3) what minimum prompt+model combination produces a useful morning brief from local-only inputs. This is an audit/decomposition step, not an implementation step — do NOT build the morning-briefing agent until the dependency audit is reviewed. Do NOT target lp-inbox-sweep (blocked on Gmail ingest), competitor-check (needs Claude reasoning), or morning-call (needs cloud voice).
+---
+
+## RECONCILED ENTRIES (2026-04-06 — morning-briefing audit + build + benchmark + routing standardization)
+
+```
+2026-04-06 | Task 80 | Audit and decompose morning-briefing into localizable vs non-local dependencies | COMPLETE | L4 | Original OpenClaw cron: daily 08:03 ET, agentTurn, checked Google Calendar + Gmail. Audit proved: Calendar SQLite DB at ~/Library/Group Containers/.../Calendar.sqlitedb readable directly via sqlite3 (no AppleScript, no API, 369 CalendarItem entries, 26 calendars); icalBuddy NOT installed; AppleScript timed out (unreliable for unattended). Email: local email-triage output substitutes for Gmail scan. All other inputs (canary, resume, evening-summary, ledgers) already local. Verdict: READY FOR LOCAL MVP BUILD — all dependencies have proven local paths. | NEAR | Next: build local morning-briefing | Owner: none
+2026-04-06 | Task 81 | Build and register local-only morning briefing | COMPLETE | L4 | Created ~/akior/scripts/morning-briefing-local.sh (reads Calendar SQLite + email-triage + canary + resume + evening-summary + ledgers, prompts qwen2.5-coder:7b). Initial run failed: 10s wrapper timeout too tight. Fixed: direct curl 30s. Created com.akior.morning-briefing-local.plist (daily 08:00, RunAtLoad=true, plutil OK). Bootstrapped; RunAtLoad: 5-section briefing generated in 3s (0 calendar events handled gracefully). Checkpoint: checkpoints/task-81-morning-briefing-local-20260406T0415Z.md. Autonomous local agents now: 6. | NEAR | Next: benchmark local LLM surface | Owner: none
+2026-04-06 | Task 82 | Benchmark local LLM surface and define routing boundary | COMPLETE | L4 | 17 benchmark runs across 5 categories on qwen2.5-coder:7b. Results: classification 0.15s warm, summarization 0.79s, structured triage 2.7s, morning-briefing 4.8s, multi-step analysis 14.8s. Routing boundary: LOCAL_DEFAULT for A/B/C/D; LOCAL_OK_BUT_SLOW for E (<30s); FALLBACK_REQUIRED for customer-facing drafts, web research, long-context >16k, voice. Wrapper 10s sufficient for short/medium; 30s needed for longer prompts (proven by Task 81 failure). Evidence: evidence/terminal/task-82-local-llm-benchmark.md. | NEAR | Next: standardize local entrypoint | Owner: none
+2026-04-06 | Task 83 | Standardize local LLM entrypoint and enforce routing tiers | COMPLETE | L4 | Upgraded ollama-local-llm.sh: optional 3rd arg FAST_LOCAL (10s) / DEEP_LOCAL (30s), FALLBACK_RECOMMENDED soft signal for >6000-char prompts. Migrated 3 callers: unified-triage.js → FAST_LOCAL, evening-summary → DEEP_LOCAL, morning-briefing → DEEP_LOCAL (eliminated direct-curl bypass). Proofs: FAST_LOCAL correct routing+timeout, DEEP_LOCAL correct, FALLBACK_RECOMMENDED triggered on 6611-char prompt. Zero paid API. Evidence: evidence/terminal/task-83-local-routing-standardization.md. Checkpoint: checkpoints/task-83-local-routing-standardization-20260406T0435Z.md. | NEAR | Next: reconcile SSOT | Owner: none
+2026-04-06 | Task 84 | Reconcile SSOT and PROJECT_LOG after Task 83 completion | COMPLETE | L9 | Verified all Task 80-83 artifacts exist. Updated CURRENT STATUS: last verified → Task 84, autonomous local functions → 6 agents (+ morning-briefing daily 08:00), added local LLM routing row (canonical entrypoint with FAST_LOCAL/DEEP_LOCAL profiles). Appended Tasks 80-84. Produced verified gap list. | NEAR | Next: see gap list below | Owner: none
+```
+
+> **VERIFIED GAP LIST (as of Task 84)**
+>
+> **VERIFIED — local-first routing is standardized for:**
+> - 6 autonomous launchd agents (email-triage, canary-health, weekly-regression, evening-summary, morning-briefing, watchdog)
+> - 3 Ollama callers routed through canonical `ollama-local-llm.sh` with explicit FAST_LOCAL / DEEP_LOCAL profiles
+> - 0 enabled OpenClaw agentTurn cron jobs
+> - 0 autonomous paid API execution paths
+> - Benchmark evidence covers 5 task categories with proven latency ranges
+> - FALLBACK_RECOMMENDED soft signal fires for oversized prompts
+>
+> **UNVERIFIED — before claiming "local by default, API only for complex work":**
+> 1. **End-to-end launchd scheduled run of morning-briefing via DEEP_LOCAL** — built and RunAtLoad proven, but no 08:00 daily scheduled-run evidence yet
+> 2. **End-to-end launchd scheduled run of evening-summary via DEEP_LOCAL** — built and RunAtLoad proven, but no 20:00 daily scheduled-run evidence yet since the DEEP_LOCAL migration (Task 83)
+> 3. **Calendar events on a non-empty day** — morning-briefing SQLite query untested with real events (today had 0)
+> 4. **Gmail coverage gap** — email-triage covers Yahoo only; Gmail ingest remains skipped_local_only
+> 5. **tmux service** — reported DOWN in morning resume check; not addressed
+> 6. **Docker service** — reported DOWN in morning resume check; not addressed
+>
+> **INTENTIONALLY NON-LOCAL (stay manual/API):**
+> - lp-inbox-sweep (blocked on Gmail ingest)
+> - competitor-check (needs Claude-grade reasoning)
+> - morning-call (needs clawr.ing cloud voice)
+> - Customer-facing replies (Live Pilates quality bar)
+> - Web-search research synthesis
+> - Long-context reasoning >16k tokens
+>
+> **QUEUED NEXT STEP:** Validate end-to-end scheduled runs of the DEEP_LOCAL-migrated agents (morning-briefing at 08:00, evening-summary at 20:00) by inspecting their next autonomous execution logs. This is a wait-and-verify step, not a build step. After that, the remaining gaps are tmux/Docker service health (operational, not LLM), Gmail ingest (blocked), and calendar-with-events testing (requires a day with events).

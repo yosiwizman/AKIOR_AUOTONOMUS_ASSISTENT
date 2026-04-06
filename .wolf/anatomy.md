@@ -1,7 +1,7 @@
 # anatomy.md
 
-> Auto-maintained by OpenWolf. Last scanned: 2026-04-06T04:37:29.560Z
-> Files: 663 tracked | Anatomy hits: 0 | Misses: 0
+> Auto-maintained by OpenWolf. Last scanned: 2026-04-06T04:54:25.607Z
+> Files: 664 tracked | Anatomy hits: 0 | Misses: 0
 
 ## ../../../tmp/
 
@@ -163,7 +163,7 @@
 - `BOOTSTRAP-COMPLETION-REPORT.md` — AKIOR Bootstrap Completion Report (~1613 tok)
 - `bootstrap-report.md` — AKIOR Bootstrap Completion Report — Formal (~1991 tok)
 - `CLAUDE_EXECUTION_TEMPLATE.md` — AKIOR CLAUDE EXECUTION TEMPLATE (~1120 tok)
-- `PROJECT_LOG.md` — AKIOR PROJECT LOG (~9418 tok)
+- `PROJECT_LOG.md` — AKIOR PROJECT LOG (~10632 tok)
 - `RUNTIME-REFERENCE.md` — AKIOR Runtime Reference (~1747 tok)
 - `SESSION_HANDOFF_TEMPLATE.md` — AKIOR SESSION HANDOFF TEMPLATE (~1108 tok)
 - `SSOT-REGISTER.md` — SSOT Register (~478 tok)
@@ -250,6 +250,7 @@
 - `phase1-results.md` — Phase 1 Infrastructure Validation Results (~172 tok)
 - `task-82-local-llm-benchmark.md` — Task 82: Local LLM Benchmark + Routing Boundary Definition (~1807 tok)
 - `task-83-local-routing-standardization.md` — Task 83: Local LLM Entrypoint Standardization + Routing Tiers (~971 tok)
+- `task-84-ssot-reconciliation.md` — Task 84: SSOT Reconciliation After Task 83 (~532 tok)
 - `watchdog-stderr.log` (~13442 tok)
 - `watchdog-stdout.log` (~0 tok)
 - `wix-customer-ops-summary-01.md` — Wix / Live Pilates USA — Customer Operations Summary (~1483 tok)
