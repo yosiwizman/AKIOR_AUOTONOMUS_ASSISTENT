@@ -314,3 +314,69 @@
 | 2026-04-06T11:58:24Z | TMUX_WATCHDOG | session created |
 | 2026-04-06T12:00:03Z | MORNING_BRIEFING_LOCAL | COMPLETE — written to /Users/yosiwizman/akior/evidence/terminal/daily-briefing-latest.md |
 | 2026-04-06T12:02:20Z | IMSG_TCC_PROBE | COMPLETE — imsg also fails under launchd (authorization denied code 23). Both imsg and sqlite3 blocked by TCC. FDA grant required. |
+| 2026-04-06T12:03:24Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T12:08:24Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T12:13:24Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T12:18:24Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T12:23:24Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T12:28:24Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T12:33:24Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T12:38:25Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T12:43:25Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T12:48:25Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T12:53:25Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T12:58:25Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T13:03:25Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T13:08:25Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T13:13:25Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T13:18:25Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T13:23:25Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T13:28:25Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T13:33:25Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T13:38:25Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T13:43:25Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T13:48:25Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T13:53:25Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T13:58:25Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T14:03:25Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T14:08:25Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T14:13:25Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T14:18:26Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T14:23:26Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T14:28:26Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T14:33:26Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T14:38:26Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T14:43:26Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T14:48:26Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T14:53:26Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T14:58:26Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T15:03:26Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T15:08:26Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T15:13:26Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T15:18:26Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T15:23:26Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T15:28:26Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T15:33:26Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T15:38:26Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T15:43:26Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T15:44:44Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T15:44:44Z | CANARY_FILESYSTEM | PASS |
+| 2026-04-06T15:44:44Z | CANARY_FILESYSTEM | PASS |
+| 2026-04-06T15:44:44Z | CANARY_OLLAMA | FAIL | server not responding |
+| 2026-04-06T15:44:44Z | CANARY_OLLAMA | FAIL | server not responding |
+| 2026-04-06T15:44:45Z | CANARY_GITHUB | PASS |
+| 2026-04-06T15:44:45Z | CANARY_GITHUB | PASS |
+| 2026-04-06T15:44:56Z | CANARY_GMAIL | PASS |
+| 2026-04-06T15:44:56Z | CANARY_GMAIL | PASS |
+| 2026-04-06T15:45:00Z | MORNING_RESUME_CHECK | COMPLETE |
+| 2026-04-06T15:44:44Z | EVENING_SUMMARY_LOCAL | COMPLETE — written to /Users/yosiwizman/akior/evidence/terminal/evening-summary-latest.md |
+| 2026-04-06T15:44:44Z | MORNING_BRIEFING_LOCAL | COMPLETE — written to /Users/yosiwizman/akior/evidence/terminal/daily-briefing-latest.md |
+| 2026-04-06T15:49:44Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T15:54:44Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T15:59:44Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T16:04:44Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T16:09:44Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T16:14:44Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T16:19:44Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T16:24:44Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T16:29:44Z | TMUX_WATCHDOG | session created |

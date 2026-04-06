@@ -1,14 +1,15 @@
 # Daily Canary Summary
 
-**Run timestamp:** 2026-04-06T10:57:00Z
-**Result:** 4/4 passed
+**Run timestamp:** 2026-04-06T15:44:44Z
+**Result:** 3/4 passed
 
 | Canary | Status | Detail |
 |--------|--------|--------|
 | Filesystem | PASS | PASS |
-| Ollama | PASS | PASS |
+| Ollama | FAIL | FAIL (server not responding) |
 | GitHub | PASS | PASS |
 | Gmail | PASS | PASS |
 
 ## Classification
-All systems nominal.
+1 canary(ies) failed. Review action ledger for details.
+1 canary(ies) failed. Review action ledger for details.
