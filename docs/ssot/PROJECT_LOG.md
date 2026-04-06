@@ -13,11 +13,11 @@
 | **Target milestone** | v1 bootstrap / operational readiness — local-only runtime pivot |
 | **Active layer** | L9 — Bootstrap reconciliation / completion reporting |
 | **Distance** | NEAR |
-| **Last verified step** | Task 73 | Reconcile PROJECT_LOG after OpenClaw scheduler discovery |
-| **Last updated** | 2026-04-05 |
+| **Last verified step** | Task 75 | Reconcile PROJECT_LOG after paid cron neutralization |
+| **Last updated** | 2026-04-06 |
 | **Runtime mode** | LOCAL-ONLY by default (CEO directive 2026-04-05); Claude/paid API = manual-only |
 | **Autonomous local functions** | email-triage via launchd (com.akior.email-triage-local, every 2h) |
-| **Latent paid risk** | 7 OpenClaw cron agentTurn jobs still enabled, currently failing on billing — will resume if credits refilled |
+| **Paid cron status** | ALL 8 OpenClaw agentTurn cron jobs DISABLED (0 enabled). Anthropic credits safe to refill. |
 
 > Update this block whenever a new entry is appended. This is the quick-glance state.
 
@@ -158,4 +158,13 @@
 2026-04-05 | Task 73 | Reconcile PROJECT_LOG after OpenClaw scheduler discovery (session: "Task 22") | COMPLETE | L9 | Updated CURRENT STATUS block from stale v2-expansion/Task-69 to v1-local-only-pivot/Task-73. Appended Tasks 70-73. Noted Task-ID collisions with earlier phases. Confirmed existing Task 22 (OpenClaw install, 2026-04-02) is accurate, not stale. Flagged 7 remaining paid OpenClaw cron jobs as latent risk. Queued next step: disable remaining 7 paid cron jobs before any credit refill. | NEAR | Next: disable remaining 7 paid OpenClaw cron jobs (morning-briefing, lp-inbox-sweep, canary-health, evening-summary, weekly-regression, morning-call, competitor-check) | Owner: none
 ```
 
-> **QUEUED NEXT STEP:** Neutralize the remaining 7 paid OpenClaw cron jobs in ~/.openclaw/cron/jobs.json (set enabled=false on: morning-briefing, lp-inbox-sweep, canary-health, evening-summary, weekly-regression, morning-call, competitor-check) BEFORE any Anthropic API credit refill. Each is `payload.kind: "agentTurn"` and will autonomously invoke Claude Sonnet 4 the moment billing clears.
+---
+
+## RECONCILED ENTRIES (2026-04-06 — paid cron neutralization + next localization target)
+
+```
+2026-04-06 | Task 74 | Neutralize remaining paid OpenClaw cron jobs | COMPLETE | L4 | Disabled all 7 remaining enabled agentTurn cron jobs in ~/.openclaw/cron/jobs.json (morning-briefing, lp-inbox-sweep, canary-health, evening-summary, weekly-regression, morning-call, competitor-check). email-triage remained disabled from Task 72. Post-edit: 8 total jobs, 0 enabled, 0 agentTurn active. JSON validated. Gateway PID 13891 stable (not restarted; hot-reload expected). Latent billing time-bomb fully defused — Anthropic credits safe to refill without triggering autonomous paid execution. Backup: jobs.json.bak.task74.20260406T004122Z. Checkpoint: checkpoints/task-74-paid-cron-neutralization-20260406T0041Z.md. | NEAR | Next: reconcile PROJECT_LOG | Owner: none
+2026-04-06 | Task 75 | Reconcile PROJECT_LOG after paid cron neutralization | COMPLETE | L9 | Updated CURRENT STATUS: last verified step → Task 75, latent paid risk → eliminated (0/8 agentTurn jobs enabled). Appended Tasks 74-75. Replaced queued next step: localize canary-health + weekly-regression via launchd (shell scripts already exist, no LLM needed). Claude/paid API remains manual-only. | NEAR | Next: localize canary-health + weekly-regression as local launchd agents | Owner: none
+```
+
+> **QUEUED NEXT STEP:** Localize the canary-health and weekly-regression functions as autonomous local launchd agents. Both currently have working shell scripts (`~/akior/config/canary/run-daily-canaries.sh`, `~/akior/config/canary/morning-resume-check.sh`) that require no LLM and no paid API — they only need a launchd plist wrapper similar to `com.akior.email-triage-local.plist`. This is the highest-value next localization target because: (1) the scripts already exist and are proven, (2) zero model or API dependency, (3) restores daily health monitoring to unattended operation. Do NOT target lp-inbox-sweep (needs Gmail ingest), competitor-check (needs Claude-grade reasoning), or morning-call (needs cloud voice) in this next step.
