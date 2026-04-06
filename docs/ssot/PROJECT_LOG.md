@@ -13,12 +13,13 @@
 | **Target milestone** | v1 bootstrap / operational readiness — local-only runtime pivot |
 | **Active layer** | L9 — Bootstrap reconciliation / completion reporting |
 | **Distance** | NEAR |
-| **Last verified step** | Task 84 | Reconcile SSOT and PROJECT_LOG after Task 83 completion |
+| **Last verified step** | Task 86 | Reconcile Task 85 into PROJECT_LOG and lock next local-only build target |
 | **Last updated** | 2026-04-06 |
 | **Runtime mode** | LOCAL-ONLY by default (CEO directive 2026-04-05); Claude/paid API = manual-only for complex/explicit work only; no unattended paid execution exists |
-| **Autonomous local functions** | email-triage (launchd, every 2h, Ollama qwen2.5-coder:7b) · canary-health (launchd, daily 06:57 ET, shell only) · weekly-regression (launchd, Sundays 06:00 ET, shell only) · evening-summary (launchd, daily 20:00, Ollama qwen2.5-coder:7b) · morning-briefing (launchd, daily 08:00, Ollama qwen2.5-coder:7b) · watchdog (launchd, every 300s, shell only) |
+| **Autonomous local functions** | email-triage (launchd, every 2h, Ollama) · canary-health (launchd, daily 06:57, shell) · weekly-regression (launchd, Sundays 06:00, shell) · evening-summary (launchd, daily 20:00, Ollama) · morning-briefing (launchd, daily 08:00, Ollama) · watchdog (launchd, every 300s, shell) |
 | **Paid cron status** | ALL 8 OpenClaw agentTurn cron jobs DISABLED (0 enabled). Autonomous paid API = zero. |
-| **Local LLM routing** | Canonical entrypoint: `ollama-local-llm.sh` with FAST_LOCAL (10s) / DEEP_LOCAL (30s) profiles. All 3 Ollama callers migrated. FALLBACK_RECOMMENDED soft signal for >6000-char prompts. |
+| **Local LLM routing** | Canonical entrypoint: `ollama-local-llm.sh` with FAST_LOCAL (10s) / DEEP_LOCAL (30s) profiles. All 3 Ollama callers migrated. |
+| **Messaging** | iMessage outbound: VERIFIED (osascript + imsg CLI). iMessage inbound auto-reply: BLOCKED (requires local agent, not built). WhatsApp: BLOCKED (no local bridge). |
 
 > Update this block whenever a new entry is appended. This is the quick-glance state.
 
@@ -224,4 +225,24 @@
 > - Web-search research synthesis
 > - Long-context reasoning >16k tokens
 >
-> **QUEUED NEXT STEP:** Validate end-to-end scheduled runs of the DEEP_LOCAL-migrated agents (morning-briefing at 08:00, evening-summary at 20:00) by inspecting their next autonomous execution logs. This is a wait-and-verify step, not a build step. After that, the remaining gaps are tmux/Docker service health (operational, not LLM), Gmail ingest (blocked), and calendar-with-events testing (requires a day with events).
+---
+
+## RECONCILED ENTRIES (2026-04-06 — owner test-readiness + next local target locked)
+
+```
+2026-04-06 | Task 85 | Immediate owner test-readiness verification | PARTIAL | L3 | Forced real execution of morning-briefing + evening-summary via launchctl kickstart: both succeeded with profile=DEEP_LOCAL logged, artifacts generated, zero paid API. iMessage outbound: osascript send exit=0, message in chat.db ("AKIOR local iMessage test from Mac Mini at 2026-04-06 01:14:15 EDT" to +17865181777). iMessage inbound auto-reply: BLOCKED (channel disabled; re-enabling triggers paid Claude agent). WhatsApp: BLOCKED (channel disabled; no standalone local send/receive path). Evidence: evidence/terminal/task-85-owner-test-readiness.md. Checkpoint: checkpoints/task-85-owner-test-readiness-20260406T0515Z.md. | NEAR | Next: reconcile SSOT | Owner: check phone for iMessage test
+2026-04-06 | Task 86 | Reconcile Task 85 into PROJECT_LOG and lock next local-only build target | COMPLETE | L9 | Verified all Task 85 artifacts. Updated CURRENT STATUS: last verified step → Task 86; added Messaging row (iMessage outbound VERIFIED, inbound BLOCKED, WhatsApp BLOCKED). Appended Tasks 85-86. Reality table produced. Next target locked: standalone local iMessage inbound responder MVP. | NEAR | Next: build standalone local iMessage inbound responder MVP | Owner: none
+```
+
+> **REALITY TABLE (as of Task 86)**
+>
+> | Surface | Status | Evidence |
+> |---|---|---|
+> | Local runtime (6 agents, DEEP_LOCAL verified) | **VERIFIED** | Forced kickstart of morning-briefing + evening-summary: DEEP_LOCAL profile logged, artifacts generated, zero paid API |
+> | iMessage outbound | **VERIFIED** | osascript exit=0, message in chat.db, `imsg send` CLI available |
+> | iMessage inbound auto-reply | **BLOCKED** | OpenClaw channel disabled; re-enabling triggers paid Claude agent; no standalone local responder exists |
+> | WhatsApp | **BLOCKED** | OpenClaw channel disabled; no local bridge CLI; re-enabling triggers paid Claude agent |
+> | tmux | **UNVERIFIED** | Reported DOWN in morning-resume-check; not addressed in any task since |
+> | Docker | **UNVERIFIED** | Reported DOWN in morning-resume-check; not addressed in any task since |
+>
+> **QUEUED NEXT STEP:** Build a standalone local iMessage inbound responder MVP that watches for incoming messages (via `imsg watch` or `chat.db` polling), classifies intent locally via `ollama-local-llm.sh FAST_LOCAL`, and replies via `imsg send` or osascript — entirely bypassing OpenClaw's agent model. WhatsApp is NOT the next target because no local bridge exists. tmux/Docker are operational gaps, not LLM routing gaps.

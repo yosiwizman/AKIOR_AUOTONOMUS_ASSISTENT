@@ -697,3 +697,6 @@
 | 00:54 | Session end: 57 writes across 23 files (openclaw.json, ollama-local-llm.sh, task-15-local-only-pivot-20260405T2042Z.md, unified-triage.js, task-16-local-triage-cutover-20260405T2113Z.md) | 34 reads | ~43138 tok |
 | 01:15 | Created evidence/terminal/task-85-owner-test-readiness.md | — | ~1035 |
 | 01:16 | Session end: 58 writes across 24 files (openclaw.json, ollama-local-llm.sh, task-15-local-only-pivot-20260405T2042Z.md, unified-triage.js, task-16-local-triage-cutover-20260405T2113Z.md) | 34 reads | ~44247 tok |
+| 01:28 | Edited docs/ssot/PROJECT_LOG.md | 6→7 lines | ~288 |
+| 01:29 | Edited docs/ssot/PROJECT_LOG.md | expanded (+20 lines) | ~705 |
+| 01:30 | Session end: 60 writes across 24 files (openclaw.json, ollama-local-llm.sh, task-15-local-only-pivot-20260405T2042Z.md, unified-triage.js, task-16-local-triage-cutover-20260405T2113Z.md) | 34 reads | ~46525 tok |
