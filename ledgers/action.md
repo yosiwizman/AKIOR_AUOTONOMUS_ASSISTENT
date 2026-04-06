@@ -311,3 +311,6 @@
 | 2026-04-06T11:48:24Z | TMUX_WATCHDOG | session created |
 | 2026-04-06T11:53:24Z | TMUX_WATCHDOG | session created |
 | 2026-04-06T11:54:29Z | IMESSAGE_DIAGNOSIS_2 | COMPLETE — Root cause: macOS TCC denies chat.db read from launchd /bin/bash agent (authorization denied). Fix: either grant FDA to bash, or switch to imsg CLI which may bypass TCC as a compiled binary. |
+| 2026-04-06T11:58:24Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T12:00:03Z | MORNING_BRIEFING_LOCAL | COMPLETE — written to /Users/yosiwizman/akior/evidence/terminal/daily-briefing-latest.md |
+| 2026-04-06T12:02:20Z | IMSG_TCC_PROBE | COMPLETE — imsg also fails under launchd (authorization denied code 23). Both imsg and sqlite3 blocked by TCC. FDA grant required. |
