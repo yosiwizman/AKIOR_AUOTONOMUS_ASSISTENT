@@ -645,3 +645,6 @@
 | 17:25 | Created ../Library/LaunchAgents/com.akior.email-triage-local.plist | — | ~509 |
 | 17:28 | Created checkpoints/task-17-local-triage-scheduler-20260405T2124Z.md | — | ~1028 |
 | 17:30 | Session end: 21 writes across 9 files (openclaw.json, ollama-local-llm.sh, task-15-local-only-pivot-20260405T2042Z.md, unified-triage.js, task-16-local-triage-cutover-20260405T2113Z.md) | 30 reads | ~11983 tok |
+| 20:26 | Edited docs/ssot/PROJECT_LOG.md | 11→14 lines | ~215 |
+| 20:26 | Edited docs/ssot/PROJECT_LOG.md | expanded (+17 lines) | ~1546 |
+| 20:27 | Session end: 23 writes across 10 files (openclaw.json, ollama-local-llm.sh, task-15-local-only-pivot-20260405T2042Z.md, unified-triage.js, task-16-local-triage-cutover-20260405T2113Z.md) | 31 reads | ~20535 tok |

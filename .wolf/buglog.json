@@ -1460,6 +1460,22 @@
       "related_bugs": [],
       "occurrences": 1,
       "last_seen": "2026-04-05T21:24:16.168Z"
+    },
+    {
+      "id": "bug-092",
+      "timestamp": "2026-04-06T00:26:08.557Z",
+      "error_message": "Significant refactor of ",
+      "file": "docs/ssot/PROJECT_LOG.md",
+      "root_cause": "4 lines replaced/restructured",
+      "fix": "Rewrote 11→14 lines (4 removed)",
+      "tags": [
+        "auto-detected",
+        "refactor",
+        "md"
+      ],
+      "related_bugs": [],
+      "occurrences": 1,
+      "last_seen": "2026-04-06T00:26:08.557Z"
     }
   ]
 }

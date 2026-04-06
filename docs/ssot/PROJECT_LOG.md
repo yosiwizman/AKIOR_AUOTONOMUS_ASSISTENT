@@ -10,11 +10,14 @@
 
 | Field | Value |
 |-------|-------|
-| **Target milestone** | v2 expansion / parallel operations |
-| **Active layer** | V2 EXPANSION — IN PROGRESS |
+| **Target milestone** | v1 bootstrap / operational readiness — local-only runtime pivot |
+| **Active layer** | L9 — Bootstrap reconciliation / completion reporting |
 | **Distance** | NEAR |
-| **Last verified step** | Task 69 | V2 Phase 9 complete — pronunciation, group skills, UI audit |
-| **Last updated** | 2026-04-03 |
+| **Last verified step** | Task 73 | Reconcile PROJECT_LOG after OpenClaw scheduler discovery |
+| **Last updated** | 2026-04-05 |
+| **Runtime mode** | LOCAL-ONLY by default (CEO directive 2026-04-05); Claude/paid API = manual-only |
+| **Autonomous local functions** | email-triage via launchd (com.akior.email-triage-local, every 2h) |
+| **Latent paid risk** | 7 OpenClaw cron agentTurn jobs still enabled, currently failing on billing — will resume if credits refilled |
 
 > Update this block whenever a new entry is appended. This is the quick-glance state.
 
@@ -138,4 +141,21 @@
 2026-04-03 | Task 69 | Jarvis UI Inspection + Screenshots | COMPLETE | V2 | 20 screenshots captured. CRITICAL: Next.js webpack cache corrupted causing CSS/JS 500 errors. 24 routes discovered, 15 render HTML. 340 "Jarvis" references across 33 files. Full audit at ~/akior/reports/jarvis-ui-live-audit-2026-04-03.md. | NEAR | Next: fix webpack cache + rebrand UI | Owner: none
 ```
 
-> Delete these placeholder entries and begin real logging on your first live session.
+---
+
+## RECONCILED ENTRIES (2026-04-05 — local-only runtime pivot)
+
+> **Context:** On 2026-04-05, the owner issued a CEO directive: unattended runtime must be local-only by default; paid API use becomes manual opt-in only. This paused v2 expansion and redirected to L9 reconciliation + L4 cost containment. A full CTO audit of both the akior repo and the Jarvis sub-project was performed, followed by a multi-agent local-first migration analysis, then surgical implementation.
+>
+> **Note on Task ID collisions:** Session-local IDs "Task 15/16/17" from the 2026-04-05 execution collide with earlier entries of the same number (Tasks 13–17 were reused in multiple phases). To avoid ambiguity, the entries below use globally-unique IDs Task 70–73. Cross-references to session-local names are preserved for traceability against checkpoint/decision files.
+>
+> **Note on "Task 22 install OpenClaw" assumption:** The existing Task 22 entry (2026-04-02, line 90) correctly records that OpenClaw v2026.4.2 was installed and configured. That entry is NOT stale — the installation genuinely happened. However, the 2026-04-05 handoff documents initially assumed OpenClaw might still need to be installed, which was immediately invalidated by discovering the gateway already running at PID 2063. No correction to the original Task 22 log entry is needed; the assumption was in the handoff, not the log.
+
+```
+2026-04-05 | Task 70 | Local-only pivot patch — stop autonomous API spend (session: "Task 15") | PARTIAL | L9 | CEO directive: unattended runtime must be local-only. Full CTO audit preceded this step (Jarvis sub-project + akior repo + Ollama + OpenClaw analyzed). Patched ~/.openclaw/openclaw.json: disabled channels (imessage, whatsapp), disabled paid plugins (llm-task, groq, elevenlabs, deepgram), raised heartbeat 30m→24h. Created ~/akior/scripts/ollama-local-llm.sh (local Ollama wrapper, smoke-tested 3 prompts). Attempted tools.llm.text config registration — REJECTED by OpenClaw schema validator (crash-loop, reverted). agents.defaults.model.primary preserved as MANUAL-ONLY. Gateway stabilized at PID 13891. Backup: openclaw.json.bak.task15.20260405T204210Z. Checkpoint: checkpoints/task-15-local-only-pivot-20260405T2042Z.md. Decision log: 2 entries (2026-04-05T20:42Z, 2026-04-05T20:52Z). | NEAR | Next: localize email-triage path | Owner: none
+2026-04-05 | Task 71 | Local email-triage cutover — restore useful autonomy without paid API (session: "Task 16") | COMPLETE | L9 | Verified active triage path: unified-triage.js in akior-email-hub skill. check-email.js verified NOT active (ECONNREFUSED localhost:993). Patched unified-triage.js: added local qwen2.5-coder:7b summaries via ollama-local-llm.sh, removed fabricated hardcoded Gmail urgent items (unsafe for unattended), added LOCAL-ONLY policy header. Dry-run: 10 Yahoo emails, 1 HIGH (Apple Billing), 1 local summary in 1.2s. Network trace: only himalaya→69.147.112.172:993 (Yahoo IMAP) + curl→127.0.0.1:11434 (Ollama). Zero paid-API egress. Backup: unified-triage.js.bak.task16.20260405T211243Z. Checkpoint: checkpoints/task-16-local-triage-cutover-20260405T2113Z.md. Path classification: LOCAL_ONLY. | NEAR | Next: schedule autonomous triage | Owner: none
+2026-04-05 | Task 72 | Local-only autonomous email-triage scheduling (session: "Task 17") | COMPLETE | L4 | CRITICAL DISCOVERY: ~/.openclaw/cron/jobs.json contained 8 enabled agentTurn cron jobs — ALL paid Claude Sonnet 4 paths, all currently failing "credit balance too low." These are latent billing time-bombs that would resume on credit refill. In-scope: disabled email-triage entry (enabled→false). Created ~/akior/scripts/run-local-email-triage.sh (lockfile via mkdir, deterministic log). Created ~/Library/LaunchAgents/com.akior.email-triage-local.plist (RunAtLoad=true, StartInterval=7200s = every 2h, 12 runs/day). Bootstrapped into gui/501; 4 triage artifacts generated; overlap lock proven (concurrent invocation → SKIP); network trace: only Yahoo IMAP 993 + localhost Ollama 11434. Backup: jobs.json.bak.task17.20260405T212401Z. Checkpoint: checkpoints/task-17-local-triage-scheduler-20260405T2124Z.md. Classification: AUTONOMOUS_LOCAL_ONLY. First scheduled 2h-interval run confirmed in autonomous log at 23:27:28Z. | NEAR | Next: neutralize remaining 7 paid OpenClaw cron jobs | Owner: none
+2026-04-05 | Task 73 | Reconcile PROJECT_LOG after OpenClaw scheduler discovery (session: "Task 22") | COMPLETE | L9 | Updated CURRENT STATUS block from stale v2-expansion/Task-69 to v1-local-only-pivot/Task-73. Appended Tasks 70-73. Noted Task-ID collisions with earlier phases. Confirmed existing Task 22 (OpenClaw install, 2026-04-02) is accurate, not stale. Flagged 7 remaining paid OpenClaw cron jobs as latent risk. Queued next step: disable remaining 7 paid cron jobs before any credit refill. | NEAR | Next: disable remaining 7 paid OpenClaw cron jobs (morning-briefing, lp-inbox-sweep, canary-health, evening-summary, weekly-regression, morning-call, competitor-check) | Owner: none
+```
+
+> **QUEUED NEXT STEP:** Neutralize the remaining 7 paid OpenClaw cron jobs in ~/.openclaw/cron/jobs.json (set enabled=false on: morning-briefing, lp-inbox-sweep, canary-health, evening-summary, weekly-regression, morning-call, competitor-check) BEFORE any Anthropic API credit refill. Each is `payload.kind: "agentTurn"` and will autonomously invoke Claude Sonnet 4 the moment billing clears.
