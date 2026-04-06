@@ -1,6 +1,6 @@
 # Morning Resume Status
 
-**Generated:** 2026-04-05T10:57:11Z
+**Generated:** 2026-04-06T01:25:49Z
 
 ## Bootstrap Checkpoint
 Status: ONLINE
@@ -13,10 +13,10 @@ No latest.json found
 
 ## Service Status
 
-- tmux (akior): ACTIVE
+- tmux (akior): DOWN
 - Ops Console: ACTIVE (localhost:8420)
 - Ollama: ACTIVE
-- Docker: ACTIVE
+- Docker: DOWN
 
 ## Recovery Recommendation
 

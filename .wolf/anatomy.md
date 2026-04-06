@@ -1,7 +1,7 @@
 # anatomy.md
 
-> Auto-maintained by OpenWolf. Last scanned: 2026-04-06T01:10:22.893Z
-> Files: 652 tracked | Anatomy hits: 0 | Misses: 0
+> Auto-maintained by OpenWolf. Last scanned: 2026-04-06T01:26:26.488Z
+> Files: 655 tracked | Anatomy hits: 0 | Misses: 0
 
 ## ../../../tmp/
 
@@ -57,11 +57,13 @@
 ## ../Library/LaunchAgents/
 
 - `ai.openclaw.gateway.plist` (~672 tok)
+- `com.akior.canary-health-local.plist` (~396 tok)
 - `com.akior.dashboard-api.plist` (~227 tok)
 - `com.akior.dashboard.plist` (~227 tok)
 - `com.akior.email-triage-local.plist` (~509 tok)
 - `com.akior.ui-backend.plist` (~331 tok)
 - `com.akior.ui-frontend.plist` (~322 tok)
+- `com.akior.weekly-regression-local.plist` (~388 tok)
 
 ## ../akior-os-clean/
 
@@ -97,6 +99,7 @@
 - `task-16-local-triage-cutover-20260405T2113Z.md` — Checkpoint — Task 16: Local email-triage cutover (~913 tok)
 - `task-17-local-triage-scheduler-20260405T2124Z.md` — Checkpoint — Task 17: Local-only autonomous email-triage scheduler (~964 tok)
 - `task-74-paid-cron-neutralization-20260406T0041Z.md` — Checkpoint — Task 74: Neutralize remaining paid OpenClaw cron jobs (~550 tok)
+- `task-76-canary-regression-local-20260406T0125Z.md` — Checkpoint — Task 76: Localize canary-health and weekly-regression as local launchd agents (~725 tok)
 - `voice-transcription-setup.md` — Voice Transcription Setup Checkpoint (~298 tok)
 
 ## communications/
