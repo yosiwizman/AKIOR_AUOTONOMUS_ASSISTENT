@@ -231,3 +231,8 @@
 | 2026-04-06T05:48:21Z | TMUX_WATCHDOG | session created |
 | 2026-04-06T05:53:21Z | TMUX_WATCHDOG | session created |
 | 2026-04-06T05:54:48Z | IMESSAGE_INBOUND_MVP | COMPLETE — standalone local responder built + synthetic tested; live proof requires owner to send inbound iMessage and run DRY_RUN=0 SINGLE_PASS=1 |
+| 2026-04-06T05:58:21Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T06:03:21Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T06:08:21Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T06:13:03Z | IMESSAGE_DIAGNOSIS | COMPLETE — Root cause: responder not running as daemon. Pipeline works (DRY_RUN proved both fresh messages detected + replied). Fix: register as launchd agent. |
+| 2026-04-06T06:13:21Z | TMUX_WATCHDOG | session created |
