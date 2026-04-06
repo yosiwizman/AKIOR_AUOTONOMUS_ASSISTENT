@@ -240,3 +240,74 @@
 | 2026-04-06T06:23:21Z | TMUX_WATCHDOG | session created |
 | 2026-04-06T06:28:21Z | TMUX_WATCHDOG | session created |
 | 2026-04-06T06:31:57Z | IMESSAGE_RESPONDER_REGISTERED | COMPLETE — com.akior.imessage-responder-local bootstrapped, PID 33273, state=running, DRY_RUN=0, polling 5s. Awaiting owner live test. |
+| 2026-04-06T06:33:21Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T06:38:21Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T06:43:21Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T06:48:21Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T06:53:21Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T06:58:21Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T07:03:21Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T07:08:21Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T07:13:21Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T07:18:21Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T07:23:22Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T07:28:22Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T07:33:22Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T07:38:22Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T07:43:22Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T07:48:22Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T07:53:22Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T07:58:22Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T08:03:22Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T08:08:22Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T08:13:22Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T08:18:22Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T08:23:22Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T08:28:22Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T08:33:22Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T08:38:22Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T08:43:22Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T08:48:22Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T08:53:22Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T08:58:22Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T09:03:22Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T09:08:23Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T09:13:23Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T09:18:23Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T09:23:23Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T09:28:23Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T09:33:23Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T09:38:23Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T09:43:23Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T09:48:23Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T09:53:23Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T09:58:23Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T10:03:23Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T10:08:23Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T10:13:23Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T10:18:23Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T10:23:23Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T10:28:23Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T10:33:23Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T10:38:23Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T10:43:23Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T10:48:23Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T10:53:24Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T10:57:00Z | CANARY_FILESYSTEM | PASS |
+| 2026-04-06T10:57:00Z | CANARY_OLLAMA | PASS |
+| 2026-04-06T10:57:00Z | CANARY_GITHUB | PASS |
+| 2026-04-06T10:57:01Z | CANARY_GMAIL | PASS |
+| 2026-04-06T10:57:01Z | MORNING_RESUME_CHECK | COMPLETE |
+| 2026-04-06T10:58:24Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T11:03:24Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T11:08:24Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T11:13:24Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T11:18:24Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T11:23:24Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T11:28:24Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T11:33:24Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T11:38:24Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T11:43:24Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T11:48:24Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T11:53:24Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T11:54:29Z | IMESSAGE_DIAGNOSIS_2 | COMPLETE — Root cause: macOS TCC denies chat.db read from launchd /bin/bash agent (authorization denied). Fix: either grant FDA to bash, or switch to imsg CLI which may bypass TCC as a compiled binary. |
