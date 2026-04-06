@@ -1,7 +1,7 @@
 # anatomy.md
 
-> Auto-maintained by OpenWolf. Last scanned: 2026-04-06T06:13:01.354Z
-> Files: 668 tracked | Anatomy hits: 0 | Misses: 0
+> Auto-maintained by OpenWolf. Last scanned: 2026-04-06T06:31:22.656Z
+> Files: 669 tracked | Anatomy hits: 0 | Misses: 0
 
 ## ../../../tmp/
 
@@ -62,6 +62,7 @@
 - `com.akior.dashboard.plist` (~227 tok)
 - `com.akior.email-triage-local.plist` (~509 tok)
 - `com.akior.evening-summary-local.plist` (~354 tok)
+- `com.akior.imessage-responder-local.plist` (~377 tok)
 - `com.akior.morning-briefing-local.plist` (~363 tok)
 - `com.akior.ui-backend.plist` (~331 tok)
 - `com.akior.ui-frontend.plist` (~322 tok)

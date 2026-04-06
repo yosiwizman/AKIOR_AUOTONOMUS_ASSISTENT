@@ -236,3 +236,7 @@
 | 2026-04-06T06:08:21Z | TMUX_WATCHDOG | session created |
 | 2026-04-06T06:13:03Z | IMESSAGE_DIAGNOSIS | COMPLETE — Root cause: responder not running as daemon. Pipeline works (DRY_RUN proved both fresh messages detected + replied). Fix: register as launchd agent. |
 | 2026-04-06T06:13:21Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T06:18:21Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T06:23:21Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T06:28:21Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T06:31:57Z | IMESSAGE_RESPONDER_REGISTERED | COMPLETE — com.akior.imessage-responder-local bootstrapped, PID 33273, state=running, DRY_RUN=0, polling 5s. Awaiting owner live test. |
