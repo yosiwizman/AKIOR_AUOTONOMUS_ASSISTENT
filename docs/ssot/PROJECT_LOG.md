@@ -13,13 +13,13 @@
 | **Target milestone** | v1 bootstrap / operational readiness — local-only runtime pivot |
 | **Active layer** | L9 — Bootstrap reconciliation / completion reporting |
 | **Distance** | NEAR |
-| **Last verified step** | Task 86 | Reconcile Task 85 into PROJECT_LOG and lock next local-only build target |
+| **Last verified step** | Task 87 | Build standalone local iMessage inbound responder MVP |
 | **Last updated** | 2026-04-06 |
 | **Runtime mode** | LOCAL-ONLY by default (CEO directive 2026-04-05); Claude/paid API = manual-only for complex/explicit work only; no unattended paid execution exists |
 | **Autonomous local functions** | email-triage (launchd, every 2h, Ollama) · canary-health (launchd, daily 06:57, shell) · weekly-regression (launchd, Sundays 06:00, shell) · evening-summary (launchd, daily 20:00, Ollama) · morning-briefing (launchd, daily 08:00, Ollama) · watchdog (launchd, every 300s, shell) |
 | **Paid cron status** | ALL 8 OpenClaw agentTurn cron jobs DISABLED (0 enabled). Autonomous paid API = zero. |
 | **Local LLM routing** | Canonical entrypoint: `ollama-local-llm.sh` with FAST_LOCAL (10s) / DEEP_LOCAL (30s) profiles. All 3 Ollama callers migrated. |
-| **Messaging** | iMessage outbound: VERIFIED (osascript + imsg CLI). iMessage inbound auto-reply: BLOCKED (requires local agent, not built). WhatsApp: BLOCKED (no local bridge). |
+| **Messaging** | iMessage outbound: VERIFIED. iMessage inbound: MVP BUILT (sqlite3 poll + FAST_LOCAL + imsg send; synthetic-tested; live proof pending OWNER ACTION). WhatsApp: BLOCKED (no local bridge). |
 
 > Update this block whenever a new entry is appended. This is the quick-glance state.
 
@@ -245,4 +245,23 @@
 > | tmux | **UNVERIFIED** | Reported DOWN in morning-resume-check; not addressed in any task since |
 > | Docker | **UNVERIFIED** | Reported DOWN in morning-resume-check; not addressed in any task since |
 >
-> **QUEUED NEXT STEP:** Build a standalone local iMessage inbound responder MVP that watches for incoming messages (via `imsg watch` or `chat.db` polling), classifies intent locally via `ollama-local-llm.sh FAST_LOCAL`, and replies via `imsg send` or osascript — entirely bypassing OpenClaw's agent model. WhatsApp is NOT the next target because no local bridge exists. tmux/Docker are operational gaps, not LLM routing gaps.
+---
+
+## RECONCILED ENTRIES (2026-04-06 — iMessage inbound MVP built)
+
+```
+2026-04-06 | Task 87 | Build standalone local iMessage inbound responder MVP | PARTIAL | L3 | Built ~/akior/runtime/imessage-inbound/imessage-inbound-responder.sh: sqlite3 chat.db polling (5s) → allowlist check → ollama-local-llm.sh FAST_LOCAL (qwen2.5-coder:7b) → imsg send. Safety: allowlist-only (+17865181777), rate-limit 3/hr, ROWID dedup, DRY_RUN mode. Synthetic test: seeded ROWID before Task 85 test msg → inbound detected → FAST_LOCAL reply in 2s → DRY_RUN correct. Live proof: OWNER ACTION NEEDED (no real inbound during session). No launchd registration yet. Zero paid API. Evidence: evidence/terminal/task-87-local-imessage-inbound-mvp.md. | NEAR | Next: owner live-test, then launchd registration | Owner: send iMessage to Mac Mini, then run DRY_RUN=0 SINGLE_PASS=1
+```
+
+> **REALITY TABLE (as of Task 87)**
+>
+> | Surface | Status | Evidence |
+> |---|---|---|
+> | Local runtime (6 scheduled agents) | **VERIFIED** | All launchd agents running; DEEP_LOCAL profile proven |
+> | iMessage outbound | **VERIFIED** | osascript + imsg send confirmed |
+> | iMessage inbound responder | **MVP BUILT** | Synthetic test passed; live proof pending OWNER ACTION |
+> | WhatsApp | **BLOCKED** | No local bridge; re-enabling = paid Claude agent |
+> | tmux | **UNVERIFIED** | Reported DOWN |
+> | Docker | **UNVERIFIED** | Reported DOWN |
+>
+> **QUEUED NEXT STEP:** Owner sends a real iMessage to the Mac Mini, then runs `DRY_RUN=0 SINGLE_PASS=1 bash ~/akior/runtime/imessage-inbound/imessage-inbound-responder.sh` to produce live inbound proof. After live verification, the next engineering step is to register the responder as a launchd agent for continuous autonomous operation. WhatsApp and tmux/Docker are not the next targets.
