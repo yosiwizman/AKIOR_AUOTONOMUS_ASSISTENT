@@ -1,6 +1,6 @@
 # anatomy.md
 
-> Auto-maintained by OpenWolf. Last scanned: 2026-04-06T01:46:42.832Z
+> Auto-maintained by OpenWolf. Last scanned: 2026-04-06T01:51:53.153Z
 > Files: 658 tracked | Anatomy hits: 0 | Misses: 0
 
 ## ../../../tmp/
@@ -161,7 +161,7 @@
 - `BOOTSTRAP-COMPLETION-REPORT.md` — AKIOR Bootstrap Completion Report (~1613 tok)
 - `bootstrap-report.md` — AKIOR Bootstrap Completion Report — Formal (~1991 tok)
 - `CLAUDE_EXECUTION_TEMPLATE.md` — AKIOR CLAUDE EXECUTION TEMPLATE (~1120 tok)
-- `PROJECT_LOG.md` — AKIOR PROJECT LOG (~9030 tok)
+- `PROJECT_LOG.md` — AKIOR PROJECT LOG (~9418 tok)
 - `RUNTIME-REFERENCE.md` — AKIOR Runtime Reference (~1747 tok)
 - `SESSION_HANDOFF_TEMPLATE.md` — AKIOR SESSION HANDOFF TEMPLATE (~1108 tok)
 - `SSOT-REGISTER.md` — SSOT Register (~478 tok)

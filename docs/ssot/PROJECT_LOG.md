@@ -13,10 +13,10 @@
 | **Target milestone** | v1 bootstrap / operational readiness — local-only runtime pivot |
 | **Active layer** | L9 — Bootstrap reconciliation / completion reporting |
 | **Distance** | NEAR |
-| **Last verified step** | Task 77 | Reconcile PROJECT_LOG after local canary/regression cutover |
+| **Last verified step** | Task 79 | Reconcile PROJECT_LOG after evening-summary local launchd cutover |
 | **Last updated** | 2026-04-06 |
 | **Runtime mode** | LOCAL-ONLY by default (CEO directive 2026-04-05); Claude/paid API = manual-only for complex/explicit work only; no unattended paid execution exists |
-| **Autonomous local functions** | email-triage (launchd, every 2h, Ollama qwen2.5-coder:7b) · canary-health (launchd, daily 06:57 ET, shell only) · weekly-regression (launchd, Sundays 06:00 ET, shell only) · watchdog (launchd, every 300s, shell only) |
+| **Autonomous local functions** | email-triage (launchd, every 2h, Ollama qwen2.5-coder:7b) · canary-health (launchd, daily 06:57 ET, shell only) · weekly-regression (launchd, Sundays 06:00 ET, shell only) · evening-summary (launchd, daily 20:00, Ollama qwen2.5-coder:7b) · watchdog (launchd, every 300s, shell only) |
 | **Paid cron status** | ALL 8 OpenClaw agentTurn cron jobs DISABLED (0 enabled). Autonomous paid API = zero. |
 
 > Update this block whenever a new entry is appended. This is the quick-glance state.
@@ -176,4 +176,13 @@
 2026-04-06 | Task 77 | Reconcile PROJECT_LOG after local canary/regression cutover | COMPLETE | L9 | Updated CURRENT STATUS: last verified step → Task 77; autonomous local functions expanded to 4 agents (email-triage + canary-health + weekly-regression + watchdog); paid cron remains 0 enabled; paid API remains manual-only with zero unattended paid execution. Appended Tasks 76-77. Queued next step: localize evening-summary as local Ollama-driven workflow. | NEAR | Next: localize evening-summary as local Ollama-driven summary of ledgers/evidence | Owner: none
 ```
 
-> **QUEUED NEXT STEP:** Localize the evening-summary function as an autonomous local Ollama-driven workflow. The original OpenClaw cron job reviewed the day's `action.md` ledger entries and `decision.md` and produced an end-of-day summary. This can be replaced by a local script that reads the day's ledger lines, feeds them to `~/akior/scripts/ollama-local-llm.sh` (qwen2.5-coder:7b or llama3.1 for longer context), and writes a structured markdown summary to `~/akior/evidence/terminal/evening-summary-latest.md`. This is the next highest-value localization target because: (1) input data is all local files, (2) output is a local markdown artifact, (3) Ollama can handle short-to-medium ledger summarization, (4) restores daily operational awareness without any paid API. Do NOT target lp-inbox-sweep (blocked on Gmail ingest), competitor-check (needs Claude reasoning), or morning-call (needs cloud voice) in this next step.
+---
+
+## RECONCILED ENTRIES (2026-04-06 — evening-summary localized + next audit target)
+
+```
+2026-04-06 | Task 78 | Localize evening-summary as local Ollama-driven launchd workflow | COMPLETE | L4 | No existing local script found. Created ~/akior/scripts/evening-summary-local.sh (reads action.md + decision.md, filters TMUX_WATCHDOG noise to count, prompts qwen2.5-coder:7b via ollama-local-llm.sh, writes structured 4-section markdown). Created com.akior.evening-summary-local.plist (daily 20:00, RunAtLoad=true, plutil OK). Bootstrapped into gui/501; RunAtLoad: 2 meaningful actions + 83 watchdog filtered + 5 decisions → 1380-byte summary in ~10s. Zero paid-API refs in script or output. OpenClaw agentTurn cron: 0 enabled (untouched). Autonomous local agents now: 5 (email-triage, canary-health, weekly-regression, evening-summary, watchdog). Checkpoint: checkpoints/task-78-evening-summary-local-20260406T0145Z.md. | NEAR | Next: reconcile PROJECT_LOG | Owner: none
+2026-04-06 | Task 79 | Reconcile PROJECT_LOG after evening-summary local launchd cutover | COMPLETE | L9 | Updated CURRENT STATUS: last verified step → Task 79; autonomous local functions expanded to 5 agents (+ evening-summary daily 20:00 via Ollama). Paid cron remains 0 enabled. Paid API remains manual-only with zero unattended paid execution. Appended Tasks 78-79. Queued next step: audit and decompose morning-briefing into localizable vs non-local dependencies. | NEAR | Next: audit morning-briefing dependency decomposition | Owner: none
+```
+
+> **QUEUED NEXT STEP:** Audit and decompose the morning-briefing function into localizable vs non-local dependencies. The original OpenClaw cron job (daily 08:03 ET) checked Google Calendar for today's events, scanned Gmail for important emails, and reported top 3 priorities. To localize it, we need to determine: (1) whether a local calendar reader exists or can be wired (macOS Calendar via AppleScript/`icalBuddy`?), (2) whether the existing local email-triage output can substitute for the Gmail scan, (3) what minimum prompt+model combination produces a useful morning brief from local-only inputs. This is an audit/decomposition step, not an implementation step — do NOT build the morning-briefing agent until the dependency audit is reviewed. Do NOT target lp-inbox-sweep (blocked on Gmail ingest), competitor-check (needs Claude reasoning), or morning-call (needs cloud voice).
