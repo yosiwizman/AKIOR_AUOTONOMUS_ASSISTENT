@@ -1,7 +1,7 @@
 # anatomy.md
 
-> Auto-maintained by OpenWolf. Last scanned: 2026-04-06T00:26:48.622Z
-> Files: 651 tracked | Anatomy hits: 0 | Misses: 0
+> Auto-maintained by OpenWolf. Last scanned: 2026-04-06T00:42:36.911Z
+> Files: 652 tracked | Anatomy hits: 0 | Misses: 0
 
 ## ../../../tmp/
 
@@ -26,7 +26,7 @@
 
 ## ../.openclaw/cron/
 
-- `jobs.json` (~2496 tok)
+- `jobs.json` (~2476 tok)
 
 ## ../.openclaw/workspace-dev/
 
@@ -96,6 +96,7 @@
 - `task-15-local-only-pivot-20260405T2042Z.md` — Checkpoint — Task 15: Local-only pivot patch (~647 tok)
 - `task-16-local-triage-cutover-20260405T2113Z.md` — Checkpoint — Task 16: Local email-triage cutover (~913 tok)
 - `task-17-local-triage-scheduler-20260405T2124Z.md` — Checkpoint — Task 17: Local-only autonomous email-triage scheduler (~964 tok)
+- `task-74-paid-cron-neutralization-20260406T0041Z.md` — Checkpoint — Task 74: Neutralize remaining paid OpenClaw cron jobs (~550 tok)
 - `voice-transcription-setup.md` — Voice Transcription Setup Checkpoint (~298 tok)
 
 ## communications/

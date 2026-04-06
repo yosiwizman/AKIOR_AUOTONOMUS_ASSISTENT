@@ -148,7 +148,7 @@
       "first_read": "2026-04-05T20:09:56.855Z"
     },
     "/Users/yosiwizman/.openclaw/cron/jobs.json": {
-      "count": 1,
+      "count": 2,
       "tokens": 0,
       "first_read": "2026-04-05T21:24:12.099Z"
     },
@@ -296,6 +296,54 @@
       "action": "edit",
       "tokens": 1657,
       "at": "2026-04-06T00:26:48.629Z"
+    },
+    {
+      "file": "/Users/yosiwizman/.openclaw/cron/jobs.json",
+      "action": "edit",
+      "tokens": 17,
+      "at": "2026-04-06T00:41:31.893Z"
+    },
+    {
+      "file": "/Users/yosiwizman/.openclaw/cron/jobs.json",
+      "action": "edit",
+      "tokens": 16,
+      "at": "2026-04-06T00:41:44.470Z"
+    },
+    {
+      "file": "/Users/yosiwizman/.openclaw/cron/jobs.json",
+      "action": "edit",
+      "tokens": 16,
+      "at": "2026-04-06T00:42:00.952Z"
+    },
+    {
+      "file": "/Users/yosiwizman/.openclaw/cron/jobs.json",
+      "action": "edit",
+      "tokens": 16,
+      "at": "2026-04-06T00:42:01.874Z"
+    },
+    {
+      "file": "/Users/yosiwizman/.openclaw/cron/jobs.json",
+      "action": "edit",
+      "tokens": 17,
+      "at": "2026-04-06T00:42:03.300Z"
+    },
+    {
+      "file": "/Users/yosiwizman/.openclaw/cron/jobs.json",
+      "action": "edit",
+      "tokens": 16,
+      "at": "2026-04-06T00:42:04.122Z"
+    },
+    {
+      "file": "/Users/yosiwizman/.openclaw/cron/jobs.json",
+      "action": "edit",
+      "tokens": 17,
+      "at": "2026-04-06T00:42:04.825Z"
+    },
+    {
+      "file": "/Users/yosiwizman/akior/checkpoints/task-74-paid-cron-neutralization-20260406T0041Z.md",
+      "action": "create",
+      "tokens": 629,
+      "at": "2026-04-06T00:42:36.918Z"
     }
   ],
   "edit_counts": {
@@ -304,15 +352,16 @@
     "checkpoints/task-15-local-only-pivot-20260405T2042Z.md": 1,
     "../.openclaw/workspace-dev/skills/akior-email-hub/scripts/unified-triage.js": 5,
     "checkpoints/task-16-local-triage-cutover-20260405T2113Z.md": 1,
-    "../.openclaw/cron/jobs.json": 1,
+    "../.openclaw/cron/jobs.json": 8,
     "scripts/run-local-email-triage.sh": 1,
     "../Library/LaunchAgents/com.akior.email-triage-local.plist": 1,
     "checkpoints/task-17-local-triage-scheduler-20260405T2124Z.md": 1,
-    "docs/ssot/PROJECT_LOG.md": 2
+    "docs/ssot/PROJECT_LOG.md": 2,
+    "checkpoints/task-74-paid-cron-neutralization-20260406T0041Z.md": 1
   },
   "anatomy_hits": 7,
   "anatomy_misses": 24,
-  "repeated_reads_warned": 18,
+  "repeated_reads_warned": 19,
   "cerebrum_warnings": 0,
-  "stop_count": 7
+  "stop_count": 8
 }
