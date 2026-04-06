@@ -164,14 +164,26 @@ Be brief and actionable. One to four bullet points per section. If a section has
 
 ${PROMPT_INPUT}"
 
-# --- 8. Call local Ollama via canonical entrypoint (DEEP_LOCAL profile) ---
-PROFILE="DEEP_LOCAL"
-log_line "INVOKE ollama model=${MODEL} profile=${PROFILE}"
-RAW_RESULT=$("$OLLAMA" "$MODEL" "$PROMPT" "$PROFILE" 2>&1)
+# --- 8. Call local Ollama (direct, 30s timeout for longer prompt) ---
+log_line "INVOKE ollama model=${MODEL}"
+
+BODY=$(MODEL="$MODEL" PROMPT="$PROMPT" python3 -c '
+import json, os
+print(json.dumps({
+  "model": os.environ["MODEL"],
+  "stream": False,
+  "messages": [{"role": "user", "content": os.environ["PROMPT"]}]
+}))
+')
+
+RAW_RESULT=$(curl -sS --max-time 30 \
+  -H "Content-Type: application/json" \
+  -X POST http://127.0.0.1:11434/api/chat \
+  -d "$BODY" 2>&1)
 RC=$?
 
 if [ $RC -ne 0 ]; then
-  log_line "FAIL ollama exit=${RC}"
+  log_line "FAIL ollama curl exit=${RC}"
   exit $RC
 fi
 
@@ -179,10 +191,11 @@ SUMMARY=$(echo "$RAW_RESULT" | python3 -c '
 import sys, json
 try:
     d = json.loads(sys.stdin.read())
-    if d.get("ok"):
-        print(d["content"])
+    msg = (d.get("message") or {}).get("content", "")
+    if msg:
+        print(msg)
     else:
-        print("ERROR: " + d.get("error", "unknown"))
+        print("ERROR: empty response")
         sys.exit(1)
 except Exception as e:
     print("PARSE ERROR: " + str(e))

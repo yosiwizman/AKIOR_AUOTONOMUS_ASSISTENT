@@ -88,9 +88,8 @@ if [ ! -x "$OLLAMA" ]; then
   exit 2
 fi
 
-PROFILE="DEEP_LOCAL"
-log_line "INVOKE ollama model=${MODEL} profile=${PROFILE}"
-RAW_RESULT=$("$OLLAMA" "$MODEL" "$PROMPT" "$PROFILE" 2>&1)
+log_line "INVOKE ollama model=${MODEL}"
+RAW_RESULT=$("$OLLAMA" "$MODEL" "$PROMPT" 2>&1)
 RC=$?
 
 if [ $RC -ne 0 ]; then
@@ -98,7 +97,7 @@ if [ $RC -ne 0 ]; then
   exit $RC
 fi
 
-# Extract content + routing from JSON envelope
+# Extract content from JSON envelope
 SUMMARY=$(echo "$RAW_RESULT" | python3 -c '
 import sys, json
 try:

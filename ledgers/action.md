@@ -207,3 +207,5 @@
 | 2026-04-06T04:23:20Z | TMUX_WATCHDOG | session created |
 | 2026-04-06T04:27:55Z | LOCAL_LLM_BENCHMARK | COMPLETE — Task 82 benchmark + routing boundary written to evidence/terminal/task-82-local-llm-benchmark.md |
 | 2026-04-06T04:28:20Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T04:33:20Z | TMUX_WATCHDOG | session created |
+| 2026-04-06T04:37:42Z | LOCAL_ROUTING_STANDARDIZATION | COMPLETE — canonical entrypoint unified with FAST_LOCAL/DEEP_LOCAL profiles; 3 callers migrated; evidence at task-83-local-routing-standardization.md |

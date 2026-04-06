@@ -1,7 +1,7 @@
 # anatomy.md
 
-> Auto-maintained by OpenWolf. Last scanned: 2026-04-06T04:27:38.739Z
-> Files: 662 tracked | Anatomy hits: 0 | Misses: 0
+> Auto-maintained by OpenWolf. Last scanned: 2026-04-06T04:37:29.560Z
+> Files: 663 tracked | Anatomy hits: 0 | Misses: 0
 
 ## ../../../tmp/
 
@@ -34,7 +34,7 @@
 
 ## ../.openclaw/workspace-dev/skills/akior-email-hub/scripts/
 
-- `unified-triage.js` — fs: classifyEmail, localSummarize (~2748 tok)
+- `unified-triage.js` — fs: classifyEmail, localSummarize (~2751 tok)
 
 ## ../.openclaw/workspace-dev/skills/clawring/
 
@@ -249,6 +249,7 @@
 - `ops-console-stdout.log` (~0 tok)
 - `phase1-results.md` — Phase 1 Infrastructure Validation Results (~172 tok)
 - `task-82-local-llm-benchmark.md` — Task 82: Local LLM Benchmark + Routing Boundary Definition (~1807 tok)
+- `task-83-local-routing-standardization.md` — Task 83: Local LLM Entrypoint Standardization + Routing Tiers (~971 tok)
 - `watchdog-stderr.log` (~13442 tok)
 - `watchdog-stdout.log` (~0 tok)
 - `wix-customer-ops-summary-01.md` — Wix / Live Pilates USA — Customer Operations Summary (~1483 tok)
@@ -1232,9 +1233,9 @@
 
 ## scripts/
 
-- `evening-summary-local.sh` — evening-summary-local.sh — AKIOR Task 78 (~1168 tok)
-- `morning-briefing-local.sh` — morning-briefing-local.sh — AKIOR Task 81 (~2022 tok)
-- `ollama-local-llm.sh` — ollama-local-llm.sh — local LLM CLI wrapper for AKIOR (~456 tok)
+- `evening-summary-local.sh` — evening-summary-local.sh — AKIOR Task 78 (~1184 tok)
+- `morning-briefing-local.sh` — morning-briefing-local.sh — AKIOR Task 81 (~1948 tok)
+- `ollama-local-llm.sh` — ollama-local-llm.sh — AKIOR canonical local LLM entrypoint (~808 tok)
 - `run-local-email-triage.sh` — run-local-email-triage.sh — AKIOR Task 17 (~550 tok)
 - `whisper-transcribe.sh` — whisper-transcribe.sh — Transcribe audio files via whisper-cpp (~276 tok)
 
