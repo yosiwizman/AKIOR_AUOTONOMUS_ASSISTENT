@@ -1,33 +1,29 @@
 # AKIOR Evening Summary
 
-**Date:** 2026-04-05
-**Generated:** 2026-04-06T01:45:44Z
+**Date:** 2026-04-06
+**Generated:** 2026-04-06T05:13:30Z
 **Mode:** LOCAL-ONLY (qwen2.5-coder:7b via Ollama)
-**Source:** action.md (2 entries + 83 watchdog) · decision.md (5 entries)
+**Source:** action.md (21 entries + 63 watchdog) · decision.md (6 entries)
 
 ---
 
 ```markdown
 ## Actions Taken
-- Generated evidence report for weekly regression canaries: `~/akior/evidence/terminal/weekly-regression-canaries-2026-04-05.md`
-- Generated competitor pricing analysis report: `~/akior/reports/pilates-competitor-pricing-analysis-2026-04-05.md`
-- Updated email triage script to local-only processing
-- Enabled local-only autonomous email-triage scheduler
+
+- Completed CANARY_FILESYSTEM and CANARY_OLLAMA tests.
+- Executed LOCAL_LLM_BENCHMARK for qwen2.5-coder:7b on M4 Pro, generating structured triage and multi-step analysis data.
+- Standardized Ollama entrypoints with new profiles FAST_LOCAL, DEEP_LOCAL, and FALLBACK_RECOMMENDED.
+- Created local launchd agents for canary-health, weekly-regression, evening-summary, and morning-briefing.
 
 ## Decisions Made
-- Pivoted runtime to local-only by default, disabling autonomous cloud paths
-- Reverted `tools.llm.text` block due to validation error in OpenClaw config schema validator
-- Cutover email triage cutover to local-only processing
-- Identified and flagged potential time bombs in `~/.openclaw/cron/jobs.json`
+
+- Disabled all paid OpenClaw cron agentTurn jobs to eliminate latent billing risk.
+- Localized canary-health and weekly-regression as local launchd agents to prevent network connections to paid-API hosts.
+- Standardized Ollama entrypoints for faster and more efficient prompt routing based on profile and complexity.
 
 ## Outstanding Items
-- Owner escalations for Karen Berg, Danielle Luttje awaiting follow-up text approval
-- Payment terms decision pending for Alexandra Sarbu (Romania)
-- Follow-up with Taiwan contacts (Michelle Liu, Shin Kai) if still no reply
 
-## System Status
-- Gateway stable after reverting `tools.llm.text` block
-- Local-only autonomous email-triage scheduler running successfully
+- None today. All tasks are completed and documented.
 ```
 
 ---
