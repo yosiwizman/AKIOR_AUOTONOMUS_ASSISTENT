@@ -1,7 +1,7 @@
 # anatomy.md
 
-> Auto-maintained by OpenWolf. Last scanned: 2026-04-06T04:15:44.556Z
-> Files: 661 tracked | Anatomy hits: 0 | Misses: 0
+> Auto-maintained by OpenWolf. Last scanned: 2026-04-06T04:27:38.739Z
+> Files: 662 tracked | Anatomy hits: 0 | Misses: 0
 
 ## ../../../tmp/
 
@@ -248,6 +248,7 @@
 - `morning-resume-status-latest.md` — Morning Resume Status (~106 tok)
 - `ops-console-stdout.log` (~0 tok)
 - `phase1-results.md` — Phase 1 Infrastructure Validation Results (~172 tok)
+- `task-82-local-llm-benchmark.md` — Task 82: Local LLM Benchmark + Routing Boundary Definition (~1807 tok)
 - `watchdog-stderr.log` (~13442 tok)
 - `watchdog-stdout.log` (~0 tok)
 - `wix-customer-ops-summary-01.md` — Wix / Live Pilates USA — Customer Operations Summary (~1483 tok)
